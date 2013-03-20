@@ -1,0 +1,76 @@
+<?
+
+function nuevoInt()
+{	
+	
+	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable(); 
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	// crea objeto y se conecta a la base de datos
+	$acceso_db=new dbms($configuracion);
+	$enlace=$acceso_db->conectar_db();	
+
+//echo $busqueda;
+	
+		
+		//busca las  propiedades del objeto de nivel 1
+		
+	$prop_sql=$sql->cadena_sql($configuracion,"prop_nivel1","");
+	//echo $prop_sql;
+	$propiedad=$acceso_db->ejecutarAcceso($prop_sql,"busqueda");
+		
+	$formulario="admin_objeto";
+	$verificar="control_vacio(".$formulario.",'nombre')";
+	for($i=0;$i<count($propiedad);$i++)
+		{   $verificar.="&& control_vacio(".$formulario.",'propiedad".$i."')";
+		}
+	
+	//se crea el formulario para enviarlo y mostrarlo por xajax
+	$cadena_html="
+	<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='POST' name='".$formulario."' id='".$formulario."'>
+	<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+	<tr>
+	<td>
+	<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Nombre </td>
+			<td>
+				<input type='text' name='nombre' id='nombre' size='40' maxlength='100'>
+			</td>
+	
+		</tr>";
+
+	$cadena_html.="	
+		<tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='id_diccionario' value='".$_REQUEST['id_diccionario']."'>
+				<input type='hidden' name='action' value='admin_objeto'>
+				<input type='hidden' name='opcion' value='nuevo_obj'> 
+				<input type='hidden' name='tipo_obj' id='tipo_obj' value='".$tipo."'>
+				<input value='Guardar' name='aceptar' type='button' onclick=\"if(".$verificar."){document.forms['".$formulario."'].submit()}else{false}\">
+				<input name='cancelar' value='Cancelar' type='submit'>
+			</td>
+		</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</form>
+	";
+		    			
+
+	//se crea el objeto xajax para enviar la respuesta
+	$respuesta = new xajaxResponse();
+	//Se asignan los valores al objeto y se envia la respuesta	
+	$respuesta->addAssign("divObj","innerHTML",$cadena_html);
+	return $respuesta;	
+	
+}
+
+
+
+?>

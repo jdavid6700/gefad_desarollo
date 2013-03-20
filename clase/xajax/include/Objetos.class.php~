@@ -1,0 +1,46 @@
+<?
+
+function RUBRO($uni_ejec)
+
+{
+    	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable();
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	// crea objeto y se conecta a la base de datos
+        
+        $config_dbm['db_dns']="10.20.0.73";		
+	$config_dbm['db_nombre']='DMFINANCIERO';
+	$config_dbm['db_usuario']='financiero';		
+	$config_dbm['db_clave']='financieroUD';
+	$config_dbm['db_sys']='mysql';
+        
+        $acceso_db=new dbms($config_dbm);
+	$enlace=$acceso_db->conectar_db();
+
+       	include_once("sql.class.php");
+	$sql=new sql_xajax();
+	$rubros_sql=$sql->cadena_sql($configuracion,"buscar_unidad",$uni_ejec);
+	//echo $rubros_sql;
+        $rubros=$acceso_db->ejecutarAcceso($rubros_sql,"busqueda");
+       // echo $rubros[0][0];
+
+        $html=new html();
+	//$mi_cuadro = $html->cuadro_lista($res_combo, $nombre_lista,$configuracion,$registro[$j][1],2,FALSE,$tab++,$parametros[$j]);}
+	$mi_cuadro=$html->cuadro_lista($rubros,'RUBRO',$configuracion,1,0,FALSE,$tab++,'RUBRO');
+
+	//se crea el objeto xajax para enviar la respuesta
+	$respuesta = new xajaxResponse();
+	//Se asignan los valores al objeto y se envia la respuesta
+        $respuesta->addAssign("DIV_RUBRO","innerHTML",$mi_cuadro);
+        
+	return $respuesta;
+
+}
+
+
+
+?>

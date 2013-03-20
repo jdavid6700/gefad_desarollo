@@ -1,0 +1,150 @@
+8
+
+dir
+296
+svn://10.20.0.15/usr/local/svn/SGA/academico/clase/tcpdf
+svn://10.20.0.15/usr/local/svn/SGA/academico
+
+
+
+2009-11-24T19:53:52.811146Z
+1
+root
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+266e0c5c-b1d8-4270-a51a-1d91e7c3961d
+
+license.txt
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+7fbc338309ac38fefcd64b04bb903e34
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+cache
+dir
+
+config
+dir
+
+doc
+dir
+
+images
+dir
+
+CHANGELOG.TXT
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+90fe4ff1b59da39557c000ace439f0b6
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+unicode_data.php
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+bc29ca345dbd48666d4829764ea30778
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+tcpdf.php
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+1997305ee01013d94b4d40ec2c292a44
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+barcodes.php
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+ca3032d911850424054716d699287d25
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+fonts
+dir
+
+readme.txt
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+95dc0c8fb296f970c867a0a34961e5df
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+htmlcolors.php
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+5eeedc4b326e514f4aab9fe9350bfdf9
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+examples
+dir
+
+2dbarcodes.php
+file
+
+
+
+
+2010-01-07T15:07:46.000000Z
+9260fcd26e9382e06c76ba7dbe5a322c
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+

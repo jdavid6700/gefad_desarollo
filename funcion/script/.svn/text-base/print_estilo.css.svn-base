@@ -1,0 +1,53 @@
+.Estilo13 {font-family: Tahoma; color: #0000FF; font-size:11px }
+.small {font-size: 85%}
+body {
+	background-color:#FFFFFF;
+	font-family: Tahoma;
+	font-size: 12px;
+	top: 0px;
+	left: 0px;
+	scrollbar-face-color:#D5D6C7;
+	scrollbar-highlight-color:#ececd9;
+	scrollbar-3dlight-color:#f5f5eb;
+	scrollbar-shadow-color:#7A8180;
+	scrollbar-arrow-color:#7A8180;
+	scrollbar-track-color:#f1f1e2
+}
+table {
+	font: 12px Tahoma;
+	padding: 0px;
+	border-collapse:collapse
+}
+caption {
+	font-family: Tahoma;
+	font-size: 12px;
+	text-decoration: underline;
+	text-transform: uppercase;
+	color: #000000;
+	font-weight: bold;
+}
+td, th {
+	font-family: Tahoma;
+	font-size: 1em;
+	line-height: 1em;
+	color: #000000;
+}
+input {	
+	font-family:Tahoma;	
+	font-size:12px;
+	border-style:none
+	}
+textarea {
+	font-family:Tahoma;	
+	font-size:12px;
+	border-style:none
+	}
+.titulo{
+	font-family:Tahoma;
+	font-size:12px;
+	font-weight:bold 
+}
+.subtitulo{
+	font-family:Tahoma;
+	font-size:10px;
+}

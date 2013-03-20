@@ -1,0 +1,41 @@
+8
+
+dir
+296
+svn://10.20.0.15/usr/local/svn/SGA/academico/clase/xajax/lib
+svn://10.20.0.15/usr/local/svn/SGA/academico
+
+
+
+2009-11-24T19:53:52.811146Z
+1
+root
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+266e0c5c-b1d8-4270-a51a-1d91e7c3961d
+
+activex_off.js
+file
+
+
+
+
+2010-01-07T15:07:39.000000Z
+e46f0040bd4d35be45fff27d61678fa2
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+

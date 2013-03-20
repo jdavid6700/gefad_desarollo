@@ -1,0 +1,157 @@
+A:link{
+TEXT-DECORATION: none; 
+COLOR:#0000FF
+}
+A:visited{
+TEXT-DECORATION:none; 
+COLOR:#0066FF}
+A:hover{
+TEXT-DECORATION:none;
+cursor:pointer; 
+color:#C10000} 
+A:active{TEXT-DECORATION: none; background: #F2F2E3; COLOR: red}
+
+
+.Estilo1{font-family: sans-serif,Helvetica,Arial;  font-size:11px}
+.Estilo2{font-family: sans-serif,Helvetica,Arial;  font-size:x-small}
+.Estilo3{font-family: sans-serif,Helvetica,Arial;  font-size:xx-small}
+.Estilo4{font-family: sans-serif,Helvetica,Arial;  font-size:2px}
+.Estilo5{font-family: sans-serif,Helvetica,Arial;  color: #007DE2; font-weight: bold }
+.Estilo6 {font-family: sans-serif,Helvetica,Arial;  color: #C24B4B; font-size: 16px; font-weight: bold }
+.Estilo7 {font-family: sans-serif,Helvetica,Arial;  color: #336699; font-size: 10px }
+.Estilo9 {font-family: sans-serif,Helvetica,Arial;  color: #0040ED; font-size: 14px; font-weight: bold}
+.Estilo10 {font-family: sans-serif,Helvetica,Arial;  color: #CC0000}
+.Estilo11 {font-family: sans-serif,Helvetica,Arial;  color: #990000; font-size:16px; font-weight: bold}
+.Estilo12 {font-family: sans-serif,Helvetica,Arial;  color: #0000FF; font-size:11px; font-weight: bold}
+.Estilo13 {font-family: sans-serif,Helvetica,Arial;  color: #0000FF; font-size:11px }
+.Estilo14 {font-family: sans-serif,Helvetica,Arial;  color: #000000; font-weight: bold }
+.Estilo15 {font-family: sans-serif,Helvetica,Arial;  color:#339900; font-weight: bold }
+.Estilo16 {font-family: sans-serif,Helvetica,Arial;  font-size: 10px;}
+
+
+body {
+	/*background-color: #F4F5EB;*/
+	background-color: #FFFFFF;
+	font-family: sans-serif,Helvetica,Arial; 
+	font-size: 11px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	margin:0; 
+	padding:0;
+	scrollbar-face-color:#D5D6C7;
+	scrollbar-highlight-color:#ececd9;
+	scrollbar-3dlight-color:#f5f5eb;
+	scrollbar-shadow-color:#7A8180;
+	scrollbar-arrow-color:#7A8180;
+	scrollbar-track-color:#f1f1e2
+}
+
+.combo{
+	border-style:solid;
+}
+
+
+h1 {font-family: Verdana, Arial, Helvetica, sans-serif; color: #3333FF;}
+h2 {font-family: Verdana, Arial, Helvetica, sans-serif; color: #800000;}
+h3 {font-family: Verdana, Arial, Helvetica, sans-serif; font-size:11px; background-color:#E6E6DE; color:#CC0000; text-align:center}
+h4 {font: bold 14px Tahoma; color: #336699;}
+h5 {font: 11px Tahoma; color: #336699;}
+h6 {font: 10px Tahoma; color: #000000;}
+table {
+	font-family: sans-serif,Helvetica,Arial; 
+	font-size:11px;
+	background-color:#FFFFFF;
+	padding:1px;
+	border-collapse:collapse;
+	border-color:#E6E6DE;
+}
+caption {
+	font-family: sans-serif,Helvetica,Arial; 
+	font-size: 11px;
+	text-decoration: underline;
+	text-transform: uppercase;
+	color: #007DE2;
+	font-weight: bold;
+}
+.tr{
+	text-align:center;
+	font-family: sans-serif,Helvetica,Arial;
+	font-size: 13px; 
+	background-image:url(../img/tr.gif); 
+	text-align:center
+}
+.td{ background-color:#E6E6DE; border:0}
+.fondo{ background-color:#FFFFFF; border:0}
+textarea {
+font-family: sans-serif,Helvetica,Arial; 
+font-size:1em	}
+.hr{ background-color:#CCCCCC}
+ul {	
+	font-family: sans-serif,Helvetica,Arial; 	
+	font-size: 11px;	
+	list-style-type: square;	
+	list-style-position: outside
+	}
+.BulletBackgroundColor {color: #FFFFFF}
+.DataColor {color: #DEDECA}
+.footer {font-family: sans-serif,Helvetica,Arial; 
+	font-size:11 px;
+	}
+input {
+	font-family: sans-serif,Helvetica,Arial; 
+	font-size: 11px;
+}
+.FormBackgroundColor {color: #CCCCCC}
+.ImageTitleColor {color: #CCCCCC}
+.LabelColor {color: #CCCCCC}
+.ListColorEven {color: #CCCCCC}
+.ListFooterColor {color: #333333}
+.ListHeaderColor {color: #333333}
+.ListColorOdd {color: #DEDECA}
+.ListTitleColor {color: #CCCCCC}
+.NavigationBackgroundColor {color: #666666}
+.NavigationColor {color: #CCCCCC}
+.NewsDataColor {color: #DEDECA}
+.StoryTitle {color: #000000; font-weight: bold}
+.StoryContentColor {color: #000000}
+.TitleColor {color: #000000}
+tr.ListHeaderColor th {text-align: left;}
+.ItemStyle {
+	list-style-image: url(../img/classic2.gif);
+	font-family: "Arial";
+	font-size: 11px;
+}
+
+.cuerpoPrincipal{
+	/*background-color: #F4F5EB;*/
+	background-color: Lavender;
+}
+
+
+.aviso_mensaje{
+	/*background-color: #F4F5EB;*/
+	background-color: #FFF8DD;
+	width:80%;
+	border: 1px solid orange;
+	text-align:center;
+	font-family:Helvetica;
+	font-size:9pt;
+}
+
+.select_uno{
+	border-color:Black;
+	border-style:solid;
+	width:99%;
+}
+
+.PopItemStyle {
+	list-style-image: url(../img/classic1.gif);
+	font-family: sans-serif,Helvetica,Arial; 
+	font-size: 11px;
+}
+.small {font-size: 85%}
+.button{font-family: sans-serif,Helvetica,Arial; 
+ cursor:pointer; background-color:#D5D6C7}
+.raton_arr{background-color:#48A4FF; color:#FFFFFF}
+.raton_aba{background-color:#FFFFFF; cursor:pointer}

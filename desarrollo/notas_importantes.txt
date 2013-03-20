@@ -1,0 +1,1 @@
+La varaiblae no_pagina hace que la pagina no se cargue.

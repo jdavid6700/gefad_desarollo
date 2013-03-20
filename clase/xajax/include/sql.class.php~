@@ -1,0 +1,280 @@
+<?php
+/*--------------------------------------------------------------------------------------------------------------------------
+  @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
+---------------------------------------------------------------------------------------------------------------------------*/
+
+if(!isset($GLOBALS["autorizado"]))
+{
+	include("../index.php");
+	exit;		
+}
+
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/sql.class.php");
+
+class sql_adminObjeto extends sql
+{	//@ Método que crea las sentencias sql para el modulo admin_noticias
+	function cadena_sql($configuracion,$tipo,$variable)
+		{
+			switch($tipo)
+			{
+					
+			case "completa":
+					
+					case "relacionado":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="OBJ.id_objeto, ";
+					$this->cadena_sql.="OBJ.nombre, ";
+					$this->cadena_sql.="OBJ.tipo_objeto, ";
+					$this->cadena_sql.="OBJ.fecha, ";
+					$this->cadena_sql.="REL.nivel_obj, ";
+					$this->cadena_sql.="REL.tipo_rel ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto AS OBJ ";
+					$this->cadena_sql.="INNER JOIN ";
+					$this->cadena_sql.=$configuracion["prefijo"]."relacion_objeto AS REL ";
+					$this->cadena_sql.=" ON OBJ.id_objeto=REL.id_objeto_rel ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="REL.id_diccionario= ";
+					$this->cadena_sql.=$variable[0];
+					$this->cadena_sql.=" AND ";
+					$this->cadena_sql.="REL.nivel_obj=1";
+					if($variable[1])
+						{$this->cadena_sql.=" AND ";
+						 $this->cadena_sql.="OBJ.nombre LIKE '%".$variable[1]."%'";
+						}
+					break;
+					
+			case "buscar_tipo":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="`id_objeto`, ";
+					$this->cadena_sql.="`nombre`, ";
+					$this->cadena_sql.="`tipo`, ";
+					$this->cadena_sql.="`etiqueta`, ";
+					$this->cadena_sql.="`fecha`, ";
+					$this->cadena_sql.="`nivel`, ";
+					$this->cadena_sql.="`tipo_dato` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="`tipo`= ";
+					$this->cadena_sql.=$variable;
+					break;
+			case "buscar_id":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="`id_objeto`, ";
+					$this->cadena_sql.="`nombre`, ";
+					$this->cadena_sql.="`tipo`, ";
+					$this->cadena_sql.="`etiqueta`, ";
+					$this->cadena_sql.="`fecha`, ";
+					$this->cadena_sql.="`nivel`, ";
+					$this->cadena_sql.="`descripcion`, ";
+					$this->cadena_sql.="`tipo_dato` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="`id_objeto`=";
+					$this->cadena_sql.=$variable;
+					break;		
+			case "recuperar":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="`id_objeto` ";
+					$this->cadena_sql.="`nivel` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto "; 
+					$this->cadena_sql.=" WHERE ";
+					$this->cadena_sql.="`nombre`= ";
+					$this->cadena_sql.="'".$variable[0]."' ";
+					$this->cadena_sql.="AND ";
+					$this->cadena_sql.="`tipo` = ";
+					$this->cadena_sql.="'".$variable[1]."' ";
+					$this->cadena_sql.="AND ";
+					$this->cadena_sql.="`etiqueta` = ";
+					$this->cadena_sql.="'".$variable[2]."' ";
+					$this->cadena_sql.="AND ";
+					$this->cadena_sql.="`fecha`= ";
+					$this->cadena_sql.="'".$variable[3]."' ";
+					break;
+			
+			case "recuperar_nivel":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="`nivel`, ";
+					$this->cadena_sql.="`nombre` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto "; 
+					$this->cadena_sql.=" WHERE ";
+					$this->cadena_sql.="`id_objeto`= ";
+					$this->cadena_sql.="'".$variable."' ";
+					break;
+			case "insertar":
+					$this->cadena_sql="INSERT INTO ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto "; 
+					$this->cadena_sql.="(`id_objeto`, ";
+					$this->cadena_sql.="`id_diccionario`, ";
+					$this->cadena_sql.="`nombre`, ";
+					$this->cadena_sql.="`tipo`, ";
+					$this->cadena_sql.="`etiqueta`, ";
+					$this->cadena_sql.="`fecha`, ";
+					$this->cadena_sql.="`nivel`, ";
+					$this->cadena_sql.="`descripcion` , ";
+					$this->cadena_sql.="`tipo_dato` ";
+					$this->cadena_sql.=") ";
+					$this->cadena_sql.="VALUES ";
+					$this->cadena_sql.="( ";
+					$this->cadena_sql.="NULL, ";
+					$this->cadena_sql.="'".$variable[0]."', ";
+					$this->cadena_sql.="'".$variable[1]."', ";
+					$this->cadena_sql.="'".$variable[2]."', ";
+					$this->cadena_sql.="'".$variable[3]."', ";
+					$this->cadena_sql.="'".$variable[4]."', ";
+					$this->cadena_sql.="'".$variable[5]."', ";
+					$this->cadena_sql.="'".$variable[6]."' , ";
+					$this->cadena_sql.="'".$variable[7]."' ";
+					$this->cadena_sql.=")";
+					break;	
+					
+			case "relaciona":
+					$this->cadena_sql="INSERT INTO ";
+					$this->cadena_sql.=$configuracion["prefijo"]."relacion_objeto"; 
+					$this->cadena_sql.="(`id_objeto1`, ";
+					$this->cadena_sql.="`id_objeto2`, ";
+					$this->cadena_sql.="`fecha`, ";
+					$this->cadena_sql.="`tipo`, ";
+					$this->cadena_sql.="`descripcion`  ";	
+					$this->cadena_sql.=") ";
+					$this->cadena_sql.="VALUES ";
+					$this->cadena_sql.="('".$variable[0]."', ";
+					$this->cadena_sql.="'".$variable[1]."', ";
+					$this->cadena_sql.="'".$variable[2]."', ";
+					$this->cadena_sql.="'".$variable[3]."', ";
+					$this->cadena_sql.="'".$variable[4]."' ";
+					$this->cadena_sql.=")";
+					break;			
+					
+			case "insertar_nivel":
+					$this->cadena_sql="INSERT INTO ";
+					$this->cadena_sql.=$configuracion["prefijo"]."nivel_activo"; 
+					$this->cadena_sql.="(`id_nivel`, ";
+					$this->cadena_sql.="`id_activo`, ";
+					$this->cadena_sql.="`id_RIA`, ";
+					$this->cadena_sql.="`fecha` ";
+					$this->cadena_sql.=") ";
+					$this->cadena_sql.="VALUES ";
+					$this->cadena_sql.="( ";
+					$this->cadena_sql.="'".$variable[0]."', ";
+					$this->cadena_sql.="'".$variable[5]."', ";
+					$this->cadena_sql.="0, ";
+					$this->cadena_sql.="'".$variable[4]."' ";
+					$this->cadena_sql.=")";
+					break;		
+					
+			case "insertar_tipo":													case "insertar_tipo":
+					$this->cadena_sql="INSERT INTO ";
+					$this->cadena_sql.=$configuracion["prefijo"]."tipo_activo"; 
+					$this->cadena_sql.="(`id_tipo`, ";
+					$this->cadena_sql.="`id_activo`, ";
+					$this->cadena_sql.="`fecha` ";
+					$this->cadena_sql.=") ";
+					$this->cadena_sql.="VALUES ";
+					$this->cadena_sql.="( ";
+					$this->cadena_sql.="'".$variable[1]."',";
+					$this->cadena_sql.="'".$variable[5]."', ";
+					$this->cadena_sql.="'".$variable[4]."' ";
+					$this->cadena_sql.=")";
+					break;	
+					
+			case "relacionado":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="OBJ.id_objeto, ";
+					$this->cadena_sql.="OBJ.nombre, ";
+					$this->cadena_sql.="OBJ.tipo, ";
+					$this->cadena_sql.="OBJ.etiqueta, ";
+					$this->cadena_sql.="OBJ.fecha, ";
+					$this->cadena_sql.="OBJ.nivel, ";
+					$this->cadena_sql.="REL.tipo ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto AS OBJ ";
+					$this->cadena_sql.="INNER JOIN ";
+					$this->cadena_sql.=$configuracion["prefijo"]."relacion_objeto AS REL ";
+					$this->cadena_sql.=" ON OBJ.id_objeto=REL.id_objeto2 ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="REL.id_objeto1= ";
+					$this->cadena_sql.=$variable[0];
+					if($variable[1])
+						{$this->cadena_sql.=" AND ";
+						 $this->cadena_sql.="OBJ.nombre LIKE '%".$variable[1]."%'";
+						}
+					$this->cadena_sql.=" ORDER BY ";
+					$this->cadena_sql.="OBJ.nombre, REL.tipo   DESC ";
+					
+					break;
+			case "contar_relacionado":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="COUNT";
+					$this->cadena_sql.="(OBJ.id_objeto) ";
+					$this->cadena_sql.="AS REG ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto AS OBJ ";
+					$this->cadena_sql.="INNER JOIN ";
+					$this->cadena_sql.=$configuracion["prefijo"]."relacion_objeto AS REL ";
+					$this->cadena_sql.=" ON OBJ.id_objeto=REL.id_objeto2 ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="REL.id_objeto1= ";
+					$this->cadena_sql.=$variable[0];
+					if($variable[1])
+						{$this->cadena_sql.=" AND ";
+						 $this->cadena_sql.="OBJ.nombre LIKE '%".$variable[1]."%'";
+						}
+					
+					break;		
+					
+			case "editar":  $this->cadena_sql="UPDATE "; 
+					$this->cadena_sql.=$configuracion["prefijo"]."objeto "; 
+					$this->cadena_sql.="SET " ; 
+					$this->cadena_sql.="`nombre`='".$variable[1]."', ";
+					$this->cadena_sql.="`tipo`='".$variable[2]."', ";
+					$this->cadena_sql.="`etiqueta`='".$variable[3]."', ";
+					$this->cadena_sql.="`descripcion`='".$variable[4]."' , ";
+					$this->cadena_sql.="`tipo_dato`='".$variable[5]."' ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="`id_objeto`= ";
+					$this->cadena_sql.=$variable[0];
+					
+					break;
+				
+			case "select":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="`valor` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."variable ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="`id_tipo`= ";
+					$this->cadena_sql.=$variable;
+					break;
+			case "usuario":
+					$this->cadena_sql="SELECT "; 
+					$this->cadena_sql.="`usuario` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."registrado "; 
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="`id_usuario`= ";
+					$this->cadena_sql.=$variable[0][0];
+					
+					break;	
+			case "id_dicc":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="`id_diccionario`, ";
+					$this->cadena_sql.="`nombre` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."diccionario ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="`id_diccionario`= ";
+					$this->cadena_sql.=$variable;
+					break;					
+			
+			}
+			
+		return $this->cadena_sql;
+		
+		}
+}
+?>

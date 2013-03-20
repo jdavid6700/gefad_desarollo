@@ -1,0 +1,27 @@
+<!-- 
+a:link {color: #0040ED;	text-decoration: none;}
+a:visited {	text-decoration: none;	color: #0040ED;}
+a:hover {text-decoration:underline; color: #FF0000;}
+a:active { text-decoration: none; color: #0040ED;}
+.Estilo1 {font-family: Helvetica;font-size: 12px;font-weight:;}
+.Estilo2 {color: #0038F2;font-family: Helvetica;font-size: 12px;font-weight: bold;}
+.Estilo3 {font-family: Helvetica; font-size: 12px; color: #990000}
+.Estilo6 {font-family: Helvetica; font-size: 12px;}
+.Estilo9 {font-size: 18px; font-weight: bold; color: #0040ED; }
+.Estilo12 {font-family: Helvetica; font-size: 12px; font-weight: bold; color: #3366FF; }
+.Estilo13 {font-family: Tahoma; color: #0000FF; font-size:11px; }
+.Estilo16 {font-family: Helvetica; font-size: 10px;}
+
+body { 
+background:transparent url('../grafico/index.jpg') no-repeat scroll 0 0;
+margin-top: 0px;
+margin-bottom: 0px;}
+
+
+.input{ height:17; 
+	   width:90; 
+	   font-family:Helvetica; 
+	   font-size:11px; 
+	   background-color:#FFFFFF; 
+	   border-width:thin}
+--> 

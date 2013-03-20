@@ -1,0 +1,338 @@
+<?
+
+function tipoOB($tipo)
+{	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable(); 
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	// crea objeto y se conecta a la base de datos
+	$acceso_db=new dbms($configuracion);
+	$enlace=$acceso_db->conectar_db();	
+	$html=new html();
+	
+	//echo $busqueda;
+	$formulario="tipo_obj";
+	$verificar="control_vacio(".$formulario.",'valor')";
+	$verificar.="&& control_vacio(".$formulario.",'descripcion')";
+	
+	//se crea el formulario para enviarlo y mostrarlo por xajax
+	$cadena_html="
+	<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='POST' name='".$formulario."' id='".$formulario."'>
+	<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+	<tr>
+	<td>
+	<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+		<tr class='texto_subtitulo'>
+				<td colspan='3'>
+				Agregar ".$tipo." de Objeto	
+				<hr class='hr_subtitulo'>
+			</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Nombre </td>
+			<td>
+				<input type='text' name='valor' id='valor' size='40' maxlength='100'>
+			</td>
+	
+		</tr>
+		<tr class='bloquecentralcuerpo' >
+			<td>*	Descripci&oacute;n	</td>
+			<td>
+				<input type='text' name='descripcion' id='descripcion' size='40' maxlength='255'>
+			</td>
+		</tr>
+		<tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='tipo' id='tipo' value='".$tipo."'>
+				<input value='Guardar Tipo' name='aceptar' type='button' onclick=\"if(".$verificar."){xajax_procesar_formulario(xajax.getFormValues('".$formulario."'))}else{false}\">
+				
+			</td>
+		</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</form>
+	";
+	//se crea el objeto xajax para enviar la respuesta
+	$respuesta = new xajaxResponse();
+	//Se asignan los valores al objeto y se envia la respuesta	
+	$respuesta->addAssign("divForm","innerHTML",$cadena_html);
+	return $respuesta;
+}
+
+
+
+function procesar_formulario($form_entrada)
+{
+	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable(); 
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/log.class.php");
+	// crea objeto y se conecta a la base de datos
+	$acceso_db=new dbms($configuracion);
+	$enlace=$acceso_db->conectar_db();	
+	$html=new html();
+	
+	//sentencia que agrega la nueva variable	
+	$cadena_sql="INSERT INTO "; 
+	$cadena_sql.=$configuracion["prefijo"]."variable ";
+	$cadena_sql.="( "; 
+	$cadena_sql.="`id_tipo`, "; 
+	$cadena_sql.="`valor`, ";
+	$cadena_sql.="`descripcion`, "; 
+	$cadena_sql.="`tipo` "; 
+	$cadena_sql.=") "; 
+	$cadena_sql.="VALUES "; 
+	$cadena_sql.="( "; 
+	$cadena_sql.="NULL, ";
+	$cadena_sql.="'".$form_entrada["valor"]."', "; 
+	$cadena_sql.="'".$form_entrada["descripcion"]."', "; 
+	$cadena_sql.="'TIPO_OBJETO' ";
+	$cadena_sql.=")"; 
+// 	ECHO $cadena_sql; EXIT;
+	$resultado=$acceso_db->ejecutarAcceso($cadena_sql,"busqueda");
+	$recuperado=mysql_insert_id();
+
+	
+	//VARIABLES PARA EL LOG
+
+	$log_us= new log();
+	$registro[0]="CREAR";
+	$registro[1]= $recuperado;
+	$registro[2]="TIPO_OBJETO";
+	$registro[3]=$form_entrada["valor"];
+	$registro[4]=time();
+	$registro[5]="Se registra un tipo de Objeto de Diccionario de datos, con nombre ".$registro[3];
+	$log_us->log_usuario($registro,$configuracion);
+
+	$respuesta = new xajaxResponse();
+	$respuesta->addAssign("divForm","innerHTML","");	
+
+	//genera la nueva busqueda para los selectes
+	$html=new html();
+	$busqueda="SELECT id_tipo,valor FROM ".$configuracion["prefijo"]."variable WHERE tipo='TIPO_OBJETO' ORDER BY valor";
+	
+	$busqueda="SELECT id_tipo,valor ";
+	$busqueda.="FROM ";
+	$busqueda.=$configuracion["prefijo"]."variable ";
+	$busqueda.="WHERE ";
+	$busqueda.="tipo='TIPO_OBJETO'";
+	$busqueda.="ORDER BY valor";
+		
+	$mi_cuadro=$html->cuadro_lista($busqueda,"id_tipo",$configuracion,$recuperado,1,FALSE,0,"id_tipo");
+	$respuesta->addAssign("divTipo","innerHTML",$mi_cuadro);
+	//tenemos que devolver la instanciación del objeto xajaxResponse
+	return $respuesta;
+}
+
+function objeto($tipo)
+{	
+	include_once("sql.class.php");
+	$sql=new sql_xajax();
+	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable(); 
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	// crea objeto y se conecta a la base de datos
+	$acceso_db=new dbms($configuracion);
+	$enlace=$acceso_db->conectar_db();	
+	
+	 $cadena_sql=$sql->cadena_sql($configuracion,"buscar_tipo",$tipo);
+	 //echo $cadena_sql;
+	 $resultado=$acceso_db->ejecutarAcceso($cadena_sql,"busqueda");
+
+
+
+	switch($resultado[0][1])
+		{
+			case 'TABLA':
+		    		//echo $busqueda;
+		    			
+						
+						//busca las  propiedades del objeto de nivel 1
+						
+					$prop_sql=$sql->cadena_sql($configuracion,"prop_nivel1","");
+					//echo $prop_sql;
+					$propiedad=$acceso_db->ejecutarAcceso($prop_sql,"busqueda");
+						
+					$formulario="admin_objeto";
+					$verificar="control_vacio(".$formulario.",'nombre')";
+					for($i=0;$i<count($propiedad);$i++)
+						{   $verificar.="&& control_vacio(".$formulario.",'propiedad".$i."')";
+						}
+					
+					//se crea el formulario para enviarlo y mostrarlo por xajax
+					$cadena_html="
+					<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='POST' name='".$formulario."' id='".$formulario."'>
+					<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+					<tr>
+					<td>
+					<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+						<tr class='bloquecentralcuerpo'>
+							<td >* Nombre </td>
+							<td>
+								<input type='text' name='nombre' id='nombre' size='40' maxlength='100'>
+							</td>
+					
+						</tr>";
+					for($aux=0;$aux<count($propiedad);$aux++)
+						{$cadena_html.="<tr class='bloquecentralcuerpo' >
+											<td>*	".$propiedad[$aux][1]."	</td>
+											<td colspan='3'>
+												<textarea name='propiedad".$aux."' name='propiedad".$aux."' cols='55' rows='2'</textarea>
+												<input type='hidden' name='id_".$aux."' value='".$propiedad[$aux][0]."'>
+											</td>
+										</tr>";
+							
+						}	
+						
+					$cadena_html.="	
+						<tr align='center'>
+							<td colspan='2' rowspan='1'>
+								<input type='hidden' name='campo' value='".count($propiedad)."'>
+								<input type='hidden' name='id_diccionario' value='".$_REQUEST['id_diccionario']."'>
+								<input type='hidden' name='action' value='admin_objeto'>
+								<input type='hidden' name='opcion' value='nuevo_obj'> 
+								<input type='hidden' name='tipo_obj' id='tipo_obj' value='".$tipo."'>
+								<input value='Guardar' name='aceptar' type='button' onclick=\"if(".$verificar."){document.forms['".$formulario."'].submit()}else{false}\">
+								<input name='cancelar' value='Cancelar' type='submit'>
+							</td>
+						</tr>
+					</table>
+					</td>
+					</tr>
+					</table>
+					</form>
+					";
+		    			
+			   break;
+			    
+		 case 'DICCIONARIO':
+		 		//echo $busqueda;
+		    			
+						
+						//busca las  propiedades del objeto de nivel 1
+						
+					$dicc_sql=$sql->cadena_sql($configuracion,"buscar_dicc","");
+					//echo $dicc_sql;
+				
+						
+					$formulario="admin_objeto";
+					$html=new html();
+					$dicc=$html->cuadro_lista($dicc_sql,'id_diccionario_hijo',$configuracion,-1,0,FALSE,"",'id_diccionario_hijo');	
+					//se crea el formulario para enviarlo y mostrarlo por xajax
+					$cadena_html="
+					<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='POST' name='".$formulario."' id='".$formulario."'>
+					<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+					<tr>
+					<td>
+					<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+						<tr class='bloquecentralcuerpo'>
+							<td >* Diccionario </td>
+							<td>".$dicc."</td>
+						</tr>
+						<tr align='center'>
+							<td colspan='2' rowspan='1'>
+								<input type='hidden' name='id_diccionario' value='".$_REQUEST['id_diccionario']."'>
+								<input type='hidden' name='action' value='admin_objeto'>
+								<input type='hidden' name='opcion' value='obj_dicc'> 
+								<input type='hidden' name='tipo_obj' id='tipo_obj' value='".$tipo."'>
+								<input value='Guardar' name='aceptar' type='button' onclick=\"document.forms['".$formulario."'].submit()\">
+								<input name='cancelar' value='Cancelar' type='submit'>
+							</td>
+						</tr>
+					</table>
+					</td>
+					</tr>
+					</table>
+					</form>
+					";
+		 		
+		 		break;
+		}
+	//se crea el objeto xajax para enviar la respuesta
+	$respuesta = new xajaxResponse();
+	//Se asignan los valores al objeto y se envia la respuesta	
+	$respuesta->addAssign("divObj","innerHTML",$cadena_html);
+	return $respuesta;	
+	
+}
+
+
+function form_obj($tipo)
+{	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable(); 
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	// crea objeto y se conecta a la base de datos
+	$acceso_db=new dbms($configuracion);
+	$enlace=$acceso_db->conectar_db();	
+	$html=new html();
+	
+	//echo $busqueda;
+	$formulario="tipo_obj";
+	$verificar="control_vacio(".$formulario.",'valor')";
+	$verificar.="&& control_vacio(".$formulario.",'descripcion')";
+	
+	//se crea el formulario para enviarlo y mostrarlo por xajax
+	$cadena_html="
+	<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='POST' name='".$formulario."' id='".$formulario."'>
+	<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+	<tr>
+	<td>
+	<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+		<tr class='texto_subtitulo'>
+				<td colspan='3'>
+				Agregar ".$tipo." de Objeto	
+				<hr class='hr_subtitulo'>
+			</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Nombre </td>
+			<td>
+				<input type='text' name='valor' id='valor' size='40' maxlength='100'>
+			</td>
+	
+		</tr>
+		<tr class='bloquecentralcuerpo' >
+			<td>*	Descripci&oacute;n	</td>
+			<td>
+				<input type='text' name='descripcion' id='descripcion' size='40' maxlength='255'>
+			</td>
+		</tr>
+		<tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='tipo' id='tipo' value='".$tipo."'>
+				<input value='Guardar Tipo' name='aceptar' type='button' onclick=\"if(".$verificar."){xajax_procesar_formulario(xajax.getFormValues('".$formulario."'))}else{false}\">
+				
+			</td>
+		</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</form>
+	";
+	//se crea el objeto xajax para enviar la respuesta
+	$respuesta = new xajaxResponse();
+	//Se asignan los valores al objeto y se envia la respuesta	
+	$respuesta->addAssign("divForm","innerHTML",$cadena_html);
+	return $respuesta;
+}
+
+?>

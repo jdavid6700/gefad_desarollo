@@ -1,0 +1,81 @@
+A:link{TEXT-DECORATION: none; COLOR: #000000;}
+A:visited{TEXT-DECORATION: none; COLOR: #000000;}
+A:hover{background: #EFEFDE; COLOR: #3E3EFF; TEXT-DECORATION: underline; cursor: hand;} 
+A:active{TEXT-DECORATION: none; background: #F2F2E3; COLOR: red;}
+.Estilo1 {font-family: Tahoma; font-size: small;}
+.Estilo2 {font-family: Tahoma; font-size: x-small;}
+.Estilo3 {font-family: Tahoma; font-size: xx-small;}
+.Estilo4 {font-family: Tahoma; font-size: 2px;}
+.Estilo5 {font-family: Tahoma; color: #336699; font-weight: bold; }
+body{
+	background-color: #E6E6DE;
+	font-family: Tahoma;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	top: 0px;
+	left: 0px;
+	scrollbar-face-color:#C7C78D;
+	scrollbar-highlight-color:#F8F8F1;
+	scrollbar-3dlight-color:#C0C0C0;
+	scrollbar-darkshadow-color:#000000;
+	scrollbar-shadow-color:#979868;
+	scrollbar-arrow-color:#336699;
+	scrollbar-track-color:#E2E2C5;
+}
+h1 {font-family: Verdana, Arial, Helvetica, sans-serif; color: #3333FF;}
+h2 {font-family: Verdana, Arial, Helvetica, sans-serif; color: #800000;}
+h3 {font-family: Arial, Helvetica, sans-serif; font-size: 1.15em; background-color: #E9E9D1; color: #336699}
+h4 {font: bold 14px Tahoma; color: #336699}
+h5 {font: 12px Tahoma; color: #336699}
+h6 {font: 10px Tahoma; color: #000000}
+table {
+	font: 12px Tahoma;
+	display: table-cell;
+	padding: 1px;
+	overflow: scroll;
+	filter: Shadow(Color=#D6D6C9, Direction=left);
+}
+td, th {
+	font-family: Tahoma;
+	font-size: 1em;
+	line-height: 1em;
+	color: #000000;
+	}
+textarea {font-family: Arial, Helvetica, sans-serif; font-size: 1em	}
+ul {	
+	font-family: Arial, Helvetica, sans-serif;	
+	font-size: 1em;	
+	list-style-type: square;	
+	list-style-position: outside
+	}
+.BulletBackgroundColor {color: #FFFFFF}
+.DataColor {color: #DEDECA}
+.footer {font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.167em;
+	font-weight: bold;
+	color: #996600;
+	background-color: #CCCCCC
+	}
+input {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.FormBackgroundColor {color: #CCCCCC}
+.ImageTitleColor {color: #CCCCCC}
+.LabelColor {color: #CCCCCC}
+.ListColorEven {color: #CCCCCC}
+.ListFooterColor {color: #333333}
+.ListHeaderColor {color: #333333}
+.ListColorOdd {color: #DEDECA}
+.ListTitleColor {color: #CCCCCC}
+.NavigationBackgroundColor {color: #666666}
+.NavigationColor {color: #CCCCCC}
+.NewsDataColor {color: #DEDECA}
+.StoryTitle {color: #000000;	font-weight: bold}
+.StoryContentColor {color: #000000}
+.TitleColor {color: #000000}
+tr.ListHeaderColor th {text-align: left;}
+.small {font-size: 85%;}
+button {font-family: Verdana, Arial, Helvetica, sans-serif; background: #FFFFFF; cursor: text;}

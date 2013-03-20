@@ -1,0 +1,159 @@
+<?
+/*--------------------------------------------------------------------------------------------------------------------------
+  @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
+---------------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------------
+* @name          bloque.php 
+* @author        Paulo Cesar Coronado
+* @revision      Última revisión 12 de enero de 2009
+/*--------------------------------------------------------------------------------------------------------------------------
+* @subpackage		admin_solicitud
+* @package		bloques
+* @copyright    	Universidad Distrital Francisco Jose de Caldas
+* @version      	0.0.0.3
+* @author		Paulo Cesar Coronado
+* @author			Oficina Asesora de Sistemas
+* @link			N/D
+* @description  	Bloque para gestionar las solicitudes de recibos de pago
+*				realizadas por las diferentes coordinaciones. Implementa el
+*				caso de uso: CONSULTAR SOLICITUD DE RECIBO DE PAGO
+*
+/*--------------------------------------------------------------------------------------------------------------------------*/
+if(!isset($GLOBALS["autorizado"]))
+{
+	include("../index.php");
+	exit;		
+}
+
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/bloque.class.php");
+include_once("funcion.class.php");
+include_once("sql.class.php");
+
+//Clase
+class bloqueAdminUsuario extends bloque
+{
+
+	 public function __construct($configuracion)
+	{
+ 		$this->sql = new sql_adminUsuario();
+ 		$this->funcion = new funciones_adminUsuario($configuracion, $this->sql);
+ 		
+	}
+	
+	
+	function html($configuracion)
+	{		
+		//Rescatar datos de sesion
+		$usuario = $this->funcion->rescatarValorSesion($configuracion, $this->funcion->acceso_db, "usuario");
+		$id_usuario = $this->funcion->rescatarValorSesion($configuracion, $this->funcion->acceso_db, "id_usuario");
+		switch ($_REQUEST['opcion'])
+		{ 
+			case 'consultar':
+		  		//Consultar usuario
+				$this->funcion->consultarUsuario($configuracion,$_REQUEST["cod_usuario"]);
+				break;
+
+			case 'nuevo':
+			  	//Crear nuevo usuario
+				$this->funcion->nuevoRegistro($configuracion,$tema,$this->funcion->acceso_db);
+				break;
+			
+			case "editar":
+				//Editar los datos básicos del usuario
+				$this->funcion->editarRegistro($configuracion,$tema,$id_usuario, $this->acceso_db, "");
+				break;
+			  
+			case "cambiar_clave":
+				//Cambiar clave o contraseña del usuario
+				$this->funcion->editarRegistro($configuracion,$tema,$id_usuario, $this->acceso_db, "");
+				break;
+
+			case "cambiar_estado":
+				//Cambiar estado del Usuario para el sistema
+				$this->funcion->consultarUsuario($configuracion,$_REQUEST["cod_usuario"]);
+				break;
+		  
+				
+			default:
+		  		//Consultar usuario
+				$this->funcion->consultarUsuario($configuracion,"");
+				break;	
+				
+		}//fin switch
+		
+	}// fin funcion html
+	
+	
+	function action($configuracion)
+	{
+		switch($_REQUEST['opcion'])
+		{	case "nuevo":
+				$this->funcion->guardarUsuario($configuracion);
+				break;
+			case "editar":
+				$this->funcion->editarUsuario($configuracion);
+				break;
+			case "cambiar_clave":
+				$this->funcion->editarContrasena($configuracion);
+				break;
+			case "cambiar_estado":
+				$this->funcion->cambiarEstado($configuracion);
+				break;
+			
+			default: 
+				//recupera los datos para realizar la busqueda de usuario				
+				$pagina = $configuracion["host"].$configuracion["site"]."/index.php?";
+				$variable = "pagina=adminUsuario";
+				$variable .= "&opcion=".$_REQUEST["opcion"];
+				if(isset($_REQUEST['clave']))
+					{
+					$variable .= "&clave=".$_REQUEST["clave"];
+					}
+				$variable .= "&criterio_busqueda=".$_REQUEST["criterio_busqueda"];
+				
+				include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
+				$this->cripto = new encriptar();
+				$variable = $this->cripto->codificar_url($variable,$configuracion);
+				
+				echo "<script>location.replace('".$pagina.$variable."')</script>";
+
+				break;
+		}//fin switch
+	}//fin funcion action
+	
+	
+}// fin clase bloqueAdminUsuario
+
+
+// @ Crear un objeto bloque especifico
+
+$esteBloque = new bloqueAdminUsuario($configuracion);
+
+
+if(isset($_REQUEST['cancelar']))
+{   unset($_REQUEST['action']);		
+	$pagina = $configuracion["host"].$configuracion["site"]."/index.php?";
+	$variable = "pagina=adminUsuario";
+	$variable .= "&opcion=consultar";
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
+	$this->cripto = new encriptar();
+	$variable = $this->cripto->codificar_url($variable,$configuracion);
+	
+	echo "<script>location.replace('".$pagina.$variable."')</script>";
+}
+
+
+if(!isset($_REQUEST['action']))
+{
+	$esteBloque->html($configuracion);
+}
+else
+{
+	$esteBloque->action($configuracion);
+
+}
+
+
+?>
+
+

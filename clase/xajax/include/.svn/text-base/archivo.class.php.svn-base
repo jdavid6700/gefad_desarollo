@@ -1,0 +1,105 @@
+<?
+
+//======= Revisar si no hay acceso ilegal ==============
+if(!isset($GLOBALS["autorizado"]))
+{
+	include("../index.php");
+	exit;
+}
+//======================================================
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/funcionGeneral.class.php");
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/multiConexion.class.php");
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+
+    function ejemplo($valor, $hora, $dia, $capacidad, $periodo, $año)
+    {
+        require_once("clase/config.class.php");
+    $esta_configuracion=new config();
+    $configuracion=$esta_configuracion->variable();
+    $funcion=new funcionGeneral();
+    //Conectarse a la base de datos
+    $acceso_db=new dbms($configuracion);
+    $enlace=$acceso_db->conectar_db();
+    $valor=$acceso_db->verificar_variables($valor);
+    
+    $html=new html();
+    $conexion=new multiConexion();
+    $accesoOracle=$conexion->estableceConexion(4,$configuracion);
+    
+    if (is_resource($enlace))
+        {
+          $busqueda="
+                select sal_cod,
+                       sal_capacidad,
+                       sal_tipo,
+                       sal_descrip from gesalon 
+                       where SAL_ESTADO='A' AND sal_sed_cod=".$valor." and  SAL_TIPO!='V' AND sal_capacidad >= ".$capacidad."  AND SAL_COD not in
+                            (SELECT HOR_SAL_COD
+                                FROM ACHORARIO
+                                    WHERE
+                                    HOR_SED_COD=".$valor." AND
+                                    HOR_DIA_NRO=".$dia." AND
+                                    HOR_HORA=".$hora." AND
+                                    HOR_APE_ANO=".$año." AND
+                                    HOR_APE_PER=".$periodo." )
+                       ORDER BY sal_cod
+                
+
+            ";
+            $resultado=$funcion->ejecutarSQL($configuracion, $accesoOracle, $busqueda,"busqueda");
+            $i=0;
+            while(isset ($resultado[$i][0]))
+            {
+                $resultado_1[$i][0]=$resultado[$i][0];
+                $resultado_1[$i][1]=$resultado[$i][0]." - ".$resultado[$i][3]." - Cap: ".$resultado[$i][1];
+                $i++;
+            }
+            $mi_cuadro=$html->cuadro_lista($resultado_1,"salon",$configuracion,0,0,FALSE,0,"salon");
+
+            $respuesta = new xajaxResponse();
+            $respuesta->addAssign("salon","innerHTML",$mi_cuadro);
+        }
+        return $respuesta;
+
+
+}
+function plan($proyecto)
+    {
+        require_once("clase/config.class.php");
+    $esta_configuracion=new config();
+    $configuracion=$esta_configuracion->variable();
+    $funcion=new funcionGeneral();
+    //Conectarse a la base de datos
+    $acceso_db=new dbms($configuracion);
+    $enlace=$acceso_db->conectar_db();
+    $valor=$acceso_db->verificar_variables($valor);
+
+    $html=new html();
+    $conexion=new multiConexion();
+    $accesoOracle=$conexion->estableceConexion(4,$configuracion);
+
+    if (is_resource($enlace))
+        {
+          $busqueda="
+                SELECT DISTINCT pen_nro
+                        FROM acpen
+                        WHERE pen_cra_cod=".$proyecto." AND PEN_NRO>200";
+        
+
+            $resultado=$funcion->ejecutarSQL($configuracion, $accesoOracle, $busqueda,"busqueda");
+
+            $i=0;
+            while(isset ($resultado[$i][0]))
+            {
+                $resultado_1[$i][0]=$resultado[$i][0];
+                $resultado_1[$i][1]="Plan de Estudio: ".$resultado[$i][0];
+                $i++;
+            }
+            $mi_cuadro=$html->cuadro_lista($resultado_1,"plan",$configuracion,0,0,FALSE,0,"plan");
+            $respuesta = new xajaxResponse();
+            $respuesta->addAssign("plan","innerHTML",$mi_cuadro);
+        }
+        return $respuesta;
+
+        }
+?>

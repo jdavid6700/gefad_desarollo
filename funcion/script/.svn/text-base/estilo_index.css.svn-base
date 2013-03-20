@@ -1,0 +1,85 @@
+<!-- 
+a:link {color: #0040ED;	text-decoration: none;}
+a:visited {	text-decoration: none;	color: #0040ED;}
+a:hover {text-decoration:none; color: #FF0000;}
+a:active { text-decoration: none; color: #0040ED;}
+
+
+.Estilo1 {font-family: Helvetica;font-size: 12px;font-weight:;}
+.Estilo2 {color: #0038F2;font-family: Helvetica;font-size: 12px;font-weight: bold;}
+.Estilo3 {font-family: Helvetica; font-size: 12px; color: #990000}
+.Estilo6 {font-family: Helvetica; font-size: 12px;}
+.Estilo9 {font-size: 18px; font-weight: bold; color: #0040ED; }
+.Estilo12 {font-family: Helvetica; font-size: 12px; font-weight: bold; color: #3366FF; }
+.Estilo13 {font-family: Tahoma; color: #0000FF; font-size:11px; }
+.Estilo16 {font-family: Helvetica; font-size: 10px;}
+
+
+
+.noticia_index {
+	border:0px solid gray;
+	color:DarkSlateGray;
+	font-family:Times New Roman;
+	font-size:11pt;
+	font-weight:normal;
+	width:100%;
+}
+
+
+.form_clave {
+	border:1px solid gray;
+	color:black;
+	font-family:Times New Roman;
+	font-size:11pt;
+	font-weight:normal;
+	width:98%;
+	background-color:white;
+}
+
+.noticondor_index{
+	background-color:Lavender;
+	border:1px solid gray;
+	color:DarkSlateGray;
+	font-family:Helvetica;
+	font-weight:normal;
+}
+.menu{
+	color:DarkSlateGray;
+	font-family:Arial;
+	font-size:12pt;
+	font-weight:bold;
+	text-align:center;
+	
+}
+.mensaje{
+	position:absolute; 
+	width:400px; 
+	height:150px; 
+	border:1px solid gray;
+	background:white;
+	top:60%;
+	left:60%;
+	margin-top:-150px;
+	margin-left:-200px;
+	color:DarkSlateGray;
+	font-family:Times New Roman;
+	font-size:11pt;
+	font-weight:normal;	
+	
+}
+.links{
+	font-family:Arial;
+	font-size:10pt;
+	font-weight:normal;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+ 
+.input{ height:17; 
+	   width:90; 
+	   font-family:Helvetica; 
+	   font-size:11px; 
+	   background-color:#FFFFFF; 
+	   border-width:thin}
+--> 

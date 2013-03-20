@@ -1,0 +1,278 @@
+
+----------------------------------------------------------------
+Codigo para insertar nuevos registros
+----------------------------------------------------------------
+$cadena_sql="INSERT INTO basico_noticia "; 
+$cadena_sql.="( ";
+$cadena_sql.="`id_noticia`, ";
+$cadena_sql.="`tipo_noticia`, ";
+$cadena_sql.="`titulo_noticia`, ";
+$cadena_sql.="`noticia`, ";
+$cadena_sql.="`fecha_publicacion`, ";
+$cadena_sql.="`link_noticia`, ";
+$cadena_sql.="`id_usuario` ";
+$cadena_sql.=") ";
+$cadena_sql.="VALUES ";
+$cadena_sql.="( ";
+$cadena_sql.="'".$_POST['id_noticia']."', ";
+$cadena_sql.="'".$_POST['tipo_noticia']."', ";
+$cadena_sql.="'".$_POST['titulo_noticia']."', ";
+$cadena_sql.="'".$_POST['noticia']."', ";
+$cadena_sql.="'".$_POST['fecha_publicacion']."', ";
+$cadena_sql.="'".$_POST['link_noticia']."', ";
+$cadena_sql.="'".$_POST['id_usuario']."' ";
+$cadena_sql.=")";
+
+----------------------------------------------------------------
+Codigo para buscar registros
+----------------------------------------------------------------
+$cadena_sql="SELECT ";
+$cadena_sql.="`id_noticia`, ";
+$cadena_sql.="`tipo_noticia`, ";
+$cadena_sql.="`titulo_noticia`, ";
+$cadena_sql.="`noticia`, ";
+$cadena_sql.="`fecha_publicacion`, ";
+$cadena_sql.="`link_noticia`, ";
+$cadena_sql.="`id_usuario` ";
+$cadena_sql.="FROM ";
+$cadena_sql.="basico_noticia "; 
+
+----------------------------------------------------------------
+Codigo para UPDATE 
+----------------------------------------------------------------
+$cadena_sql="UPDATE basico_noticia "; 
+$cadena_sql="SET ; 
+$cadena_sql.="`id_noticia`='".$_POST['id_noticia']."', ";
+$cadena_sql.="`tipo_noticia`='".$_POST['tipo_noticia']."', ";
+$cadena_sql.="`titulo_noticia`='".$_POST['titulo_noticia']."', ";
+$cadena_sql.="`noticia`='".$_POST['noticia']."', ";
+$cadena_sql.="`fecha_publicacion`='".$_POST['fecha_publicacion']."', ";
+$cadena_sql.="`link_noticia`='".$_POST['link_noticia']."', ";
+$cadena_sql.="`id_usuario`='".$_POST['id_usuario']."' ";
+
+----------------------------------------------------------------
+Formulario para insertar nuevos registros
+----------------------------------------------------------------
+<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='GET,POST' action='pagina_que_procesa' name='nombreformulario'>
+<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+<tr>
+<td>
+<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			id_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='id_noticia' size='11' maxlength='11' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			tipo_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='tipo_noticia' size='2' maxlength='2' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			titulo_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='titulo_noticia' size='40' maxlength='200' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<textarea name='noticia' cols='20' rows='2' tabindex='<? echo $tab++ ?>' ></textarea>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			fecha_publicacion
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			link_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='link_noticia' size='40' maxlength='100' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			id_usuario
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='id_usuario' size='4' maxlength='4' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr align='center'>
+		<td colspan='2' rowspan='1'>
+			<input type='hidden' name='action' value='pagina_action'>
+			<input name='aceptar' value='Aceptar' type='submit'><br>
+		</td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
+</form>
+
+----------------------------------------------------------------
+Formulario para editar registros
+----------------------------------------------------------------
+<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='GET,POST' action='pagina_que_procesa' name='nombreformulario'>
+<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+<tr>
+<td>
+<table align='center' width='100%' cellpadding='7' cellspacing='1'>	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			id_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='id_noticia' value='<? echo $registro[0][0] ?>' size='11' maxlength='11' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			tipo_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='tipo_noticia' value='<? echo $registro[0][1] ?>' size='2' maxlength='2' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			titulo_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='titulo_noticia' value='<? echo $registro[0][2] ?>' size='40' maxlength='200' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<textarea name='noticia' cols='20' rows='2' tabindex='<? echo $tab++ ?>' ><? echo $registro[0][3] ?></textarea>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			fecha_publicacion
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			link_noticia
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='link_noticia' value='<? echo $registro[0][5] ?>' size='40' maxlength='100' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			id_usuario
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<input type='text' name='id_usuario' value='<? echo $registro[0][6] ?>' size='4' maxlength='4' tabindex='<? echo $tab++ ?>' >
+		</td>
+	</tr>
+	<tr align='center'>
+		<td colspan='2' rowspan='1' align='center'>
+			<table align='center' width='50%'>
+			<tr align='center'>
+			<td>
+				<input type='hidden' name='action' value='pagina_action'>
+				<input name='aceptar' value='Aceptar' type='submit'><br>
+			</td>
+			<td>
+				<input name='cancelar' value='Cancelar' type='submit'><br>
+			</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
+</form>
+
+----------------------------------------------------------------
+Tabla para mostrar registros
+----------------------------------------------------------------
+<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+<tr>
+<td>
+<table align='center' width='100%' cellpadding='7' cellspacing='1'>	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			id_noticia:
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<? echo $registro[0][0] ?>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			tipo_noticia:
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<? echo $registro[0][1] ?>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			titulo_noticia:
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<? echo $registro[0][2] ?>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			noticia:
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<? echo $registro[0][3] ?>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			fecha_publicacion:
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<? echo $registro[0][4] ?>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			link_noticia:
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<? echo $registro[0][5] ?>
+		</td>
+	</tr>
+	<tr class='bloquecentralcuerpo' onmouseover="setPointer(this, <? echo $contador ?>, 'over', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmouseout="setPointer(this, <? echo $contador ?>, 'out', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');" onmousedown="setPointer(this, <? echo $contador++ ?>, 'click', '<? echo $tema->celda ?>', '<? echo $tema->apuntado ?>', '<? echo $tema->seleccionado ?>');">
+		<td bgcolor='<? echo $tema->celda ?>'>
+			id_usuario:
+		</td>
+		<td bgcolor='<? echo $tema->celda ?>'>
+			<? echo $registro[0][6] ?>
+		</td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
