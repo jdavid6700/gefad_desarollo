@@ -1,0 +1,184 @@
+/* 
+    Document   : estilo_repFin
+    Created on : 03-may-2013, 19:10:37
+    Author     : Violeta
+    Description:
+    Purpose of the stylesheet follows.
+
+ http://www.script-tutorials.com/css3-responsive-menu/
+
+
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    background-color: #fff;
+    height: 100%;
+}
+
+body {
+    font-family: Tahoma, Arial, Geneva, sans-serif;
+    font-size: 10px;
+}
+
+/*contenedor*/
+.container {
+    margin-left: 155px;
+    margin-right: auto;
+    margin-top: 107px;
+    margin-bottom: auto;
+    width: 90%;
+    top: 30px;
+    position: fixed;
+    z-index:99;
+  }
+
+/* common and top level styles */
+#nav span {
+    display: none;
+}
+
+#nav, #nav ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+/* estilo linea de base menu*/
+#nav {
+    background-color: #FFFFFF;
+    border-bottom: 2px solid #333333;
+    float: left;
+    margin-left: 1%;
+    margin-right: 1%;
+    position: fixed;
+    width: 85%;
+  }
+#nav ul.subs {
+    background-color: #FFFFFF;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    color: #333333;
+    display: none;
+    left: 0;
+    padding: 0.5%;
+    position: absolute;
+    top: 30px;
+    width: 96%;
+}
+#nav > li {
+    border-bottom: 5px solid transparent;
+    float: left;
+    margin-bottom: -5px;
+    text-align: left;
+    -moz-transition: all 300ms ease-in-out 0s;
+    -ms-transition: all 300ms ease-in-out 0s;
+    -o-transition: all 300ms ease-in-out 0s;
+    -webkit-transition: all 300ms ease-in-out 0s;
+    transition: all 300ms ease-in-out 0s;
+}
+#nav li a {
+    display: block;
+    text-decoration: none;
+    -moz-transition: color 450ms ease-in-out 0s, background-color 450ms ease-in-out 0s;
+    -ms-transition: color 450ms ease-in-out 0s, background-color 450ms ease-in-out 0s;
+    -o-transition: color 450ms ease-in-out 0s, background-color 450ms ease-in-out 0s;
+    -webkit-transition: color 450ms ease-in-out 0s, background-color 450ms ease-in-out 0s;
+    transition: color 450ms ease-in-out 0s, background-color 450ms ease-in-out 0s;
+    white-space: normal;
+}
+#nav > li > a {
+    color: #333333;
+    display: block;
+    font-size: 1.3em;
+    line-height: 25px;
+    padding: 0 3px;
+    text-transform: uppercase;
+}
+#nav > li:hover > a, #nav > a:hover {
+    background-color: #81BEF7;
+    color: #FFFFFF;
+}
+#nav li.active > a {
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+/* submenu */
+#nav li:hover ul.subs {
+    display: block;
+}
+#nav ul.subs > li {
+    display: inline-block;
+    float: none;
+    padding: 5px 1%;
+    vertical-align: top;
+    width: 33%;
+}
+#nav ul.subs > li a {
+    color: #777777;
+    line-height: 20px;
+}
+#nav ul li a:hover {
+    color: #002EB8;
+}
+
+
+#nav ul.subs > li > a {
+    font-size: 1.3em;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+#nav ul.subs > li li {
+    float: none;
+    padding-left: 8px;
+    -moz-transition: padding 150ms ease-out 0s;
+    -ms-transition: padding 150ms ease-out 0s;
+    -o-transition: padding 150ms ease-out 0s;
+    -webkit-transition: padding 150ms ease-out 0s;
+    transition: padding 150ms ease-out 0s;
+}
+#nav ul.subs > li li:hover {
+    padding-left: 15px;
+}
+
+/* responsive rules */
+@media all and (max-width : 860px) {
+    #nav > li {
+        float: none;
+        border-bottom: 0;
+        margin-bottom: 0;
+    }
+    #nav ul.subs {
+        position: relative;
+        top: 0;
+    }
+    #nav li:hover ul.subs {
+        display: none;
+    }
+    #nav li #s1:target + ul.subs,
+    #nav li #s2:target + ul.subs {
+        display: block;
+    }
+
+    #nav ul.subs > li {
+        display: block;
+        width: auto;
+    }
+}
+
+a, a:visited {
+color: #698CAB;
+text-decoration: none;
+}
+
+a:hover {
+color: #F49F04;
+text-decoration: underline;
+}
+
+a img {
+border-width: 0;
+}
