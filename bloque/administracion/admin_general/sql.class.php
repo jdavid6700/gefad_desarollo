@@ -1,12 +1,12 @@
 <?php
 /*--------------------------------------------------------------------------------------------------------------------------
- @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
+  @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
 ---------------------------------------------------------------------------------------------------------------------------*/
 
 if(!isset($GLOBALS["autorizado"]))
 {
 	include("../index.php");
-	exit;
+	exit;		
 }
 
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/sql.class.php");
@@ -15,11 +15,11 @@ class sql_adminGeneral extends sql
 {
 	function cadena_sql($configuracion,$conexion, $opcion,$variable="")
 	{
-
+		
 		switch($opcion)
-		{
+		{	
 			case "busqueda_usuario_xnombre":
-
+								
 				$cadena_sql= "SELECT ";
 				$cadena_sql.= "id_usuario, ";
 				$cadena_sql.= "nombre, ";
@@ -32,18 +32,18 @@ class sql_adminGeneral extends sql
 				$cadena_sql.= "FROM ";
 				$cadena_sql.= $configuracion["prefijo"]."registrado ";
 				$cadena_sql.= "WHERE usuario = '".$variable."'";
-				break;
-
-				 
-
-			case "usuario":
+			break;	
+	
+                           
+                            
+                      case "usuario":
 				$cadena_sql= "SELECT ";
 				$cadena_sql.= "id_usuario ID_US, ";
 				$cadena_sql.= "nombre NOMBRE, ";
 				$cadena_sql.= "apellido APELLIDO, ";
 				$cadena_sql.= "correo MAIL, ";
 				$cadena_sql.= "telefono1 TEL, ";
-				$cadena_sql.= "extensiones1 EXT, ";
+                                $cadena_sql.= "extensiones1 EXT, ";
 				$cadena_sql.= "usuario NICK, ";
 				$cadena_sql.= "celular CEL, ";
 				$cadena_sql.= "identificacion IDENT, ";
@@ -53,13 +53,13 @@ class sql_adminGeneral extends sql
 				$cadena_sql.= "WHERE ";
 				$cadena_sql.= "id_usuario = ";
 				$cadena_sql.= $variable;
-				 
-				break;
-
+                               
+				break;	    
+				
 			case "editar_usuario":
-				$cadena_sql  = "UPDATE ";
-				$cadena_sql .= $configuracion["prefijo"]."registrado ";
-				$cadena_sql .= "SET " ;
+				$cadena_sql  = "UPDATE "; 
+				$cadena_sql .= $configuracion["prefijo"]."registrado "; 
+				$cadena_sql .= "SET " ; 
 				$cadena_sql .= "`nombre`='".$variable[1]."', ";
 				$cadena_sql .= "`apellido`='".$variable[2]."', ";
 				$cadena_sql .= "`correo`='".$variable[5]."', ";
@@ -72,9 +72,9 @@ class sql_adminGeneral extends sql
 				break;
 
 			case "editar_contrasena":
-				$cadena_sql  = "UPDATE ";
-				$cadena_sql .= $configuracion["prefijo"]."registrado ";
-				$cadena_sql .= "SET " ;
+				$cadena_sql  = "UPDATE "; 
+				$cadena_sql .= $configuracion["prefijo"]."registrado "; 
+				$cadena_sql .= "SET " ; 
 				$cadena_sql .= "`clave`='".$variable[1]."' ";
 				$cadena_sql .= " WHERE ";
 				$cadena_sql .= "`id_usuario`= ";
@@ -82,7 +82,7 @@ class sql_adminGeneral extends sql
 				break;
 
 			case "pagina_subsistema":
-				$cadena_sql  = "SELECT ";
+				$cadena_sql  = "SELECT "; 
 				$cadena_sql .= "SUB.id_subsistema, SUB.nombre, PAG.id_pagina, PAG.nombre ";
 				$cadena_sql .= "FROM ";
 				$cadena_sql .= $configuracion["prefijo"]."registrado_subsistema AS REGS ";
@@ -100,7 +100,7 @@ class sql_adminGeneral extends sql
 		}//fin switch
 		return $cadena_sql;
 	}// fin funcion cadena_sql
-
-
+	
+	
 }//fin clase sql_adminGeneral
 ?>

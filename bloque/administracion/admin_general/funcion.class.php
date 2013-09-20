@@ -1,21 +1,21 @@
 <?php
 /*--------------------------------------------------------------------------------------------------------------------------
- @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
+  @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
 ---------------------------------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------
- |				Control Versiones				    	|
-----------------------------------------------------------------------------------------
-| fecha      |        Autor            | version     |              Detalle            |
-----------------------------------------------------------------------------------------
-| 14/08/2009 | Maritza Callejas C.  	| 0.0.0.1     |                                 |
-----------------------------------------------------------------------------------------
+ |				Control Versiones				    	|	
+ ----------------------------------------------------------------------------------------
+ | fecha      |        Autor            | version     |              Detalle            |
+ ----------------------------------------------------------------------------------------
+ | 14/08/2009 | Maritza Callejas C.  	| 0.0.0.1     |                                 |
+ ----------------------------------------------------------------------------------------
 */
 
 
 if(!isset($GLOBALS["autorizado"]))
 {
 	include("../index.php");
-	exit;
+	exit;		
 }
 
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/funcionGeneral.class.php");
@@ -26,7 +26,7 @@ class funciones_adminGeneral extends funcionGeneral
 
 	function __construct($configuracion, $sql)
 	{
-		//[ TO DO ]En futuras implementaciones cada usuario debe tener un estilo
+		//[ TO DO ]En futuras implementaciones cada usuario debe tener un estilo		
 		//include ($configuracion["raiz_documento"].$configuracion["estilo"]."/".$this->estilo."/tema.php");
 		include ($configuracion["raiz_documento"].$configuracion["estilo"]."/basico/tema.php");
 		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
@@ -36,57 +36,57 @@ class funciones_adminGeneral extends funcionGeneral
 		$this->log_us = new log();
 		$this->tema = $tema;
 		$this->sql = $sql;
-
+		
 		//Conexion General
 		$this->acceso_db = $this->conectarDB($configuracion,"");
-
+		
 		//Datos de sesion
-
+		
 		$this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
 		$this->identificacion = $this->rescatarValorSesion($configuracion, $this->acceso_db, "identificacion");
-
+		
 	}
-
-
+	
+	
 	function nuevoRegistro($configuracion,$tema,$acceso_db)
 	{
-
+		
 	}
-
-	function editarRegistro($configuracion,$tema,$id,$acceso_db,$formulario)
-	{
+	
+   	function editarRegistro($configuracion,$tema,$id,$acceso_db,$formulario)
+   	{						
 		$this->cadena_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"usuario",$id);
 		$registro = $this->acceso_db->ejecutarAcceso($this->cadena_sql,"busqueda");
 		if ($_REQUEST['opcion'] == 'cambiar_clave')
 		{
-			$this->formContrasena($configuracion,$registro,$this->tema,'');
+		$this->formContrasena($configuracion,$registro,$this->tema,'');
 		}
 		else
 		{
-			$this->form_usuario($configuracion,$registro,$this->tema,'');
+		$this->form_usuario($configuracion,$registro,$this->tema,'');
 		}
 	}
-
-	function corregirRegistro()
-	{
+   	
+   	function corregirRegistro()
+    	{
 	}
-
+	
 	function listaRegistro($configuracion,$id_registro)
-
-	{
+	
+    	{	
 	}
-
+		
 
 	function mostrarRegistro($configuracion,$registro, $totalRegistros, $opcion, $variable)
-	{
-
+    	{	
+	
 	}
-
-
-	/*__________________________________________________________________________________________________
-
-	Metodos especificos
-	__________________________________________________________________________________________________*/
+	
+		
+/*__________________________________________________________________________________________________
+		
+						Metodos especificos 
+__________________________________________________________________________________________________*/
 
 
 	function form_usuario($configuracion,$registro,$tema,$estilo)
@@ -95,14 +95,14 @@ class funciones_adminGeneral extends funcionGeneral
 
 		/*****************************************************************************************************/
 		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
-
+		
 		$enlace = $this->acceso_db;
 		$id_usuario = $this->usuario;
-		$sql_rol_usuario = "	SELECT id_rol
-				FROM ". $configuracion["prefijo"]."integrante_proyecto
-						WHERE id_usuario = ".$id_usuario;
+		$sql_rol_usuario = "	SELECT id_rol 
+					FROM ". $configuracion["prefijo"]."integrante_proyecto
+					WHERE id_usuario = ".$id_usuario;
 		$rol_usuario = $this->ejecutarSQL($configuracion, $this->acceso_db, $sql_rol_usuario, "busqueda");
-
+				
 		$html = new html();
 		$tab = 1;
 		$this->formulario = "admin_general";
@@ -113,124 +113,104 @@ class funciones_adminGeneral extends funcionGeneral
 		$this->verificar .= "&& verificar_correo(".$this->formulario.",'correo')";
 
 		?>
-<script
-	src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/funciones.js"
-	type="text/javascript" language="javascript"></script>
+		<script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/funciones.js" type="text/javascript" language="javascript"></script>
 
-<form enctype='multipart/form-data' method='POST' action='index.php'
-	name='<? echo $this->formulario;?>'>
-	<hr>
-
-	<table width='80%' height="45" valign="top">
+		<form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario;?>'>
+		<hr>
+		
+		<table width='80%' height="45" valign="top" >		
 		<tr>
-			<td colspan="5"><font color="red" size="-2"><br>Todos los campos
-					marcados con ( * ) son obligatorios. <br> </font></td>
+			<td colspan="5"><font color="red" size="-2"  ><br>Todos los campos marcados con ( * ) son obligatorios. <br></font></td>
 		</tr>
-	</table>
-
-	<table width='80%' class='formulario' align='center'>
-		<tr class='bloquecentralcuerpobeige'>
-			<td colspan='3'><hr class='hr_subtitulo' /> <? 
-			echo "EDITAR USUARIO";
+		</table>
+		
+		<table width='80%'  class='formulario'  align='center'>
+		<tr class='bloquecentralcuerpobeige'><td  colspan='3'><hr class='hr_subtitulo'/>
+			<? 
+				echo "EDITAR USUARIO";
 
 			?>
-				<hr class='hr_subtitulo' /></td>
-		</tr>
+		<hr class='hr_subtitulo'/></td></tr>		
 		<tr>
 			<td width='30%'><?
-			$texto_ayuda = "<b>Nombres del usuario.</b><br> ";
-			?><font color="red">*</font><span
-				onmouseover="return escape('<? echo $texto_ayuda?>')">Nombres:</span>
+				$texto_ayuda = "<b>Nombres del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Nombres:</span>
 			</td>
-			<td><input type='text' name='nombres'
-				value='<? echo $registro[0][1] ?>' size='40' maxlength='255'
-				tabindex='<? echo $tab++ ?>'
-				onKeyPress="return solo_texto_sin_esp(event)">
+			<td>
+				<input type='text' name='nombres' value='<? echo $registro[0][1] ?>' size='40' maxlength='255' tabindex='<? echo $tab++ ?>'  onKeyPress="return solo_texto_sin_esp(event)" >
 			</td>
-		</tr>
+		</tr>		
 		<tr>
 			<td width='30%'><?
-			$texto_ayuda = "<b>Apellidos del usuario.</b><br> ";
-			?><font color="red">*</font><span
-				onmouseover="return escape('<? echo $texto_ayuda?>')">Apellidos:</span>
+				$texto_ayuda = "<b>Apellidos del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Apellidos:</span>
 			</td>
-			<td><input type='text' name='apellidos'
-				value='<? echo $registro[0][2] ?>' size='40' maxlength='255'
-				tabindex='<? echo $tab++ ?>'
-				onKeyPress="return solo_texto_sin_esp(event)">
+			<td>
+				<input type='text' name='apellidos' value='<? echo $registro[0][2] ?>' size='40' maxlength='255' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_texto_sin_esp(event)" >
 			</td>
-		</tr>
+		</tr>		
 		<tr>
 			<td width='30%'><?
-			$texto_ayuda = "<b>Número de identificación del usuario.</b><br> ";
-			?><font color="red">*</font><span
-				onmouseover="return escape('<? echo $texto_ayuda?>')">Identificación:</span>
+				$texto_ayuda = "<b>Número de identificación del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Identificación:</span>
 			</td>
-			<td><input type='text' name='identificacion'
-				value='<? echo $registro[0][7] ?>' size='40' maxlength='15'
-				tabindex='<? echo $tab++ ?>'
-				onKeyPress="return solo_numero_sin_slash(event)">
+			<td>
+				<input type='text' name='identificacion' value='<? echo $registro[0][7] ?>' size='40' maxlength='15' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_numero_sin_slash(event)">
 			</td>
-		</tr>
+		</tr>		
 		<tr>
 			<td width='30%'><?
-			$texto_ayuda = "<b>Teléfono del usuario.</b><br> ";
-			?><font color="red">*</font><span
-				onmouseover="return escape('<? echo $texto_ayuda?>')">Teléfono:</span>
+				$texto_ayuda = "<b>Teléfono del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Teléfono:</span>
 			</td>
-			<td><input type='text' name='telefono'
-				value='<? echo $registro[0][4] ?>' size='40' maxlength='50'
-				tabindex='<? echo $tab++ ?>' onKeyPress="return solo_numero(event)">
+			<td>
+				<input type='text' name='telefono' value='<? echo $registro[0][4] ?>' size='40' maxlength='50' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_numero(event)">
 			</td>
-		</tr>
+		</tr>		
 		<tr>
 			<td width='30%'><?
-			$texto_ayuda = "<b>Nombre de la cuenta de correo electrónico del usuario.</b><br> ";
-			?><font color="red">*</font><span
-				onmouseover="return escape('<? echo $texto_ayuda?>')">Correo
-					electrónico:</span>
+				$texto_ayuda = "<b>Nombre de la cuenta de correo electrónico del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Correo electrónico:</span>
 			</td>
-			<td><input type='text' name='correo'
-				value='<? echo $registro[0][3] ?>' size='40' maxlength='100'
-				tabindex='<? echo $tab++ ?>'>
+			<td>
+				<input type='text' name='correo' value='<? echo $registro[0][3] ?>' size='40' maxlength='100' tabindex='<? echo $tab++ ?>' >
 			</td>
-		</tr>
+		</tr>		
 		<tr>
 			<td width='30%'><?
-			$texto_ayuda = "<b>Número de celular del usuario.</b><br> ";
-			?><span onmouseover="return escape('<? echo $texto_ayuda?>')">No.
-					Celular:</span>
+				$texto_ayuda = "<b>Número de celular del usuario.</b><br> ";
+				?><span onmouseover="return escape('<? echo $texto_ayuda?>')">No. Celular:</span>
 			</td>
-			<td><input type='text' name='celular'
-				value='<? echo $registro[0][6] ?>' size='40' maxlength='15'
-				tabindex='<? echo $tab++ ?>'
-				onKeyPress="return solo_numero_sin_slash(event)">
+			<td>
+				<input type='text' name='celular' value='<? echo $registro[0][6] ?>' size='40' maxlength='15' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_numero_sin_slash(event)" >
 			</td>
-		</tr>
-	</table>
-	<table align='center'>
-		<tr align='center'>
-			<td colspan='2' rowspan='1'><input type='hidden' name='usuario'
-				value='<? echo $_REQUEST["usuario"] ?>'> <input type='hidden'
-				name='action' value='admin_general'> <input type='hidden'
-				name='opcion' value='editar'> <input value="Aceptar" name="aceptar"
-				tabindex='<?= $tab++ ?>' type="button"
-				onclick="if(<?= $this->verificar; ?>){document.forms['<?= $this->formulario?>'].submit()}else{false}">
-				<input name='cancelar' value='Cancelar' type='submit'> <br>
+		</tr>		
+		</table>
+		<table align='center'>
+		  <tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='usuario' value='<? echo $_REQUEST["usuario"] ?>'>
+				<input type='hidden' name='action' value='admin_general'>
+	    			
+				<input type='hidden' name='opcion' value='editar'>
+				<input value="Aceptar" name="aceptar" tabindex='<?= $tab++ ?>' type="button" 	onclick="if(<?= $this->verificar; ?>){document.forms['<?= $this->formulario?>'].submit()}else{false}"
+>			
+    			<input name='cancelar' value='Cancelar' type='submit'>
+				<br>
 			</td>
-		</tr>
-	</table>
+ 		  </tr> 
+		</table>
 
-</form>
-<?php
+		</form>		
+	<?php
 	} // fin function form_usuario
 
-
+	
 
 	// funcion que edita los datos del usuario
 
 	function editarUsuario($configuracion){
-
+				  
 		//rescata los valores para editar los datos del usuario
 		//----------------------------------------------------
 		$datos_usuario[0] = $this->usuario;
@@ -240,7 +220,7 @@ class funciones_adminGeneral extends funcionGeneral
 		$datos_usuario[4] = $_REQUEST['telefono'];
 		$datos_usuario[5] = $_REQUEST['correo'];
 		$datos_usuario[6] = $_REQUEST['celular'];
-
+		
 		//ejecuta la modificacion del usuario
 			
 		$usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"editar_usuario",$datos_usuario);
@@ -250,7 +230,7 @@ class funciones_adminGeneral extends funcionGeneral
 		$variable .= "&opcion=editar";
 		$variable = $this->cripto->codificar_url($variable,$configuracion);
 
-		//verificamos que se halla ejecutado la consulta con exito.
+		//verificamos que se halla ejecutado la consulta con exito.		
 		if(@$usu)
 		{
 			//VARIABLES PARA EL LOG
@@ -268,17 +248,17 @@ class funciones_adminGeneral extends funcionGeneral
 			$registro[5] .= " - celular =". $datos_usuario[6];
 			$this->log_us->log_usuario($registro,$configuracion);
 
-			unset($_REQUEST['action']);
-				
+			unset($_REQUEST['action']);		
+			
 			echo "<script>alert('Registro de Usuario modificado con exito!')</script>";
-			echo "<script>location.replace('".$pagina.$variable."')</script>";
-
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+		
 		}
 		else
 		{
 			echo "<script>alert('Imposible Modificar Usuario')</script>";
-			echo "<script>location.replace('".$pagina.$variable."')</script>";
-				
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+			
 		}
 
 	} // fin funcion editarUsuario
@@ -289,7 +269,7 @@ class funciones_adminGeneral extends funcionGeneral
 
 		/*****************************************************************************************************/
 		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
-
+		
 		$enlace = $this->acceso_db;
 		$id_usuario = $this->usuario;
 		$html = new html();
@@ -300,127 +280,108 @@ class funciones_adminGeneral extends funcionGeneral
 		$this->verificar .= "&& control_vacio(".$this->formulario.",'reescribir_contrasena')";
 		$this->verificar .= "&& longitud_cadena(".$this->formulario.",'reescribir_contrasena',6)";
 		$this->verificar .= "&& comparar_contenido(".$this->formulario.",'contrasena','reescribir_contrasena')";
-		?>
-<script
-	src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/funciones.js"
-	type="text/javascript" language="javascript"></script>
-<script
-	src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/md5.js"
-	type="text/javascript" language="javascript"></script>
-<form enctype='multipart/form-data' method='POST' action='index.php'
-	name='<? echo $this->formulario;?>'>
-	<hr>
-	<? 
-	//Mostramos los datos del usuario
-	?>
-	<table width='80%' class='formulario' align='center'>
-		<tr class='bloquecentralcuerpobeige'>
-			<td colspan='3'><hr class='hr_subtitulo' />DATOS DE USUARIO
-
-				<hr class='hr_subtitulo' /></td>
-		</tr>
-	</table>
-	<table class='contenidotabla'>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Identificaci&oacute;n:</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['IDENT']?>
+		?>		
+		<script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/funciones.js" type="text/javascript" language="javascript"></script>
+		<script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/md5.js" type="text/javascript" language="javascript"></script>		
+		<form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario;?>'>
+		<hr>
+			<? 
+			//Mostramos los datos del usuario 
+			?>
+			<table width='80%'  class='formulario'  align='center'>
+			<tr class='bloquecentralcuerpobeige'><td  colspan='3'><hr class='hr_subtitulo'/>DATOS DE USUARIO
+			
+			<hr class='hr_subtitulo'/></td></tr>		
+			</table>
+			<table class='contenidotabla'>
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Identificaci&oacute;n:</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['IDENT']?></td>
+                                </tr>	
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Nombre(s):</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['NOMBRE']?></td>
+                                </tr>			
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Apellido(s):</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['APELLIDO']?></td>
+                                </tr>
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Usuario:</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['NICK']?></td>
+                                </tr>
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Correo:</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['MAIL']?></td>
+                                </tr>			
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Tel&eacute;fono:</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['TEL']?></td>
+                                </tr>			
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Extenci&oacute;n:</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['EXT']?></td>
+                                </tr>			
+                                <tr >
+                                        <td class='cuadro_plano centrar ancho10' >Celular:</td>
+                                        <td width="70%" class='cuadro_plano '><? echo  $registro[0]['CEL']?></td>
+                                </tr>                            
+		</table>
+	
+		<table width='80%'  class='formulario'  align='center'>
+		<tr class='bloquecentralcuerpobeige'><td  colspan='3'><hr class='hr_subtitulo'/>CAMBIO DE CONTRASEÑA
+			
+		<hr class='hr_subtitulo'/></td></tr>		
+			<tr>
+			<td width='30%'><?
+				$texto_ayuda="<b>Nueva contraseña para el usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Nueva Contraseña:</span>
 			</td>
-		</tr>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Nombre(s):</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['NOMBRE']?>
+			<td>
+				<input type='password' name='contrasena' size='40' maxlength='50' tabindex='<? echo $tab++ ?>'   >
 			</td>
-		</tr>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Apellido(s):</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['APELLIDO']?>
-			</td>
-		</tr>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Usuario:</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['NICK']?>
-			</td>
-		</tr>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Correo:</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['MAIL']?>
-			</td>
-		</tr>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Tel&eacute;fono:</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['TEL']?>
-			</td>
-		</tr>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Extenci&oacute;n:</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['EXT']?>
-			</td>
-		</tr>
-		<tr>
-			<td class='cuadro_plano centrar ancho10'>Celular:</td>
-			<td width="70%" class='cuadro_plano '><? echo  $registro[0]['CEL']?>
-			</td>
-		</tr>
-	</table>
-
-	<table width='80%' class='formulario' align='center'>
-		<tr class='bloquecentralcuerpobeige'>
-			<td colspan='3'><hr class='hr_subtitulo' />CAMBIO DE CONTRASEÑA
-
-				<hr class='hr_subtitulo' /></td>
-		</tr>
+		</tr>		
 		<tr>
 			<td width='30%'><?
-			$texto_ayuda="<b>Nueva contraseña para el usuario.</b><br> ";
-			?><font color="red">*</font><span
-				onmouseover="return escape('<? echo $texto_ayuda?>')">Nueva
-					Contraseña:</span>
+				$texto_ayuda = "<b>Reescriba la nueva contraseña.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Confirmar contraseña:</span>
 			</td>
-			<td><input type='password' name='contrasena' size='40' maxlength='50'
-				tabindex='<? echo $tab++ ?>'>
+			<td>
+				<input type='password' name='reescribir_contrasena' size='40' maxlength='50' tabindex='<? echo $tab++ ?>'  >
 			</td>
-		</tr>
-		<tr>
-			<td width='30%'><?
-			$texto_ayuda = "<b>Reescriba la nueva contraseña.</b><br> ";
-			?><font color="red">*</font><span
-				onmouseover="return escape('<? echo $texto_ayuda?>')">Confirmar
-					contraseña:</span>
+		</tr>		
+		</table>
+		<table align='center'>
+		  <tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='usuario' value='<? echo $_REQUEST["usuario"] ?>'>
+				<input type='hidden' name='action' value='admin_general'>
+				<input type='hidden' name='opcion' value='cambiar_clave'>
+				<input value="Guardar" name="aceptar" tabindex='<?= $tab++ ?>' type="button" 	
+			onclick="if(<?= $this->verificar; ?>){<?echo $this->formulario?>.contrasena.value = hex_md5(<?echo $this->formulario?>.contrasena.value);<?echo $this->formulario?>.reescribir_contrasena.value = hex_md5(<?echo $this->formulario?>.reescribir_contrasena.value);document.forms['<? echo $this->formulario?>'].submit()}else{false}"
+>
+			
+    			<input name='cancelar' value='Cancelar' type='submit'>
+				<br>
 			</td>
-			<td><input type='password' name='reescribir_contrasena' size='40'
-				maxlength='50' tabindex='<? echo $tab++ ?>'>
-			</td>
-		</tr>
-	</table>
-	<table align='center'>
-		<tr align='center'>
-			<td colspan='2' rowspan='1'><input type='hidden' name='usuario'
-				value='<? echo $_REQUEST["usuario"] ?>'> <input type='hidden'
-				name='action' value='admin_general'> <input type='hidden'
-				name='opcion' value='cambiar_clave'> <input value="Guardar"
-				name="aceptar" tabindex='<?= $tab++ ?>' type="button"
-				onclick="if(<?= $this->verificar; ?>){<?echo $this->formulario?>.contrasena.value = hex_md5(<?echo $this->formulario?>.contrasena.value);<?echo $this->formulario?>.reescribir_contrasena.value = hex_md5(<?echo $this->formulario?>.reescribir_contrasena.value);document.forms['<? echo $this->formulario?>'].submit()}else{false}">
+ 		  </tr> 
+		</table>
 
-				<input name='cancelar' value='Cancelar' type='submit'> <br>
-			</td>
-		</tr>
-	</table>
+		</form>		
 
-</form>
-
-<?
+		<?
 	}//fin funcion formContrasena
 
 
 	// funcion que edita los datos del usuario
 
 	function editarContrasena($configuracion){
-
+				  
 		//rescata los valores para editar la contrasena
 		//----------------------------------------------------
 		$datos_usuario[0] = $this->usuario;
 		$datos_usuario[1] = $_REQUEST['contrasena'];
-
+		
 		//ejecuta la modificacion de la contraseña de usuario
 			
 		$usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"editar_contrasena",$datos_usuario);
@@ -431,7 +392,7 @@ class funciones_adminGeneral extends funcionGeneral
 		$variable .= "&opcion=cambiar_clave";
 		$variable = $this->cripto->codificar_url($variable,$configuracion);
 
-		//verificamos que se halla ejecutado la consulta con exito.
+		//verificamos que se halla ejecutado la consulta con exito.		
 		if(@$usu)
 		{
 			//VARIABLES PARA EL LOG
@@ -442,24 +403,24 @@ class funciones_adminGeneral extends funcionGeneral
 			$registro[4] = time();
 			$registro[5] = "Modifica la contraseña del usuario ". $nvo_usuario[0];
 			$this->log_us->log_usuario($registro,$configuracion);
-			unset($_REQUEST['action']);
-				
+			unset($_REQUEST['action']);		
+			
 			echo "<script>alert('Contraseña de Usuario modificada con exito!')</script>";
-			echo "<script>location.replace('".$pagina.$variable."')</script>";
-
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+		
 		}
 		else
 		{
 			echo "<script>alert('Imposible Modificar la contraseña')</script>";
-			echo "<script>location.replace('".$pagina.$variable."')</script>";
-				
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+			
 		}
 
 	} // fin funcion editarContraseña
 
 
 } // fin de la clase
-
+	
 
 ?>
 

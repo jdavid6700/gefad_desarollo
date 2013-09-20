@@ -1,6 +1,6 @@
 <?
 /*
- ############################################################################
+############################################################################
 #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
 #    Desarrollo Por:                        #
 #    Paulo Cesar Coronado 2004 - 2005                                      #
@@ -11,8 +11,8 @@
 ?>
 <?
 /***************************************************************************
-
-index.php
+  
+index.php 
 
 Paulo Cesar Coronado
 Copyright (C) 2001-2005
@@ -20,24 +20,24 @@ Copyright (C) 2001-2005
 Última revisión 6 de Marzo de 2006
 
 *****************************************************************************
-* @subpackage
+* @subpackage   
 * @package	bloques
-* @copyright
+* @copyright    
 * @version      0.2
 * @author      	Paulo Cesar Coronado
 * @link		N/D
 * @description  Formualrio para el registro de usuarios
-* @usage
-******************************************************************************/
+* @usage        
+******************************************************************************/ 
 ?><?
 if(!isset($_REQUEST['action']))
 {
-	include_once("html.php");
+	include_once("html.php");	
 
 }
 else
 {
-	include_once("action.php");
+	include_once("action.php");	
 }
 
 ?>

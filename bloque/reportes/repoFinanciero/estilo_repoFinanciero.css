@@ -1,0 +1,38 @@
+/* 
+    Document   : estilo_repoFinanciero
+    Created on : 08-may-2013, 9:50:24
+    Author     : Violeta
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#btnExport{
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+    background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+    background-color:#ededed;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:Tahoma, Arial, Geneva, sans-serif;
+    font-size:12px;
+    font-weight:bold;
+    padding:5px 4px;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
+    margin-bottom: 6px;
+}
+
+#btnExport:hover{
+   
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+    background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+    background-color:#dfdfdf;
+}

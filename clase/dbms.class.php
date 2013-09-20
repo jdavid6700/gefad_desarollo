@@ -104,6 +104,7 @@ class dbms
 	var $conteo;
 	var $registro;
 	var $campo;
+        var $charset='utf8';
 
 
 	/*** Fin de sección Atributos: ***/
@@ -214,6 +215,7 @@ class dbms
 			case 'mysql':
 					
 				$this->enlace=mysql_connect($this->servidor, $this->usuario, $this->clave);
+                                mysql_set_charset($this->charset, $this->enlace);
 
 				if($this->enlace)
 				{

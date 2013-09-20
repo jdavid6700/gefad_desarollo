@@ -1,114 +1,12 @@
 <?
-/*
-############################################################################
-#    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
-#    Desarrollo Por:                                                       #
-#    Paulo Cesar Coronado 2004 - 2005                                      #
-#    paulo_cesar@berosa.com                                                #
-#    Copyright: Vea el archivo EULA.txt que viene con la distribucion      #
-############################################################################
-*/
 
 /***************************************************************************
-  
-sesion.class.php 
-
-Paulo Cesar Coronado
-Copyright (C) 2001-2005
-
-Última revisión 6 de Marzo de 2006
-
-****************************************************************************
-* @subpackage   
-* @package	clase
-* @copyright    
-* @version      0.2
-* @author      	Paulo Cesar Coronado
-* @link		http://acreditacion.udistrital.edu.co
-* @description  Clase para el manejo de sesiones
-*****************************************************************************
-*Atributos
-*
-*@access private
-*@param  $conexion_id
-*		Identificador del enlace a la base de datos 
-*@param  $sesion_id
-*		Identificador de la sesion
-*@param  $expiracion
-*		Tiempo que dura la sesion en segundos
-*@param  $usuario
-*		Nombre de usuario
-*@param  $nivel
-*		Nivel de acceso que tiene el usuario.
-*@param  $registro_sesion
-*		Registro que almacena el valor de las variables de sesión.		
-*******************************************************************************
-*/
-/******************************************************************************
-*Métodos
-*
-*@access public
-*
-     * @name sesiones
-*		 Constructor. Define los valores por defecto 
-     * @name sesion
-*		 Determina la existencia de una sesión, actualizando su expiración en caso de existir
-     * @name abrir_sesion
-*		 Método auxiliar de sesión que realiza la búsqueda de la sesión.
-     * @name caracteres_validos
-*		 Verifica que los caracteres de la sesión_id sean alfanuméricos
-     * @name especificar_sesion
-*		 Especifica el sesion_id
-     * @name especificar_enlace
-*		 Especifica el enlace a la db que ha de usarse.
-     * @name especificar_usuario
-*		 Define el usuario propietario de la sesión
-     * @name especificar_nivel
-*		 Define el nivel de acceso
-     * @name especificar_expiracion
-*		 Define el tiempo de expiración de las nuevas sesiones que se crean.
-     * @name usuario_ip
-*		 Rescata la dirección IP del usuario, clave para crear sesion_id
-     * @name crear_sesion
-*		 Inserta un registro de sesión en el sistema
-     * @name rescatar_valor_sesión
-*		 Obtiene el valor de una variable de sesión determinada
-     * @name guardar_valor_sesion
-*		 Guarda el valor de una variable de sesión determinada
-     * @name borrar_valor_sesion
-*		 Borra la entrada de una variable de sesión determinada
-     * @name borrar_sesion_expirada
-*		 Remueve de la db las sesiones que esten expiradas
-     * @name encriptar_identificador
-*		 Para futuro uso. Encripta el sesion_id para evitar creaciones de sesión no autorizadas
-     * @name terminar_sesion
-*		 Borra una sesión específica
-*
-*******************************************************************************************
-*/
-
-/*
- * @USAGE
-* El uso de la clase es bastante simple. Inicia con la creación de un objeto de tipo sesiones:
-* 		$nueva_sesion=new sesiones();
-* El constructor define por defecto:
-* 		$this->usuario='ANONIMOUS'
-* 		$this->nivel=0 (Sin ningún privilegio de acceso)
-* 		$this->expiracion=1800 (30 minutos)
-*Si se quieren sobreescribir estos valores se debe invocar los métodos:
-*		$nueva_sesion->especificar_usuario('nuevo_usuario')
-*		$nueva_sesion->especificar_nivel(nuevo_nivel) (Donde nuevo_nivel es un entero)
-*		$nueva_sesion->especificar_expiracion(tiempo_segundos)
-*Luego de estos pasos se verifica la existencia de una sesión válida para la máquina del cliente
-*		$nueva_sesion->sesion($configuracion)
-*Este método retorna TRUE en el caso de que exista una sesión válida, al mismo tiempo que
-*actualiza el valor de la fecha de creación de la sesión. Si por el contrario no encuentra una sesión
-*devuelve FALSE.
-*Para crear una nueva sesión se debe llamar al método:
-*		$nueva_sesion->crear_sesion
-* 
-* 
- */
+ *   PHP Application Framework Version 10                                  *
+ *   Copyright (c) 2003 - 2009                                             *
+ *   Teleinformatics Technology Group de Colombia                          *
+ *   ttg@ttg.com.co                                                        *
+ *                                                                         *
+****************************************************************************/
 
 class sesiones
 {
@@ -123,11 +21,15 @@ class sesiones
 	 * @access private
 	 */
      	var $conexion_id;
+        var $db_sel;
      	var $sesion_id;
      	var $expiracion;
      	var $usuario;
 	var $nivel;
 	var $registro_sesion;
+
+        //@TAF
+        var $id_empresa;
 	
 
 
@@ -180,9 +82,9 @@ class sesiones
 			$cadena_sql.="AND ";
 			$cadena_sql.="variable='expiracion'";
 			//echo $cadena_sql;
-			$db_sel = new dbms($this->aplicativo);
-			$db_sel->especificar_enlace($this->conexion_id);
-			$resultado=$db_sel->ejecutar_acceso_db($cadena_sql); 
+                        $this->db_sel = new dbms($this->aplicativo);
+                        $this->db_sel->especificar_enlace($this->conexion_id);
+			$resultado=$this->db_sel->ejecutar_acceso_db($cadena_sql);
 			return $resultado;
 		}
 	}//Fin del método sesion
@@ -375,6 +277,39 @@ class sesiones
 		
 	} //Fin del mètodo especificar_usuario
 
+
+        /**
+	 *@METHOD especificar_usuario
+	 * @return valor
+	 * @access public
+	 */
+
+	function especificar_id_usuario($id_usuario)
+	{
+
+		$this->id_usuario=$id_usuario;
+
+	} //Fin del mètodo especificar_usuario
+
+
+        /**
+	 *@METHOD especificar_empresa
+	 * @return valor
+	 * @access public
+         * @@todo TAF specific method. It should be removed from the standard distributions
+	 */
+
+	function especificar_empresa($id_empresa)
+	{
+
+		$this->id_empresa=$id_empresa;
+
+	} //Fin del mètodo especificar_empresa
+
+
+
+
+
 	/**
 	 *@METHOD crear_sesion
 	 *
@@ -430,25 +365,29 @@ class sesiones
 			/*Borrar cookies anteriores
 			setcookie("aplicativo","",time()+60*60*2,"/");*/
 			//$cadena_sql = "INSERT INTO ".$configuracion["prefijo"]."valor_sesion ( id_usuario , id_sesion , expiracion , nivel_acceso ) VALUES ('".$this->usuario."', '".$this->sesion_id."',".(time()+$this->expiracion).",".$this->nivel.")";
+
+
+                        //Insertar id_usuario
+			$this->resultado=$this->guardar_valor_sesion($configuracion,'id_usuario',$this->id_usuario,$this->sesion_id);
 			//Insertar usuario
 			$this->resultado=$this->guardar_valor_sesion($configuracion,'usuario',$this->usuario,$this->sesion_id);
-			if($this->resultado)
-			{
-				//Insertar expiracion
-				$this->resultado=$this->guardar_valor_sesion($configuracion,'expiracion',(time()+$this->expiracion),$this->sesion_id);
-				if($this->resultado)
-				{
-					//Insertar nivel de acceso
-					$this->resultado=$this->guardar_valor_sesion($configuracion,'acceso',$this->nivel,$this->sesion_id);
-					if($this->resultado)
-					{
-						return $this->sesion_id;
-					}	
-				}
-				
-			}
-			
-			return FALSE;
+			//Insertar expiracion
+			$this->resultado=$this->guardar_valor_sesion($configuracion,'expiracion',(time()+$this->expiracion),$this->sesion_id);
+			//Insertar nivel de acceso
+			$this->resultado=$this->guardar_valor_sesion($configuracion,'acceso',$this->nivel,$this->sesion_id);
+
+                        //@todo TAF specific: insertar la empresa a la cual pertenece el usuario
+			//$this->resultado=$this->guardar_valor_sesion($configuracion,'id_empresa',$this->id_empresa,$this->sesion_id);
+
+                        if($this->resultado){
+
+                            return $this->sesion_id;
+
+                        }else{
+                            
+                            return FALSE;
+
+                        }
 			
 		}
 		
@@ -488,13 +427,19 @@ class sesiones
 		$this->cadena_sql.="id_sesion ='".($this->sesion_id)."' ";
 		$this->cadena_sql.="AND ";
 		$this->cadena_sql.="variable='".$variable."' ";
-		//echo $this->cadena_sql;
-		$this->db_sel = new dbms($this->aplicativo);
-		$this->db_sel->especificar_enlace($this->conexion_id);
-		$this->resultado=$this->db_sel->registro_db($this->cadena_sql,0); 
+		//echo $this->cadena_sql."<br>";
+
+                if(!isset($this->db_sel))
+                {
+                    $this->db_sel = new dbms($configuracion);
+                    $this->db_sel->especificar_enlace($this->conexion_id);
+                }
+
+                $this->resultado=$this->db_sel->registro_db($this->cadena_sql,0);
 		$this->count = $this->db_sel->obtener_conteo_db();
 
-		if($this->count>0)
+
+                if($this->count>0)
 		{
 			$this->registro_sesion=$this->db_sel->obtener_registro_db();
 			unset($this->db_sel);
@@ -509,48 +454,6 @@ class sesiones
 
     }//Fin del método rescatar_valor_sesion	return FALSE;
 
-    
-    	/**
-	 *@METHOD rescatar_id_sesion
-	 * @PARAM variable
-	 * @PARAM usuario_aplicativo ??
-	 * @return boolean
-	 * @access public
-         * rescata sesiones de un usuario que quedaron anteriormente, para ser borradas
-	 */
-    
-        function rescatar_id_sesion($configuracion,$variable)
-    {
-		
-		// Busca la sesión
-		$this->cadena_sql="SELECT DISTINCT ";
-		$this->cadena_sql.="id_sesion ";
-		$this->cadena_sql.="FROM ";
-		$this->cadena_sql.=$configuracion["prefijo"]."valor_sesion ";
-		$this->cadena_sql.="WHERE ";
-		$this->cadena_sql.="variable='".$variable['var']."' ";
-		$this->cadena_sql.="AND ";
-		$this->cadena_sql.="valor ='".$variable['vl']."' ";
-		//echo $this->cadena_sql;
-		$this->db_sel = new dbms($this->aplicativo);
-		$this->db_sel->especificar_enlace($this->conexion_id);
-		$this->resultado=$this->db_sel->registro_db($this->cadena_sql,0); 
-		$this->count = $this->db_sel->obtener_conteo_db();
-
-		if($this->count>0)
-		{
-			$this->registro_sesion=$this->db_sel->obtener_registro_db();
-			unset($this->db_sel);
-			return $this->registro_sesion;
-		}
-		else
-		{
-			unset($this->db_sel);							
-			return FALSE;
-		}
-
-
-    }//Fin del método rescatar_valor_sesion	return FALSE;
 
 	/**
 	 *@METHOD guardar_valor_sesion
@@ -587,18 +490,20 @@ class sesiones
 		
 		}
 		$cadena_sql = "SELECT * FROM ".$configuracion["prefijo"]."valor_sesion WHERE id_sesion = '".($this->sesion_id)."'  AND variable='".$variable."'";
-		$db_sel = new dbms($this->aplicativo);
-		$db_sel->especificar_enlace($this->conexion_id);
-		$resultado=$db_sel->registro_db($cadena_sql,1); 
+		if(!isset($this->db_sel))
+                {
+                    $this->db_sel = new dbms($configuracion);
+                    $this->db_sel->especificar_enlace($this->conexion_id);
+                }
+		$resultado=$this->db_sel->registro_db($cadena_sql,1);
 		/*echo $resultado; importante para depurar*/
-		$count = $db_sel->obtener_conteo_db();
+		$count = $this->db_sel->obtener_conteo_db();
 		
 		if($count>0){
 			//Si la variable ya existe en la sesión entonces UPDATE	
 			$cadena_sql="UPDATE ".$configuracion["prefijo"]."valor_sesion SET valor='".$valor."' WHERE id_sesion='".($this->sesion_id)."' AND variable='".$variable."'";
 			/*echo $cadena_sql;*/
-			$resultado=$db_sel->ejecutar_acceso_db($cadena_sql); 
-			unset($db_sel);
+			$resultado=$this->db_sel->ejecutar_acceso_db($cadena_sql);
 			
 			return $resultado;
 			
@@ -609,8 +514,7 @@ class sesiones
 			//Si la variable no existe entonces INSERT		
 			$cadena_sql = "INSERT INTO ".$configuracion["prefijo"]."valor_sesion ( id_sesion,variable,valor) VALUES ('".$this->sesion_id."', '".$variable."','".$valor."' )";
 			/*echo $cadena_sql;*/
-			$resultado=$db_sel->ejecutar_acceso_db($cadena_sql); 
-			unset($db_sel);
+			$resultado=$this->db_sel->ejecutar_acceso_db($cadena_sql);
 			return $resultado;				
 		}
 
@@ -656,18 +560,23 @@ class sesiones
 			$this->sesion_id=$sesion;
 		
 		}
-		if($variable!='TODOS')
-		{
-		$cadena_sql = "DELETE FROM ".$configuracion["prefijo"]."valor_sesion WHERE id_sesion='".$this->sesion_id."' AND variable='".$variable."'";
-		}
-		else
-		{
+		if($variable!='TODOS'){
+                    $cadena_sql = "DELETE FROM ".$configuracion["prefijo"]."valor_sesion WHERE id_sesion='".$this->sesion_id."' AND variable='".$variable."'";
+		}else{
 			$cadena_sql = "DELETE FROM ".$configuracion["prefijo"]."valor_sesion WHERE id_sesion='".$this->sesion_id."'";
 
 		}
-		$db_sel = new dbms($this->aplicativo);
-		$db_sel->especificar_enlace($this->conexion_id);
-		$resultado=$db_sel->ejecutar_acceso_db($cadena_sql); 
+
+
+
+		if(!isset($this->db_sel))
+                {
+                    $this->db_sel = new dbms($configuracion);
+                    $this->db_sel->especificar_enlace($this->conexion_id);
+                }
+
+
+		$resultado=$this->db_sel->ejecutar_acceso_db($cadena_sql);
 		//echo $resultado; importante para depurar
 		return $resultado;
 	}
@@ -694,16 +603,18 @@ class sesiones
 	$cadena_sql.="WHERE ";
 	$cadena_sql.="variable='expiracion'";
 	//echo $cadena_sql;
-	$db_sel = new dbms($this->aplicativo);
-	$db_sel->especificar_enlace($this->conexion_id);
-	$db_sel->registro_db($cadena_sql,0);
-	$conteo=$db_sel->obtener_conteo_db();
+        if(!isset($this->db_sel)){
+            $this->db_sel = new dbms($configuracion);
+            $this->db_sel->especificar_enlace($this->conexion_id);
+        }
+	$this->db_sel->registro_db($cadena_sql,0);
+	$conteo=$this->db_sel->obtener_conteo_db();
 	if($conteo>0)
 	{
-		$registro=$db_sel->obtener_registro_db();
+		$registro=$this->db_sel->obtener_registro_db();
 		for($i=0;$i<$conteo;$i++)
 		{
-			if(($registro[$i][1]+(24*60*60))<time())
+			if($registro[$i][1]<time())
 			{
 				$this->sql="DELETE ";
 				$this->sql.="FROM ";
@@ -711,7 +622,7 @@ class sesiones
 				$this->sql.="WHERE ";
 				$this->sql.="id_sesion='".$registro[$i][0]."'";
 				//echo $this->sql."<br>";
-				if(!$db_sel->ejecutar_acceso_db($this->sql)) 
+				if(!$this->db_sel->ejecutar_acceso_db($this->sql))
 				{
 					//Si hay un error al borrar el registro retorna FALSE
 					return FALSE;
@@ -745,12 +656,13 @@ class sesiones
 	}
 		
     	$cadena_sql = "DELETE FROM ".$configuracion["prefijo"]."valor_sesion WHERE id_sesion = '".($this->esta_sesion)."'";
-    	$db_sel = new dbms($this->aplicativo);
-	$db_sel->especificar_enlace($this->conexion_id);
-	$resultado=$db_sel->ejecutar_acceso_db($cadena_sql); 
+    	if(!isset($this->db_sel)){
+            $this->db_sel = new dbms($configuracion);
+            $this->db_sel->especificar_enlace($this->conexion_id);
+        }
+	$resultado=$this->db_sel->ejecutar_acceso_db($cadena_sql);
 	//Borrar las cookies del equipo remoto
 	@setcookie("aplicativo","",$this->expiracion,"/");
-	unset($db_sel);
 	return $resultado;				
 	
         
@@ -769,10 +681,11 @@ class sesiones
 	}
 		
     	$cadena_sql = "DELETE FROM ".$configuracion["prefijo"]."valor_sesion WHERE id_sesion = '".($this->esta_sesion)."'";
-    	$db_sel = new dbms($this->aplicativo);
-	$db_sel->especificar_enlace($this->conexion_id);
-	$resultado=$db_sel->ejecutar_acceso_db($cadena_sql); 
-	unset($db_sel);
+    	if(!isset($this->db_sel)){
+            $this->db_sel = new dbms($configuracion);
+            $this->db_sel->especificar_enlace($this->conexion_id);
+        }
+	$resultado=$this->db_sel->ejecutar_acceso_db($cadena_sql);
 	return $resultado;				
 	
         
@@ -799,11 +712,13 @@ class sesiones
 		{
 
 			$this->cadena_sql='SELECT usuario,clave FROM aplicativo_usuario WHERE usuario="'.$this->usuario_aplicativo.'" AND clave="'.$this->clave_aplicativo.'"';
-			$db_sel = new dbms();
-			$resultado=$db_sel->registro_db($this->cadena_sql, "1"); 
+			if(!isset($this->db_sel)){
+                            $this->db_sel = new dbms($configuracion);
+                            $this->db_sel->especificar_enlace($id_conexion);
+                        }
+			$resultado=$this->db_sel->registro_db($this->cadena_sql, "1");
 			//echo $resultado; importante para depurar
-			$this->count = $db_sel->obtener_conteo_db();
-			$db_sel->desconectar_db();
+			$this->count = $this->db_sel->obtener_conteo_db();
 			/**Si ha encontrado un registro que coincida con los criterios de búsqueda retorna TRUE de otra forma retorna
 			FALSE**/
 			
@@ -819,6 +734,74 @@ class sesiones
 			}
 		}
 	 }
+
+
+
+         function actualizarSesion($configuracion)
+         {
+                $resultado = $this->borrar_valor_sesion($configuracion,"id_usuario",$this->sesion_id);
+                $resultado &= $this->borrar_valor_sesion($configuracion,"usuario",$this->sesion_id);
+                $resultado &= $this->borrar_valor_sesion($configuracion,"acceso",$this->sesion_id);
+                $resultado &= $this->borrar_valor_sesion($configuracion,"expiracion",$this->sesion_id);
+                //@TAF
+                //$resultado &= $this->borrar_valor_sesion($configuracion,"id_empresa",$this->sesion_id);
+
+
+                $resultado &= $this->guardar_valor_sesion($configuracion,"id_usuario",$this->id_usuario,$this->sesion_id);
+                $resultado &= $this->guardar_valor_sesion($configuracion,"usuario",$this->usuario,$this->sesion_id);
+                $resultado &= $this->guardar_valor_sesion($configuracion,"acceso",$this->nivel,$this->sesion_id);
+                $resultado &= $this->guardar_valor_sesion($configuracion,"expiracion",time()+$configuracion["expiracion"],$this->sesion_id);
+                
+                //@TAF
+                //$resultado &= $this->guardar_valor_sesion($configuracion,"id_empresa",$this->id_empresa,$this->sesion_id);
+
+                return $resultado;
+         }
+         
+             	/**
+	 *@METHOD rescatar_id_sesion
+	 * @PARAM variable
+	 * @PARAM usuario_aplicativo ??
+	 * @return boolean
+	 * @access public
+         * rescata sesiones de un usuario que quedaron anteriormente, para ser borradas
+	 */
+    
+        function rescatar_id_sesion($configuracion,$variable)
+    {
+		
+		// Busca la sesión
+		$this->cadena_sql="SELECT DISTINCT ";
+		$this->cadena_sql.="id_sesion ";
+		$this->cadena_sql.="FROM ";
+		$this->cadena_sql.=$configuracion["prefijo"]."valor_sesion ";
+		$this->cadena_sql.="WHERE ";
+		$this->cadena_sql.="variable='".$variable['var']."' ";
+		$this->cadena_sql.="AND ";
+		$this->cadena_sql.="valor ='".$variable['vl']."' ";
+		//echo $this->cadena_sql;exit;
+		$this->db_sel = new dbms($this->aplicativo);
+		$this->db_sel->especificar_enlace($this->conexion_id);
+		$this->resultado=$this->db_sel->registro_db($this->cadena_sql,0); 
+                
+                if($this->resultado)
+                    {  $this->count = $this->db_sel->obtener_conteo_db();
+
+                        if($this->count>0)
+                        {
+                                $this->registro_sesion=$this->db_sel->obtener_registro_db();
+                                unset($this->db_sel);
+                                return $this->registro_sesion;
+                        }
+                        else
+                        {
+                                unset($this->db_sel);							
+                                return FALSE;
+                        }
+                    }     
+
+
+    }//Fin del método rescatar_valor_sesion	return FALSE;
 	 
 	
 

@@ -23,13 +23,10 @@ class pagina
 
 	function pagina($configuracion)
 	{
-		
 		$GLOBALS["autorizado"]=TRUE;
 		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
                 
 		$cripto=new encriptar();
-		
-		
 		//ENLACE BASICO
 		//echo "<br>enlace=".$_REQUEST[$configuracion["enlace"]];
 		if(isset($_REQUEST[$configuracion["enlace"]]))
@@ -132,34 +129,23 @@ class pagina
 					$pagina_nivel=0;			
 					$this->especificar_pagina("index");
 				}
-				
-				
-				
 			}
-		
 		}
 		
 		//echo "<br>".$this->id_pagina;
-		
-		
 		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/autenticacion.class.php");
-
-		//echo "0";
 		$nueva_autenticacion=new autenticacion($this->id_pagina,$configuracion);
 		//autenticacion::autenticacion($this->id_pagina,$configuracion);
 		
-		if(!isset($_REQUEST['action']))
-		{
-			//echo "1";
+            if(!isset($_REQUEST['action']))
+		{	//echo "1";
 			$this->mostrar_pagina($configuracion);
 		}
-		else
-		{
-			//echo "2";
+            else
+		{	//echo "2";
 			$this->procesar_pagina($configuracion);
 		}
 	}
-	
 	
 	
 	function especificar_pagina($nombre)
@@ -173,12 +159,10 @@ class pagina
 	
 	function mostrar_pagina($configuracion)
 	{       
-            
-           	
 		$this->cadena_sql="SELECT  ";
 		$this->cadena_sql.=$configuracion["prefijo"]."bloque_pagina.*,";
 		$this->cadena_sql.=$configuracion["prefijo"]."bloque.nombre ,";
-        $this->cadena_sql.=$configuracion["prefijo"]."bloque.grupo ,";
+                $this->cadena_sql.=$configuracion["prefijo"]."bloque.grupo ,";
 		$this->cadena_sql.=$configuracion["prefijo"]."pagina.parametro ";
 		$this->cadena_sql.="FROM ";
 		$this->cadena_sql.=$configuracion["prefijo"]."pagina, ";
@@ -191,7 +175,6 @@ class pagina
 		$this->cadena_sql.="AND ";
 		$this->cadena_sql.=$configuracion["prefijo"]."bloque_pagina.id_pagina=".$configuracion["prefijo"]."pagina.id_pagina";
 
-		
 		$this->base=new dbms($configuracion);		
 		$this->enlace=$this->base->conectar_db();
 		if (is_resource($this->enlace))
@@ -210,21 +193,17 @@ class pagina
 			}
 			else
 			{
-				//Verificar parametros por defecto
-				if($this->registro[0][5]!="")
-				{
-					$parametros=explode("&",$this->registro[0][5]);
+                            //Verificar parametros por defecto
+                            if($this->registro[0][5]!="")
+				{	$parametros=explode("&",$this->registro[0][5]);
 					foreach($parametros as $valor)
-					{
-						$elParametro=explode("=",$valor);
+					{	$elParametro=explode("=",$valor);
 						$_REQUEST[$elParametro[0]]=(isset($elParametro[1])?$elParametro[1]:'');	
-					
 					}
 				}
 				$nueva_sesion=new sesiones($configuracion);
 				$esta_sesion=$nueva_sesion->numero_sesion();
 				$this->registro=$nueva_sesion->rescatar_valor_sesion($configuracion,"id_usuario");
-				
 				if($this->registro)
 				{
 					$this->id_usuario=$this->registro[0][0];
@@ -244,7 +223,6 @@ class pagina
                                         }
 */				
 				//echo "usuario=".$this->id_usuario;exit;
-				
 				$this->SQL="SELECT  ";
 				$this->SQL.="usuario, ";
 				$this->SQL.="estilo ";
@@ -253,27 +231,25 @@ class pagina
 				$this->SQL.="WHERE ";
 				$this->SQL.="usuario='".$this->id_usuario."'";
 				//echo $this->SQL;
-				
 				$this->base->registro_db($this->SQL,0);
 				$this->registro=$this->base->obtener_registro_db();
 				$this->total=$this->base->obtener_conteo_db();
-				if($this->total<1)
-				{
-					$this->estilo='basico';
-				}
-				else
-				{
-					$this->estilo=$this->registro[0][1];
-				}
-				
+                                if($this->total<1)
+                                    {$this->estilo='basico';}
+                                else
+                                    {$this->estilo=$this->registro[0][1];}
 				unset($this->registro);
 				unset($this->total);
-				
-				
+				//define los tamaños registrados para las paginas				
 				$this->tamanno=$configuracion["tamanno_gui"];
-				$GLOBALS["fila"]=0;
+				$this->Vtamanno=$configuracion["Vtamanno_gui"];
+				$this->VtamannoA=$configuracion["Vtamanno_A"];
+				$this->VtamannoE=$configuracion["Vtamanno_E"];
+				$this->HtamannoB=$configuracion["Htamanno_B"];
+				$this->HtamannoD=$configuracion["Htamanno_D"];
+                                
+                                $GLOBALS["fila"]=0;
 				$GLOBALS["tab"]=1;
-				
 				
 				if(!isset($_REQUEST["no_pagina"]))
 				{
@@ -286,29 +262,12 @@ class pagina
 					$this->html_pagina.="<script src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/funciones.js' type='text/javascript' language='javascript'></script>\n";
 					$this->html_pagina.="<script src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/navegador.js' type='text/javascript' language='javascript'></script>\n";
 					$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/textarea.js"."'></script>\n";
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/jquery.js"."'></script>\n";
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/overlib/overlibmws.js"."'></script>\n";
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/overlib/overlibmws_filter.js"."'></script>\n";					
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/overlib/overlibmws_print.js"."'></script>\n";
-					//this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/overlib/overlibmws_shadow.js"."'></script>\n";	
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/simple.js"."'></script>\n";					
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/prototype.js"."'></script>\n";
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/scriptaculous.js"."'></script>\n";
-
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/effects.js"."'></script>\n";
-
-					///CALENDARIO
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/calendar.js"."'></script>\n";
-//					$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/calendar-es.js"."'></script>\n";
-					//$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/calendar-setup.js"."'></script>\n";
-//					$this->html_pagina.="<link rel='stylesheet' type='text/css' href='".$configuracion["host"].$configuracion["site"].$configuracion["estilo"]."/calendar-grey.css' />\n";					
+                                        $this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["plugins"]."/jquery/js/jquery-1.9.1.js'></script>\n";
+                                        $this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["plugins"]."/jquery/js/jquery-1.9.1.min.js'></script>\n";
 					
-
-
-					$this->html_pagina.="<!--[if lt IE 7.]>\n";
+                                        $this->html_pagina.="<!--[if lt IE 7.]>\n";
 					$this->html_pagina.="<script defer type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/pngfix.js'></script>\n";
 					$this->html_pagina.="<![endif]-->";
-
 					
 					/////////////MENU CONDOR
 					$this->html_pagina.="<link rel='stylesheet' type='text/css' href='".$configuracion["host"].$configuracion["site"].$configuracion["estilo"]."/menu_condor/estilo_menu.css' />\n";
@@ -316,64 +275,47 @@ class pagina
 					$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/SlideMenu.js"."'></script>\n";
 					$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/ventana.js"."'></script>\n";
 					$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/BorraLink.js"."'></script>\n";
-
-
-					///////////////////////////////////
-
-
-					//Para las paginas que tienen georeferenciacion
-					if(isset($_REQUEST["googlemaps"]))
+				///////////////////////////////////
+				//Para las paginas que tienen georeferenciacion
+				if(isset($_REQUEST["googlemaps"]))
 					{
 						$this->html_pagina.="<script type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/googlemaps.js"."'></script>";
 						$this->html_pagina.="<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$configuracion["googlemaps"]."' type='text/javascript'></script>";
 					}
 					//Para paginas que utilizan ajax
-					if(isset($_REQUEST["xajax"]))
-					{
-						require_once($configuracion["raiz_documento"].$configuracion["clases"]."/xajax/xajax.inc.php");
+				if(isset($_REQUEST["xajax"]))
+					{	require_once($configuracion["raiz_documento"].$configuracion["clases"]."/xajax/xajax.inc.php");
 						$GLOBALS["xajax"] = new xajax();
 						//$GLOBALS["xajax"]->debugOn();
-						
 						//Registrar las funciones especificas de ajax para la pagina
 						//Las funciones vienen relacionadas en la variable xajax separadas por el caracter "|"						
 						$funciones_ajax=explode('|', $_REQUEST["xajax"]);
 						$i=0;
-						
-						//Incluir el archivo que procesara las peticiones Ajax en PHP
-						if(!isset($_REQUEST["xajax_file"]))
-						{
-							include_once($configuracion["raiz_documento"].$configuracion["clases"]."/xajax/include/funciones_ajax.class.php");
-							while(isset($funciones_ajax[$i]))
-							{
-								$GLOBALS["xajax"]->registerExternalFunction($funciones_ajax[$i],$configuracion["host"].$configuracion["site"].$configuracion["clases"]."/xajax/include/funciones_ajax.class.php",XAJAX_POST);
-								$i++;
+                                            //Incluir el archivo que procesara las peticiones Ajax en PHP
+                                            if(!isset($_REQUEST["xajax_file"]))
+						{   include_once($configuracion["raiz_documento"].$configuracion["clases"]."/xajax/include/funciones_ajax.class.php");
+                                                    while(isset($funciones_ajax[$i]))
+							{   $GLOBALS["xajax"]->registerExternalFunction($funciones_ajax[$i],$configuracion["host"].$configuracion["site"].$configuracion["clases"]."/xajax/include/funciones_ajax.class.php",XAJAX_POST);
+                                                            $i++;
 							}
 						}
-						else
-						{
-							include_once($configuracion["raiz_documento"].$configuracion["clases"]."/xajax/include/".$_REQUEST["xajax_file"].".class.php");
-							while(isset($funciones_ajax[$i]))
-							{
-								$GLOBALS["xajax"]->registerExternalFunction($funciones_ajax[$i],$configuracion["host"].$configuracion["site"].$configuracion["clases"]."/xajax/include/".$_REQUEST["xajax_file"].".class.php",XAJAX_POST);
+					    else
+						{   include_once($configuracion["raiz_documento"].$configuracion["clases"]."/xajax/include/".$_REQUEST["xajax_file"].".class.php");
+                                                    while(isset($funciones_ajax[$i]))
+							{	$GLOBALS["xajax"]->registerExternalFunction($funciones_ajax[$i],$configuracion["host"].$configuracion["site"].$configuracion["clases"]."/xajax/include/".$_REQUEST["xajax_file"].".class.php",XAJAX_POST);
 								//$GLOBALS["xajax"]->registerFunction($funciones_ajax[$i],$configuracion["host"].$configuracion["site"].$configuracion["clases"]."/xajax/include/".$_REQUEST["xajax_file"].".class.php",XAJAX_POST);
 								$i++;
 							}
 						}
-						
-						
-						
 						$GLOBALS["xajax"]->processRequests();
 						$GLOBALS["xajax"]->printJavascript($configuracion["host"].$configuracion["site"].$configuracion["clases"]."/xajax/");
 					}
-					
                                        //desabilitar el uso de la tecla f5 
                                        $this->html_pagina.=" <script language='javascript'> 
                                                                document.onkeydown = function(e)
                                                                     {   if(e)
                                                                         document.onkeypress = function(){return true;}
-                                                                        
                                                                         var evt = e?e:event;
-
                                                                         if(evt.keyCode==116)
                                                                         {   if(e)
                                                                             document.onkeypress = function(){return false;}
@@ -383,16 +325,10 @@ class pagina
                                                                             evt.returnValue = false;
                                                                             }
                                                                         }
-                                                                    
                                                                     } 
                                                                </script> ";
-                                        
-
                                        //desabilita el boton derecho del raton
                                        //$this->html_pagina.=" <script language='javascript'> document.oncontextmenu=new Function('return false'); </script> ";
-                                       
-                                        
-                                        
 					$this->html_pagina.="</head>\n";
 					$this->html_pagina.="<body leftMargin='0' topMargin='0' class='fondoprincipal'";
 					if(isset($_REQUEST["googlemaps"]))
@@ -400,78 +336,36 @@ class pagina
 						$this->html_pagina.="onload='load()' onunload='GUnload()'";
 					}
 					$this->html_pagina.=">\n";
-					
-					if($this->id_pagina=='index' || $this->id_pagina=='registro_exito'||$this->id_pagina=='logout_exito'||$this->id_pagina=='index_no_usuario')
-					{
-						$this->html_pagina.="<table width='".$this->tamanno."' align='center' cellspacing='0' border='0' cellpadding='0'>\n";
-					}
-					else
-					{
-						$this->html_pagina.="<table class='tabla_general'>\n";
-					}
-					$this->html_pagina.="<tbody>\n";
-					
-					$this->html_pagina.="<tr>\n";
 					echo $this->html_pagina;
-					$this->html_pagina="";
-					$secciones=$this->ancho_seccion($this->cadena_sql,$configuracion);
+                                        //define las secciones de la pagina
+                                        $secciones=$this->ancho_seccion($this->cadena_sql,$configuracion);
 					$this->columnas=$this->numeroColumna($secciones);
-					$this->armar_seccion('A',$this->cadena_sql,$configuracion,$GLOBALS["fila"],$GLOBALS["tab"],$secciones);
-					$this->html_pagina.="</tr>\n";
-					echo $this->html_pagina;
-					
-					$this->html_pagina="<tr>\n";
-					echo $this->html_pagina;
-					$this->armar_seccion('B',$this->cadena_sql,$configuracion,$GLOBALS["fila"],$GLOBALS["tab"],$secciones);
-					$this->armar_seccion('C',$this->cadena_sql,$configuracion,$GLOBALS["fila"],$GLOBALS["tab"],$secciones);
-					$this->armar_seccion('D',$this->cadena_sql,$configuracion,$GLOBALS["fila"],$GLOBALS["tab"],$secciones);
-					$this->html_pagina="</tr>\n";
-					echo $this->html_pagina;
-					
-					$this->html_pagina="<tr>\n";
-					echo $this->html_pagina;
-					$this->armar_seccion('E',$this->cadena_sql,$configuracion,$GLOBALS["fila"],$GLOBALS["tab"],$secciones);
-					$this->html_pagina="</tr>\n";
-					$this->html_pagina.="</tbody>\n";
-					$this->html_pagina.="</table>\n";
-					echo $this->html_pagina;
-					
+                                        //arma las secciones de la pagina    
+                                        foreach ($secciones as $key => $value) 
+                                            { $this->armar_seccion($key,$this->cadena_sql,$configuracion,$GLOBALS["fila"],$GLOBALS["tab"],$secciones);
+                                            }
 					$this->html_pagina="<script language='JavaScript' type='text/javascript' src='".$configuracion["host"].$configuracion["site"].$configuracion["javascript"]."/tooltip.js'></script>";
 					$this->html_pagina.="</body>\n";
 					$this->html_pagina.="</html>\n";
-					echo $this->html_pagina;				
+					echo $this->html_pagina;	
 				}
 				else
 				{
 					$this->armar_no_pagina('C',$this->cadena_sql,$configuracion);
 				}
 			}
-		
-		
 		}
-		
 	}
 	
 	function numeroColumna($secciones)
-	{
-		$this->columnas=3;
-		if(!isset($secciones["C"]))
-		{
-			$this->columnas--;
-		}
-		
-		if(!isset($secciones["B"]))
-		{
-			$this->columnas--;
-		}
-		
-		if(!isset($secciones["D"]))
-		{
-			$this->columnas--;
-		}
-		
+	{    $this->columnas=3;
+            if(!isset($secciones["C"]))
+		{$this->columnas--;}
+            if(!isset($secciones["B"]))
+		{$this->columnas--;}
+            if(!isset($secciones["D"]))
+		{$this->columnas--;}
 		return $this->columnas;
-	
 	}
 	
 	function procesar_pagina($configuracion)
@@ -483,27 +377,21 @@ class pagina
 		$this->cadena_sql.=$configuracion["prefijo"]."bloque ";
 		$this->cadena_sql.="WHERE ";
 		$this->cadena_sql.=$configuracion["prefijo"]."bloque.nombre='".$_REQUEST['action']."' ";
-		
 		$this->base=new dbms($configuracion);
 		$this->enlace=$this->base->conectar_db();
 		if (is_resource($this->enlace))
 		{	$this->base->registro_db($this->cadena_sql,0);
 			$this->registro=$this->base->obtener_registro_db();
 		}	
-		
 		/*si el campo grupo del bloque esta lleno concatena el grupo y el bloque */
 		if($this->registro[0][1]=="")
 			 {$this->incluir=$this->registro[0][0];}
 		else {$this->incluir=$this->registro[0][1]."/".$this->registro[0][0];}
 		include_once($configuracion["raiz_documento"].$configuracion["bloques"]."/".$this->incluir."/bloque.php");
-
-
 	}
 	
 	function ancho_seccion($cadena,$configuracion)
-	{
-		$secciones=array("B","C","D");
-		
+	{	$secciones=array("A","B","C","D","E");
 		$la_seccion=array();
 		foreach ($secciones as $key => $value) 
 		{
@@ -516,9 +404,7 @@ class pagina
 			$this->armar_registro=$this->base->obtener_registro_db();
 			$this->total=$this->base->obtener_conteo_db();
 			if($this->total>0)
-			{
-				$la_seccion[$value]=1;
-			
+			{	$la_seccion[$value]=1;
 			}
 		}
 		return $la_seccion;
@@ -532,117 +418,67 @@ class pagina
 		$this->total=$this->base->obtener_conteo_db();
                 
                // echo "<br>1:".$this->la_cadena;
-		
-		if($this->total>0)
-		{
-			if($seccion=='B'||$seccion=='D')
-			{
-				if(!isset($secciones["C"]))
-				{
-					echo "<td valign='top' class='seccion_colapsada'>\n";				
-				}
-				else
-				{
-					echo "<td valign='top' class='seccion_".$seccion."'>\n";	
-				}
-				
-			}
-			else
-			{
-				if($seccion=='C')
-				{
-					if(isset($secciones["B"]) && isset($secciones["D"]))
-					{
-						echo "<td valign='top' class='seccion_".$seccion."'>\n";											
-					}
-					else
-					{
-						echo "<td valign='top' class='seccion_C_colapsada'>\n";
-					}
-				}
-				else
-				{
-					echo "<td colspan='".$this->columnas."' valign='top'>\n";
-					
-				}	
-				
-			
-			}			
-						
-			
-			for($this->contador=0;$this->contador<$this->total;$this->contador++)
-			{
-				
-				$this->id_bloque=$this->armar_registro[$this->contador][0];
-				//$this->incluir=$this->armar_registro[$this->contador][4];
-                                /*si el campo grupo del bloque esta lleno concatena el grupo y el bloque */
-                                if($this->armar_registro[$this->contador][5]=="")
-                                     {$this->incluir=$this->armar_registro[$this->contador][4];}
-                                else {$this->incluir=$this->armar_registro[$this->contador][5]."/".$this->armar_registro[$this->contador][4];}
-                                
-				include($configuracion["raiz_documento"].$configuracion["bloques"]."/".$this->incluir."/bloque.php");
-				
-				
-			}
-			
-			echo "</td>\n";		
-		}
-		else
-		{
-			//No existe registrada la seccion
-			if($seccion=='A'||$seccion=='E')
-			{
-				echo "<td colspan='".$this->columnas."' valign='top'>\n";
-				echo "</td>\n";
-				
-			}
-				
-				
-		
-		}
+                $this->posLeft='3';
+                $this->posTop='0';
+                 //linea que pinta bordes en el div, pegarlo en el estilo
+                 //border-top: none; border-right: 1px solid black; border-bottom: 1px solid black; border-left: 1px solid black
+                
+                 if($seccion=='A')
+                            { echo '<div id="A" class="seccion_A" style="position: relative; left:'.$this->posLeft.'%; top:'.$this->posTop.'%; width:'.$this->tamanno.'; height:'.$this->VtamannoA.'; "> '; } 
+                 if($seccion=='B')
+                            { $this->float=(isset($secciones["C"]) || isset($secciones["D"]))?('float:left;'):('');  
+                              $ancho=(isset($secciones["C"]) || isset($secciones["D"]))?($this->HtamannoB):($this->tamanno);
+                              $alto=(isset($secciones["A"]))?(isset($secciones["E"]))?($this->Vtamanno-$this->VtamannoA-$this->VtamannoE):($this->Vtamanno-$this->VtamannoA):($this->Vtamanno);
+                              echo '<div id="B" class="seccion_B" style="position: relative; '.$this->float.' left:'.$this->posLeft.'%; top:'.$this->posTop.'%;  width:'.$ancho.'; height:'.$alto.'%; overflow:auto"> ';
+                            }          
+                 if($seccion=='C')
+                            { $this->float=(isset($secciones["D"]))?('float:left;'):('');  
+                              $ancho=(isset($secciones["B"]))?(isset($secciones["D"]))?($this->tamanno-$this->HtamannoB-$this->HtamannoD):($this->tamanno-$this->HtamannoB):($this->tamanno);
+                              $alto=(isset($secciones["A"]))?(isset($secciones["E"]))?($this->Vtamanno-$this->VtamannoA-$this->VtamannoE):($this->Vtamanno-$this->VtamannoA):($this->Vtamanno);
+                              echo '<div id="C" class="seccion_C" style="position:relative; '.$this->float.' left:'.$this->posLeft.'%; top:'.$this->posTop.'%; width:'.$ancho.'%; height:'.$alto.'%; overflow:auto"> ';
+                            } 
+                 if($seccion=='D')
+                            { $ancho=(isset($secciones["C"]) || isset($secciones["B"]))?($this->HtamannoD):($this->tamanno);
+                              $alto=(isset($secciones["A"]))?(isset($secciones["E"]))?($this->Vtamanno-$this->VtamannoA-$this->VtamannoE):($this->Vtamanno-$this->VtamannoA):($this->Vtamanno);
+                              echo '<div id="D" class="seccion_D" style="position: relative; left:'.$this->posLeft.'%; top:'.$this->posTop.'%; width:'.$ancho.'; height:'.$alto.'%; overflow:auto"> ';
+                            }       
+                 if($seccion=='E')
+                            { $this->VtamannoE=(isset($secciones["A"]))?(isset($secciones["B"]) || isset($secciones["C"]) || isset($secciones["B"]))?$this->VtamannoE:($this->Vtamanno+$this->VtamannoE.'px'):($this->Vtamanno+$this->VtamannoE+10).'px';
+                              echo '<div id="E" class="seccion_E" style="position: relative; left:'.$this->posLeft.'%; top:'.$this->posTop.'%; width:'.$this->tamanno.'; height:'.$this->VtamannoE.'; "> ';
+                            }           
+
+                 for($this->contador=0;$this->contador<$this->total;$this->contador++)
+                    {     $this->id_bloque=$this->armar_registro[$this->contador][0];
+                            //$this->incluir=$this->armar_registro[$this->contador][4];
+                            /*si el campo grupo del bloque esta lleno concatena el grupo y el bloque */
+                            if($this->armar_registro[$this->contador][5]=="")
+                                 {$this->incluir=$this->armar_registro[$this->contador][4];}
+                            else {$this->incluir=$this->armar_registro[$this->contador][5]."/".$this->armar_registro[$this->contador][4];}
+                            include($configuracion["raiz_documento"].$configuracion["bloques"]."/".$this->incluir."/bloque.php");
+                    }
+                 echo "</div>\n";		
 		$GLOBALS["fila"]=$fila;
 		$GLOBALS["tab"]=$tab;
 		return TRUE;	
-		
 	}
 	//Fin del metodo armar_seccion	
 	
 	function armar_no_pagina($seccion,$cadena,$configuracion)
-	{
-		$this->la_cadena=$cadena.' AND '.$configuracion["prefijo"].'bloque_pagina.seccion="'.$seccion.'" ORDER BY '.$configuracion["prefijo"].'bloque_pagina.posicion ASC';
-		
-		//echo $this->la_cadena;
-		
+	{	$this->la_cadena=$cadena.' AND '.$configuracion["prefijo"].'bloque_pagina.seccion="'.$seccion.'" ORDER BY '.$configuracion["prefijo"].'bloque_pagina.posicion ASC';
 		$this->base->registro_db($this->la_cadena,0);
 		$this->armar_registro=$this->base->obtener_registro_db();
 		$this->total=$this->base->obtener_conteo_db();
 		if($this->total>0)
-		{
-						
-			
-			for($this->contador=0;$this->contador<$this->total;$this->contador++)
-			{
-				
-				$this->id_bloque=$this->armar_registro[$this->contador][0];
-				//$this->incluir=$this->armar_registro[$this->contador][4];
-                                
+		{   for($this->contador=0;$this->contador<$this->total;$this->contador++)
+			{	$this->id_bloque=$this->armar_registro[$this->contador][0];
                                 /*si el campo grupo del bloque esta lleno concatena el grupo y el bloque */
                                 if($this->armar_registro[$this->contador][5]=="")
                                      {$this->incluir=$this->armar_registro[$this->contador][4];}
                                 else {$this->incluir=$this->armar_registro[$this->contador][5]."/".$this->armar_registro[$this->contador][4];}
-                                
 				include($configuracion["raiz_documento"].$configuracion["bloques"]."/".$this->incluir."/bloque.php");
-				
-				
 			}
-			
-		
 		}
 		return TRUE;	
-		
 	}
 }
-
-
-
 ?>

@@ -1,6 +1,6 @@
 <?
 /*
- ############################################################################
+############################################################################
 #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
 #    Desarrollo Por:                                                       #
 #    Paulo Cesar Coronado 2004 - 2005                                      #
@@ -9,8 +9,8 @@
 ############################################################################
 */
 /***************************************************************************
-
-borrar_registro.php
+  
+borrar_registro.php 
 
 Paulo Cesar Coronado
 Copyright (C) 2001-2005
@@ -18,13 +18,13 @@ Copyright (C) 2001-2005
 Última revisión 6 de Marzo de 2006
 
 *****************************************************************************
-* @subpackage
+* @subpackage   
 * @package	formulario
-* @copyright
+* @copyright    
 * @version      0.2
 * @author      	Paulo Cesar Coronado
 * @link		http://acreditacion.udistrital.edu.co
-*
+* 
 *
 * Borrar registros de la base de datos
 *
@@ -33,16 +33,16 @@ Copyright (C) 2001-2005
 if(!isset($GLOBALS["autorizado"]))
 {
 	include("../index.php");
-	exit;
+	exit;		
 }
 //@ verifica si existe una accion e invoca una pagina
 if(!isset($_REQUEST['action']))
 {
-	include_once("html.php");
+	include_once("html.php");	
 
 }
 else
 {
-	include_once("action.php");
+	include_once("action.php");	
 }
 ?>

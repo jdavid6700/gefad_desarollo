@@ -81,15 +81,15 @@ function menu_logout($el_usuario,$configuracion,$cripto,$usuario,$acceso_db,$acc
 {
 	$indice=$configuracion["host"].$configuracion["site"]."/index.php?";
 	?>
-<table width="100%" align="center" border="0" cellpadding="10"
-	cellspacing="0">
+<table width="45%" align="center" border="0" cellpadding="10"
+	cellspacing="0" text-align='center'>
 	<tbody>
 		<tr>
 			<td>
 				<table align="center" border="0" cellpadding="5" cellspacing="0"
-					class="bloquelateral_2" width="100%">
+					class="bloquelateral_2" width="45%">
 					<tr class="centralcuerpo">
-						<td><b>::::..</b> Usuario Actual</td>
+						<td>Usuario Actual</td>
 					</tr>
 					<tr class="bloquelateralcuerpo" align="center">
 						<td><b><?			 
@@ -100,25 +100,25 @@ function menu_logout($el_usuario,$configuracion,$cripto,$usuario,$acceso_db,$acc
 						</b></td>
 					</tr>
 					<tr class="bloquelateralcuerpo" align="center">
-						<td><hr class="hr_division"> <a
+						<td><a
 							href="<?		
 							$variable="pagina=logout";
 							$variable.="&accion=logout";
 							$variable=$cripto->codificar_url($variable,$configuracion);
 							echo $indice.$variable;		
-							?>">Terminar sesi&oacute;n<br>
-							<img width="24" height="24"
-								src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["grafico"]?>/logout.png"
-								alt="Terminar sesi&oacute;n" title="Terminar sesi&oacute;n"
+							?>">Finalizar sesi&oacute;n<br><br>
+							<img width="23" height="23"
+								src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["grafico"]?>/log_outAzul.png"
+								alt="Finalizar sesi&oacute;n" title="Finalizar sesi&oacute;n"
 								border="0" />
 						</A></td>
 					</tr>
 					<?
 					rol($usuario,$configuracion,$acceso_db, $acceso, $cripto);
 					?>
-					<tr>
-						<td><br></td>
-					</tr>
+					
+						<td></td>
+					
 				</table>
 			</td>
 		</tr>

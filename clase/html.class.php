@@ -252,7 +252,7 @@ class  html
 		$this->mi_cuadro="";
 		if($id=="")
 		{
-			$this->mi_cuadro="<input class='".$estilo."' type='text' name='".$nombre."' value='".$valor."' size='".$tamanno."' maxlength='".$maximo."' tabindex='".$tab."' >";
+			$this->mi_cuadro="<input class='".$estilo."' required='required' type='text' name='".$nombre."' value='".$valor."' size='".$tamanno."' maxlength='".$maximo."' tabindex='".$tab."' >";
 		}
 		return $this->mi_cuadro;
 	}
