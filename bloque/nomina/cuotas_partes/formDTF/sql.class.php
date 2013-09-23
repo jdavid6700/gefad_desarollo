@@ -18,7 +18,7 @@ class sql_formDTF extends sql {
         switch ($opcion) {
 
             case "insertarDTF":
-                $cadena_sql =" INSERT INTO cuotas_partes.cuotas_indc_dtf (dtf_periodo, dtf_n_reso, dtf_fe_resolucion, dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce) VALUES ( ";
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_dtf (dtf_periodo, dtf_n_reso, dtf_fe_resolucion, dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce) VALUES ( ";
                 $cadena_sql.=" '" . $variable['Anio_registrado'] . "-" . $variable['Trimestre'] . "' ,";
                 $cadena_sql.=" " . $variable['Numero_resolucion'] . ",  ";
                 $cadena_sql.=" '" . $variable['Fecha_resolucion'] . "',  ";
@@ -39,7 +39,7 @@ class sql_formDTF extends sql {
                 break;
 
             case "periodo_ante":
-                $cadena_sql =" INSERT INTO cuotas_partes.cuotas_indc_dtf (dtf_periodo,dtf_indi_ce) VALUES (";
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_dtf (dtf_periodo,dtf_indi_ce) VALUES (";
                 $cadena_sql.=" '" . $variable['Anio_registrado'] . "-" . $variable['Trimestre'] . "' ,";
                 $cadena_sql.=" " . $variable['Interes_DTF'] . " );";
                 break;

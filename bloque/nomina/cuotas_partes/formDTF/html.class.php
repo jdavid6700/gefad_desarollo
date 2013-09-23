@@ -143,6 +143,7 @@ class html_formDTF {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
+                    maxDate:"+0D",
                     onChangeMonthYear: function(year, month, inst) {
                         $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
                     }
@@ -182,8 +183,8 @@ class html_formDTF {
                     document.getElementById("indice_dtf").disabled = true;
                     document.getElementById("fecvig_hasta").disabled = true;
                     document.getElementById("fecvig_desde").disabled = true;
-                    document.getElementById("n_resolucion").disabled = true;
-                    document.getElementById("fec_reso").disabled = true;
+                    document.getElementById("n_resolucion").disabled = false;
+                    document.getElementById("fec_reso").disabled = false;
                     document.getElementById("tri_mestre").value = "Seleccione Trimestre";
                     document.getElementById("tri_mestre").disabled = true;
                 } else {
@@ -209,8 +210,8 @@ class html_formDTF {
                         document.getElementById("indice_dtf").disabled = true;
                         document.getElementById("fecvig_hasta").disabled = true;
                         document.getElementById("fecvig_desde").disabled = true;
-                        document.getElementById("n_resolucion").disabled = true;
-                        document.getElementById("fec_reso").disabled = true;
+                        document.getElementById("n_resolucion").disabled = false;
+                        document.getElementById("fec_reso").disabled = false;
                     } else {
                         document.getElementById("indice_dtf").value = "";
                         document.getElementById("indice_dtf").disabled = false;

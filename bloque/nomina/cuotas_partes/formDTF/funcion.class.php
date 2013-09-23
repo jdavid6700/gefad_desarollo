@@ -77,7 +77,9 @@ class funciones_formDTF extends funcionGeneral {
 
     function procesarFormulario($datos) {
 
-        if (count($datos) == 1) {
+
+
+        if (count($datos) == 3) {
 
             $datos['indice_dtf'] = 0.12;
 
@@ -88,11 +90,15 @@ class funciones_formDTF extends funcionGeneral {
                 $parametros = array(
                     'Anio_registrado' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
                     'Trimestre' => (isset($datos['tri_mestre']) ? $datos['tri_mestre'] : ''),
-                    'Interes_DTF' => (isset($datos['indice_dtf']) ? $datos['indice_dtf'] : ''),);
+                    'Interes_DTF' => (isset($datos['indice_dtf']) ? $datos['indice_dtf'] : ''),
+                    'Numero_resolucion' => (isset($datos['n_resolucion']) ? $datos['n_resolucion'] : ''),
+                    'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),);
 
                 $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "periodo_ante", $parametros);
                 $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
+                exit;
+                
                 $registro[0] = "GUARDAR";
                 $registro[1] = $parametros['Anio_registrado'] . '|' . $parametros['Trimestre'] . '|' . $parametros['Interes_DTF']; //
                 $registro[2] = "CUOTAS_PARTES_DTF";
@@ -108,6 +114,8 @@ class funciones_formDTF extends funcionGeneral {
                 $variable .= "&opcion=";
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+
+                break;
             }
         } elseif (count($datos) == 2) {
 
@@ -117,11 +125,14 @@ class funciones_formDTF extends funcionGeneral {
             $parametros = array(
                 'Anio_registrado' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
                 'Trimestre' => (isset($datos['tri_mestre']) ? $datos['tri_mestre'] : ''),
-                'Interes_DTF' => (isset($datos['indice_dtf']) ? $datos['indice_dtf'] : ''),);
+                'Interes_DTF' => (isset($datos['indice_dtf']) ? $datos['indice_dtf'] : ''),
+                'Numero_resolucion' => (isset($datos['n_resolucion']) ? $datos['n_resolucion'] : ''),
+                'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),);
+
             $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "periodo_ante", $parametros);
             $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
-
-
+            
+            exit;
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formularioDTF";
@@ -241,14 +252,14 @@ class funciones_formDTF extends funcionGeneral {
             $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
             $registro[0] = "GUARDAR";
-                    $registro[1] = $parametros['Anio_registrado'] . '|' . $parametros['Trimestre'] . '|' . $parametros['Interes_DTF']; //
-                    $registro[2] = "CUOTAS_PARTES_DTF";
-                    $registro[3] = $parametros['Anio_registrado'] . '|' . $parametros['Fecha_vigencia_inicio'] . '|' . $parametros['Fecha_vigencia_final']; //
-                    $registro[4] = time();
-                    $registro[5] = "Registra datos básicos indice DTF para el ";
-                    $registro[5] .= " Periodo =" . $parametros['Anio_registrado'].'-'.$parametros['Trimestre'];
-                    $this->log_us->log_usuario($registro, $this->configuracion);
-        
+            $registro[1] = $parametros['Anio_registrado'] . '|' . $parametros['Trimestre'] . '|' . $parametros['Interes_DTF']; //
+            $registro[2] = "CUOTAS_PARTES_DTF";
+            $registro[3] = $parametros['Anio_registrado'] . '|' . $parametros['Fecha_vigencia_inicio'] . '|' . $parametros['Fecha_vigencia_final']; //
+            $registro[4] = time();
+            $registro[5] = "Registra datos básicos indice DTF para el ";
+            $registro[5] .= " Periodo =" . $parametros['Anio_registrado'] . '-' . $parametros['Trimestre'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
+
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formularioDTF";

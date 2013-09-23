@@ -57,13 +57,12 @@ class html_formIPC {
                     perPage: 5,
                     delay: 20
                 });
-            });
-        </script>
+            });</script>
 
         <h1>Formulario de Registro Indice Precios Consumidor (IPC)</h1> 
 
         <center>     
-             <center><div class="holder"></div></center>
+            <center><div class="holder"></div></center>
             <table width="35%" class='bordered' >
                 <tr>
                     <th colspan="11" class='encabezado_registro'>TABLA INDICES (IPC)</th>
@@ -127,21 +126,6 @@ class html_formIPC {
         <script>
             $(function() {
                 $(".p1f6c").tooltip("Ingresar indice en decimales.");
-            });
-        </script>
-
-        <script>
-            $(document).ready(function() {
-                $("#fecha_consultar").datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '1920:2013',
-                    maxDate: "+0D",
-                    dateFormat: 'dd/mm/yy',
-                    onChangeMonthYear: function(year, month, inst) {
-                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
-                    }
-                });
             });</script>
 
         <script>
@@ -163,47 +147,26 @@ class html_formIPC {
                 }
             }
         </script>
+
+        <script>
+
+            function  validaranio() {
+                var anio = document.getElementById("año_registrar").value;
+                
+                if (anio < 1976) {
+                    document.getElementById("sum_fj").disabled = true;
+                } else {
+                    document.getElementById("sum_fj").disabled = false;
+                    if (anio > 1988) {
+                        document.getElementById("sum_fj").disabled = true;
+                    }
+                }
+            }
+        </script>
+
         <script>
             function mensaje() {
                 document.write('Ingreso del indice en numeros decimales.');
-            }
-        </script>
-        <script>
-            function validaranio(me_s, ani_o) {
-                var me_s = parseInt(me_s);
-                var ani_o = parseInt(ani_o);
-                var fecha = document.getElementById("fecha_consultar").value;
-                var anio = parseInt(fecha.substring(6, 10));
-                var mes = parseInt(fecha.substring(3, 6));
-                if (anio != ani_o) {
-
-                    if (anio < "1976") {
-                        document.getElementById("p1f6b").disabled = true;
-                    } else {
-                        if (anio > "1988") {
-
-                            document.getElementById("p1f6b").value = "";
-                            document.getElementById("p1f6b").disabled = true;
-
-                        } else {
-
-                            document.getElementById("p1f6b").value = "";
-                            document.getElementById("p1f6b").disabled = false;
-
-                        }
-                    }
-                    document.getElementById("p1f6c").autocomplete = "off";
-                    document.getElementById("p1f6b").autocomplete = "off";
-                    document.getElementById("p1f6c").value = "";
-                    document.getElementById("p1f6b").value = "";
-                } else {
-                    document.getElementById("fecha_consultar").value = "";
-                    alert("No Valido: Pertenece al año en curso");
-                    document.getElementById("p1f6c").autocomplete = "off";
-                    document.getElementById("p1f6c").value = "";
-                    document.getElementById("p1f6b").value = "";
-
-                }
             }
         </script>
 
@@ -230,12 +193,25 @@ class html_formIPC {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecha_consultar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Periodo a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_consultar" name="fecha_consultar" readonly required='required'     onchange='validaranio(<?php echo $mes ?>, <?php echo $anio ?>)' >
+                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" >
+                                    <?php
+                                    $var = "<option selected>" . "Seleccione Año" . "</option>";
+                                    $i = 1920;
+                                    $año = date("Y");
+                                    for ($i = 1940; $i <= $año; $i++) {
+
+                                        $var.= "<option>" . $i . "</option>";
+                                    }
+                                    echo $var;
+                                    ?>   
+
+                                </select>
+
                             </div>
                             <div class="null"></div>
                         </div>
@@ -252,7 +228,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="indice_Ipc" class="fieldcontent" required='required' title="Ingrese indice en numeros decimales." maxlength='5'  autocomplete="off" onKeyPress='return acceptNum(event)' value='0.' >
+                                <input type="text" id="indice_Ipc" name="indice_Ipc" class="fieldcontent" required='required' title="Ingrese indice en numeros decimales." maxlength='5'  autocomplete="off" onKeyPress='return acceptNum(event)' value='0.' >
 
                             </div>
                             <div class="null"></div>
@@ -270,7 +246,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6b" name="sum_fj" class="fieldcontent" maxlength='6' required='required'  onKeyPress='return acceptNum(event)'  > **Solo se debe diligenciar entre los años 1976 y 1988
+                                <input type="text" id="sum_fj" name="sum_fj" class="fieldcontent" maxlength='6' required='required'  onKeyPress='return acceptNum(event)'  > **Solo se debe diligenciar entre los años 1976 y 1988
 
                             </div>
                             <div class="null"></div>

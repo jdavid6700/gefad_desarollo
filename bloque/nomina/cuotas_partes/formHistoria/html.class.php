@@ -104,8 +104,7 @@ class html_formHistoria {
                 }
             }
         </script>
-        
-        
+                
         <script>
             function acceptNum2(e) {
                 key = e.keyCode || e.which;
@@ -264,7 +263,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_desde" readonly name="dias_nor_desde" required='required' >
+                                <input type="text" id="dias_nor_desde" readonly name="dias_nor_desde">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -281,7 +280,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_hasta" readonly  name="dias_nor_hasta" required='required' >
+                                <input type="text" id="dias_nor_hasta" readonly  name="dias_nor_hasta">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -469,7 +468,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8, 39, 37,9];
+                especiales = [8, 39, 37,9,32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -502,7 +501,7 @@ class html_formHistoria {
                         <div class="null"></div>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10">
+                        <input type="text" id="p1f2c" name="cedula_emp" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10" pattern=".{4,10}">
 
                     </div>
                 </div>
@@ -533,7 +532,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="nro_ingreso" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2">
+                                <input type="text" id="p1f6c" name="nro_ingreso" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2" pattern=".{1,2}">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -551,7 +550,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="nit_empleador" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="12">
+                                <input type="text" id="p1f6c" name="nit_empleador" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="9"  pattern=".{8,10}">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -568,7 +567,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f7c" name="nombre_empleador" class="fieldcontent" required='required' onKeyPress='return acceptLetter(event)' maxlength="50">
+                                <input type="text" id="p1f7c" name="nombre_empleador" class="fieldcontent" required='required' onKeyPress='return acceptLetter(event)' maxlength="60" pattern=".{4,60}">
 
                             </div>
                             <div class="null"></div>
@@ -587,7 +586,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f7c" name="ciudad_entidad" class="fieldcontent" onKeyPress='return acceptLetter(event)' required='required' maxlength="25">
+                                <input type="text" id="p1f7c" name="ciudad_entidad" class="fieldcontent" onKeyPress='return acceptLetter(event)' required='required' maxlength="25" pattern=".{4,25}">
 
                             </div>
                             <div class="null"></div>
@@ -606,7 +605,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f7c" name="direccion_entidad" class="fieldcontent" required='required' maxlength="50">
+                                <input type="text" id="p1f7c" name="direccion_entidad" class="fieldcontent" required='required' maxlength="50" pattern=".{8,50}">
 
                             </div>
                             <div class="null"></div>
@@ -624,7 +623,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f7c" name="telefono_entidad" class="fieldcontent" onKeyPress='return acceptNum(event)' required='required' maxlength="20">
+                                <input type="text" id="p1f7c" name="telefono_entidad" class="fieldcontent" onKeyPress='return acceptNum(event)' required='required' maxlength="50" pattern=".{7,50}">
 
                             </div>
                             <div class="null"></div>
@@ -642,7 +641,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f7c" name="contacto_entidad" class="fieldcontent" onKeyPress='return acceptLetter(event)' required='required' maxlength="50">
+                                <input type="text" id="p1f7c" name="contacto_entidad" class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -716,7 +715,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_ingreso" name="fecha_ingreso" required='required' readonly>
+                                <input type="text" id="fecha_ingreso" name="fecha_ingreso" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -730,7 +729,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_salida" name="fecha_salida" required='required' readonly>
+                                <input type="text" id="fecha_salida" name="fecha_salida" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
 
                             </div>
                             <div class="null"></div>
@@ -748,7 +747,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f12c" name="horas_laboradas" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="4" >
+                                <input type="text" id="p1f12c" name="horas_laboradas" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="2" >
 
                             </div>
                             <div class="null"></div>
@@ -767,7 +766,7 @@ class html_formHistoria {
                         <div class="control capleft">
                             <div>
                                 <div class="dropdown">
-                                    <select id="p1f13c" name="tipo_horas" class="fieldcontent"><option></option><option value="1">Diaria</option><option value="2">Semanal</option><option value="3">Mensual</option></select>
+                                    <select id="p1f13c" name="tipo_horas" class="fieldcontent"><option value="0">Diaria</option><option value="1">Semanal</option><option value="2">Mensual</option><option value="4" selected="selected">En el Periodo</option></select>
                                     <div class="fielderror"></div>
                                 </div>
                             </div>
@@ -804,7 +803,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="7">
+                                <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="7" pattern=".{4,7}.">
 
                             </div>
                             <div class="null"></div>
@@ -822,7 +821,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="cp_aceptada" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="7">
+                                <input type="text" id="p1f6c" name="cp_aceptada" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="7" pattern=".{4,7}.">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -857,7 +856,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="20">
+                                <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="23">Si no aplica, escriba Silencio Administrativo
 
                             </div>
                             <div class="null"></div>
@@ -875,7 +874,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_acto_adm" name="fecha_acto_adm" required='required' readonly>
+                                <input type="text" id="fecha_acto_adm" name="fecha_acto_adm" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                             <div class="null"></div>
                         </div>
