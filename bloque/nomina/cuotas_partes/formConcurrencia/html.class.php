@@ -266,249 +266,111 @@ class html_formConcurrencia {
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
             <h1>Formulario de Registro Entidades Concurrencias</h1>
 
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit Concurrencia<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f6c" name="nit_previsora" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='15'>
+              <div class="formrow f1">
+                    <div id="p1f4" class="field n1">
+                        <div class="staticcontrol">
+                            <div class="hrcenter px1"></div>
                         </div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
 
-            <div class="formrow f1">
-                <div id="p1f7" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Concurrencia<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='25'>
-                        </div>
+                <div class="formrow f1">
+                    <div id="p1f5" class="field n1">
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO DESCRIPCIÓN CUOTA PARTE</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
 
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Estado<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <div class="dropdown">
-                                <select id="p1f13c" name="estado" required='required' class="fieldcontent"><option></option><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
-                                <div class="fielderror"></div>
+                <div class="formrow f1">
+                    <div id="p1f12" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Mesada de Pensión<a STYLE="color: red" >*</a></span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="7" pattern=".{4,7}.">
+
                             </div>
+                            <div class="null"></div>
                         </div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
 
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Observación<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="observacion" class="fieldcontent" required='required' maxlength='150' value='(llenar si aplica)'>
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cuota Aceptada<a STYLE="color: red" >*</a></span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f6c" name="cp_aceptada" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="7" pattern=".{4,7}.">
+                            </div>
+                            <div class="null"></div>
                         </div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
 
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Dirección<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="direccion" class="fieldcontent" required='required' maxlength='30'>
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Porcentaje Aceptado<a STYLE="color: red" >*</a></span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f6c" name="porc_aceptado" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="5" value='0.'>
+                                <p>En número decimal, por ejemplo: 0.25</p>
+                            </div>
+                            <div class="null"></div>
                         </div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
 
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Ciudad<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f6c" name="ciudad" class="fieldcontent" required='required' maxlength='15' >
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Acto Administrativo<a STYLE="color: red" >*</a></span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="23">Si no aplica, escriba Silencio Administrativo
+
+                            </div>
+                            <div class="null"></div>
                         </div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
 
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Departamento<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f6c" name="departamento" class="fieldcontent" required='required' maxlength='15' >
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="fecha_acto_adm"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Acto Admin.<a STYLE="color: red" >*</a></span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="fecha_acto_adm" name="fecha_acto_adm" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            </div>
+                            <div class="null"></div>
                         </div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Teléfono<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f6" name="telefono" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='18'>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f7" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Responsable<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="responsable" class="fieldcontent" required='required' maxlength='25' >
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cargo<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f6" name="cargo" required='required' class="fieldcontent" maxlength='20' >
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f12" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Otro Contacto</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="otro_contacto" class="fieldcontent" maxlength='25' value='(llenar si aplica)' >
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cargo</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="otro_cargo" class="fieldcontent" maxlength='25' value='(llenar si aplica)'>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Correo 1<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="email" name="txtEmail" class="fieldcontent" required='required' maxlength='35'>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Correo 2</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="email" name="txtEmail2" class="fieldcontent" value='(llenar si aplica)@correo.com' maxlength='35'>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
 
             <div class="null"></div>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>

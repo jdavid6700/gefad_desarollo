@@ -54,10 +54,13 @@ class bloque_formHistoria extends bloque {
                 case "interrupcion":
                     $datos_interrupcion = array();
 
+                    echo 'llegamos html';
+                    exit;
+
                     foreach ($_REQUEST as $key => $value) {
                         $datos_interrupcion[$key] = $_REQUEST[$key];
                     }
-                    
+
                     $this->funcion->nuevaInterrupcion($datos_interrupcion);
                     break;
 
@@ -107,6 +110,19 @@ class bloque_formHistoria extends bloque {
                 }
 
                 $this->funcion->procesarFormularioInterrupcion($registro_interrupcion);
+                break;
+
+            case "interrupcion":
+                $datos_interrupcion = array();
+
+                echo 'llegamos action';
+                exit;
+
+                foreach ($_REQUEST as $key => $value) {
+                    $datos_interrupcion[$key] = $_REQUEST[$key];
+                }
+
+                $this->funcion->nuevaInterrupcion($datos_interrupcion);
                 break;
 
             default :

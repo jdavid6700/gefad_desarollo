@@ -118,6 +118,12 @@ input[type="text"]:focus
 #p1f6 .fieldlabel{padding-top:3px;}
 #p1f6c{font-family:Tahoma, Arial, Geneva, sans-serif;font-size:14px;width:158px;max-width:158px;}
 
+#miCampo{width:620px;}
+#miCampo .caption{width:127px;}
+#miCampo .control{width:479px;}
+#miCampo .fieldlabel{padding-top:3px;}
+#miCampo {font-family:Tahoma, Arial, Geneva, sans-serif;font-size:14px;width:471px;max-width:471px;}
+
 #p1f7{width:620px;}
 #p1f7 .caption{width:127px;}
 #p1f7 .control{width:479px;}
