@@ -50,13 +50,9 @@ class bloque_formConcurrencia extends bloque {
             $accion = $_REQUEST['opcion'];
 
             switch ($accion) {
-                
-                case "formularioConcurrencia":
-                    $this->funcion->mostrarFormulario();
-                    break;
 
                 default :
-                    $this->funcion->consultarRegistros();
+                    $this->funcion->mostrarFormulario();
             }
         } else {
             $accion = "inicio";
@@ -78,11 +74,6 @@ class bloque_formConcurrencia extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_previsora);
-                break;
-
-
-            case "formulario":
-                $this->funcion->mostrarFormulario();
                 break;
 
             default :

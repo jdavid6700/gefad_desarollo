@@ -56,7 +56,7 @@ class bloque_formHistoria extends bloque {
                     foreach ($_REQUEST as $key => $value) {
                         $datos_interrupcion[$key] = $_REQUEST[$key];
                     }
-
+                    
                     $this->funcion->nuevaInterrupcion($datos_interrupcion);
                     break;
 
@@ -105,25 +105,7 @@ class bloque_formHistoria extends bloque {
                     }
                 }
 
-                if ($_REQUEST['registro'] == 'Registrar Interrupción Actual') {
-                    $this->funcion->procesarFormularioInterrupcion($registro_interrupcion);
-                } else {
-
-                    $this->funcion->procesarFormularioInterrupcion($registro_interrupcion);
-                    
-                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                    $variable = "pagina=formHistoria";
-                    $variable.= "&opcion=interrupcion";
-                    $variable.="&fecha_ingreso=" . $registro_interrupcion['fecha_ingreso'];
-                    $variable.="&fecha_salida=" . $registro_interrupcion['fecha_salida'];
-                    $variable.="&nit_previsora=" . $registro_interrupcion['prev_nit'];
-                    $variable.="&nit_entidad=" . $registro_interrupcion['nit_entidad'];
-                    $variable.="&cedula=" . $registro_interrupcion['cedula_emp'];
-                    $variable.="&nro_ingreso=" . $registro_interrupcion['nro_ingreso'];
-                    $variable = $this->funcion->cripto->codificar_url($variable, $this->configuracion);
-                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                    break;
-                }
+                $this->funcion->procesarFormularioInterrupcion($registro_interrupcion);
 
                 break;
 

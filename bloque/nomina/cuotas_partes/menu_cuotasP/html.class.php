@@ -114,7 +114,7 @@
                                            echo $this->indice . $variable;
                                            ?>">Registrar Historia Laboral</a></li>
 
-                                  <li><a href="<?
+                                    <li><a href="<?
                                         $variable = 'pagina=formularioRecaudo';
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -141,6 +141,13 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Registrar y Consultar Indices de Intereses de Mora  (DTF)</a></li>
+
+                                    <li><a href="<?
+                                        $variable = 'pagina=formularioConcurrencia';
+                                        $variable.='&opcion=';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Registrar Descripción de Cuota Parte</a></li>
                                 </ul>
                             </li>
 

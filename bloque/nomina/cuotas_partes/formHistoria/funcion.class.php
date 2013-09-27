@@ -283,44 +283,44 @@ class funciones_formHistoria extends funcionGeneral {
         $fecha_registro = date('d/m/Y');
         $estado = 1;
 
-      /*  foreach ($datos as $key => $value) {
+        /*  foreach ($datos as $key => $value) {
 
-            if ($datos[$key] == "") {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina = reportesCuotas';
-                $variable.='&opcion = ';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
-        }
+          if ($datos[$key] == "") {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formulario NO diligenciado correctamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina = reportesCuotas';
+          $variable.='&opcion = ';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
+          }
 
-        if (!preg_match('/^\d{1, 2}\/\d{1, 2}\/\d{4}$/', $datos['dias_nor_desde'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina = formHistoria';
-            $variable.='&opcion = interrupcion';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
+          if (!preg_match('/^\d{1, 2}\/\d{1, 2}\/\d{4}$/', $datos['dias_nor_desde'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina = formHistoria';
+          $variable.='&opcion = interrupcion';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-        if (!preg_match('/^\d{1, 2}\/\d{1, 2}\/\d{4}$/', $datos['dias_nor_hasta'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina = formHistoria';
-            $variable.='&opcion = interrupcion';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }*/
+          if (!preg_match('/^\d{1, 2}\/\d{1, 2}\/\d{4}$/', $datos['dias_nor_hasta'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina = formHistoria';
+          $variable.='&opcion = interrupcion';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          } */
 
         $parametros = array(
             'nro_interrupcion' => (isset($datos['nro_interrupcion']) ? $datos['nro_interrupcion'] : ''),
@@ -350,15 +350,36 @@ class funciones_formHistoria extends funcionGeneral {
         "alert('Datos Registrados');" .
         "</script> ";
 
-        
-        
-        
-        
-        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=reportesCuotas";
-        $variable .= "&opcion=";
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        echo $datos['registro'];
+
+        switch ($datos['registro']) {
+
+            case "Registrar Interrupción Actual":
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = "pagina=reportesCuotas";
+                $variable .= "&opcion=";
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                break;
+
+            case "Registrar Otra Interrupción":
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = "pagina=formHistoria";
+                $variable.= "&opcion=interrupcion";
+                $variable.="&fecha_ingreso=" . $datos['fecha_ingreso'];
+                $variable.="&fecha_salida=" . $datos['fecha_salida'];
+                $variable.="&nit_previsora=" . $datos['prev_nit'];
+                $variable.="&nit_entidad=" . $datos['nit_entidad'];
+                $variable.="&cedula=" . $datos['cedula_emp'];
+                $variable.="&nro_ingreso=" . $datos['nro_ingreso'];
+                $variable = $this->funcion->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                break;
+
+            default:
+                echo 'no entro a ningun case';
+                break;
+        }
     }
 
     function dbasicoHistoria() {

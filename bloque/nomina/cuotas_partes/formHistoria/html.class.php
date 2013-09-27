@@ -380,19 +380,6 @@ class html_formHistoria {
                     }
                 });
             });
-
-            $(document).ready(function() {
-                $("#fecha_acto_adm").datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '1940:c',
-                    maxDate: "+0D",
-                    dateFormat: 'dd/mm/yy'
-                });
-            });
-
-
-
         </script>
 
         <script>
@@ -512,8 +499,6 @@ class html_formHistoria {
                 }
             }
         </script>
-
-
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off'>
             <h1>Formulario de Registro Historia Laboral Pensionado CP</h1>
