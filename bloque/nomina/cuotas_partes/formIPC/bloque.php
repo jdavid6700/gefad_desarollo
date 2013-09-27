@@ -28,8 +28,7 @@ if (!isset($GLOBALS["autorizado"])) {
     include("../index.php");
     exit;
 }
-//echo "<br>action ".$_REQUEST['action'];
-//echo "<br>opcion ".$_REQUEST['opcion'];
+
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/bloque.class.php");
 include_once("sql.class.php");
 include_once("funcion.class.php");
@@ -52,8 +51,6 @@ class bloque_formIPC extends bloque {
             switch ($accion) {
 
                 default :
-
-
                     $this->funcion->ConsultarIndice();
                     $this->funcion->mostrarFormulario();
 
@@ -69,8 +66,6 @@ class bloque_formIPC extends bloque {
 
         switch ($_REQUEST['opcion']) {
             case "insertarIPC":
-//                echo "SOS";
-//                exit;
                 $registro_ipc = array();
 
                 foreach ($_REQUEST as $key => $value) {
@@ -78,8 +73,7 @@ class bloque_formIPC extends bloque {
                         $registro_ipc[$key] = $_REQUEST[$key];
                     }
                 }
-//         var_dump($registro_ipc);
-//                exit;
+
                 $this->funcion->procesarFormulario($registro_ipc);
                 break;
 

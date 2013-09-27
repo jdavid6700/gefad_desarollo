@@ -249,33 +249,41 @@ class funciones_formHistoria extends funcionGeneral {
 
 
         if ($datos['interrupcion'] == 'interrupcion') {
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina = formHistoria';
-            $variable.='&opcion = interrupcion';
-            $variable.='&nit_previsora=' . $datos['nit_prev'];
-            $variable.='&nit_empleador=' . $datos['nit_empleador'];
-            $variable.='&identificacion =' . $datos['cedula_emp'];
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('Datos Registrados');" .
+            "alert('A interrupcion');" .
             "</script> ";
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = "pagina=reportesCuotas";
-            $variable .= "&opcion=";
+            $variable = "pagina=formHistoria";
+            $variable.="&opcion=interrupcion";
+            $variable.="&cedula=" . $datos['cedula_emp'];
+            $variable.="&nit_entidad=" . $datos['nit_empleador'];
+            $variable.="&nit_previsora=" . $datos['prev_nit'];
+            $variable.="&nro_ingreso=" . $datos['nro_ingreso'];
+            $variable.="&fecha_ingreso=" . $datos['fecha_ingreso'];
+            $variable.="&fecha_salida=" . $datos['fecha_salida'];
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            echo "<script>location.replace('" . $pagina . $variable . "' ) </script>";
+            exit;
         }
+
+        echo "<script type = \"text/javascript\">" .
+        "alert('Datos Registrados');" .
+        "</script> ";
+
+        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+        $variable = "pagina=formHistoria";
+        $variable .= "&opcion=dbasicoHistoria";
+        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        exit;
     }
 
     function procesarFormularioInterrupcion($datos) {
         $fecha_registro = date('d/m/Y');
         $estado = 1;
 
-        foreach ($datos as $key => $value) {
+      /*  foreach ($datos as $key => $value) {
 
             if ($datos[$key] == "") {
                 echo "<script type=\"text/javascript\">" .
@@ -312,7 +320,7 @@ class funciones_formHistoria extends funcionGeneral {
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
-        }
+        }*/
 
         $parametros = array(
             'nro_interrupcion' => (isset($datos['nro_interrupcion']) ? $datos['nro_interrupcion'] : ''),
@@ -342,15 +350,15 @@ class funciones_formHistoria extends funcionGeneral {
         "alert('Datos Registrados');" .
         "</script> ";
 
+        
+        
+        
+        
         $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
         $variable = "pagina=reportesCuotas";
         $variable .= "&opcion=";
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "                       
-
-          
-
-        ')</script>";
+        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
     }
 
     function dbasicoHistoria() {

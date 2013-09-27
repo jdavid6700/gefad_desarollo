@@ -50,7 +50,7 @@ class bloque_formPrevisora extends bloque {
             $accion = $_REQUEST['opcion'];
 
             switch ($accion) {
-                
+
                 case "formularioPrevisora":
                     $this->funcion->mostrarFormulario();
                     break;
@@ -78,11 +78,6 @@ class bloque_formPrevisora extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_previsora);
-                break;
-
-
-            case "formulario":
-                $this->funcion->mostrarFormulario();
                 break;
 
             default :

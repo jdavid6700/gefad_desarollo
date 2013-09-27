@@ -104,7 +104,6 @@ class bloque_formRecaudo extends bloque {
                     }
                 }
                
-
                 $this->funcion->procesarFormulario($parametros_recaudo);
                 break;
 

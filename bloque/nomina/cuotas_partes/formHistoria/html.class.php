@@ -41,7 +41,15 @@ class html_formHistoria {
         $this->html = new html();
     }
 
-    function formularioInterrupcion($datos_previsora, $datos_interrupcion) {
+    function formularioInterrupcion($datos_prev, $datos_interrupcion) {
+
+        $minY = date("Y", strtotime($datos_interrupcion['fecha_ingreso']));
+        $minD = date("n", strtotime($datos_interrupcion['fecha_ingreso']));
+        $minM = date("j", strtotime($datos_interrupcion['fecha_ingreso'])) - 1;
+
+        $maxY = date("Y", strtotime($datos_interrupcion['fecha_salida']));
+        $maxD = date("n", strtotime($datos_interrupcion['fecha_salida']));
+        $maxM = date("j", strtotime($datos_interrupcion['fecha_salida'])) - 1;
 
         $this->formulario = "formHistoria";
 
@@ -65,7 +73,8 @@ class html_formHistoria {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    maxDate: "+0D",
+                    minDate: new Date(<? echo $minY ?>,<? echo $minM ?>,<? echo $minD ?>),
+                    maxDate: new Date(<? echo $maxY ?>,<? echo $maxM ?>,<? echo $maxD ?>),
                     dateFormat: 'dd/mm/yy',
                     onSelect: function(dateValue, inst) {
                         $("#dias_nor_hasta").datepicker("option", "minDate", dateValue)
@@ -79,7 +88,8 @@ class html_formHistoria {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-                    maxDate: "+0D"
+                    minDate: new Date(<? echo $minY ?>,<? echo $minM ?>,<? echo $minD ?>),
+                    maxDate: new Date(<? echo $maxY ?>,<? echo $maxM ?>,<? echo $maxD ?>),
                 });
             });
 
@@ -143,7 +153,7 @@ class html_formHistoria {
                         <div class="null"></div>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' readonly value='<? echo $datos_interrupcion['identificacion'] ?>' maxlength="10">
+                        <input type="text" id="p1f2c" name="cedula_emp" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' readonly value='<? echo $datos_interrupcion['cedula'] ?>' maxlength="10">
                     </div>
                 </div>
 
@@ -173,7 +183,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="nro_interrupcion" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2">
+                                <input type="text" id="p1f6c" name="nro_interrupcion" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2"  value='<? echo $datos_interrupcion['nro_interrupcion'] ?>'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -190,7 +200,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="nro_ingreso" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2">
+                                <input type="text" id="p1f6c" name="nro_ingreso" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2" value='<? echo $datos_interrupcion['nro_ingreso'] ?>'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -207,7 +217,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="nit_entidad" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['empleador'] ?>'>
+                                <input type="text" id="p1f6c" name="nit_entidad" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_entidad'] ?>'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -226,7 +236,7 @@ class html_formHistoria {
                         <div class="control capleft">
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f6c" name="prev_nit" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['entidad_previsora'] ?>'> 
+                                    <input type="text" id="p1f6c" name="prev_nit" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_previsora'] ?>'> 
                                 </div>
                             </div>
 
@@ -308,11 +318,15 @@ class html_formHistoria {
                 </div>
 
                 <div class="null"></div>
-                <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>
-
+                <center> 
+                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Otra Interrupción">
+                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Interrupción Actual">
+                </center>
 
                 <input type='hidden' name='opcion' value='registrarInterrupcion'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+                <input type='hidden' name='fecha_ingreso' value='<?echo $datos_interrupcion['fecha_ingreso']?>'>
+                <input type='hidden' name='fecha_salida' value='<?echo $datos_interrupcion['fecha_salida']?>'>
             </div>
 
         </form>
@@ -411,7 +425,7 @@ class html_formHistoria {
                     alert('Existen campos diligenciados incorrectamente');
                     return true;
                 }
-                                
+
                 return false;
             }
         </script>
@@ -926,7 +940,7 @@ class html_formHistoria {
                     <?
                     if (is_array($historial)) {
                         foreach ($historial as $key => $value) {
-                       
+
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][1] . "</td>";
