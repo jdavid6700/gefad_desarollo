@@ -67,6 +67,12 @@ class funciones_formConcurrencia extends funcionGeneral {
         $this->html_formConcurrencia = new html_formConcurrencia($configuracion);
     }
 
+    function registrarDescripcionCP($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
+        $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_DescripcionCP;
+    }
+
     function consultarRegistros() {
 
         $parametros = array();
@@ -81,6 +87,9 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function procesarFormulario($datos) {
+        
+        var_dump($datos);
+        exit;
 
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
@@ -100,37 +109,29 @@ class funciones_formConcurrencia extends funcionGeneral {
             }
         }
 
-        $parametros = array(
-            'nit_previsora' => (isset($datos['nit_previsora']) ? $datos['nit_previsora'] : ''),
-            'nombre_previsora' => (isset($datos['nombre_previsora']) ? $datos['nombre_previsora'] : ''),
-            'estado' => (isset($datos['estado']) ? $datos['estado'] : ''),
-            'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
-            'direccion' => (isset($datos['direccion']) ? $datos['direccion'] : ''),
-            'ciudad' => (isset($datos['ciudad']) ? $datos['ciudad'] : ''),
-            'departamento' => (isset($datos['departamento']) ? $datos['departamento'] : ''),
-            'telefono' => (isset($datos['telefono']) ? $datos['telefono'] : ''),
-            'responsable' => (isset($datos['responsable']) ? $datos['responsable'] : ''),
-            'cargo' => (isset($datos['cargo']) ? $datos['cargo'] : ''),
-            'otro_contacto' => (isset($datos['otro_contacto']) ? $datos['otro_contacto'] : ''),
-            'otro_cargo' => (isset($datos['otro_cargo']) ? $datos['otro_cargo'] : ''),
-            'correo1' => (isset($datos['txtEmail']) ? $datos['txtEmail'] : ''),
-            'correo2' => (isset($datos['txtEmail2']) ? $datos['txtEmail2'] : ''),
-            'estado_registro' => ($estado_registro),
-            'fecha_registro' => $fecha_registro,);
+        $parametros_descripcion_cp = array(
+            'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
+            'nit_entidad' => (isset($datos['nit_empleador']) ? $datos['nit_empleador'] : ''),
+            'nit_previsora' => (isset($datos['prev_nit']) ? $datos['prev_nit'] : ''),
+            'valor_mesada' => (isset($datos['mesada']) ? $datos['mesada'] : ''),
+            'valor_cuota' => (isset($datos['cp_aceptada']) ? $datos['cp_aceptada'] : ''),
+            'porcen_cuota' => (isset($datos['porc_aceptado']) ? $datos['porc_aceptado'] : ''),
+            'fecha_concurrencia' => (isset($datos['fecha_concurrencia']) ? $datos['fecha_concurrencia'] : ''),
+            'tipo_actoadmin' => (isset($datos['porc_aceptado']) ? $datos['porc_aceptado'] : ''),
+            'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
+            'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
+            'estado' => $estado,
+            'registro' => $fecha_registro);
 
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarConcurrencia", $parametros);
-        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-
-
-        $registro[0] = "GUARDAR";
-        $registro[1] = $parametros['nit_previsora'] . '|' . $parametros['nombre_previsora'] . '|' . $parametros['estado']; //
-        $registro[2] = "CUOTAS_PARTES_previsora";
-        $registro[3] = $parametros['direccion'] . '|' . $parametros['telefono'] . '|' . $parametros['responsable']; //
-        $registro[4] = time();
-        $registro[5] = "Registra datos básicos entidad previsora con ";
-        $registro[5] .= "NIT =" . $parametros['nit_previsora'];
-        $this->log_us->log_usuario($registro, $this->configuracion);
-
+        $registro_descripcion_cp = $this->registrarDescripcionCP($parametros_descripcion_cp);
+        $registroD[0] = "GUARDAR";
+        $registroD[1] = $parametros_descripcion_cp['cedula'] . '|' . $parametros_descripcion_cp['nit_entidad'] . '|' . $parametros_descripcion_cp['nit_previsora']; //
+        $registroD[2] = "CUOTAS_PARTES";
+        $registroD[3] = $parametros_descripcion_cp['valor_mesada'] . '|' . $parametros_descripcion_cp['valor_cuota'] . '|' . $parametros_descripcion_cp['porcen_cuota']; //
+        $registroD[4] = time();
+        $registroD[5] = "Registra datos cuota parte pactada para el pensionado con ";
+        $registroD[5] .= " identificacion =" . $parametros_descripcion_cp['cedula'];
+        $this->log_us->log_usuario($registroD, $this->configuracion);
 
         echo "<script type=\"text/javascript\">" .
         "alert('Datos Registrados');" .

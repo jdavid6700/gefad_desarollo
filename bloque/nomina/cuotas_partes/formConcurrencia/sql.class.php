@@ -17,46 +17,32 @@ class sql_formConcurrencia extends sql {
 
         switch ($opcion) {
 
-            case "insertarConcurrencia":
-                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_previsora  (prev_nit,   prev_nombre,   prev_habilitado_pago,   ";
-                $cadena_sql.=" prev_observacion,   prev_direccion,   prev_departamento,   prev_ciudad, prev_telefono,   prev_responsable, ";
-                $cadena_sql.="prev_cargo,   prev_otroc,   prev_cargooc,   prev_correo1,   prev_correo2,prev_estado_registro, prev_fecha_registro)  VALUES (";
+            case "insertarDescripcionCP":
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_descripcion_cuotaparte ( ";
+                $cadena_sql.=" dcp_nro_identificacion, ";
+                $cadena_sql.=" dcp_nitent, ";
+                $cadena_sql.=" dcp_nitprev, ";
+                $cadena_sql.=" dcp_fecha_concurrencia, ";
+                $cadena_sql.=" dcp_valor_mesada, ";
+                $cadena_sql.=" dcp_valor_cuota, ";
+                $cadena_sql.=" dcp_porcen_cuota, ";
+                $cadena_sql.=" dcp_tipo_actoadmin, ";
+                $cadena_sql.=" dcp_actoadmin, ";
+                $cadena_sql.=" dcp_factoadmin, ";
+                $cadena_sql.=" dcp_estado, ";
+                $cadena_sql.=" dcp_registro) VALUES ( ";
+                $cadena_sql.=" '" . $variable['cedula'] . "' ,";
+                $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
                 $cadena_sql.=" '" . $variable['nit_previsora'] . "' ,";
-                $cadena_sql.=" '" . $variable['nombre_previsora'] . "' ,";
+                $cadena_sql.=" '" . $variable['valor_mesada'] . "' ,";
+                $cadena_sql.=" '" . $variable['fecha_concurrencia'] . "' ,";
+                $cadena_sql.=" '" . $variable['valor_cuota'] . "' ,";
+                $cadena_sql.=" '" . $variable['porcen_cuota'] . "' ,";
+                $cadena_sql.=" '" . $variable['tipo_actoadmin'] . "' ,";
+                $cadena_sql.=" '" . $variable['actoadmin'] . "' ,";
+                $cadena_sql.=" '" . $variable['factoadmin'] . "' ,";
                 $cadena_sql.=" '" . $variable['estado'] . "' ,";
-                $cadena_sql.=" '" . $variable['observacion'] . "' ,";
-                $cadena_sql.=" '" . $variable['direccion'] . "' ,";
-                $cadena_sql.=" '" . $variable['departamento'] . "' ,";
-                $cadena_sql.=" '" . $variable['ciudad'] . "' ,";
-                $cadena_sql.=" '" . $variable['telefono'] . "' ,";
-                $cadena_sql.=" '" . $variable['responsable'] . "' ,";
-                $cadena_sql.=" '" . $variable['cargo'] . "' ,";
-                $cadena_sql.=" '" . $variable['otro_contacto'] . "' ,";
-                $cadena_sql.=" '" . $variable['otro_cargo'] . "' ,";
-                $cadena_sql.=" '" . $variable['correo1'] . "' ,";
-                $cadena_sql.=" '" . $variable['correo2'] . "' ,";
-                $cadena_sql.=" '" . $variable['estado_registro'] . "' ,";
-                $cadena_sql.=" '" . $variable['fecha_registro'] . "' )";
-                break;
-
-            case "consultarConcurrencia":
-                $cadena_sql = " SELECT ";
-                $cadena_sql.=" prev_nit,";
-                $cadena_sql.=" prev_nombre, ";
-                $cadena_sql.=" prev_habilitado_pago, ";
-                $cadena_sql.=" prev_observacion, ";
-                $cadena_sql.=" prev_direccion, ";
-                $cadena_sql.=" prev_departamento, ";
-                $cadena_sql.=" prev_ciudad, ";
-                $cadena_sql.=" prev_telefono, ";
-                $cadena_sql.=" prev_responsable, ";
-                $cadena_sql.=" prev_cargo, ";
-                $cadena_sql.=" prev_otroc, ";
-                $cadena_sql.=" prev_cargooc, ";
-                $cadena_sql.=" prev_correo1, ";
-                $cadena_sql.=" prev_correo2 ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
-                $cadena_sql.=" ORDER BY prev_habilitado_pago ASC ";
+                $cadena_sql.=" '" . $variable['registro'] . "')";
                 break;
 
             default:

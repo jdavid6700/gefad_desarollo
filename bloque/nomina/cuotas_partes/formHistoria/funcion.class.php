@@ -101,11 +101,7 @@ class funciones_formHistoria extends funcionGeneral {
         return $datos_Entidad;
     }
 
-    function registrarDescripcionCP($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
-        $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos_DescripcionCP;
-    }
+ 
 
     function procesarFormulario($datos) {
         $estado = 1;
@@ -194,18 +190,6 @@ class funciones_formHistoria extends funcionGeneral {
             'periodo_labor' => (isset($datos['tipo_horas']) ? $datos['tipo_horas'] : ''),
             'estado' => $estado,
             'registro' => $fecha_registro);
-        /*
-          $parametros_descripcion_cp = array(
-          'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
-          'nit_entidad' => (isset($datos['nit_empleador']) ? $datos['nit_empleador'] : ''),
-          'nit_previsora' => (isset($datos['prev_nit']) ? $datos['prev_nit'] : ''),
-          'valor_mesada' => (isset($datos['mesada']) ? $datos['mesada'] : ''),
-          'valor_cuota' => (isset($datos['cp_aceptada']) ? $datos['cp_aceptada'] : ''),
-          'porcen_cuota' => (isset($datos['porc_aceptado']) ? $datos['porc_aceptado'] : ''),
-          'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
-          'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
-          'estado' => $estado,
-          'registro' => $fecha_registro); */
 
         $parametros_entidad = array(
             'nit_entidad' => (isset($datos['nit_empleador']) ? $datos['nit_empleador'] : ''),
@@ -226,16 +210,6 @@ class funciones_formHistoria extends funcionGeneral {
         $registroL[5] = "Registra datos de la historia laboral del pensionado con ";
         $registroL[5] .= " identificacion =" . $parametros_hlaboral['cedula'];
         $this->log_us->log_usuario($registroL, $this->configuracion);
-
-        /*   $registro_descripcion_cp = $this->registrarDescripcionCP($parametros_descripcion_cp);
-          $registroD[0] = "GUARDAR";
-          $registroD[1] = $parametros_descripcion_cp['cedula'] . '|' . $parametros_descripcion_cp['nit_entidad'] . '|' . $parametros_descripcion_cp['nit_previsora']; //
-          $registroD[2] = "CUOTAS_PARTES";
-          $registroD[3] = $parametros_descripcion_cp['valor_mesada'] . '|' . $parametros_descripcion_cp['valor_cuota'] . '|' . $parametros_descripcion_cp['porcen_cuota']; //
-          $registroD[4] = time();
-          $registroD[5] = "Registra datos cuota parte pactada para el pensionado con ";
-          $registroD[5] .= " identificacion =" . $parametros_descripcion_cp['cedula'];
-          $this->log_us->log_usuario($registroD, $this->configuracion); */
 
         $registro_entidad = $this->registrarEntidad($parametros_entidad);
         $registroE[0] = "GUARDAR";

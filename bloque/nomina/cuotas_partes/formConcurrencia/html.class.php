@@ -432,7 +432,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_con" name="fecha_acto_adm" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            <input type="text" id="fecha_con" name="fecha_concurrencia" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                         </div>
                         <div class="null"></div>
                     </div>
