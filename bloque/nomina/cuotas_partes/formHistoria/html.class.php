@@ -135,6 +135,19 @@ class html_formHistoria {
             }
         </script>
 
+
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
+
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off'>
             <h1>Formulario de Registro Interrupciones</h1>
 
@@ -319,14 +332,14 @@ class html_formHistoria {
 
                 <div class="null"></div>
                 <center> 
-                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Otra Interrupción">
-                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Interrupción Actual">
+                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Otra Interrupción" onClick='return confirmarEnvio();'>
+                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Interrupción Actual" onClick='return confirmarEnvio();'>
                 </center>
 
                 <input type='hidden' name='opcion' value='registrarInterrupcion'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
-                <input type='hidden' name='fecha_ingreso' value='<?echo $datos_interrupcion['fecha_ingreso']?>'>
-                <input type='hidden' name='fecha_salida' value='<?echo $datos_interrupcion['fecha_salida']?>'>
+                <input type='hidden' name='fecha_ingreso' value='<? echo $datos_interrupcion['fecha_ingreso'] ?>'>
+                <input type='hidden' name='fecha_salida' value='<? echo $datos_interrupcion['fecha_salida'] ?>'>
             </div>
 
         </form>
@@ -495,6 +508,18 @@ class html_formHistoria {
                 }
 
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+        
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                if (r == true) {
+                    return true;
+                } else {
                     return false;
                 }
             }
@@ -827,7 +852,7 @@ class html_formHistoria {
 
 
                 <div class="null"></div>
-                <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>
+                <center> <input id="registrarBoton" type="submit" class="navbtn"  onClick='return confirmarEnvio();' value="Registrar"></center>
 
                 <input type='hidden' name='opcion' value='registrarHistoria'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
@@ -846,24 +871,24 @@ class html_formHistoria {
         ?>
 
         <script>
-            function acceptNum(e) {
-                key = e.keyCode || e.which;
-                tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890";
-                especiales = [8, 39, 9];
+               function acceptNum(e) {
+                   key = e.keyCode || e.which;
+                   tecla = String.fromCharCode(key).toLowerCase();
+                   letras = "01234567890";
+                   especiales = [8, 39, 9];
 
-                tecla_especial = false
-                for (var i in especiales) {
-                    if (key == especiales[i]) {
-                        tecla_especial = true;
-                        break;
-                    }
-                }
+                   tecla_especial = false
+                   for (var i in especiales) {
+                       if (key == especiales[i]) {
+                           tecla_especial = true;
+                           break;
+                       }
+                   }
 
-                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                    return false;
-                }
-            }
+                   if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                       return false;
+                   }
+               }
         </script>
 
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />

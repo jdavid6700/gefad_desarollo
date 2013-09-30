@@ -348,9 +348,22 @@ class html_formConcurrencia {
                 }
             }
         </script>
+        
+        
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
-            <h1>Formulario de Registro Entidades Concurrencias</h1>
+            <h1>Formulario de Registro Descripción Cuota Parte Pactada</h1>
 
             <div class="formrow f1">
                 <div id="p1f4" class="field n1">
@@ -502,7 +515,7 @@ class html_formConcurrencia {
                     <div class="control capleft">
                         <div>
                             <div class="dropdown">
-                                <select id="p1f13c" name="tipo_acto" class="fieldcontent"><option selected="selected "value="Silecio Administrativo">Silencio Administrativo</option><option value="Resolución">Resolución</option><option value="Oficio">Oficio</option></select>
+                                <select id="p1f13c" name="tipo_acto" class="fieldcontent"><option selected="selected "value="Silencio Administrativo">Silencio Administrativo</option><option value="Resolución">Resolución</option><option value="Oficio">Oficio</option></select>
                                 <div class="fielderror"></div>
                             </div>
                         </div>
@@ -521,7 +534,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="23">
+                            <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Oficio/Resolución/Silencio Administrativo">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -551,7 +564,7 @@ class html_formConcurrencia {
 
 
             <div class="null"></div>
-            <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>
+            <center> <input id="registrarBoton" type="submit" class="navbtn"  onClick='return confirmarEnvio();' value="Registrar"></center>
 
             <input type='hidden' name='opcion' value='registrarConcurrencia'>
             <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>

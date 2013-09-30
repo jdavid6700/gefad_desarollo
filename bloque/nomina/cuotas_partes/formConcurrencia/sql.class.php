@@ -34,8 +34,8 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" '" . $variable['cedula'] . "' ,";
                 $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
                 $cadena_sql.=" '" . $variable['nit_previsora'] . "' ,";
-                $cadena_sql.=" '" . $variable['valor_mesada'] . "' ,";
                 $cadena_sql.=" '" . $variable['fecha_concurrencia'] . "' ,";
+                $cadena_sql.=" '" . $variable['valor_mesada'] . "' ,";
                 $cadena_sql.=" '" . $variable['valor_cuota'] . "' ,";
                 $cadena_sql.=" '" . $variable['porcen_cuota'] . "' ,";
                 $cadena_sql.=" '" . $variable['tipo_actoadmin'] . "' ,";

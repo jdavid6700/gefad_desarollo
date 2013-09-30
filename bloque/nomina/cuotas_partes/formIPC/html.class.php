@@ -59,11 +59,9 @@ class html_formIPC {
                 });
             });</script>
 
-        <h1>Formulario de Registro Indice Precios Consumidor (IPC)</h1> 
-
         <center>     
             <center><div class="holder"></div></center>
-            <table width="35%" class='bordered' >
+            <table width="90%" class='bordered' >
                 <tr>
                     <th colspan="11" class='encabezado_registro'>TABLA INDICES (IPC)</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
@@ -152,7 +150,7 @@ class html_formIPC {
 
             function  validaranio() {
                 var anio = document.getElementById("año_registrar").value;
-                
+
                 if (anio < 1976) {
                     document.getElementById("sum_fj").disabled = true;
                 } else {
@@ -170,7 +168,21 @@ class html_formIPC {
             }
         </script>
 
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
+
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off'>
+
+            <h1>Formulario de Registro Indice Precios Consumidor (IPC)</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
@@ -228,7 +240,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" name="indice_Ipc" class="fieldcontent" required='required' title="Ingrese indice en numeros decimales." maxlength='5'  autocomplete="off" onKeyPress='return acceptNum(event)' value='0.' >
+                                <input type="text" id="indice_Ipc" name="indice_Ipc" placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" class="fieldcontent" required='required' title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >
 
                             </div>
                             <div class="null"></div>
@@ -246,8 +258,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" name="sum_fj" class="fieldcontent" maxlength='6' required='required'  onKeyPress='return acceptNum(event)'  > **Solo se debe diligenciar entre los años 1976 y 1988
-
+                                <input type="text" id="sum_fj" name="sum_fj" class="fieldcontent" maxlength='5' required='required'  onKeyPress='return acceptNum(event)'  > **Solo se debe diligenciar entre los años 1976 y 1988
                             </div>
                             <div class="null"></div>
                         </div>
@@ -257,7 +268,7 @@ class html_formIPC {
                 </div>
 
                 <div class="null"></div>
-                <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>
+                <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
 
                 <input type='hidden' name='opcion' value='insertarIPC'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>

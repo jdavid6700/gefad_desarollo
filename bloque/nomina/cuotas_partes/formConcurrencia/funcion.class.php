@@ -87,14 +87,11 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function procesarFormulario($datos) {
-        
-        var_dump($datos);
-        exit;
-
+     
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
 
-        foreach ($datos as $key => $value) {
+     /*   foreach ($datos as $key => $value) {
 
             if ($datos[$key] == "") {
                 echo "<script type=\"text/javascript\">" .
@@ -108,19 +105,19 @@ class funciones_formConcurrencia extends funcionGeneral {
                 exit;
             }
         }
-
+*/
         $parametros_descripcion_cp = array(
-            'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
-            'nit_entidad' => (isset($datos['nit_empleador']) ? $datos['nit_empleador'] : ''),
-            'nit_previsora' => (isset($datos['prev_nit']) ? $datos['prev_nit'] : ''),
+            'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
+            'nit_entidad' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),
+            'nit_previsora' => (isset($datos['entidad_previsora']) ? $datos['entidad_previsora'] : ''),
             'valor_mesada' => (isset($datos['mesada']) ? $datos['mesada'] : ''),
             'valor_cuota' => (isset($datos['cp_aceptada']) ? $datos['cp_aceptada'] : ''),
             'porcen_cuota' => (isset($datos['porc_aceptado']) ? $datos['porc_aceptado'] : ''),
             'fecha_concurrencia' => (isset($datos['fecha_concurrencia']) ? $datos['fecha_concurrencia'] : ''),
-            'tipo_actoadmin' => (isset($datos['porc_aceptado']) ? $datos['porc_aceptado'] : ''),
+            'tipo_actoadmin' => (isset($datos['tipo_acto']) ? $datos['tipo_acto'] : ''),
             'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
             'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
-            'estado' => $estado,
+            'estado' => $estado_registro,
             'registro' => $fecha_registro);
 
         $registro_descripcion_cp = $this->registrarDescripcionCP($parametros_descripcion_cp);

@@ -43,10 +43,26 @@ class html_formDTF {
 
     function tablaDTF($datos) {
         ?>
-        <h1>Formulario de Registro Indice Precios Consumidor (DTF)</h1> 
 
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
+        <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
+        <!-- permite la paginacion-->        
+
+        <script>
+            $(function() {
+                $("div.holder").jPages({
+                    containerID: "itemContainer",
+                    previous: "←",
+                    next: "→",
+                    perPage: 5,
+                    delay: 20
+                });
+            });
+        </script>
         <center>     
-            <table width="35%" class='bordered' align="center">
+            <center><div class="holder"></div></center>
+            <table width="90%" class='bordered' align="center">
                 <tr>
                     <th colspan="11" class='encabezado_registro'>TABLA DTF (DTF)</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
@@ -60,31 +76,34 @@ class html_formDTF {
                     <th class='encabezado_registro' style="text-align:center">Fecha Vigencia Hasta</th>
                     <th class='encabezado_registro' style="text-align:center">Tasa Interes(DTF)</th>
                 </tr>
+                <tbody id="itemContainer">
+                    <?php
+                    if (is_array($datos))
+                        foreach ($datos as $key => $values) {
+                            echo "<tr>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][0] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][1] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][2] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][3] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][4] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][5] . "</td>";
+                            echo "</tr>";
+                        } else {
 
-                <?php
-                if (is_array($datos))
-                    foreach ($datos as $key => $values) {
                         echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][0] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][1] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][2] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][3] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][4] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][5] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                         echo "</tr>";
-                    } else {
+                    }
+                    ?>
 
-                    echo "<tr>";
-                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                    echo "</tr>";
-                }
-                ?>
             </table>
+
+            <center><div class="holder"></div></center>
             <BR><BR>
         </center>
 
@@ -143,11 +162,13 @@ class html_formDTF {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-                    maxDate:"+0D",
+                    maxDate: "+0D",
+                    onSelect: function(dateValue, inst) {
+                        $("#fecvig_desde").datepicker("option", "minDate", dateValue)
+                    },
                     onChangeMonthYear: function(year, month, inst) {
-                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
+                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year)
                     }
-
                 });
 
             });</script>
@@ -225,9 +246,22 @@ class html_formDTF {
 
         </script>
 
-        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off'>
-            <div class="formrow f1">
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
 
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off'>
+            <h1>Formulario de Registro Indice Precios Consumidor (DTF)</h1> 
+
+            <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
                         <div class="staticcontrol">
@@ -256,9 +290,10 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" >
+                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" required='required'>
+
                                     <?php
-                                    $var = "<option selected>" . "Seleccione Año" . "</option>";
+                                    $var = "<option selected value=''>" . "Seleccione Año" . "</option>";
                                     $i = 1920;
                                     $año = date("Y");
                                     for ($i = 1980; $i <= $año; $i++) {
@@ -286,9 +321,9 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="tri_mestre" name="tri_mestre"  autocomplete="off" onchange="validarperiodo()" >
+                                <select id="tri_mestre" name="tri_mestre"  autocomplete="off" onchange="validarperiodo()" required='required' >
                                     <?php
-                                    $var = "<option selected>" . "Seleccione Trimestre" . "</option>";
+                                    $var = "<option selected value=''>" . "Seleccione Trimestre" . "</option>";
                                     ;
 
                                     for ($i = 1; $i <= 4; $i++) {
@@ -387,19 +422,19 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_dtf" name="indice_dtf" title="Ingrese indice en numeros decimales." class="fieldcontent"  maxlength='6'required='required'  autocomplete="off" onKeyPress='return acceptNum(event)' value="0." >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
+                                <input type="text" id="indice_dtf" name="indice_dtf"  placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" title="Ingrese indice en numeros decimales." class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
                             </div>
                             <div class="null"></div>
                         </div>
                         <div class="null"></div>
-                  
+
                     </div>
                     <div class="null"></div>
                 </div>
 
 
                 <div class="null"></div>
-                <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>
+                <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"  onClick='return confirmarEnvio();'></center>
 
                 <input type='hidden' name='opcion' value='insertarDTF'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>

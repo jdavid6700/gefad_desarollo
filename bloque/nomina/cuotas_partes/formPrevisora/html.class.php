@@ -262,6 +262,18 @@ class html_formPrevisora {
             }
 
         </script>
+        
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
             <h1>Formulario de Registro Entidades Previsoras</h1>
@@ -511,7 +523,7 @@ class html_formPrevisora {
 
 
             <div class="null"></div>
-            <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>
+            <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
 
             <input type='hidden' name='opcion' value='registrarPrevisora'>
             <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>

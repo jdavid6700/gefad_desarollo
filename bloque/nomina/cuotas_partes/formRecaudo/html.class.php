@@ -253,21 +253,21 @@ class html_formRecaudo {
                             $saldo = 0;
                             foreach ($historial as $cont => $value) {
 
-                                $a=0;
-                                $b=1;
-                                if($historial[$cont][1]==$historial[$b][1]){
-                                 //    echo $abono = $historial[$a][6] + $abono . '<br>';
+                                $a = 0;
+                                $b = 1;
+                                if ($historial[$cont][1] == $historial[$b][1]) {
+                                    //    echo $abono = $historial[$a][6] + $abono . '<br>';
                                 }
-                                
-                                
-                              /*  if ($cobros[$key][3] == $historial[$cont][1]) {
-                                    // echo $key . '===>' . $cobros[$key][3] . '=>' . $historial[$cont][1] . '=>' . $cont . '<br>';
-                                    ///  echo $key . '===>' . $cobros[$key][8] . '=>' . $historial[$cont][6] . '=>' . $cont . '<br><br>';
 
-                                    echo $deuda = $cobros[$key][8] . '<br>';
-                                    echo $abono = $historial[$cont][6] + $abono . '<br>';
-                                    echo $saldo = $deuda - $abono . '<br>';
-                                }*/
+
+                                /*  if ($cobros[$key][3] == $historial[$cont][1]) {
+                                  // echo $key . '===>' . $cobros[$key][3] . '=>' . $historial[$cont][1] . '=>' . $cont . '<br>';
+                                  ///  echo $key . '===>' . $cobros[$key][8] . '=>' . $historial[$cont][6] . '=>' . $cont . '<br><br>';
+
+                                  echo $deuda = $cobros[$key][8] . '<br>';
+                                  echo $abono = $historial[$cont][6] + $abono . '<br>';
+                                  echo $saldo = $deuda - $abono . '<br>';
+                                  } */
                             }
 
 
@@ -469,6 +469,18 @@ class html_formRecaudo {
                 }
 
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                if (r == true) {
+                    return true;
+                } else {
                     return false;
                 }
             }
@@ -679,7 +691,7 @@ class html_formRecaudo {
 
                     <div class="null"></div
 
-                    <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"></center>
+                    <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
 
                     <input type='hidden' name='opcion' value='guardarRecaudo'>
                     <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>

@@ -51,9 +51,8 @@ class bloque_formIPC extends bloque {
             switch ($accion) {
 
                 default :
-                    $this->funcion->ConsultarIndice();
                     $this->funcion->mostrarFormulario();
-
+                    $this->funcion->ConsultarIndice();
                     break;
             }
         } else {
