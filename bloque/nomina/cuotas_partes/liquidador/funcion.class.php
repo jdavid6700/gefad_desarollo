@@ -59,7 +59,7 @@ class funciones_liquidador extends funcionGeneral {
     function editarRegistro($configuracion, $tema, $id, $acceso_db, $formulario) {
         $this->cadena_sql = $this->sql->cadena_sql($configuracion, $this->acceso_db, "usuario", $id);
 
-        $registro = $this->acceso_db->ejecutarAcceso($this->cadena_sql, "busqueda");
+        $registro = $this->acceso_db->ejecutarAcceso($this->cadena_sql, "editar");
         if ($_REQUEST['opcion'] == 'cambiar_clave') {
             $this->formContrasena($configuracion, $registro, $this->tema, '');
         } else {

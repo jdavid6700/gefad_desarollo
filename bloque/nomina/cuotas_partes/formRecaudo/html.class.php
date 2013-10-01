@@ -593,7 +593,7 @@ class html_formRecaudo {
                             foreach ($cuentas_pago as $key => $value) {
                                 if (strstr($key, 'cuenta_pagar_')) {
                                     $valor = substr($key, strlen('cuenta_pagar_'));
-                                    echo "<input type='text' name='valor_pago" . $valor . "' class='fieldcontent' required='required' onKeyPress='return acceptNum(event)'> maxlength='10' <br>";
+                                    echo "<input type='text' name='valor_pago" . $valor . "' class='fieldcontent' required='required' onKeyPress='return acceptNum(event)'maxlength='10'>  <br>";
                                 }
                             }
                             ?>

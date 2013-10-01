@@ -286,7 +286,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_desde" readonly name="dias_nor_desde">
+                                <input type="text" id="dias_nor_desde" name="dias_nor_desde" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -303,7 +303,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_hasta" readonly  name="dias_nor_hasta">
+                                <input type="text" id="dias_nor_hasta"  name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -682,7 +682,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="miCampo" name="contacto_entidad" value="0" class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
+                                <input type="text" id="miCampo" name="contacto_entidad"  placeholder="dd/mm/aaaa" value="0" class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
                             </div>
                             <div class="null"></div>
                         </div>

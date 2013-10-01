@@ -61,7 +61,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
     function editarRegistro($configuracion, $tema, $id, $acceso_db, $formulario) {
         $this->cadena_sql = $this->sql->cadena_sql($configuracion, $this->acceso_db, "usuario", $id);
 
-        $registro = $this->acceso_db->ejecutarAcceso($this->cadena_sql, "busqueda");
+        $registro = $this->acceso_db->ejecutarAcceso($this->cadena_sql, "actualizar");
         if ($_REQUEST['opcion'] == 'cambiar_clave') {
             $this->formContrasena($configuracion, $registro, $this->tema, '');
         } else {
@@ -142,7 +142,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         $parametros = $datos_CC;
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "guardarCuentaC", $parametros);
-        $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "guardar");
 
         $registro[0] = "GUARDAR";
         $registro[1] = $parametros['cc_pensionado'] . '|' . $parametros['consecutivo'] . '|' . $parametros['fecha_cc']; //

@@ -92,20 +92,20 @@ class funciones_formRecaudo extends funcionGeneral {
 
     function registrarPago($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPago", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
         return $datos;
     }
 
     function registrarPagoCobro($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPagoCobro", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
         return $datos;
     }
-    
-    function actualizarEstadoCobro($parametro){
+
+    function actualizarEstadoCobro($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarCobro", $parametro);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;        
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "actualizar");
+        return $datos;
     }
 
     function mostrarFormulario($cuentas_pago) {
@@ -124,18 +124,18 @@ class funciones_formRecaudo extends funcionGeneral {
     function procesarFormulario($datos) {
 
         foreach ($datos as $key => $value) {
-
-            if ($datos[$key] == "") {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formularioRecaudo';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
+            /*
+              if ($datos[$key] == "") {
+              echo "<script type=\"text/javascript\">" .
+              "alert('Formulario NO diligenciado correctamente');" .
+              "</script> ";
+              $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+              $variable = 'pagina=formularioRecaudo';
+              $variable.='&opcion=';
+              $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+              echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+              exit;
+              } */
         }
 
         if (!preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $datos['fecha_resolucion'])) {
@@ -161,41 +161,77 @@ class funciones_formRecaudo extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
-        
-    
+
         $datos_recaudo = $this->registrarPago($datos);
-        
-       
-        foreach ($datos as $key => $value) {
-            if (strstr($key, 'consec_cc')) {
-                $valor = substr($key, strlen('consec_cc'));
+        if ($datos_recaudo == true) {
 
-                $parametros = array(
-                    'consecutivo' => $datos['consec_cc' . $valor],
-                    'cedula_emp' => $datos['cedula_emp'],
-                    'nit_empleador' => $datos['nit_empleador'],
-                    'nit_previsional' => $datos['nit_previsional'],
-                    'total_recaudo' => $datos['valor_pago'.$valor],
-                    'fecha_pago' => $datos['fecha_pago']);
-                
-                $datos_recaudo_cobro = $this->registrarPagoCobro($parametros);
-                $actualizar_cobro=$this->actualizarEstadoCobro($parametros['consecutivo']);
+            foreach ($datos as $key => $value) {
+                if (strstr($key, 'consec_cc')) {
+                    $valor = substr($key, strlen('consec_cc'));
+
+                    $parametros = array(
+                        'consecutivo' => $datos['consec_cc' . $valor],
+                        'cedula_emp' => $datos['cedula_emp'],
+                        'nit_empleador' => $datos['nit_empleador'],
+                        'nit_previsional' => $datos['nit_previsional'],
+                        'total_recaudo' => $datos['valor_pago' . $valor],
+                        'fecha_pago' => $datos['fecha_pago']);
+
+                    $datos_recaudo_cobro = $this->registrarPagoCobro($parametros);
+
+                    if ($datos_recaudo_cobro == false) {
+                        echo "<script type=\"text/javascript\">" .
+                        "alert('Datos de Recaudo-Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                        "</script> ";
+
+                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                        $variable = "pagina=reportesCuotas";
+                        $variable .= "&opcion=";
+                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                        break;
+                    }
+
+                    $actualizar_cobro = $this->actualizarEstadoCobro($parametros['consecutivo']);
+
+                    if ($actualizar_cobro == false) {
+                        echo "<script type=\"text/javascript\">" .
+                        "alert('Datos de Actualización de Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                        "</script> ";
+
+                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                        $variable = "pagina=reportesCuotas";
+                        $variable .= "&opcion=";
+                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                        break;
+                    }
+                }
             }
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos Registrados');" .
+            "</script> ";
+
+            exit;
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=reportesCuotas";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        } else {
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos de Recaudos NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=reportesCuotas";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            break;
         }
-        
-        
-        
-        exit;
-
-        echo "<script type=\"text/javascript\">" .
-        "alert('Datos Registrados');" .
-        "</script> ";
-
-        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=reportesCuotas";
-        $variable .= "&opcion=";
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
     }
 
 }

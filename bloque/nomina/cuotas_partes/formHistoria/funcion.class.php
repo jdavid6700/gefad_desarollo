@@ -91,17 +91,15 @@ class funciones_formHistoria extends funcionGeneral {
 
     function registrarHLaboral($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarHistoria", $parametros);
-        $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
         return $datos_Hlaboral;
     }
 
     function registrarEntidad($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarEntidad", $parametros);
-        $datos_Entidad = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $datos_Entidad = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
         return $datos_Entidad;
     }
-
- 
 
     function procesarFormulario($datos) {
         $estado = 1;
@@ -202,55 +200,83 @@ class funciones_formHistoria extends funcionGeneral {
             'registro' => $fecha_registro);
 
         $registro_hlaboral = $this->registrarHLaboral($parametros_hlaboral);
-        $registroL[0] = "GUARDAR";
-        $registroL[1] = $parametros_hlaboral['cedula'] . '|' . $parametros_hlaboral['nro_ingreso'] . '|' . $parametros_hlaboral['nit_entidad']; //
-        $registroL[2] = "CUOTAS_PARTES";
-        $registroL[3] = $parametros_hlaboral['nit_previsora'] . '|' . $parametros_hlaboral['fecha_ingreso'] . '|' . $parametros_hlaboral['fecha_salida']; //
-        $registroL[4] = time();
-        $registroL[5] = "Registra datos de la historia laboral del pensionado con ";
-        $registroL[5] .= " identificacion =" . $parametros_hlaboral['cedula'];
-        $this->log_us->log_usuario($registroL, $this->configuracion);
+
+        if ($registro_hlaboral == true) {
+            $registroL[0] = "GUARDAR";
+            $registroL[1] = $parametros_hlaboral['cedula'] . '|' . $parametros_hlaboral['nro_ingreso'] . '|' . $parametros_hlaboral['nit_entidad']; //
+            $registroL[2] = "CUOTAS_PARTES";
+            $registroL[3] = $parametros_hlaboral['nit_previsora'] . '|' . $parametros_hlaboral['fecha_ingreso'] . '|' . $parametros_hlaboral['fecha_salida']; //
+            $registroL[4] = time();
+            $registroL[5] = "Registra datos de la historia laboral del pensionado con ";
+            $registroL[5] .= " identificacion =" . $parametros_hlaboral['cedula'];
+            $this->log_us->log_usuario($registroL, $this->configuracion);
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos de Historia Laboral NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=reportesCuotas";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            break;
+        }
+
 
         $registro_entidad = $this->registrarEntidad($parametros_entidad);
-        $registroE[0] = "GUARDAR";
-        $registroE[1] = $parametros_entidad['nit_entidad'] . '|' . $parametros_entidad['nombre_entidad']; //
-        $registroE[2] = "CUOTAS_PARTES";
-        $registroE[3] = $parametros_entidad['ciudad_entidad'] . '|' . $parametros_entidad['telefono_entidad'] . '|' . $parametros_entidad['contacto_entidad']; //
-        $registroE[4] = time();
-        $registroE[5] = "Registra datos básicos de la entidad cuotas partes  ";
-        $registroE[5] .= " nit_entidad =" . $parametros_entidad['nit_entidad'];
-        $this->log_us->log_usuario($registroE, $this->configuracion);
 
+        if ($registro_entidad == true) {
+            $registroE[0] = "GUARDAR";
+            $registroE[1] = $parametros_entidad['nit_entidad'] . '|' . $parametros_entidad['nombre_entidad']; //
+            $registroE[2] = "CUOTAS_PARTES";
+            $registroE[3] = $parametros_entidad['ciudad_entidad'] . '|' . $parametros_entidad['telefono_entidad'] . '|' . $parametros_entidad['contacto_entidad']; //
+            $registroE[4] = time();
+            $registroE[5] = "Registra datos básicos de la entidad cuotas partes  ";
+            $registroE[5] .= " nit_entidad =" . $parametros_entidad['nit_entidad'];
+            $this->log_us->log_usuario($registroE, $this->configuracion);
 
-        if ($datos['interrupcion'] == 'interrupcion') {
-            echo "<script type=\"text/javascript\">" .
-            "alert('A interrupcion');" .
+            if ($datos['interrupcion'] == 'interrupcion') {
+                echo "<script type=\"text/javascript\">" .
+                "alert('A interrupcion');" .
+                "</script> ";
+
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = "pagina=formHistoria";
+                $variable.="&opcion=interrupcion";
+                $variable.="&cedula=" . $datos['cedula_emp'];
+                $variable.="&nit_entidad=" . $datos['nit_empleador'];
+                $variable.="&nit_previsora=" . $datos['prev_nit'];
+                $variable.="&nro_ingreso=" . $datos['nro_ingreso'];
+                $variable.="&fecha_ingreso=" . $datos['fecha_ingreso'];
+                $variable.="&fecha_salida=" . $datos['fecha_salida'];
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "' ) </script>";
+                exit;
+            }
+
+            echo "<script type = \"text/javascript\">" .
+            "alert('Datos Registrados');" .
             "</script> ";
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formHistoria";
-            $variable.="&opcion=interrupcion";
-            $variable.="&cedula=" . $datos['cedula_emp'];
-            $variable.="&nit_entidad=" . $datos['nit_empleador'];
-            $variable.="&nit_previsora=" . $datos['prev_nit'];
-            $variable.="&nro_ingreso=" . $datos['nro_ingreso'];
-            $variable.="&fecha_ingreso=" . $datos['fecha_ingreso'];
-            $variable.="&fecha_salida=" . $datos['fecha_salida'];
+            $variable .= "&opcion=dbasicoHistoria";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "' ) </script>";
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos de Entidad NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=reportesCuotas";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            break;
         }
-
-        echo "<script type = \"text/javascript\">" .
-        "alert('Datos Registrados');" .
-        "</script> ";
-
-        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=formHistoria";
-        $variable .= "&opcion=dbasicoHistoria";
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-        exit;
     }
 
     function procesarFormularioInterrupcion($datos) {
@@ -309,50 +335,65 @@ class funciones_formHistoria extends funcionGeneral {
             'total_dias' => (isset($datos['total_dias']) ? $datos['total_dias'] : ''),);
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarInterrupcion", $parametros);
-        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
-        $registro[0] = "GUARDAR";
-        $registro[1] = $parametros['cedula'] . '|' . $parametros['nro_interrupcion'] . '|' . $parametros['nit_entidad']; //
-        $registro[2] = "CUOTAS_PARTES";
-        $registro[3] = $parametros['entidad_previsora'] . '|' . $parametros['dias_nor_desde'] . '|' . $parametros['dias_nor_hasta']; //
-        $registro[4] = time();
-        $registro[5] = "Registra datos de interrupcion laboral del pensionado con ";
-        $registro[5] .= " identificacion =" . $parametros['cedula'];
-        $this->log_us->log_usuario($registro, $this->configuracion);
+        if ($datos_registrados == true) {
+            $registro[0] = "GUARDAR";
+            $registro[1] = $parametros['cedula'] . '|' . $parametros['nro_interrupcion'] . '|' . $parametros['nit_entidad']; //
+            $registro[2] = "CUOTAS_PARTES";
+            $registro[3] = $parametros['entidad_previsora'] . '|' . $parametros['dias_nor_desde'] . '|' . $parametros['dias_nor_hasta']; //
+            $registro[4] = time();
+            $registro[5] = "Registra datos de interrupcion laboral del pensionado con ";
+            $registro[5] .= " identificacion =" . $parametros['cedula'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
 
-        echo "<script type=\"text/javascript\">" .
-        "alert('Datos Registrados');" .
-        "</script> ";
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos Registrados');" .
+            "</script> ";
 
-        echo $datos['registro'];
+            switch ($datos['registro']) {
 
-        switch ($datos['registro']) {
+                case "Registrar Interrupción Actual":
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = "pagina=reportesCuotas";
+                    $variable .= "&opcion=";
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    break;
 
-            case "Registrar Interrupción Actual":
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = "pagina=reportesCuotas";
-                $variable .= "&opcion=";
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                break;
+                case "Registrar Otra Interrupción":
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = "pagina=formHistoria";
+                    $variable.= "&opcion=interrupcion";
+                    $variable.="&fecha_ingreso=" . $datos['fecha_ingreso'];
+                    $variable.="&fecha_salida=" . $datos['fecha_salida'];
+                    $variable.="&nit_previsora=" . $datos['prev_nit'];
+                    $variable.="&nit_entidad=" . $datos['nit_entidad'];
+                    $variable.="&cedula=" . $datos['cedula_emp'];
+                    $variable.="&nro_ingreso=" . $datos['nro_ingreso'];
+                    $variable = $this->funcion->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    break;
 
-            case "Registrar Otra Interrupción":
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = "pagina=formHistoria";
-                $variable.= "&opcion=interrupcion";
-                $variable.="&fecha_ingreso=" . $datos['fecha_ingreso'];
-                $variable.="&fecha_salida=" . $datos['fecha_salida'];
-                $variable.="&nit_previsora=" . $datos['prev_nit'];
-                $variable.="&nit_entidad=" . $datos['nit_entidad'];
-                $variable.="&cedula=" . $datos['cedula_emp'];
-                $variable.="&nro_ingreso=" . $datos['nro_ingreso'];
-                $variable = $this->funcion->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                break;
+                default:
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = "pagina=reportesCuotas";
+                    $variable .= "&opcion=";
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    break;
+            }
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos de Interrupción NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "</script> ";
 
-            default:
-                echo 'no entro a ningun case';
-                break;
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=reportesCuotas";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            break;
         }
     }
 

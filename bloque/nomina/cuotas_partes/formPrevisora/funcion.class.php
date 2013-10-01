@@ -119,7 +119,7 @@ class funciones_formPrevisora extends funcionGeneral {
             'fecha_registro' => $fecha_registro,);
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarPrevisora", $parametros);
-        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
 
         $registro[0] = "GUARDAR";

@@ -15,11 +15,7 @@
   ----------------------------------------------------------------------------------------
   | fecha      |        Autor            | version     |              Detalle            |
   ----------------------------------------------------------------------------------------
-  | 18/05/2013 | Violet Sosa             | 0.0.0.1     |                                 |
-  ----------------------------------------------------------------------------------------
-  | 02/08/2013 | Violet Sosa             | 0.0.0.2     | Adaptación formulario           |                                |
-  ----------------------------------------------------------------------------------------
-  | 15/08/2013 | Violet Sosa             | 0.0.0.3     | Adaptación formulario           |
+  | 27/09/2013 | Violet Sosa             | 0.0.0.4     | Adaptación formulario           |
   ----------------------------------------------------------------------------------------
  */
 
@@ -69,7 +65,7 @@ class funciones_formConcurrencia extends funcionGeneral {
 
     function registrarDescripcionCP($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
-        $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
         return $datos_DescripcionCP;
     }
 
@@ -87,25 +83,25 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function procesarFormulario($datos) {
-     
+
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
 
-     /*   foreach ($datos as $key => $value) {
+        /*   foreach ($datos as $key => $value) {
 
-            if ($datos[$key] == "") {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotas';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
-        }
-*/
+          if ($datos[$key] == "") {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formulario NO diligenciado correctamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=reportesCuotas';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
+          }
+         */
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
             'nit_entidad' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),
@@ -121,24 +117,37 @@ class funciones_formConcurrencia extends funcionGeneral {
             'registro' => $fecha_registro);
 
         $registro_descripcion_cp = $this->registrarDescripcionCP($parametros_descripcion_cp);
-        $registroD[0] = "GUARDAR";
-        $registroD[1] = $parametros_descripcion_cp['cedula'] . '|' . $parametros_descripcion_cp['nit_entidad'] . '|' . $parametros_descripcion_cp['nit_previsora']; //
-        $registroD[2] = "CUOTAS_PARTES";
-        $registroD[3] = $parametros_descripcion_cp['valor_mesada'] . '|' . $parametros_descripcion_cp['valor_cuota'] . '|' . $parametros_descripcion_cp['porcen_cuota']; //
-        $registroD[4] = time();
-        $registroD[5] = "Registra datos cuota parte pactada para el pensionado con ";
-        $registroD[5] .= " identificacion =" . $parametros_descripcion_cp['cedula'];
-        $this->log_us->log_usuario($registroD, $this->configuracion);
+       
+        if ($registro_descripcion_cp == true) {
+            $registroD[0] = "GUARDAR";
+            $registroD[1] = $parametros_descripcion_cp['cedula'] . '|' . $parametros_descripcion_cp['nit_entidad'] . '|' . $parametros_descripcion_cp['nit_previsora']; //
+            $registroD[2] = "CUOTAS_PARTES";
+            $registroD[3] = $parametros_descripcion_cp['valor_mesada'] . '|' . $parametros_descripcion_cp['valor_cuota'] . '|' . $parametros_descripcion_cp['porcen_cuota']; //
+            $registroD[4] = time();
+            $registroD[5] = "Registra datos cuota parte pactada para el pensionado con ";
+            $registroD[5] .= " identificacion =" . $parametros_descripcion_cp['cedula'];
+            $this->log_us->log_usuario($registroD, $this->configuracion);
 
-        echo "<script type=\"text/javascript\">" .
-        "alert('Datos Registrados');" .
-        "</script> ";
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos Registrados');" .
+            "</script> ";
 
-        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=formularioConcurrencia";
-        $variable .= "&opcion=";
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioConcurrencia";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos de Interrupción No Registrados Correctamente. Puede deberse a que el registro ya existe');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioConcurrencia";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        }
     }
 
 }
