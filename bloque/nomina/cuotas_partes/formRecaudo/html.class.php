@@ -251,26 +251,24 @@ class html_formRecaudo {
 
                         foreach ($cobros as $key => $value) {
                             $saldo = 0;
-                            foreach ($historial as $cont => $value) {
+                            /* foreach ($historial as $cont => $value) {
 
-                                $a = 0;
-                                $b = 1;
-                                if ($historial[$cont][1] == $historial[$b][1]) {
-                                    //    echo $abono = $historial[$a][6] + $abono . '<br>';
-                                }
+                              $a = 0;
+                              $b = 1;
+                              if ($historial[$cont][1] == $historial[$b][1]) {
+                              //    echo $abono = $historial[$a][6] + $abono . '<br>';
+                              }
+                              /*
+                              if ($cobros[$key][3] == $historial[$cont][1]) {
+                              // echo $key . '===>' . $cobros[$key][3] . '=>' . $historial[$cont][1] . '=>' . $cont . '<br>';
+                              ///  echo $key . '===>' . $cobros[$key][8] . '=>' . $historial[$cont][6] . '=>' . $cont . '<br><br>';
 
-
-                                /*  if ($cobros[$key][3] == $historial[$cont][1]) {
-                                  // echo $key . '===>' . $cobros[$key][3] . '=>' . $historial[$cont][1] . '=>' . $cont . '<br>';
-                                  ///  echo $key . '===>' . $cobros[$key][8] . '=>' . $historial[$cont][6] . '=>' . $cont . '<br><br>';
-
-                                  echo $deuda = $cobros[$key][8] . '<br>';
-                                  echo $abono = $historial[$cont][6] + $abono . '<br>';
-                                  echo $saldo = $deuda - $abono . '<br>';
-                                  } */
-                            }
-
-
+                              echo $deuda = $cobros[$key][8] . '<br>';
+                              echo $abono = $historial[$cont][6] + $abono . '<br>';
+                              echo $saldo = $deuda - $abono . '<br>';
+                              }
+                              }
+                             */
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key][0] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key][1] . "</td>";

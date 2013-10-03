@@ -321,7 +321,7 @@ class html_formPrevisora {
                     <div class="control capleft">
                         <div>
                             <div class="dropdown">
-                                <select id="p1f13c" name="estado" required='required' class="fieldcontent"><option></option><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
+                                <select id="p1f13c" name="estado" required='required' class="fieldcontent"><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
                                 <div class="fielderror"></div>
                             </div>
                         </div>
@@ -340,7 +340,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="observacion" class="fieldcontent" required='required' maxlength='150' value='(llenar si aplica)'>
+                            <input type="text" id="p1f7c" name="observacion" class="fieldcontent" required='required' maxlength='150' >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -460,7 +460,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="otro_contacto" class="fieldcontent" maxlength='25' value='(llenar si aplica)' >
+                            <input type="text" id="p1f7c" name="otro_contacto" class="fieldcontent" maxlength='25' >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -478,7 +478,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="otro_cargo" class="fieldcontent" maxlength='25' value='(llenar si aplica)'>
+                            <input type="text" id="p1f7c" name="otro_cargo" class="fieldcontent" maxlength='25' >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -512,7 +512,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="email" name="txtEmail2" class="fieldcontent" value='(llenar si aplica)@correo.com' maxlength='35'>
+                            <input type="text" id="email" name="txtEmail2" class="fieldcontent" placeholder="correo@dominio.com" maxlength='35'>
                         </div>
                         <div class="null"></div>
                     </div>

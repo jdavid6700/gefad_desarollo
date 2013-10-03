@@ -84,10 +84,10 @@ class funciones_formPrevisora extends funcionGeneral {
 
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
-
+/*
         foreach ($datos as $key => $value) {
 
-            if ($datos[$key] == "") {
+           /* if ($datos[$key] == "") {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
@@ -98,7 +98,7 @@ class funciones_formPrevisora extends funcionGeneral {
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
             }
-        }
+        }*/
 
         $parametros = array(
             'nit_previsora' => (isset($datos['nit_previsora']) ? $datos['nit_previsora'] : ''),
