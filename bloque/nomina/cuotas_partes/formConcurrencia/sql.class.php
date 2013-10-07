@@ -23,6 +23,9 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" dcp_nitent, ";
                 $cadena_sql.=" dcp_nitprev, ";
                 $cadena_sql.=" dcp_fecha_concurrencia, ";
+                $cadena_sql.=" dcp_resol_pension, ";
+                $cadena_sql.=" dcp_resol_pension_fecha, ";
+                $cadena_sql.=" dcp_fecha_pension date, ";
                 $cadena_sql.=" dcp_valor_mesada, ";
                 $cadena_sql.=" dcp_valor_cuota, ";
                 $cadena_sql.=" dcp_porcen_cuota, ";
@@ -35,6 +38,9 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
                 $cadena_sql.=" '" . $variable['nit_previsora'] . "' ,";
                 $cadena_sql.=" '" . $variable['fecha_concurrencia'] . "' ,";
+                $cadena_sql.=" '" . $variable['resol_pension']."', ";
+                $cadena_sql.=" '" . $variable['resol_pension_fecha']."', ";
+                $cadena_sql.=" '" . $variable['fecha_pension']."', ";
                 $cadena_sql.=" '" . $variable['valor_mesada'] . "' ,";
                 $cadena_sql.=" '" . $variable['valor_cuota'] . "' ,";
                 $cadena_sql.=" '" . $variable['porcen_cuota'] . "' ,";
