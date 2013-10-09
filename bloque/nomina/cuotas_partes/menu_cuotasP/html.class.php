@@ -126,7 +126,7 @@
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Registrar y Consultar Entidades Previsoras</a></li>
+                                        ?>">Registrar y Consultar Entidades Previsoras y Empleadoras</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioIPC';
