@@ -603,7 +603,7 @@ class html_formHistoria {
 
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
-                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO ENTIDAD</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DATOS ENTIDAD DE LABOR</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -626,24 +626,6 @@ class html_formHistoria {
                     <div class="null"></div>
                 </div>
 
-
-                <div class="formrow f1">
-                    <div id="p1f6" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit Empleador<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="miCampo" name="nit_empleador" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="9"  pattern=".{8,10}">
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
@@ -657,18 +639,18 @@ class html_formHistoria {
                                     <?
                                     unset($combo);
                                     //prepara los datos como se deben mostrar en el combo
-                                    $combo[0][0] = '0';
+                                    $combo[0][0] = '1';
                                     $combo[0][1] = 'No registra en la base de datos';
                                     foreach ($datos_previsora as $cmb => $values) {
-                                        $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : 0;
+                                        $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
                                         $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                     }
 
                                     // echo$combo;
                                     if (isset($_REQUEST['entidad2'])) {
-                                        $lista_combo = $this->html->cuadro_lista($combo, 'prev_nombre', $this->configuracion, $_REQUEST['prev_nombre'], 0, FALSE, 0, 'prev_nombre');
+                                        $lista_combo = $this->html->cuadro_lista($combo, 'empleador_nit', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'empleador_nit');
                                     } else {
-                                        $lista_combo = $this->html->cuadro_lista($combo, 'prev_nombre', $this->configuracion, 0, 0, FALSE, 0, 'prev_nombre');
+                                        $lista_combo = $this->html->cuadro_lista($combo, 'empleador_nit', $this->configuracion, 0, 0, FALSE, 0, 'empleador_nit');
                                     }
                                     echo $lista_combo;
                                     ?> 
@@ -747,7 +729,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="miCampo" name="contacto_entidad"  placeholder="dd/mm/aaaa" class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
+                                <input type="text" id="miCampo" name="contacto_entidad"   class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -776,7 +758,7 @@ class html_formHistoria {
                                         $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                     }
 
-                                     echo$combo;
+                                    // echo$combo;
                                     if (isset($_REQUEST['entidad2'])) {
                                         $lista_combo = $this->html->cuadro_lista($combo, 'prev_nit', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'prev_nit');
                                     } else {
@@ -807,7 +789,7 @@ class html_formHistoria {
 
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
-                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO HISTORIA LABORAL</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DATOS TIEMPO LABORAL</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>

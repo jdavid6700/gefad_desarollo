@@ -176,6 +176,9 @@ class funciones_formHistoria extends funcionGeneral {
             $datos['prev_nit'] = $datos['nit_empleador'];
         }
 
+        var_dump($datos);
+
+        exit;
 
         $parametros_hlaboral = array(
             'nro_ingreso' => (isset($datos['nro_ingreso']) ? $datos['nro_ingreso'] : ''),
@@ -191,7 +194,6 @@ class funciones_formHistoria extends funcionGeneral {
 
         $parametros_entidad = array(
             'nit_entidad' => (isset($datos['nit_empleador']) ? $datos['nit_empleador'] : ''),
-            'nombre_entidad' => (isset($datos['nombre_empleador']) ? $datos['nombre_empleador'] : ''),
             'ciudad_entidad' => (isset($datos['ciudad_entidad']) ? $datos['ciudad_entidad'] : ''),
             'direccion_entidad' => (isset($datos['direccion_entidad']) ? $datos['direccion_entidad'] : ''),
             'telefono_entidad' => (isset($datos['telefono_entidad']) ? $datos['telefono_entidad'] : ''),
@@ -338,7 +340,7 @@ class funciones_formHistoria extends funcionGeneral {
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarInterrupcion", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-   
+
         if ($datos_registrados == true) {
             $registro[0] = "GUARDAR";
             $registro[1] = $parametros['cedula'] . '|' . $parametros['nro_interrupcion'] . '|' . $parametros['nit_entidad']; //

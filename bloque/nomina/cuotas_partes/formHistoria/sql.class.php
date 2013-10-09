@@ -44,7 +44,6 @@ class sql_formHistoria extends sql {
             case "insertarEntidad":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_entidad ( ";
                 $cadena_sql.=" ent_nit_entidad, ";
-                $cadena_sql.=" ent_nombre, ";
                 $cadena_sql.=" ent_ciudad, ";
                 $cadena_sql.=" ent_direccion, ";
                 $cadena_sql.=" ent_telefono, ";
@@ -52,7 +51,6 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" ent_estado, ";
                 $cadena_sql.=" ent_registro) VALUES ( ";
                 $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
-                $cadena_sql.=" '" . $variable['nombre_entidad'] . "' ,";
                 $cadena_sql.=" '" . $variable['ciudad_entidad'] . "' ,";
                 $cadena_sql.=" '" . $variable['direccion_entidad'] . "' ,";
                 $cadena_sql.=" '" . $variable['telefono_entidad'] . "' ,";
