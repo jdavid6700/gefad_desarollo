@@ -93,6 +93,16 @@ class html_formHistoria {
                 });
             });
 
+            $(document).ready(function() {
+                $("#fecha_certificado").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:c',
+                    dateFormat: 'dd/mm/yy',
+                    minDate: new Date(<? echo $minY ?>,<? echo $minM ?>,<? echo $minD ?>),
+                    maxDate: new Date(<? echo $maxY ?>,<? echo $maxM ?>,<? echo $maxD ?>),
+                });
+            });
         </script>
 
         <script>
@@ -330,6 +340,40 @@ class html_formHistoria {
                     <div class="null"></div>
                 </div>
 
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Núm. Certificado<a STYLE="color: red" >*</a></span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f6c" name="num_certificado" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7">
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n2">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="fecha_certificado"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Certificado<a STYLE="color: red" >*</a></span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="fecha_certificado"  name="fecha_certificado" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
                 <div class="null"></div>
                 <center> 
                     <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Otra Interrupción" onClick='return confirmarEnvio();'>
@@ -512,7 +556,7 @@ class html_formHistoria {
                 }
             }
         </script>
-        
+
         <script>
             function confirmarEnvio()
             {
@@ -601,16 +645,37 @@ class html_formHistoria {
                 </div>
 
                 <div class="formrow f1">
-                    <div id="p1f7" class="field n1">
+                    <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Empleador<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Empleador<a STYLE="color: red" >*</a></span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
-                            <div>
-                                <input type="text" id="miCampo" name="nombre_empleador" class="fieldcontent" required='required' onKeyPress='return acceptLetter(event)' maxlength="60" pattern=".{4,60}">
+                            <div class="control capleft">
+                                <div class="dropdown" required='required' >
 
+                                    <?
+                                    unset($combo);
+                                    //prepara los datos como se deben mostrar en el combo
+                                    $combo[0][0] = '0';
+                                    $combo[0][1] = 'No registra en la base de datos';
+                                    foreach ($datos_previsora as $cmb => $values) {
+                                        $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : 0;
+                                        $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                    }
+
+                                    // echo$combo;
+                                    if (isset($_REQUEST['entidad2'])) {
+                                        $lista_combo = $this->html->cuadro_lista($combo, 'prev_nombre', $this->configuracion, $_REQUEST['prev_nombre'], 0, FALSE, 0, 'prev_nombre');
+                                    } else {
+                                        $lista_combo = $this->html->cuadro_lista($combo, 'prev_nombre', $this->configuracion, 0, 0, FALSE, 0, 'prev_nombre');
+                                    }
+                                    echo $lista_combo;
+                                    ?> 
+
+                                </div>
                             </div>
+
                             <div class="null"></div>
                         </div>
                         <div class="null"></div>
@@ -682,7 +747,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="miCampo" name="contacto_entidad"  placeholder="dd/mm/aaaa" value="0" class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
+                                <input type="text" id="miCampo" name="contacto_entidad"  placeholder="dd/mm/aaaa" class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -694,7 +759,7 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit Entidad Previsora<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Previsora<a STYLE="color: red" >*</a></span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -708,10 +773,10 @@ class html_formHistoria {
                                     $combo[0][1] = 'Empleador';
                                     foreach ($datos_previsora as $cmb => $values) {
                                         $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
-                                        $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : '';
+                                        $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                     }
 
-                                    // echo$combo;
+                                     echo$combo;
                                     if (isset($_REQUEST['entidad2'])) {
                                         $lista_combo = $this->html->cuadro_lista($combo, 'prev_nit', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'prev_nit');
                                     } else {
@@ -871,24 +936,24 @@ class html_formHistoria {
         ?>
 
         <script>
-               function acceptNum(e) {
-                   key = e.keyCode || e.which;
-                   tecla = String.fromCharCode(key).toLowerCase();
-                   letras = "01234567890";
-                   especiales = [8, 39, 9];
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 39, 9];
 
-                   tecla_especial = false
-                   for (var i in especiales) {
-                       if (key == especiales[i]) {
-                           tecla_especial = true;
-                           break;
-                       }
-                   }
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
 
-                   if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                       return false;
-                   }
-               }
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
         </script>
 
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />

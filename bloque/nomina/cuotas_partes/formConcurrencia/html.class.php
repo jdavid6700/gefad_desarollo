@@ -245,6 +245,29 @@ class html_formConcurrencia {
                     dateFormat: 'dd/mm/yy'
                 });
             });
+            
+              $(document).ready(function() {
+                $("#fecha_res_pension").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:c',
+                    maxDate: "+0D",
+                    dateFormat: 'dd/mm/yy'
+                });
+            });
+            
+              $(document).ready(function() {
+                $("#fecha_pension").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:c',
+                    maxDate: "+0D",
+                    dateFormat: 'dd/mm/yy',
+                    onSelect: function(dateValue, inst) {
+                        $("#fecha_res_pension").datepicker("option", "minDate", dateValue)
+                    }
+                });
+            });
         </script>
 
         <script language = "Javascript">
@@ -348,8 +371,8 @@ class html_formConcurrencia {
                 }
             }
         </script>
-        
-        
+
+
         <script>
             function confirmarEnvio()
             {
@@ -445,7 +468,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_con" name="fecha_concurrencia" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            <input type="text" id="fecha_con" name="fecha_concurrencia" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -453,6 +476,58 @@ class html_formConcurrencia {
                 </div>
                 <div class="null"></div>
             </div>
+
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="resolucion_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Res. Pensión<a STYLE="color: red" >*</a></span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="res_pensión" name="resolucion_pension" required='required' onKeyPress='return acceptNum(event)' maxlength="12" pattern=".{8,12}.">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="fecha_res_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Res. Pensión<a STYLE="color: red" >*</a></span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="fecha_res_pension" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="fecha_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Pensión<a STYLE="color: red" >*</a></span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="fecha_pension" name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
 
             <div class="formrow f1">
                 <div id="p1f12" class="field n1">
@@ -497,7 +572,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="porc_aceptado" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" value='0.' pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" >Decimal en formato: 0.9999, mín. dos decimales
+                            <input type="text" id="p1f6c" name="porc_aceptado" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" >Decimal en formato: 0.9999, mín. dos decimales
                         </div>
                         <div class="null"></div>
                     </div>
@@ -551,7 +626,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_act" name="fecha_acto_adm" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            <input type="text" id="fecha_act" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                         </div>
                         <div class="null"></div>
                     </div>

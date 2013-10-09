@@ -88,9 +88,11 @@ class bloque_formHistoria extends bloque {
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                        $registro_historia[$key] = $_REQUEST[$key];
+                     echo $key.'='.   $registro_historia[$key] = $_REQUEST[$key].'<br>';
                     }
                 }
+                
+                exit;
 
                 $this->funcion->procesarFormulario($registro_historia);
                 break;

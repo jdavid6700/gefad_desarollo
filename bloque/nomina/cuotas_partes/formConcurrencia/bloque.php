@@ -69,7 +69,7 @@ class bloque_formConcurrencia extends bloque {
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                        $registro_previsora[$key] = $_REQUEST[$key];
+                      $registro_previsora[$key] = $_REQUEST[$key];
                     }
                 }
 

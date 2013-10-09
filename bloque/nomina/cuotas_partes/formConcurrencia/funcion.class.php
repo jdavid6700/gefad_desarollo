@@ -64,7 +64,7 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function registrarDescripcionCP($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
         $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
         return $datos_DescripcionCP;
     }
@@ -87,25 +87,28 @@ class funciones_formConcurrencia extends funcionGeneral {
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
 
-        /*   foreach ($datos as $key => $value) {
+        foreach ($datos as $key => $value) {
 
-          if ($datos[$key] == "") {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Formulario NO diligenciado correctamente');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=reportesCuotas';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-          exit;
-          }
-          }
-         */
+            if ($datos[$key] == "") {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Formulario NO diligenciado correctamente');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=reportesCuotas';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
             'nit_entidad' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),
             'nit_previsora' => (isset($datos['entidad_previsora']) ? $datos['entidad_previsora'] : ''),
+            'resolucion_pension' => (isset($datos['resolucion_pension']) ? $datos['resolucion_pension'] : ''),
+            'fecha_res_pension' => (isset($datos['fecha_res_pension']) ? $datos['fecha_res_pension'] : ''),
+            'fecha_pension' => (isset($datos['fecha_pension']) ? $datos['fecha_pension'] : ''),
             'valor_mesada' => (isset($datos['mesada']) ? $datos['mesada'] : ''),
             'valor_cuota' => (isset($datos['cp_aceptada']) ? $datos['cp_aceptada'] : ''),
             'porcen_cuota' => (isset($datos['porc_aceptado']) ? $datos['porc_aceptado'] : ''),
@@ -117,7 +120,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             'registro' => $fecha_registro);
 
         $registro_descripcion_cp = $this->registrarDescripcionCP($parametros_descripcion_cp);
-       
+
         if ($registro_descripcion_cp == true) {
             $registroD[0] = "GUARDAR";
             $registroD[1] = $parametros_descripcion_cp['cedula'] . '|' . $parametros_descripcion_cp['nit_entidad'] . '|' . $parametros_descripcion_cp['nit_previsora']; //

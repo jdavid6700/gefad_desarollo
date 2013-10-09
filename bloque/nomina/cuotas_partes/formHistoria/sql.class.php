@@ -67,24 +67,26 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" int_nro_ingreso,  ";
                 $cadena_sql.=" int_nro_identificacion, ";
                 $cadena_sql.=" int_nitent, int_nitprev, ";
-                $cadena_sql.=" int_dias,   int_fdesde, ";
-                $cadena_sql.=" int_fhasta, int_estado, ";
-                $cadena_sql.=" int_registro) VALUES ( ";
-                $cadena_sql.=" '" . $variable['nro_interrupcion'] . "' ,";
-                $cadena_sql.=" '" . $variable['nro_ingreso'] . "' ,";
-                $cadena_sql.=" '" . $variable['cedula'] . "' ,";
-                $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
-                $cadena_sql.=" '" . $variable['entidad_previsora'] . "' ,";
-                $cadena_sql.=" '" . $variable['total_dias'] . "' ,";
-                $cadena_sql.=" '" . $variable['dias_nor_desde'] . "' ,";
-                $cadena_sql.=" '" . $variable['dias_nor_hasta'] . "' ,";
-                $cadena_sql.=" '" . $variable['estado'] . "' ,";
-                $cadena_sql.=" '" . $variable['registro'] . "')";
+                $cadena_sql.=" int_dias,   int_fdesde, int_fhasta, ";
+                $cadena_sql.=" int_num_certificado, int_fecha_cert, ";
+                $cadena_sql.=" int_estado, int_registro) VALUES ( ";
+                $cadena_sql.=" '" . $variable['nro_interrupcion'] . "', ";
+                $cadena_sql.=" '" . $variable['nro_ingreso'] . "', ";
+                $cadena_sql.=" '" . $variable['cedula'] . "', ";
+                $cadena_sql.=" '" . $variable['nit_entidad'] . "', ";
+                $cadena_sql.=" '" . $variable['entidad_previsora'] . "', ";
+                $cadena_sql.=" '" . $variable['total_dias'] . "', ";
+                $cadena_sql.=" '" . $variable['dias_nor_desde'] . "', ";
+                $cadena_sql.=" '" . $variable['dias_nor_hasta'] . "', ";
+                $cadena_sql.=" '" . $variable['num_certificado'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_certificado'] . "', ";
+                $cadena_sql.=" '" . $variable['estado'] . "', ";
+                $cadena_sql.=" '" . $variable['registro'] . "' ) ";
                 break;
 
             case "consultarPrevisora":
                 $cadena_sql = " SELECT ";
-                $cadena_sql.=" prev_nit,";
+                $cadena_sql.=" prev_nit, ";
                 $cadena_sql.=" prev_nombre ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
                 $cadena_sql.=" ORDER BY prev_habilitado_pago ASC ";
@@ -103,7 +105,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_estado, ";
                 $cadena_sql.=" hlab_registro ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable . "' ";
+                $cadena_sql.=" WHERE hlab_nro_identificacion = '" . $variable . "' ";
                 break;
 
             default:

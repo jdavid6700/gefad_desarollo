@@ -330,13 +330,15 @@ class funciones_formHistoria extends funcionGeneral {
             'entidad_previsora' => (isset($datos['prev_nit']) ? $datos['prev_nit'] : ''),
             'dias_nor_desde' => (isset($datos['dias_nor_desde']) ? $datos['dias_nor_desde'] : ''),
             'dias_nor_hasta' => (isset($datos['dias_nor_hasta']) ? $datos['dias_nor_hasta'] : ''),
+            'num_certificado' => (isset($datos['num_certificado']) ? $datos['num_certificado'] : ''),
+            'fecha_certificado' => (isset($datos['fecha_certificado']) ? $datos['fecha_certificado'] : ''),
             'estado' => $estado,
             'registro' => $fecha_registro,
             'total_dias' => (isset($datos['total_dias']) ? $datos['total_dias'] : ''),);
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarInterrupcion", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-
+   
         if ($datos_registrados == true) {
             $registro[0] = "GUARDAR";
             $registro[1] = $parametros['cedula'] . '|' . $parametros['nro_interrupcion'] . '|' . $parametros['nit_entidad']; //
@@ -408,4 +410,5 @@ class funciones_formHistoria extends funcionGeneral {
     }
 
 }
+
 ?>
