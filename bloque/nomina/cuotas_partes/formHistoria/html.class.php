@@ -397,6 +397,7 @@ class html_formHistoria {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+     
         ?>
 
         <style>                    h3{text-align: left}                </style>
@@ -693,7 +694,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="miCampo" name="direccion_entidad" class="fieldcontent" required='required' maxlength="50" pattern=".{8,50}">
+                                <input type="text" id="miCampo" name="direccion_entidad" class="fieldcontent" required='required' maxlength="80" pattern=".{8,80}">
 
                             </div>
                             <div class="null"></div>

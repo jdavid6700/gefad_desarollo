@@ -87,7 +87,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" prev_nit, ";
                 $cadena_sql.=" prev_nombre ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
-                $cadena_sql.=" ORDER BY prev_habilitado_pago ASC ";
+                $cadena_sql.=" ORDER BY prev_nombre ASC ";
                 break;
 
             case "consultarHistoria":
@@ -104,6 +104,13 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_registro ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion = '" . $variable . "' ";
+                break;
+
+            case "consultarGeografia":
+                $cadena_sql = " SELECT dep_nombre, mun_nombre ";
+                $cadena_sql.=" FROM MNTGE.gemunicipio, MNTGE.gedepartamento ";
+                $cadena_sql.=" WHERE mun_dep_cod=dep_cod";
+                $cadena_sql.=" ORDER BY mun_nombre";
                 break;
 
             default:

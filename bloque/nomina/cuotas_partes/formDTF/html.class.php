@@ -55,7 +55,7 @@ class html_formDTF {
                     containerID: "itemContainer",
                     previous: "←",
                     next: "→",
-                    perPage: 5,
+                    perPage: 4,
                     delay: 20
                 });
             });
@@ -368,7 +368,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fec_reso" name="fec_reso" required='required' readonly>
+                                <input type="text" id="fec_reso" name="fec_reso" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -386,7 +386,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_desde" name="fecvig_desde" required='required' readonly>
+                                <input type="text" id="fecvig_desde" name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                             <div class="null"></div>
                         </div>
@@ -404,7 +404,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_hasta" name="fecvig_hasta" required='required' readonly>
+                                <input type="text" id="fecvig_hasta" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -422,7 +422,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_dtf" name="indice_dtf"  placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" title="Ingrese indice en numeros decimales." class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
+                                <input type="text" id="indice_dtf" name="indice_dtf"  placeholder="0.0000"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" title="Ingrese indice en numeros decimales." class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
                             </div>
                             <div class="null"></div>
                         </div>

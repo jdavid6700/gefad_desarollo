@@ -19,6 +19,8 @@
   ----------------------------------------------------------------------------------------
   | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
+  | 11/10/2013 | Violet Sosa             | 0.0.0.3     |                                 |
+  ----------------------------------------------------------------------------------------
  */
 
 /* --------------------------------------------------------------------------------------------------------------------------
@@ -38,8 +40,7 @@ include_once("html.class.php");
 class funciones_formIPC extends funcionGeneral {
 
     function __construct($configuracion, $sql) {
-        //[ TO DO ]En futuras implementaciones cada usuario debe tener un estilo		
-        //include ($configuracion["raiz_documento"].$configuracion["estilo"]."/".$this->estilo."/tema.php");
+
         include ($configuracion["raiz_documento"] . $configuracion["estilo"] . "/basico/tema.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/log.class.php");
@@ -78,6 +79,9 @@ class funciones_formIPC extends funcionGeneral {
 
     function procesarFormulario($datos) {
 
+        $estado = 1;
+        $fecha_registro = date('d/m/Y');
+
         foreach ($datos as $key => $value) {
 
             if ($datos[$key] == "") {
@@ -93,28 +97,28 @@ class funciones_formIPC extends funcionGeneral {
             }
         }
 
-        if (!preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $datos['fecha_consultar'])) {
-
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioIPC';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
+        foreach ($datos as $key => $value) {
+            if (!ereg("^[0-9.]{1,7}$", $datos[$key])) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Formulario NO diligenciado correctamente B');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioIPC';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
         }
 
         $parametros = "";
-        $anio = substr($datos['fecha_consultar'], 6, 10);
-    
+        $anio = $datos['año_registrar'];
+
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
         $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
         foreach ($verificacion as $key => $value) {
-            $Ani_ = $verificacion[$key]['fecha'];
-            $Ani_ = substr($Ani_, 0, 4);
+            $Ani_ = $verificacion[$key]['ipc_fecha'];
 
             if ($anio == $Ani_) {
 
@@ -131,31 +135,45 @@ class funciones_formIPC extends funcionGeneral {
         }
 
         $parametros2 = array(
-            'Fecha' => (isset($datos['fecha_consultar']) ? $datos['fecha_consultar'] : ''),
+            'Fecha' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
             'Indice_IPC' => (isset($datos['indice_Ipc']) ? $datos['indice_Ipc'] : ''),
-            'Suma_fijas' => (isset($datos['sum_fj']) ? $datos['sum_fj'] : ''),);
-        
+            'Suma_fijas' => (isset($datos['sum_fj']) ? $datos['sum_fj'] : ''),
+            'estado_registro' => $estado,
+            'fecha_registro' => $fecha_registro);
 
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarIPC", $parametros2);
-        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "registrar");
-        
-        $registro[0] = "GUARDAR";
-                    $registro[1] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
-                    $registro[2] = "CUOTAS_PARTES_IPC";
-                    $registro[3] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
-                    $registro[4] = time();
-                    $registro[5] = "Registra datos básicos indice IPC para el ";
-                    $registro[5] .= " Periodo =" . $parametros2['Fecha'];
-                    $this->log_us->log_usuario($registro, $this->configuracion);
+        $cadena_sql2 = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarIPC", $parametros2);
+        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql2, "registrar");
 
 
-        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=formularioIPC";
-        $variable .= "&opcion=";
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        if ($datos_registrados == true) {
+
+            $registro[0] = "GUARDAR";
+            $registro[1] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
+            $registro[2] = "CUOTAS_PARTES_IPC";
+            $registro[3] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
+            $registro[4] = time();
+            $registro[5] = "Registra datos básicos indice IPC para el ";
+            $registro[5] .= " Periodo =" . $parametros2['Fecha'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
+
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioIPC";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Los datos no se registraron correctamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioIPC";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
     }
 
 }
-
 ?>

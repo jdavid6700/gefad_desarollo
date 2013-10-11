@@ -54,7 +54,7 @@ class html_formIPC {
                     containerID: "itemContainer",
                     previous: "←",
                     next: "→",
-                    perPage: 5,
+                    perPage: 4,
                     delay: 20
                 });
             });</script>
@@ -164,7 +164,7 @@ class html_formIPC {
 
         <script>
             function mensaje() {
-                document.write('Ingreso del indice en numeros decimales.');
+                document.write('Ingreso del indice en numeros decimales');
             }
         </script>
 
@@ -235,12 +235,12 @@ class html_formIPC {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Indice   (IPC)<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Indice (IPC)<a STYLE="color: red" >*</a></span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" name="indice_Ipc" placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" class="fieldcontent" required='required' title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >
+                                <input type="text" id="indice_Ipc" name="indice_Ipc" placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" class="fieldcontent" required='required' title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
 
                             </div>
                             <div class="null"></div>

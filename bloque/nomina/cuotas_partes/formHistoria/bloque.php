@@ -56,7 +56,7 @@ class bloque_formHistoria extends bloque {
                     foreach ($_REQUEST as $key => $value) {
                         $datos_interrupcion[$key] = $_REQUEST[$key];
                     }
-                    
+
                     $this->funcion->nuevaInterrupcion($datos_interrupcion);
                     break;
 
@@ -88,11 +88,9 @@ class bloque_formHistoria extends bloque {
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                     echo $key.'='.   $registro_historia[$key] = $_REQUEST[$key].'<br>';
+                        $registro_historia[$key] = $_REQUEST[$key];
                     }
                 }
-                
-                exit;
 
                 $this->funcion->procesarFormulario($registro_historia);
                 break;
@@ -108,7 +106,6 @@ class bloque_formHistoria extends bloque {
                 }
 
                 $this->funcion->procesarFormularioInterrupcion($registro_interrupcion);
-
                 break;
 
             default :

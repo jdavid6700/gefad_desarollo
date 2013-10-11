@@ -35,14 +35,14 @@ include_once("sql.class.php");
 include_once("funcion.class.php");
 
 //Clase
-class bloque_formDTF extends bloque {
+class bloque_formPrevisora extends bloque {
 
     private $configuracion;
 
     public function __construct($configuracion) {
         $this->configuracion = $configuracion;
-        $this->sql = new sql_formDTF();
-        $this->funcion = new funciones_formDTF($configuracion, $this->sql);
+        $this->sql = new sql_formPrevisora();
+        $this->funcion = new funciones_formPrevisora($configuracion, $this->sql);
     }
 
     function html() {
@@ -51,11 +51,12 @@ class bloque_formDTF extends bloque {
 
             switch ($accion) {
 
-                default :
+                case "formularioPrevisora":
                     $this->funcion->mostrarFormulario();
-                    $this->funcion->ConsultarIndice();
-
                     break;
+
+                default :
+                    $this->funcion->consultarRegistros();
             }
         } else {
             $accion = "inicio";
@@ -66,16 +67,17 @@ class bloque_formDTF extends bloque {
     function action() {
 
         switch ($_REQUEST['opcion']) {
-            case "insertarDTF":           
-                $registro_dtf = array();
+            case "registrarPrevisora":
+
+                $registro_previsora = array();
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                        $registro_dtf[$key] = $_REQUEST[$key];
+                        $registro_previsora[$key] = $_REQUEST[$key];
                     }
                 }
 
-                $this->funcion->procesarFormulario($registro_dtf);
+                $this->funcion->procesarFormulario($registro_previsora);
                 break;
 
             default :
@@ -91,7 +93,7 @@ class bloque_formDTF extends bloque {
 }
 
 // @ Crear un objeto bloque especifico
-$esteBloque = new bloque_formDTF($configuracion);
+$esteBloque = new bloque_formPrevisora($configuracion);
 //echo var_dump($_REQUEST);exit;
 //"blouqe ".$_REQUEST['action'];exit;
 
