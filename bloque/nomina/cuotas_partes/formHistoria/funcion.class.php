@@ -56,8 +56,7 @@ class funciones_formHistoria extends funcionGeneral {
         $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
 
         //Conexión a Oracle
-        $this->acceso_oracle = $this->conectarDB($configuracion, "cuotasP");
-
+        // $this->acceso_oracle = $this->conectarDB($configuracion, "cuotasP");
         //Datos de sesion
 
         $this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
@@ -91,12 +90,6 @@ class funciones_formHistoria extends funcionGeneral {
         return $datos_historia;
     }
 
-    function consultarGeografia($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarGeografia", $parametro);
-        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
-        return $datos_historia;
-    }
-
     function registrarHLaboral($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarHistoria", $parametros);
         $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
@@ -104,7 +97,7 @@ class funciones_formHistoria extends funcionGeneral {
     }
 
     function registrarEntidad($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarEntidad", $parametros);
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarEntidad", $parametros);
         $datos_Entidad = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
         return $datos_Entidad;
     }
@@ -124,7 +117,6 @@ class funciones_formHistoria extends funcionGeneral {
         $fecha_registro = date('d/m/Y');
 
         foreach ($datos as $key => $value) {
-
             if ($datos[$key] == "") {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente');" .
@@ -138,35 +130,10 @@ class funciones_formHistoria extends funcionGeneral {
             }
         }
 
-
-        if (!preg_match('((^(10|12|0?[13578])([/])(3[01]|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(11|0?[469])([/])(30|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(2[0-8]|1[0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(29)([/])([2468][048]00)$)|(^(0?2)([/])(29)([/])([3579][26]00)$)|(^(0?2)([/])(29)([/])([1][89][0][48])$)|(^(0?2)([/])(29)([/])([2-9][0-9][0][48])$)|(^(0?2)([/])(29)([/])([1][89][2468][048])$)|(^(0?2)([/])(29)([/])([2-9][0-9][2468][048])$)|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$))', $datos['fecha_ingreso'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha ingreso diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina = formHistoria';
-            $variable.='&opcion = ';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
-
-        if (!preg_match('((^(10|12|0?[13578])([/])(3[01]|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(11|0?[469])([/])(30|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(2[0-8]|1[0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(29)([/])([2468][048]00)$)|(^(0?2)([/])(29)([/])([3579][26]00)$)|(^(0?2)([/])(29)([/])([1][89][0][48])$)|(^(0?2)([/])(29)([/])([2-9][0-9][0][48])$)|(^(0?2)([/])(29)([/])([1][89][2468][048])$)|(^(0?2)([/])(29)([/])([2-9][0-9][2468][048])$)|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$))', $datos[' fecha_salida'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha salida diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina = formHistoria';
-            $variable.='&opcion = ';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
-
         foreach ($datos as $key => $value) {
-            if (!ereg("^[a-zA-Z0-9.-/]{1,20}$", $datos[$key])) {
+            if (!preg_match("#^[a-zA-Z0-9/.-\s]{1,80}$#", $datos[$key])) {
                 echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
+                "alert('Formulario NO diligenciado correctamente ...');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                 $variable = 'pagina=formHistoria';
@@ -176,6 +143,32 @@ class funciones_formHistoria extends funcionGeneral {
                 exit;
             }
         }
+
+
+        if (!preg_match('#((^(10|12|0?[13578])([/])(3[01]|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(11|0?[469])([/])(30|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(2[0-8]|1[0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(29)([/])([2468][048]00)$)|(^(0?2)([/])(29)([/])([3579][26]00)$)|(^(0?2)([/])(29)([/])([1][89][0][48])$)|(^(0?2)([/])(29)([/])([2-9][0-9][0][48])$)|(^(0?2)([/])(29)([/])([1][89][2468][048])$)|(^(0?2)([/])(29)([/])([2-9][0-9][2468][048])$)|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$))#', $datos['fecha_ingreso'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha ingreso diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina = formHistoria';
+            $variable.='&opcion =';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match('((^(10|12|0?[13578])([/])(3[01]|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(11|0?[469])([/])(30|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(2[0-8]|1[0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(29)([/])([2468][048]00)$)|(^(0?2)([/])(29)([/])([3579][26]00)$)|(^(0?2)([/])(29)([/])([1][89][0][48])$)|(^(0?2)([/])(29)([/])([2-9][0-9][0][48])$)|(^(0?2)([/])(29)([/])([1][89][2468][048])$)|(^(0?2)([/])(29)([/])([2-9][0-9][2468][048])$)|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$))', $datos['fecha_salida'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha salida diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina = formHistoria';
+            $variable.='&opcion =';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
 
         $antes = strtotime($datos['fecha_ingreso']);
         $despues = strtotime($datos['fecha_salida']);
@@ -241,7 +234,11 @@ class funciones_formHistoria extends funcionGeneral {
             break;
         }
 
+        var_dump($parametros_entidad);
         $registro_entidad = $this->registrarEntidad($parametros_entidad);
+        var_dump($registro_entidad);
+        exit;
+        
 
         if ($registro_entidad == true) {
             $registroE[0] = "GUARDAR";

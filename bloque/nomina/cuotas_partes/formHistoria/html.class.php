@@ -397,7 +397,6 @@ class html_formHistoria {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
-     
         ?>
 
         <style>                    h3{text-align: left}                </style>
