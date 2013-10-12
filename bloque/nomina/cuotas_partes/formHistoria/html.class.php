@@ -665,79 +665,6 @@ class html_formHistoria {
                     <div class="null"></div>
                 </div>
 
-
-                <div class="formrow f1">
-                    <div id="p1f7" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Ciudad<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="miCampo" name="ciudad_entidad" class="fieldcontent" onKeyPress='return acceptLetter(event)' required='required' maxlength="25" pattern=".{4,25}">
-
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
-
-                <div class="formrow f1">
-                    <div id="p1f7" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Dirección<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="miCampo" name="direccion_entidad" class="fieldcontent" required='required' maxlength="80" pattern=".{8,80}">
-
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
-                <div class="formrow f1">
-                    <div id="p1f7" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Teléfono<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="miCampo" name="telefono_entidad" class="fieldcontent" onKeyPress='return acceptNum(event)' required='required' maxlength="50" pattern=".{7,50}">
-
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
-                <div class="formrow f1">
-                    <div id="p1f7" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Contacto<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="miCampo" name="contacto_entidad"   class="fieldcontent" onKeyPress='return acceptLetter(event)' maxlength="50" pattern=".{0,50}">
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
@@ -835,7 +762,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f12c" name="horas_laboradas"  placeholder="00.00"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="5" pattern="[\d]{1,2}\.[\d]{1,2}" >Dos cifras enteras y dos decimales como máximo
+                                <input type="text" id="p1f12c" name="horas_laboradas"  placeholder="00.00"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[\d]{1,3}\.[\d]{1,2}" >Dos cifras enteras y dos decimales como máximo
 
                             </div>
                             <div class="null"></div>
