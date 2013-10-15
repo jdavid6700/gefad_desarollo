@@ -907,29 +907,29 @@ class html_formHistoria {
 
             <table class='bordered'  width ="100%"  >
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>DATOS BÁSICOS</th>
+                    <th colspan="12" class='encabezado_registro'>DATOS BÁSICOS</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' colspan="3" align=center>&nbsp;IDENTIFICACIÓN&nbsp;</td>
-                    <td class='texto_elegante2 estilo_td' colspan="8" align=center>&nbsp;NOMBRE&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan="2" align=center>&nbsp;IDENTIFICACIÓN&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan="10" align=center>&nbsp;NOMBRE&nbsp;</td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' colspan="3" align=center><? echo $historial[0][1] ?></td>
-                    <td class='texto_elegante2 estilo_td' colspan="8" align=center></td>
+                    <td class='texto_elegante2 estilo_td' colspan="2" align=center><? echo $historial[0][1] ?></td>
+                    <td class='texto_elegante2 estilo_td' colspan="10" align=center></td>
                 </tr>
 
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>HISTORIA LABORAL</th>
+                    <th colspan="12" class='encabezado_registro'>HISTORIA LABORAL</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
-                    <td class='texto_elegante2 estilo_td' colspan="2" align=center>&nbsp;EMPLEADOR&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan="3" align=center>&nbsp;EMPLEADOR&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan="2" align=center>FECHA INGRESO</td>
                     <td class='texto_elegante2 estilo_td' colspan="2" align=center>FECHA RETIRO</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>JORNADA</td>
-                    <td class='texto_elegante2 estilo_td' align=center>HORAS LABORADAS</td>
+                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>HORAS LABORADAS</td>
                 </tr>
 
                 <tr>
@@ -939,11 +939,11 @@ class html_formHistoria {
 
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][2] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historial[$key][2] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][4] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][5] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][6] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][6] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][6] . "</td>";
                             echo "</tr>";
                         }
                     } else {
@@ -959,7 +959,7 @@ class html_formHistoria {
                     ?>
 
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>INTERRUPCIÓN</th>
+                    <th colspan="12" class='encabezado_registro'>INTERRUPCIÓN</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -1001,13 +1001,13 @@ class html_formHistoria {
                     ?>
 
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>ENTIDADES DE PREVISIÓN</th>
+                    <th colspan="12" class='encabezado_registro'>ENTIDADES DE PREVISIÓN</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;NIT&nbsp;</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;NOMBRE&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan='3' align=center>&nbsp;NOMBRE&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA INGRESO</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA RETIRO</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>DIAS INTERRUPCION</td>
@@ -1021,7 +1021,7 @@ class html_formHistoria {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][1] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][2] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historial[$key][2] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][3] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][4] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][5] . "</td>";
@@ -1042,13 +1042,13 @@ class html_formHistoria {
 
 
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>DATOS CERTIFICACIÓN</th>
+                    <th colspan="12" class='encabezado_registro'>DATOS CERTIFICACIÓN</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
                     <td class='texto_elegante2 estilo_td' colspan='2'align=center>INGRESO</td>
                     <td class='texto_elegante2 estilo_td' colspan="3" align=center>NÚMERO CERTIFICACIÓN</td>
-                    <td class='texto_elegante2 estilo_td' colspan="6" align=center>FECHA CERTIFICACIÓN</td>
+                    <td class='texto_elegante2 estilo_td' colspan="7" align=center>FECHA CERTIFICACIÓN</td>
 
                 </tr>
 
@@ -1060,20 +1060,20 @@ class html_formHistoria {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][0] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='6' style='text-align:center;'>" . $historial[$key][6] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='7' style='text-align:center;'>" . $historial[$key][6] . "</td>";
                             echo "</tr>";
                         }
                     } else {
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td'  colspan='6'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td'  colspan='7'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
                     ?>
 
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>DESCRIPCIÓN CUOTAS PARTES</th>
+                    <th colspan="12" class='encabezado_registro'>DESCRIPCIÓN CUOTAS PARTES</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -1086,7 +1086,7 @@ class html_formHistoria {
                     <td class='texto_elegante2 estilo_td' align=center>FECHA INICIO CONCURRENCIA</td>
                     <td class='texto_elegante2 estilo_td' align=center>MESADA INICIAL</td>
                     <td class='texto_elegante2 estilo_td' align=center>% CUOTA PARTE</td>
-                    <td class='texto_elegante2 estilo_td' align=center>VALOR CUOTA PARTE</td>
+                    <td class='texto_elegante2 estilo_td' colspan='2'align=center>VALOR CUOTA PARTE</td>
                 </tr>
 
                 <tr>
@@ -1104,7 +1104,7 @@ class html_formHistoria {
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][6] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][4] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][6] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][6] . "</td>";
                             echo "</tr>";
                         }
                     } else {
@@ -1112,13 +1112,13 @@ class html_formHistoria {
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
                     ?>
