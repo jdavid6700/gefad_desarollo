@@ -217,7 +217,37 @@ class html_formIPC {
                                     $año = date("Y");
                                     for ($i = 1940; $i <= $año; $i++) {
 
-                                        $var.= "<option>" . $i . "</option>";
+                                        switch ($i) {
+
+                                            case "1984":
+                                                $var.= "<option>" . $i . "-1</option>";
+                                                $var.= "<option>" . $i . "-2</option>";
+                                                $var.= "<option>" . $i . "-3</option>";
+                                                break;
+                                            case "1985":
+                                                $var.= "<option>" . $i . "-1</option>";
+                                                $var.= "<option>" . $i . "-2</option>";
+                                                $var.= "<option>" . $i . "-3</option>";
+                                                break;
+                                            case "1986":
+                                                $var.= "<option>" . $i . "-1</option>";
+                                                $var.= "<option>" . $i . "-2</option>";
+                                                $var.= "<option>" . $i . "-3</option>";
+                                                break;
+                                            case "1987":
+                                                $var.= "<option>" . $i . "-1</option>";
+                                                $var.= "<option>" . $i . "-2</option>";
+                                                $var.= "<option>" . $i . "-3</option>";
+                                                break;
+                                            case "1988":
+                                                $var.= "<option>" . $i . "-1</option>";
+                                                $var.= "<option>" . $i . "-2</option>";
+                                                $var.= "<option>" . $i . "-3</option>";
+                                                break;                                           
+                                            default:
+                                                $var.= "<option>" . $i . "</option>";
+                                                break;
+                                        }
                                     }
                                     echo $var;
                                     ?>   

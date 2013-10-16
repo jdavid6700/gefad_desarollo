@@ -881,7 +881,7 @@ class html_formHistoria {
         <?
     }
 
-    function datosEntidad($historial) {
+    function datosReporte($historia, $interrupcion, $descripcion) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -915,7 +915,7 @@ class html_formHistoria {
                     <td class='texto_elegante2 estilo_td' colspan="10" align=center>&nbsp;NOMBRE&nbsp;</td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' colspan="2" align=center><? echo $historial[0][1] ?></td>
+                    <td class='texto_elegante2 estilo_td' colspan="2" align=center><? echo $historia[0]['hlab_nro_identificacion'] ?></td>
                     <td class='texto_elegante2 estilo_td' colspan="10" align=center></td>
                 </tr>
 
@@ -934,16 +934,16 @@ class html_formHistoria {
 
                 <tr>
                     <?
-                    if (is_array($historial)) {
-                        foreach ($historial as $key => $value) {
+                    if (is_array($historia)) {
+                        foreach ($historia as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historial[$key][2] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][4] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][6] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][6] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historia[$key]['hlab_nro_ingreso'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historia[$key]['hlab_nitenti'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historia[$key]['hlab_fingreso'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historia[$key]['hlab_fretiro'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historia[$key]['hlab_periodicidad'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historia[$key]['hlab_horas'] . "</td>";
                             echo "</tr>";
                         }
                     } else {
@@ -953,48 +953,6 @@ class html_formHistoria {
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-
-                <tr>
-                    <th colspan="12" class='encabezado_registro'>INTERRUPCIÓN</th>
-                    <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
-                </tr>
-                <tr>
-                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;IDENTIFICACIÓN&nbsp;</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;EMPLEADOR&nbsp;</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2'align=center>ENTIDAD PREVISORA</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA INGRESO</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA RETIRO</td>
-                    <td class='texto_elegante2 estilo_td' align=center>HORAS LABORADAS</td>
-                </tr>
-
-                <tr>
-                    <?
-                    if (is_array($historial)) {
-                        foreach ($historial as $key => $value) {
-
-                            echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][1] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][2] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][3] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][4] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][6] . "</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
@@ -1007,46 +965,81 @@ class html_formHistoria {
                 <tr>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;NIT&nbsp;</td>
-                    <td class='texto_elegante2 estilo_td' colspan='3' align=center>&nbsp;NOMBRE&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan='5' align=center>&nbsp;NOMBRE&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA INGRESO</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA RETIRO</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>DIAS INTERRUPCION</td>
                 </tr>
 
                 <tr>
                     <?
-                    if (is_array($historial)) {
-                        foreach ($historial as $key => $value) {
+                    if (is_array($historia)) {
+                        foreach ($historia as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][1] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historial[$key][2] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][3] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][4] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][5] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historia[$key]['hlab_nro_ingreso'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historia[$key]['hlab_nitprev'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='5' style='text-align:center;'>" . $historia[$key]['prev_nombre'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historia[$key]['hlab_fingreso'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historia[$key]['hlab_fretiro'] . "</td>";
+
                             echo "</tr>";
                         }
                     } else {
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='5' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
                     ?>
+                <tr>
+                    <th colspan="12" class='encabezado_registro'>PERIODOS DE INTERRUPCIÓN</th>
+                    <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                </tr>
+                <tr>
+                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;INTERRUPCION&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;EMPLEADOR&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan='3' align=center>FECHA INICIO</td>
+                    <td class='texto_elegante2 estilo_td' colspan='3' align=center>FECHA FINAL</td>
+                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>DIAS INTERRUMPIDOS</td>
+                </tr>
 
+                <tr>
+                    <?
+                    if (is_array($interrupcion)) {
+                        foreach ($interrupcion as $key => $value) {
 
+                            echo "<tr>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_ingreso'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_interrupcion'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $interrupcion[$key]['int_nitent'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $interrupcion[$key]['int_fdesde'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3'style='text-align:center;'>" . $interrupcion[$key]['int_fhasta'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $interrupcion[$key]['int_dias'] . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr>";
+                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "</tr>";
+                    }
+                    ?>
 
                 <tr>
                     <th colspan="12" class='encabezado_registro'>DATOS CERTIFICACIÓN</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' colspan='2'align=center>INGRESO</td>
+                    <td class='texto_elegante2 estilo_td' align=center>INGRESO</td>
+                    <td class='texto_elegante2 estilo_td' align=center>INTERRUPCION</td>
                     <td class='texto_elegante2 estilo_td' colspan="3" align=center>NÚMERO CERTIFICACIÓN</td>
                     <td class='texto_elegante2 estilo_td' colspan="7" align=center>FECHA CERTIFICACIÓN</td>
 
@@ -1054,18 +1047,20 @@ class html_formHistoria {
 
                 <tr>
                     <?
-                    if (is_array($historial)) {
-                        foreach ($historial as $key => $value) {
+                    if (is_array($interrupcion)) {
+                        foreach ($interrupcion as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][0] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='7' style='text-align:center;'>" . $historial[$key][6] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_ingreso'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_interrupcion'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $interrupcion[$key]['int_num_certificado'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='7' style='text-align:center;'>" . $interrupcion[$key]['int_fecha_cert'] . "</td>";
                             echo "</tr>";
                         }
                     } else {
                         echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td'  colspan='7'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
@@ -1077,7 +1072,6 @@ class html_formHistoria {
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;FECHA RESOLUCIÓN&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;NÚMERO RESOLUCIÓN&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA PENSIÓN</td>
@@ -1086,39 +1080,37 @@ class html_formHistoria {
                     <td class='texto_elegante2 estilo_td' align=center>FECHA INICIO CONCURRENCIA</td>
                     <td class='texto_elegante2 estilo_td' align=center>MESADA INICIAL</td>
                     <td class='texto_elegante2 estilo_td' align=center>% CUOTA PARTE</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2'align=center>VALOR CUOTA PARTE</td>
+                    <td class='texto_elegante2 estilo_td' colspan='3'align=center>VALOR CUOTA PARTE</td>
                 </tr>
 
                 <tr>
                     <?
-                    if (is_array($historial)) {
-                        foreach ($historial as $key => $value) {
+                    if (is_array($descripcion)) {
+                        foreach ($descripcion as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][1] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][2] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historial[$key][3] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][4] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][6] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][4] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historial[$key][6] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_resol_pension_fecha'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_resol_pension'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $descripcion[$key][dcp_fecha_pension] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_factoadmin'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_actoadmin'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_fecha_concurrencia'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_valor_mesada'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_porcen_cuota'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3'style='text-align:center;'>" . $descripcion[$key]['dcp_valor_cuota'] . "</td>";
                             echo "</tr>";
                         }
                     } else {
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
                     ?>

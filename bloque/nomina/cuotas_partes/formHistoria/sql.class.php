@@ -106,10 +106,56 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" WHERE hlab_nro_identificacion = '" . $variable . "' ";
                 break;
 
+            case "reporteHistoria":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" hlab_nro_ingreso, ";
+                $cadena_sql.=" hlab_nro_identificacion, ";
+                $cadena_sql.=" hlab_nitenti,  ";
+                $cadena_sql.=" hlab_nitprev, ";
+                $cadena_sql.=" prev_nombre, ";
+                $cadena_sql.=" hlab_fingreso,  ";
+                $cadena_sql.=" hlab_fretiro,  ";
+                $cadena_sql.=" hlab_horas,  ";
+                $cadena_sql.=" hlab_periodicidad ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora,cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable . "' ";
+                $cadena_sql.=" AND prev_nit=hlab_nitprev ";
+                break;
+
+            case "reporteInterrupcion":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" int_nro_ingreso, ";
+                $cadena_sql.=" int_nro_interrupcion, ";
+                $cadena_sql.=" int_nitent, ";
+                $cadena_sql.=" int_fdesde, ";
+                $cadena_sql.=" int_fhasta, ";
+                $cadena_sql.=" int_dias, ";
+                $cadena_sql.=" int_num_certificado, ";
+                $cadena_sql.=" int_fecha_cert ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_interrupciones ";
+                $cadena_sql.=" WHERE int_nro_identificacion= '" . $variable . "' ";
+                break;
+
+            case "reporteDescripcion":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.= " dcp_resol_pension_fecha, ";
+                $cadena_sql.= " dcp_resol_pension, ";
+                $cadena_sql.= " dcp_fecha_pension, ";
+                $cadena_sql.= " dcp_factoadmin, ";
+                $cadena_sql.= " dcp_actoadmin, ";
+                $cadena_sql.= " dcp_fecha_concurrencia, ";
+                $cadena_sql.= " dcp_valor_mesada, ";
+                $cadena_sql.= " dcp_porcen_cuota, ";
+                $cadena_sql.= " dcp_valor_cuota ";
+                $cadena_sql.= " from cuotas_partes.cuotas_descripcion_cuotaparte ";
+                $cadena_sql.= " where dcp_nro_identificacion = '" . $variable . "' ";
+                break;
+
+
             case "consultarGeografia":
                 $cadena_sql = " SELECT dep_nombre, mun_nombre ";
                 $cadena_sql.=" FROM MNTGE.gemunicipio, MNTGE.gedepartamento ";
-                $cadena_sql.=" WHERE mun_dep_cod=dep_cod";
+                $cadena_sql.=" WHERE mun_dep_cod = dep_cod";
                 $cadena_sql.=" ORDER BY mun_nombre";
                 break;
 

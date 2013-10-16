@@ -98,7 +98,7 @@ class funciones_formIPC extends funcionGeneral {
         }
 
         foreach ($datos as $key => $value) {
-            if (!ereg("^[0-9.]{1,7}$", $datos[$key])) {
+            if (!ereg("^[0-9.-]{1,7}$", $datos[$key])) {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente B');" .
                 "</script> ";
@@ -144,7 +144,6 @@ class funciones_formIPC extends funcionGeneral {
         $cadena_sql2 = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarIPC", $parametros2);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql2, "registrar");
 
-
         if ($datos_registrados == true) {
 
             $registro[0] = "GUARDAR";
@@ -156,6 +155,9 @@ class funciones_formIPC extends funcionGeneral {
             $registro[5] .= " Periodo =" . $parametros2['Fecha'];
             $this->log_us->log_usuario($registro, $this->configuracion);
 
+            echo "<script type=\"text/javascript\">" .
+            "alert('Los datos se registraron correctamente');" .
+            "</script> ";
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formularioIPC";
@@ -164,7 +166,7 @@ class funciones_formIPC extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('Los datos no se registraron correctamente');" .
+            "alert('Los datos NO se registraron correctamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formularioIPC";
@@ -176,4 +178,5 @@ class funciones_formIPC extends funcionGeneral {
     }
 
 }
+
 ?>

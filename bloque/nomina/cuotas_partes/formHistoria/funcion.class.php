@@ -90,6 +90,24 @@ class funciones_formHistoria extends funcionGeneral {
         return $datos_historia;
     }
 
+    function reporteHistoria($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria", $parametro);
+        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_historia;
+    }
+
+    function reporteInterrupcion($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteInterrupcion", $parametro);
+        $datos_interrupcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_interrupcion;
+    }
+
+    function reporteDescripcion($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteDescripcion", $parametro);
+        $datos_descripcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_descripcion;
+    }
+
     function registrarHLaboral($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarHistoria", $parametros);
         $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
@@ -108,8 +126,10 @@ class funciones_formHistoria extends funcionGeneral {
 
     function mostrarHistoria($cedula) {
         $parametro = $cedula;
-        $consulta = $this->consultarHistoria($parametro);
-        $this->html_formHistoria->datosEntidad($consulta);
+        $consulta_historia = $this->reporteHistoria($parametro);
+        $consulta_interrupcion = $this->reporteInterrupcion($parametro);
+        $consulta_descripcion = $this->reporteDescripcion($parametro);
+        $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
     }
 
     function procesarFormulario($datos) {
