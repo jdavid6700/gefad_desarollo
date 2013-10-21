@@ -11,13 +11,13 @@ if (!isset($GLOBALS["autorizado"])) {
 
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/sql.class.php");
 
-class sql_formPrevisora extends sql {
+class sql_formSalario extends sql {
 
     function cadena_sql($configuracion, $conexion, $opcion, $variable) {
 
         switch ($opcion) {
 
-            case "insertarPrevisora":
+            case "insertarSalario":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_previsora  (prev_nit,   prev_nombre,   prev_habilitado_pago,   ";
                 $cadena_sql.=" prev_observacion,   prev_direccion,   prev_departamento,   prev_ciudad, prev_telefono,   prev_responsable, ";
                 $cadena_sql.="prev_cargo,   prev_otroc,   prev_cargooc,   prev_correo1,   prev_correo2,prev_estado_registro, prev_fecha_registro)  VALUES (";
@@ -39,7 +39,7 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" '" . $variable['fecha_registro'] . "' )";
                 break;
 
-            case "consultarPrevisora":
+            case "consultarSalario":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" prev_nit,";
                 $cadena_sql.=" prev_nombre, ";

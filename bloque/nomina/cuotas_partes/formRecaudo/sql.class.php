@@ -31,10 +31,9 @@ class sql_formRecaudo extends sql {
                 break;
 
             case "consultarEntidades":
-                $cadena_sql = " SELECT ent_nombre, hlab_nitprev ";
-                $cadena_sql.=" from cuotas_partes.cuotas_entidad, cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" where ent_nit_entidad = hlab_nitenti ";
-                $cadena_sql.=" and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
+                $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 break;
 
             case "consultarRecaudos":
@@ -70,7 +69,7 @@ class sql_formRecaudo extends sql {
             case "actualizarCobro":
                 $cadena_sql = " UPDATE cuotas_partes.cuotas_cobros ";
                 $cadena_sql.= " SET cob_estado_cuenta='INACTIVA' ";
-                $cadena_sql.= " where cob_consecu_cta='".$variable."' ";
+                $cadena_sql.= " where cob_consecu_cta='" . $variable . "' ";
                 break;
 
             case "registrarPago":

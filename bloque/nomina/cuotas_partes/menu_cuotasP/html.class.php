@@ -143,6 +143,13 @@
                                         ?>">Registrar y Consultar Indices de Intereses de Mora  (DTF)</a></li>
 
                                     <li><a href="<?
+                                        $variable = 'pagina=formularioSalario';
+                                        $variable.='&opcion=';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Registrar y Consultar Salarios Mínimos Legales</a></li>
+
+                                    <li><a href="<?
                                         $variable = 'pagina=formularioConcurrencia';
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);

@@ -24,7 +24,7 @@ if (!isset($GLOBALS["autorizado"])) {
     exit;
 }
 
-class html_formPrevisora {
+class html_formSalario {
 
     public $configuracion;
     public $cripto;
@@ -39,13 +39,13 @@ class html_formPrevisora {
         $this->cripto = new encriptar();
         $this->indice = $configuracion["host"] . $configuracion["site"] . "/index.php?";
         $this->html = new html();
-        $this->formulario = "formPrevisora";
+        $this->formulario = "formSalario";
     }
 
     function mostrarRegistros($registros) {
        
         ?>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formSalario/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
         <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
         <!-- permite la paginacion-->        
@@ -62,12 +62,12 @@ class html_formPrevisora {
             });
         </script>
 
-        <h1>Entidades Previsoras y Empleadoras</h1>
+        <h1>Entidades Salarios y Empleadoras</h1>
 
         <a href="
         <?
-        $variable = 'pagina=formularioPrevisora';
-        $variable.='&opcion=formularioPrevisora';
+        $variable = 'pagina=formularioSalario';
+        $variable.='&opcion=formularioSalario';
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
         echo $this->indice . $variable;
         ?>">
@@ -144,9 +144,9 @@ class html_formPrevisora {
         <?
     }
 
-    function formularioPrevisora() {
+    function formularioSalario() {
 
-        $this->formulario = "formPrevisora";
+        $this->formulario = "formSalario";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -157,7 +157,7 @@ class html_formPrevisora {
 
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formSalario/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -233,7 +233,7 @@ class html_formPrevisora {
             }
 
             function ValidateForm() {
-                var emailID = document.formPrevisora.txtEmail
+                var emailID = document.formSalario.txtEmail
 
                 if ((emailID.value == null) || (emailID.value == "")) {
                     alert("Ingrese un correo electrónico!")
@@ -246,7 +246,7 @@ class html_formPrevisora {
                     return false
                 }
 
-                var emailID2 = document.formPrevisora.txtEmail2
+                var emailID2 = document.formSalario.txtEmail2
 
                 if ((emailID2.value == null) || (emailID2.value == "")) {
                     alert("Ingrese un correo electrónico!")
@@ -276,7 +276,7 @@ class html_formPrevisora {
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
-            <h1>Formulario de Registro Entidades Previsoras y Empleadoras</h1>
+            <h1>Formulario de Registro Entidades Salarios y Empleadoras</h1>
 
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
@@ -525,7 +525,7 @@ class html_formPrevisora {
             <div class="null"></div>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
 
-            <input type='hidden' name='opcion' value='registrarPrevisora'>
+            <input type='hidden' name='opcion' value='registrarSalario'>
             <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
 
         </form>

@@ -35,14 +35,14 @@ include_once("sql.class.php");
 include_once("funcion.class.php");
 
 //Clase
-class bloque_formPrevisora extends bloque {
+class bloque_formSalario extends bloque {
 
     private $configuracion;
 
     public function __construct($configuracion) {
         $this->configuracion = $configuracion;
-        $this->sql = new sql_formPrevisora();
-        $this->funcion = new funciones_formPrevisora($configuracion, $this->sql);
+        $this->sql = new sql_formSalario();
+        $this->funcion = new funciones_formSalario($configuracion, $this->sql);
     }
 
     function html() {
@@ -51,7 +51,7 @@ class bloque_formPrevisora extends bloque {
 
             switch ($accion) {
 
-                case "formularioPrevisora":
+                case "formularioSalario":
                     $this->funcion->mostrarFormulario();
                     break;
 
@@ -67,17 +67,17 @@ class bloque_formPrevisora extends bloque {
     function action() {
 
         switch ($_REQUEST['opcion']) {
-            case "registrarPrevisora":
+            case "registrarSalario":
 
-                $registro_previsora = array();
+                $registro_salario = array();
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                        $registro_previsora[$key] = $_REQUEST[$key];
+                        $registro_salario[$key] = $_REQUEST[$key];
                     }
                 }
 
-                $this->funcion->procesarFormulario($registro_previsora);
+                $this->funcion->procesarFormulario($registro_salario);
                 break;
 
             default :
@@ -93,7 +93,7 @@ class bloque_formPrevisora extends bloque {
 }
 
 // @ Crear un objeto bloque especifico
-$esteBloque = new bloque_formPrevisora($configuracion);
+$esteBloque = new bloque_formSalario($configuracion);
 //echo var_dump($_REQUEST);exit;
 //"blouqe ".$_REQUEST['action'];exit;
 

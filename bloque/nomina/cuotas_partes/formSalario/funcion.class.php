@@ -37,7 +37,7 @@ include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/fun
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/navegacion.class.php");
 include_once("html.class.php");
 
-class funciones_formPrevisora extends funcionGeneral {
+class funciones_formSalario extends funcionGeneral {
 
     function __construct($configuracion, $sql) {
         //[ TO DO ]En futuras implementaciones cada usuario debe tener un estilo		
@@ -64,20 +64,20 @@ class funciones_formPrevisora extends funcionGeneral {
 
         $this->configuracion = $configuracion;
 
-        $this->html_formPrevisora = new html_formPrevisora($configuracion);
+        $this->html_formSalario = new html_formSalario($configuracion);
     }
 
     function consultarRegistros() {
 
         $parametros = array();
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarSalario", $parametros);
         $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
 
-        $this->html_formPrevisora->mostrarRegistros($datos_registro);
+        $this->html_formSalario->mostrarRegistros($datos_registro);
     }
 
     function mostrarFormulario() {
-        $this->html_formPrevisora->formularioPrevisora();
+        $this->html_formSalario->formularioSalario();
     }
 
     function procesarFormulario($datos) {
@@ -118,7 +118,7 @@ class funciones_formPrevisora extends funcionGeneral {
             'estado_registro' => ($estado_registro),
             'fecha_registro' => $fecha_registro,);
 
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarPrevisora", $parametros);
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarSalario", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
 
@@ -137,7 +137,7 @@ class funciones_formPrevisora extends funcionGeneral {
         "</script> ";
 
         $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=formularioPrevisora";
+        $variable = "pagina=formularioSalario";
         $variable .= "&opcion=";
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
         echo "<script>location.replace('" . $pagina . $variable . "')</script>";

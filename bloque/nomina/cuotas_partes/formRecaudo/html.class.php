@@ -167,7 +167,7 @@ class html_formRecaudo {
                     $combo[0][1] = 'Todos';
                     foreach ($datos_en as $cmb => $values) {
                         $combo[$cmb + 1][0] = isset($datos_en[$cmb]['hlab_nitprev']) ? $datos_en[$cmb]['hlab_nitprev'] : 0;
-                        $combo[$cmb + 1][1] = isset($datos_en[$cmb]['ent_nombre']) ? $datos_en[$cmb]['ent_nombre'] : '';
+                        $combo[$cmb + 1][1] = isset($datos_en[$cmb]['prev_nombre']) ? $datos_en[$cmb]['prev_nombre'] : '';
                     }
                     // echo$combo;
                     if (isset($_REQUEST['hlab_nitprev'])) {

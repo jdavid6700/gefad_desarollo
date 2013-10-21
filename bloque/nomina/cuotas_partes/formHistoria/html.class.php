@@ -1091,7 +1091,7 @@ class html_formHistoria {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_resol_pension_fecha'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_resol_pension'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $descripcion[$key][dcp_fecha_pension] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $descripcion[$key]['dcp_fecha_pension'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_factoadmin'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_actoadmin'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_fecha_concurrencia'] . "</td>";
