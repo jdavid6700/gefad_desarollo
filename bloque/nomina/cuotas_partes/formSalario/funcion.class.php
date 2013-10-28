@@ -11,15 +11,15 @@
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
   --------------------------------------------------------------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------------------------
-  |				Control Versiones				       	 |
+  |				Control Versiones				    	|
   ----------------------------------------------------------------------------------------
   | fecha      |        Autor            | version     |              Detalle            |
   ----------------------------------------------------------------------------------------
   | 18/05/2013 | Violet Sosa             | 0.0.0.1     |                                 |
   ----------------------------------------------------------------------------------------
-  | 02/08/2013 | Violet Sosa             | 0.0.0.2     | Adaptación formulario           |                                |
+  | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
-  | 15/08/2013 | Violet Sosa             | 0.0.0.3     | Adaptación formulario           |
+  | 11/10/2013 | Violet Sosa             | 0.0.0.3     |                                 |
   ----------------------------------------------------------------------------------------
  */
 
@@ -40,8 +40,7 @@ include_once("html.class.php");
 class funciones_formSalario extends funcionGeneral {
 
     function __construct($configuracion, $sql) {
-        //[ TO DO ]En futuras implementaciones cada usuario debe tener un estilo		
-        //include ($configuracion["raiz_documento"].$configuracion["estilo"]."/".$this->estilo."/tema.php");
+
         include ($configuracion["raiz_documento"] . $configuracion["estilo"] . "/basico/tema.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/log.class.php");
@@ -54,9 +53,8 @@ class funciones_formSalario extends funcionGeneral {
         //Conexion General
         $this->acceso_db = $this->conectarDB($configuracion, "mysqlFrame");
 
-        //Conexión a Postgres 
-        $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
-
+        //Conexión a Postgres -
+        $this->acceso_indice = $this->conectarDB($configuracion, "cuotas_partes");
         //Datos de sesion
 
         $this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
@@ -67,80 +65,115 @@ class funciones_formSalario extends funcionGeneral {
         $this->html_formSalario = new html_formSalario($configuracion);
     }
 
-    function consultarRegistros() {
-
-        $parametros = array();
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarSalario", $parametros);
-        $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-
-        $this->html_formSalario->mostrarRegistros($datos_registro);
-    }
-
     function mostrarFormulario() {
         $this->html_formSalario->formularioSalario();
     }
 
+    function ConsultarSalario() {
+        $parametros = "";
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "Consultar", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
+        $this->html_formSalario->tablaIPC($datos);
+    }
+
     function procesarFormulario($datos) {
 
+        $estado = 1;
         $fecha_registro = date('d/m/Y');
-        $estado_registro = 1;
-/*
+
         foreach ($datos as $key => $value) {
 
-           /* if ($datos[$key] == "") {
+            if ($datos[$key] == "") {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotas';
+                $variable = 'pagina=reportesCuotaFormularis';
                 $variable.='&opcion=';
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
             }
-        }*/
+        }
 
-        $parametros = array(
-            'nit_previsora' => (isset($datos['nit_previsora']) ? $datos['nit_previsora'] : ''),
-            'nombre_previsora' => (isset($datos['nombre_previsora']) ? $datos['nombre_previsora'] : ''),
-            'estado' => (isset($datos['estado']) ? $datos['estado'] : ''),
-            'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
-            'direccion' => (isset($datos['direccion']) ? $datos['direccion'] : ''),
-            'ciudad' => (isset($datos['ciudad']) ? $datos['ciudad'] : ''),
-            'departamento' => (isset($datos['departamento']) ? $datos['departamento'] : ''),
-            'telefono' => (isset($datos['telefono']) ? $datos['telefono'] : ''),
-            'responsable' => (isset($datos['responsable']) ? $datos['responsable'] : ''),
-            'cargo' => (isset($datos['cargo']) ? $datos['cargo'] : ''),
-            'otro_contacto' => (isset($datos['otro_contacto']) ? $datos['otro_contacto'] : ''),
-            'otro_cargo' => (isset($datos['otro_cargo']) ? $datos['otro_cargo'] : ''),
-            'correo1' => (isset($datos['txtEmail']) ? $datos['txtEmail'] : ''),
-            'correo2' => (isset($datos['txtEmail2']) ? $datos['txtEmail2'] : ''),
-            'estado_registro' => ($estado_registro),
-            'fecha_registro' => $fecha_registro,);
+        foreach ($datos as $key => $value) {
+            if (!ereg("^[0-9.-]{1,7}$", $datos[$key])) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Formulario NO diligenciado correctamente B');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioIPC';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
 
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarSalario", $parametros);
-        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        $parametros = "";
+        $anio = $datos['año_registrar'];
 
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
+        $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
-        $registro[0] = "GUARDAR";
-        $registro[1] = $parametros['nit_previsora'] . '|' . $parametros['nombre_previsora'] . '|' . $parametros['estado']; //
-        $registro[2] = "CUOTAS_PARTES_previsora";
-        $registro[3] = $parametros['direccion'] . '|' . $parametros['telefono'] . '|' . $parametros['responsable']; //
-        $registro[4] = time();
-        $registro[5] = "Registra datos básicos entidad previsora con ";
-        $registro[5] .= "NIT =" . $parametros['nit_previsora'];
-        $this->log_us->log_usuario($registro, $this->configuracion);
+        foreach ($verificacion as $key => $value) {
+            $Ani_ = $verificacion[$key]['salario_fecha'];
 
+            if ($anio == $Ani_) {
 
-        echo "<script type=\"text/javascript\">" .
-        "alert('Datos Registrados');" .
-        "</script> ";
+                echo "<script type=\"text/javascript\">" .
+                "alert('El año ya registra indice.');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = "pagina=formularioIPC";
+                $variable .= "&opcion=";
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
 
-        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=formularioSalario";
-        $variable .= "&opcion=";
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        $parametros2 = array(
+            'Fecha' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
+            'Indice_IPC' => (isset($datos['indice_Ipc']) ? $datos['indice_Ipc'] : ''),
+            'Suma_fijas' => (isset($datos['sum_fj']) ? $datos['sum_fj'] : ''),
+            'estado_registro' => $estado,
+            'fecha_registro' => $fecha_registro);
+
+        $cadena_sql2 = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarIPC", $parametros2);
+        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql2, "registrar");
+
+        if ($datos_registrados == true) {
+
+            $registro[0] = "GUARDAR";
+            $registro[1] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
+            $registro[2] = "CUOTAS_PARTES_IPC";
+            $registro[3] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
+            $registro[4] = time();
+            $registro[5] = "Registra datos básicos indice IPC para el ";
+            $registro[5] .= " Periodo =" . $parametros2['Fecha'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('Los datos se registraron correctamente');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioIPC";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Los datos NO se registraron correctamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioIPC";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
     }
 
 }

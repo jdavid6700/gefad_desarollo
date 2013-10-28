@@ -391,7 +391,7 @@ class html_formHistoria {
     }
 
     function formularioHistoria($datos_previsora) {
-
+   
         $this->formulario = "formHistoria";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -762,7 +762,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f12c" name="horas_laboradas"  placeholder="00.00"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[\d]{1,3}\.[\d]{1,2}" >Dos cifras enteras y dos decimales como máximo
+                                <input type="text" id="p1f12c" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="3" min="8" max="240">
 
                             </div>
                             <div class="null"></div>
@@ -781,7 +781,7 @@ class html_formHistoria {
                         <div class="control capleft">
                             <div>
                                 <div class="dropdown">
-                                    <select id="p1f13c" name="tipo_horas" class="fieldcontent"><option value="0">Diaria</option><option value="1">Semanal</option><option value="2">Mensual</option><option value="4" selected="selected">En el Periodo</option></select>
+                                    <select id="p1f13c" name="tipo_horas" class="fieldcontent"><option value="0">Diaria</option><option value="1">Semanal</option><option value="2">Mensual</option><option value="3" selected="selected">En el Periodo</option></select>
                                     <div class="fielderror"></div>
                                 </div>
                             </div>

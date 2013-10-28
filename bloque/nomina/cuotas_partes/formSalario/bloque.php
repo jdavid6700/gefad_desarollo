@@ -28,8 +28,7 @@ if (!isset($GLOBALS["autorizado"])) {
     include("../index.php");
     exit;
 }
-//echo "<br>action ".$_REQUEST['action'];
-//echo "<br>opcion ".$_REQUEST['opcion'];
+
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/bloque.class.php");
 include_once("sql.class.php");
 include_once("funcion.class.php");
@@ -51,12 +50,10 @@ class bloque_formSalario extends bloque {
 
             switch ($accion) {
 
-                case "formularioSalario":
-                    $this->funcion->mostrarFormulario();
-                    break;
-
                 default :
-                    $this->funcion->consultarRegistros();
+                    $this->funcion->mostrarFormulario();
+                    $this->funcion->ConsultarSalarios();
+                    break;
             }
         } else {
             $accion = "inicio";
@@ -67,8 +64,7 @@ class bloque_formSalario extends bloque {
     function action() {
 
         switch ($_REQUEST['opcion']) {
-            case "registrarSalario":
-
+            case "insertarSalario":
                 $registro_salario = array();
 
                 foreach ($_REQUEST as $key => $value) {

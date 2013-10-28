@@ -56,7 +56,8 @@ class funciones_formHistoria extends funcionGeneral {
         $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
 
         //Conexión a Oracle
-        // $this->acceso_oracle = $this->conectarDB($configuracion, "cuotasP");
+        //$this->acceso_oracle = $this->conectarDB($configuracion, "cuotasP");
+        //var_dump($this->acceso_oracle);
         //Datos de sesion
 
         $this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
@@ -89,6 +90,13 @@ class funciones_formHistoria extends funcionGeneral {
         $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_historia;
     }
+
+    /* function consultarGeografia($parametro) {
+      echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarGeografia", $parametro);
+      $datos_geo = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
+      return $datos_geo;
+      }
+     */
 
     function reporteHistoria($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria", $parametro);
@@ -129,6 +137,7 @@ class funciones_formHistoria extends funcionGeneral {
         $consulta_historia = $this->reporteHistoria($parametro);
         $consulta_interrupcion = $this->reporteInterrupcion($parametro);
         $consulta_descripcion = $this->reporteDescripcion($parametro);
+        // $consulta_geo = $this->consultarGeografia($parametro);
         $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
     }
 
@@ -283,7 +292,7 @@ class funciones_formHistoria extends funcionGeneral {
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            break;
+            exit;
         }
     }
 
@@ -419,7 +428,7 @@ class funciones_formHistoria extends funcionGeneral {
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            break;
+            exit;
         }
     }
 

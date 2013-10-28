@@ -84,10 +84,9 @@ class funciones_formPrevisora extends funcionGeneral {
 
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
-/*
-        foreach ($datos as $key => $value) {
 
-           /* if ($datos[$key] == "") {
+       /* foreach ($datos as $key => $value) {
+            if ($datos[$key] == "") {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";

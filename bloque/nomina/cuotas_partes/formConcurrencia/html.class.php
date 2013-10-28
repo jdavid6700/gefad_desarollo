@@ -386,7 +386,7 @@ class html_formConcurrencia {
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
-            <h1>Formulario de Registro Descripción Cuota Parte Pactada</h1>
+            <h1>Formulario de Registro Descripción Cuota Parte Aceptada</h1>
 
             <div class="formrow f1">
                 <div id="p1f4" class="field n1">
@@ -463,7 +463,7 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_con"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Concurrencia<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="fecha_con"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha I.Concurrencia<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -532,7 +532,7 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f12" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Mesada de Pensión<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Mesada Inicial<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
