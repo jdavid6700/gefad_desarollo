@@ -618,7 +618,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_resolucion" name="fecha_resolucion" readonly title="Si no aplica, escriba 0" class="fieldcontent" required='required' >
+                                <input type="text" id="fecha_resolucion" name="fecha_resolucion" title="Si no aplica, escriba 0" class="fieldcontent" required='required' >
                             </div>
                         </div>
                     </div> 
@@ -632,7 +632,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_pago" name="fecha_pago" readonly class="fieldcontent" required='required' >
+                                <input type="text" id="fecha_pago" name="fecha_pago" class="fieldcontent" required='required' >
                             </div>
                         </div>
                     </div>

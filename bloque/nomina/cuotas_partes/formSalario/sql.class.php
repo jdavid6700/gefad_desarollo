@@ -17,29 +17,35 @@ class sql_formSalario extends sql {
 
         switch ($opcion) {
 
-            case "insertarIPC":
-                if ($variable['Suma_fijas'] != "") {
-
-                    $cadena_sql =" INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc, ipc_sumas_Fijas) VALUES ( ";
-                    $cadena_sql.=" '" . $variable['Fecha'] . "' ,";
-                    $cadena_sql.=" '" . $variable['Indice_IPC'] . "',  ";
-                    $cadena_sql.=" '" . $variable['Suma_fijas'] . "' );";
-                } else {
-                    $cadena_sql =" INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc) VALUES ( ";
-                    $cadena_sql.=" '" . $variable['Fecha'] . "' ,";
-                    $cadena_sql.=" '" . $variable['Indice_IPC'] . "' );";
-                }
+            case "insertarSalario":
+                $cadena_sql = "INSERT INTO cuotas_partes.cuotas_salario ( ";
+                $cadena_sql.= " salario_norma, ";
+                $cadena_sql.= " salario_numero, ";
+                $cadena_sql.= " salario_anio, ";
+                $cadena_sql.= " salario_vdesde, ";
+                $cadena_sql.= " salario_vhasta, ";
+                $cadena_sql.= " salario_monto, ";
+                $cadena_sql.= " salario_estado, ";
+                $cadena_sql.= " salario_registro) VALUES ";
+                $cadena_sql.= " ('" . $variable['salario_norma'] . "', ";
+                $cadena_sql.= " '" . $variable['salario_numero'] . "', ";
+                $cadena_sql.= " '" . $variable['salario_anio'] . "', ";
+                $cadena_sql.= " '" . $variable['salario_vdesde'] . "', ";
+                $cadena_sql.= " '" . $variable['salario_vhasta'] . "', ";
+                $cadena_sql.= " '" . $variable['salario_monto'] . "', ";
+                $cadena_sql.= " '" . $variable['salario_estado'] . "', ";
+                $cadena_sql.= " '" . $variable['salario_registro'] . "') ";
                 break;
 
             case "VeriAnio":
-                $cadena_sql = "SELECT ipc_fecha ";
-                $cadena_sql.="  FROM cuotas_partes.cuotas_indc_ipc; ";
+                $cadena_sql = "SELECT salario_anio ";
+                $cadena_sql.="  FROM cuotas_partes.cuotas_salario; ";
                 break;
 
             case "Consultar":
                 $cadena_sql = "SELECT *  ";
-                $cadena_sql.="FROM cuotas_partes.cuotas_indc_ipc ";
-                $cadena_sql.="ORDER BY ipc_fecha ASC;  ";
+                $cadena_sql.="FROM cuotas_partes.cuotas_salario ";
+                $cadena_sql.="ORDER BY salario_anio ASC;  ";
                 break;
 
             default:

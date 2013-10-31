@@ -77,17 +77,18 @@ class html_formSalario {
                 <tbody id="itemContainer">
                     <tr>
                         <?php
-                        if (is_array($datos))
-                            foreach ($datos as $key => $values) {
+                        if (is_array($datos)) {
+                            foreach ($datos as $key => $value) {
                                 echo "<tr>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][0] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][1] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][2] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][3] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][4] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][5] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_norma'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_numero'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_anio'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_vdesde'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_vhasta'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_monto'] . "</td>";
                                 echo "</tr>";
-                            } else {
+                            }
+                        } else {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
@@ -106,8 +107,6 @@ class html_formSalario {
 
     function formularioSalario() {
 
-        $mes = date('m');
-        $anio = date('Y');
         $this->formulario = "formSalario";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -135,7 +134,7 @@ class html_formSalario {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
-                especiales = [8, 39];
+                especiales = [8,9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -151,21 +150,25 @@ class html_formSalario {
         </script>
 
         <script>
+            function acceptNumLetter(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
+                especiales = [8, 9];
 
-            function  validaranio() {
-                var anio = document.getElementById("año_registrar").value;
-
-                if (anio < 1976) {
-                    document.getElementById("sum_fj").disabled = true;
-                } else {
-                    document.getElementById("sum_fj").disabled = false;
-                    if (anio > 1988) {
-                        document.getElementById("sum_fj").disabled = true;
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
                     }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
                 }
             }
         </script>
-
         <script>
             function confirmarEnvio()
             {
@@ -236,7 +239,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" name="norma" maxlength="6"   class="fieldcontent" required='required' autocomplete="off">
+                                <input type="text" id="indice_Ipc" name="norma" maxlength="6" onKeyPress='return acceptNumLetter(event)'  class="fieldcontent" required='required' autocomplete="off">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -263,7 +266,8 @@ class html_formSalario {
                     <div class="null"></div>
                 </div>
 
-                <div class="formrow f1 ">
+    
+      <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
@@ -271,17 +275,15 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" >
+                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" required='required'>
+
                                     <?php
-                                    $var = "<option selected>" . "Seleccione Año" . "</option>";
+                                    $var = "<option selected value=''>" . "Seleccione Año" . "</option>";
                                     $i = 1920;
                                     $año = date("Y");
-                                    for ($i = 1940; $i <= $año; $i++) {
-                                        switch ($i) {
-                                            default:
-                                                $var.= "<option>" . $i . "</option>";
-                                                break;
-                                        }
+                                    for ($i = 1980; $i <= $año; $i++) {
+
+                                        $var.= "<option>" . $i . "</option>";
                                     }
                                     echo $var;
                                     ?>   

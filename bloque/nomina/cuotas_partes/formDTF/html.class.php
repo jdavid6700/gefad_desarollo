@@ -64,7 +64,7 @@ class html_formDTF {
             <center><div class="holder"></div></center>
             <table width="90%" class='bordered' align="center">
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>TABLA DTF (DTF)</th>
+                    <th colspan="11" class='encabezado_registro'>TABLA TASA DE INTERÉS</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
 
@@ -259,7 +259,7 @@ class html_formDTF {
         </script>
 
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off'>
-            <h1>Formulario de Registro Indice Precios Consumidor (DTF)</h1> 
+            <h1>Formulario de Registro de Tasa de Interés</h1> 
 
             <div class="formrow f1">
                 <div class="formrow f1">
@@ -275,7 +275,7 @@ class html_formDTF {
 
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
-                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO DE INDICES<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO DE TASA<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>

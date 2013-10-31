@@ -42,107 +42,6 @@ class html_formConcurrencia {
         $this->formulario = "formConcurrencia";
     }
 
-    function mostrarRegistros($registros) {
-        ?>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formConcurrencia/form_estilo.css"	rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
-        <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
-        <!-- permite la paginacion-->        
-
-        <script>
-            $(function() {
-                $("div.holder").jPages({
-                    containerID: "itemContainer",
-                    previous: "←",
-                    next: "→",
-                    perPage: 5,
-                    delay: 20
-                });
-            });
-        </script>
-
-        <h1>Entidades de Previsión</h1>
-
-        <a href="
-        <?
-        $variable = 'pagina=formularioConcurrencia';
-        $variable.='&opcion=formularioConcurrencia';
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo $this->indice . $variable;
-        ?>">
-            <center><button id="registrarBoton"  class="navbtn">Registrar Nueva Entidad</button></center>
-        </a>
-
-        <center><div class="holder"></div></center>
-
-        <table class = 'bordered' width = "100%" >
-            <tr>
-                <th colspan = "14" class = 'encabezado_registro'>ENTIDADES PREVISORAS</th>
-                <td class = 'texto_elegante<? echo '' ?> estilo_td' ></td>
-            </tr>
-            <tr>
-                <td class = 'texto_elegante2 estilo_td' align = center>NIT</td>
-                <td class = 'texto_elegante2 estilo_td' align = center>NOMBRE</td>
-                <td class = 'texto_elegante2 estilo_td' align = center>ESTADO</td>
-                <td class = 'texto_elegante2 estilo_td' align = center>OBSERVACION</td>
-                <!--td class = 'texto_elegante2 estilo_td' align = center>DIRECCION<!--/td-->
-                <!--td class = 'texto_elegante2 estilo_td' align = center>DEPARTAMENTO<!--/td-->
-                <td class = 'texto_elegante2 estilo_td' align = center>CIUDAD</td>
-                <td class = 'texto_elegante2 estilo_td' align = center>TELEFONO</td>
-                <td class = 'texto_elegante2 estilo_td' align = center>RESPONSABLE</td>
-                <td class = 'texto_elegante2 estilo_td' align = center>CARGO</td>
-                <!--td class = 'texto_elegante2 estilo_td' align = center>OTRO CONTACTO<!--/td-->
-                <!--td class = 'texto_elegante2 estilo_td' align = center>CARGO<!--/td-->
-                <td class = 'texto_elegante2 estilo_td' align = center>CORREO 1</td>
-                <!--td class = 'texto_elegante2 estilo_td' align = center>CORREO 2<!--/td-->
-            </tr>
-            <tbody id="itemContainer">
-                <tr>
-                    <?
-                    if (is_array($registros)) {
-                        foreach ($registros as $key => $value) {
-                            echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][0] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][1] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][2] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][3] . "</td>";
-                            //echo "<td class='texto_elegante estilo_td' >" . $registros[$key][4] . "</td>";
-                            //echo "<td class='texto_elegante estilo_td' >" . $registros[$key][5] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][6] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][7] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][8] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][9] . "</td>";
-                            //  echo "<td class='texto_elegante estilo_td' >" . $registros[$key][10] . "</td>";
-                            // echo "<td class='texto_elegante estilo_td' >" . $registros[$key][11] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][12] . "</td>";
-                            // echo "<td class='texto_elegante estilo_td' >" . $registros[$key][13] . "</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-        </table >     
-        <center><div class="holder" style="-moz-user-select: none;"></div></center>
-
-        <?
-    }
-
     function formularioConcurrencia() {
 
         $this->formulario = "formConcurrencia";
@@ -166,7 +65,7 @@ class html_formConcurrencia {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890-";
-                especiales = [8, 39, 9];
+                especiales = [8, 9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -186,7 +85,7 @@ class html_formConcurrencia {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890.";
-                especiales = [8, 39, 9];
+                especiales = [8, 9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -206,7 +105,7 @@ class html_formConcurrencia {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
-                especiales = [8, 39, 9];
+                especiales = [8, 9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -245,8 +144,8 @@ class html_formConcurrencia {
                     dateFormat: 'dd/mm/yy'
                 });
             });
-            
-              $(document).ready(function() {
+
+            $(document).ready(function() {
                 $("#fecha_res_pension").datepicker({
                     changeMonth: true,
                     changeYear: true,
@@ -255,8 +154,8 @@ class html_formConcurrencia {
                     dateFormat: 'dd/mm/yy'
                 });
             });
-            
-              $(document).ready(function() {
+
+            $(document).ready(function() {
                 $("#fecha_pension").datepicker({
                     changeMonth: true,
                     changeYear: true,
@@ -356,7 +255,7 @@ class html_formConcurrencia {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8, 39, 37, 9, 32];
+                especiales = [8, 9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -485,7 +384,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="res_pensión" name="resolucion_pension" required='required' onKeyPress='return acceptNum(event)' maxlength="12" pattern=".{8,12}.">
+                            <input type="text" id="res_pensión" name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}.">
                         </div>
                         <div class="null"></div>
                     </div>

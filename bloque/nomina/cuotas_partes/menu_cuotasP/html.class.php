@@ -140,7 +140,7 @@
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Registrar y Consultar Indices de Intereses de Mora  (DTF)</a></li>
+                                        ?>">Registrar y Consultar Indice Tasa de Interés</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioSalario';

@@ -52,7 +52,7 @@ class bloque_formSalario extends bloque {
 
                 default :
                     $this->funcion->mostrarFormulario();
-                    $this->funcion->ConsultarSalarios();
+                    $this->funcion->ConsultarSalario();
                     break;
             }
         } else {

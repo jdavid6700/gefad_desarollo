@@ -73,7 +73,7 @@ class funciones_formSalario extends funcionGeneral {
         $parametros = "";
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "Consultar", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
-        $this->html_formSalario->tablaIPC($datos);
+        $this->html_formSalario->tablaSalarios($datos);
     }
 
     function procesarFormulario($datos) {
@@ -96,36 +96,22 @@ class funciones_formSalario extends funcionGeneral {
             }
         }
 
-        foreach ($datos as $key => $value) {
-            if (!ereg("^[0-9.-]{1,7}$", $datos[$key])) {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente B');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formularioIPC';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
-        }
-
         $parametros = "";
-        $anio = $datos['año_registrar'];
+        $anio = $datos['anio_registrar'];
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
-        $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
+        $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "verificar");
 
         foreach ($verificacion as $key => $value) {
-            $Ani_ = $verificacion[$key]['salario_fecha'];
+            $Ani_ = $verificacion[$key]['salario_anio'];
 
             if ($anio == $Ani_) {
 
                 echo "<script type=\"text/javascript\">" .
-                "alert('El año ya registra indice.');" .
+                "alert('El año ya registra monto de salario.');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = "pagina=formularioIPC";
+                $variable = "pagina=formularioSalario";
                 $variable .= "&opcion=";
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -134,24 +120,27 @@ class funciones_formSalario extends funcionGeneral {
         }
 
         $parametros2 = array(
-            'Fecha' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
-            'Indice_IPC' => (isset($datos['indice_Ipc']) ? $datos['indice_Ipc'] : ''),
-            'Suma_fijas' => (isset($datos['sum_fj']) ? $datos['sum_fj'] : ''),
-            'estado_registro' => $estado,
-            'fecha_registro' => $fecha_registro);
+            'salario_norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
+            'salario_numero' => (isset($datos['numero']) ? $datos['numero'] : ''),
+            'salario_anio' => (isset($datos['anio_registrar']) ? $datos['anio_registrar'] : ''),
+            'salario_vdesde' => (isset($datos['fecvig_desde']) ? $datos['fecvig_desde'] : ''),
+            'salario_vhasta' => (isset($datos['fecvig_hasta']) ? $datos['fecvig_hasta'] : ''),
+            'salario_monto' => (isset($datos['monto_mensual']) ? $datos['monto_mensual'] : ''),
+            'salario_estado' => $estado,
+            'salario_registro' => $fecha_registro);
 
-        $cadena_sql2 = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarIPC", $parametros2);
+        $cadena_sql2 = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarSalario", $parametros2);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql2, "registrar");
 
         if ($datos_registrados == true) {
 
             $registro[0] = "GUARDAR";
-            $registro[1] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
-            $registro[2] = "CUOTAS_PARTES_IPC";
-            $registro[3] = $parametros2['Fecha'] . '|' . $parametros2['Indice_IPC'] . '|' . $parametros2['Suma_fijas']; //
+            $registro[1] = $parametros2['salario_anio'] . '|' . $parametros2['salario_monto']; //
+            $registro[2] = "CUOTAS_PARTES_SALARIOS";
+            $registro[3] = $parametros2['salario_anio'] . '|' . $parametros2['salario_vdesde'] . '|' . $parametros2['salario_vhasta']; //
             $registro[4] = time();
-            $registro[5] = "Registra datos básicos indice IPC para el ";
-            $registro[5] .= " Periodo =" . $parametros2['Fecha'];
+            $registro[5] = "Registra datos básicos salario minimo para el ";
+            $registro[5] .= " Anio =" . $parametros2['salario_anio'];
             $this->log_us->log_usuario($registro, $this->configuracion);
 
             echo "<script type=\"text/javascript\">" .
@@ -159,7 +148,7 @@ class funciones_formSalario extends funcionGeneral {
             "</script> ";
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = "pagina=formularioIPC";
+            $variable = "pagina=formularioSalario";
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -168,7 +157,7 @@ class funciones_formSalario extends funcionGeneral {
             "alert('Los datos NO se registraron correctamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = "pagina=formularioIPC";
+            $variable = "pagina=formularioSalario";
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";

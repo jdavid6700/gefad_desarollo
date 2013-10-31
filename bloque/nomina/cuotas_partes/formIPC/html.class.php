@@ -210,7 +210,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" >
+                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()"  required='required'>
                                     <?php
                                     $var = "<option selected>" . "Seleccione Año" . "</option>";
                                     $i = 1920;

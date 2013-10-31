@@ -129,8 +129,8 @@ class html_formHistoria {
             function acceptNum2(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890";
-                especiales = [8, 39, 9];
+                letras = "1234567890";
+                especiales = [8,9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -444,7 +444,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890-";
-                especiales = [8, 39, 37, 9];
+                especiales = [8, 9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -479,7 +479,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890.";
-                especiales = [8, 39, 37, 9];
+                especiales = [8,9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -498,8 +498,8 @@ class html_formHistoria {
             function acceptNum3(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890";
-                especiales = [8, 39, 37, 9];
+                letras = "1234567890";
+                especiales = [8,9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -520,7 +520,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-                especiales = [8, 39, 37, 9];
+                especiales = [8, 9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -541,7 +541,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8, 39, 37, 9, 32];
+                especiales = [8,9];
 
                 tecla_especial = false
                 for (var i in especiales) {
