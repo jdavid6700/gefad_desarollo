@@ -478,7 +478,7 @@ class html_formHistoria {
             function acceptNum2(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890.";
+                letras = "01234567890";
                 especiales = [8,9];
 
                 tecla_especial = false
