@@ -163,7 +163,7 @@ class funciones_formRecaudo extends funcionGeneral {
         }
 
         $datos_recaudo = $this->registrarPago($datos);
-        
+
         if ($datos_recaudo == true) {
 
             foreach ($datos as $key => $value) {

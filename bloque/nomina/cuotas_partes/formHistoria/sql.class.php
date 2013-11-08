@@ -159,6 +159,25 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" ORDER BY mun_nombre";
                 break;
 
+            case "consultarConsecutivo":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" hlab_nro_ingreso, ";
+                $cadena_sql.=" hlab_nro_identificacion,  ";
+                $cadena_sql.=" hlab_nitenti,   ";
+                $cadena_sql.=" prev_nombre,  ";
+                $cadena_sql.=" hlab_fingreso,   ";
+                $cadena_sql.=" hlab_fretiro,   ";
+                $cadena_sql.=" hlab_horas,   ";
+                $cadena_sql.=" hlab_periodicidad  ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora,cuotas_partes.cuotas_hlaboral  ";
+                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
+                $cadena_sql.=" AND hlab_nitenti='" . $variable['nit_entidad'] . "' ";
+                $cadena_sql.=" AND hlab_nitprev='".$variable['nit_previsora']."' ";
+                $cadena_sql.=" AND prev_nit=hlab_nitprev ";
+                $cadena_sql.=" ORDER by hlab_nro_ingreso DESC ";
+                $cadena_sql.=" LIMIT 1 ";
+                break;
+
             default:
                 $cadena_sql = "";
                 break;

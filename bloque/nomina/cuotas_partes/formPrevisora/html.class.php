@@ -239,13 +239,13 @@ class html_formPrevisora {
                 }
             }
         </script>
-        
+
         <script>
             function acceptNum3(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890";
-                especiales = [8, 39, 37, 9];
+                letras = "01234567890-/()eExt.";
+                especiales = [8, 9,32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -265,8 +265,8 @@ class html_formPrevisora {
             function acceptLetter(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                especiales = [8, 39, 37, 9, 32];
+                letras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+                especiales = [8, 9,32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -281,13 +281,13 @@ class html_formPrevisora {
                 }
             }
         </script>
-        
+
         <script>
             function acceptNumLetter(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8, 39, 37, 9, 32];
+                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-@_ñÑ";
+                especiales = [8, 9, 64];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -302,7 +302,7 @@ class html_formPrevisora {
                 }
             }
         </script>
-        
+
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
             <h1>Formulario de Registro Entidades Previsoras y Empleadoras</h1>
 
@@ -314,7 +314,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="nit_previsora" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='15'>
+                            <input type="text" id="p1f6c" name="nit_previsora" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='15' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -331,7 +331,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='25' onKeyPress='return acceptLetter(event)' >
+                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -368,7 +368,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="observacion" class="fieldcontent" maxlength='150' onKeyPress='return acceptNumLetter(event)'  >
+                            <input type="text" id="p1f7c" name="observacion" class="fieldcontent" maxlength='150' onKeyPress='return acceptNumLetter(event)'  onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -386,7 +386,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="direccion" class="fieldcontent" required='required' maxlength='30' onKeyPress='return acceptNumLetter(event)' >
+                            <input type="text" id="p1f7c" name="direccion" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -403,7 +403,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="ciudad" class="fieldcontent" required='required' maxlength='15' onKeyPress='return acceptLetter(event)' >
+                            <input type="text" id="p1f7c" name="ciudad" class="fieldcontent" required='required' maxlength='35' onKeyPress='return acceptLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -420,7 +420,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="departamento" class="fieldcontent" required='required' maxlength='15' onKeyPress='return acceptLetter(event)'  >
+                            <input type="text" id="p1f7c" name="departamento" class="fieldcontent" required='required' maxlength='35' onKeyPress='return acceptLetter(event)'  onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -437,7 +437,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6" name="telefono" class="fieldcontent" onKeyPress='return acceptNum3(event)' maxlength='18'>
+                            <input type="text" id="p1f7c" name="telefono" class="fieldcontent" onKeyPress='return acceptNum3(event)' maxlength='50' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -454,7 +454,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="responsable" class="fieldcontent"  maxlength='25' onKeyPress='return acceptLetter(event)' >
+                            <input type="text" id="p1f7c" name="responsable" class="fieldcontent"  maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -471,7 +471,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6" name="cargo" class="fieldcontent" maxlength='20' onKeyPress='return acceptLetter(event)'>
+                            <input type="text" id="p1f7c" name="cargo" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -488,7 +488,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="otro_contacto" class="fieldcontent" maxlength='25' onKeyPress='return acceptLetter(event)'>
+                            <input type="text" id="p1f7c" name="otro_contacto" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -506,7 +506,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="otro_cargo" class="fieldcontent" maxlength='25' onKeyPress='return acceptLetter(event)' >
+                            <input type="text" id="p1f7c" name="otro_cargo" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -523,7 +523,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="email" name="txtEmail" class="fieldcontent" maxlength='35' placeholder="correo@dominio.com" onKeyPress='return acceptNumLetter(event)'>
+                            <input type="text" id="email" name="txtEmail" class="fieldcontent" maxlength='50' placeholder="correo@dominio.com" onKeyPress='return acceptNumLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -540,7 +540,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="email" name="txtEmail2" class="fieldcontent" placeholder="correo@dominio.com" maxlength='35' onKeyPress='return acceptNumLetter(event)'>
+                            <input type="text" id="email" name="txtEmail2" class="fieldcontent" placeholder="correo@dominio.com" maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -548,7 +548,6 @@ class html_formPrevisora {
                 </div>
                 <div class="null"></div>
             </div>
-
 
             <div class="null"></div>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>

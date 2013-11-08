@@ -39,6 +39,7 @@ class sql_formRecaudo extends sql {
             case "consultarRecaudos":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" recta_nitprev, ";
+                $cadena_sql.=" prev_nombre, ";
                 $cadena_sql.=" recta_consecu_cta, ";
                 $cadena_sql.=" cob_ie_correspondencia, ";
                 $cadena_sql.=" rec_resolucionop, ";
@@ -48,12 +49,13 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" rec_pago_interes, ";
                 $cadena_sql.=" rec_medio_pago ";
                 $cadena_sql.=" FROM  ";
-                $cadena_sql.=" cuotas_partes.cuotas_recaudo_cuenta, cuotas_partes.cuotas_cobros, cuotas_partes.cuotas_recaudos ";
+                $cadena_sql.=" cuotas_partes.cuotas_recaudo_cuenta, cuotas_partes.cuotas_cobros, cuotas_partes.cuotas_recaudos, cuotas_partes.cuotas_previsora ";
                 $cadena_sql.=" WHERE ";
                 $cadena_sql.=" recta_cedula='" . $variable['cedula'] . "' AND ";
                 $cadena_sql.=" recta_nitprev='" . $variable['entidad'] . "' AND ";
                 $cadena_sql.=" cob_consecu_cta=recta_consecu_cta AND ";
-                $cadena_sql.=" rec_consecu_rec=recta_consecu_rec  ";
+                $cadena_sql.=" rec_consecu_rec=recta_consecu_rec AND ";
+                $cadena_sql.=" prev_nit=recta_nitprev ";
                 $cadena_sql.=" ORDER BY recta_fechapago ASC ";
                 break;
 

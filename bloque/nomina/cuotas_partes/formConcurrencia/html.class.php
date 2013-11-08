@@ -42,7 +42,7 @@ class html_formConcurrencia {
         $this->formulario = "formConcurrencia";
     }
 
-    function formularioConcurrencia() {
+    function formularioConcurrencia($datos_previsora) {
 
         $this->formulario = "formConcurrencia";
 
@@ -313,7 +313,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="cedula" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10" pattern=".{3,10}.">
+                            <input type="text" id="p1f12c" name="cedula" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10" pattern=".{3,10}." onpaste="return false">
 
                         </div>
                         <div class="null"></div>
@@ -323,17 +323,39 @@ class html_formConcurrencia {
                 <div class="null"></div>
             </div>
 
+
             <div class="formrow f1">
-                <div id="p1f12" class="field n1">
+                <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Entidad Empleadora<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Empleador<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f12c" name="entidad_empleadora" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="12" pattern=".{8,12}.">
+                        <div class="control capleft">
+                            <div class="dropdown" required='required' >
 
+                                <?
+                                unset($combo);
+                                //prepara los datos como se deben mostrar en el combo
+                                $combo[0][0] = '1';
+                                $combo[0][1] = 'No registra en la base de datos';
+                                foreach ($datos_previsora as $cmb => $values) {
+                                    $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
+                                    $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                }
+
+                                // echo$combo;
+                                if (isset($_REQUEST['entidad2'])) {
+                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'entidad_empleadora');
+                                } else {
+                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, 0, 0, FALSE, 0, 'entidad_empleadora');
+                                }
+                                echo $lista_combo;
+                                ?> 
+
+                            </div>
                         </div>
+
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -342,16 +364,37 @@ class html_formConcurrencia {
             </div>
 
             <div class="formrow f1">
-                <div id="p1f12" class="field n1">
+                <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Entidad Previsora<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Previsora<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f12c" name="entidad_previsora" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="12" pattern=".{8,12}.">
+                        <div class="control capleft">
+                            <div class="dropdown" required='required' >
 
+                                <?
+                                unset($combo);
+                                //prepara los datos como se deben mostrar en el combo
+                                $combo[0][0] = '0';
+                                $combo[0][1] = 'Empleador';
+                                foreach ($datos_previsora as $cmb => $values) {
+                                    $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
+                                    $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                }
+
+                                // echo$combo;
+                                if (isset($_REQUEST['entidad2'])) {
+                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_previsora', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'entidad_previsora');
+                                } else {
+                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_previsora', $this->configuracion, 0, 0, FALSE, 0, 'entidad_previsora');
+                                }
+                                echo $lista_combo;
+                                ?> 
+
+                            </div>
                         </div>
+
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -367,7 +410,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_con" name="fecha_concurrencia" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            <input type="text" id="fecha_con" name="fecha_concurrencia" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -384,7 +427,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="res_pensión" name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}.">
+                            <input type="text" id="res_pensión" name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -401,7 +444,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_res_pension" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            <input type="text" id="fecha_res_pension" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -418,7 +461,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_pension" name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            <input type="text" id="fecha_pension" name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -436,7 +479,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7" pattern=".{3,7}.">
+                            <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7" pattern=".{3,7}." onpaste="return false">
 
                         </div>
                         <div class="null"></div>
@@ -454,7 +497,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="cp_aceptada"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7" pattern=".{3,7}.">
+                            <input type="text" id="p1f6c" name="cp_aceptada"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7" pattern=".{3,7}." onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -471,7 +514,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="porc_aceptado" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" >Decimal en formato: 0.9999, mín. dos decimales
+                            <input type="text" id="p1f6c" name="porc_aceptado" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[0]+([\.][0-9]+[0-9])?" step="0.0000" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
                         </div>
                         <div class="null"></div>
                     </div>
@@ -508,7 +551,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Oficio/Resolución/Silencio Administrativo">
+                            <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Oficio/Resolución/Silencio Administrativo" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -525,7 +568,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_act" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            <input type="text" id="fecha_act" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
                         </div>
                         <div class="null"></div>
                     </div>

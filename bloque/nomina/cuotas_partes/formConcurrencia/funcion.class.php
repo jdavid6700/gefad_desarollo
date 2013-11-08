@@ -64,22 +64,28 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function registrarDescripcionCP($parametros) {
-        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
         $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
         return $datos_DescripcionCP;
     }
 
     function consultarRegistros() {
-
         $parametros = array();
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarConcurrencia", $parametros);
         $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-
         $this->html_formConcurrencia->mostrarRegistros($datos_registro);
     }
 
+    function consultarPrevisora() {
+        $parametros = array();
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
+        $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_previsora;
+    }
+
     function mostrarFormulario() {
-        $this->html_formConcurrencia->formularioConcurrencia();
+        $datos_previsor = $this->consultarPrevisora();
+        $this->html_formConcurrencia->formularioConcurrencia($datos_previsor);
     }
 
     function procesarFormulario($datos) {
@@ -100,6 +106,18 @@ class funciones_formConcurrencia extends funcionGeneral {
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
             }
+        }
+
+        if (!preg_match('[0]+([\.][0-9]+[0-9])?', $datos['horas_laboradas'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato Porcentaje Cuota no diligenciado correctamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
         }
 
         $parametros_descripcion_cp = array(

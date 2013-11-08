@@ -141,7 +141,7 @@ class html_formRecaudo {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="cedula_emp" readonly class="fieldcontent" required='required'  onKeyPress='return acceptNum(event)' value="<?php echo $cedula['cedula'] ?>">
+                            <input type="text" onpaste="return false" id="p1f7c" name="cedula_emp" readonly class="fieldcontent" required='required'  onKeyPress='return acceptNum(event)' value="<?php echo $cedula['cedula'] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -192,7 +192,6 @@ class html_formRecaudo {
 
     function historiaRecaudos($historial, $cobros) {
 
-
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -230,7 +229,7 @@ class html_formRecaudo {
                 </tr>
                 <tr>
                     <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;FECHA GENERACION&nbsp;</td>
-                    <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;NIT ENTIDAD EMPLEADOR&nbsp;</td>
+                    <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;ENTIDAD EMPLEADOR&nbsp;</td>
                     <td rowspan="2" class='texto_elegante2 estilo_td' align=center>NIT ENTIDAD PREVISORA</td>
                     <td rowspan="2" class='texto_elegante2 estilo_td' align=center>CONSECUTIVO CUENTA COBRO</td>
                     <td colspan="2" class='texto_elegante2 estilo_td' align=center>PERIODO DE COBRO</td>
@@ -325,7 +324,7 @@ class html_formRecaudo {
                 <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
             </tr>
             <tr>
-                <td  class='texto_elegante2 estilo_td' align=center>&nbsp;NIT ENTIDAD PREVISION&nbsp;</td>
+                <td  class='texto_elegante2 estilo_td' align=center>&nbsp;ENTIDAD PREVISION&nbsp;</td>
                 <td  class='texto_elegante2 estilo_td' align=center>&nbsp;CONSECUTIVO CUENTA COBRO&nbsp;</td>
                 <td  class='texto_elegante2 estilo_td' align=center>IE_CORRESPONDENCIA</td>
                 <td  class='texto_elegante2 estilo_td' align=center>RES. ORDEN DE PAGO</td>
@@ -341,15 +340,15 @@ class html_formRecaudo {
                 if (is_array($historial)) {
                     foreach ($historial as $key => $value) {
                         echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][0] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][1] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][2] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][3] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][4] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][5] . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($historial[$key][6]) . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($historial[$key][7]) . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key][8] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['prev_nombre'] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['recta_consecu_cta'] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['cob_ie_correspondencia'] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['rec_resolucionop'] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['rec_fecha_resolucion'] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['recta_fechapago'] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($historial[$key]['rec_pago_capital']) . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($historial[$key]['rec_pago_interes']) . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['rec_medio_pago'] . "</td>";
                         echo "</tr>";
                     }
                 } else {
@@ -499,7 +498,7 @@ class html_formRecaudo {
                         <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Pensionado</span></span></span></label>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" readonly class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' value='<? echo $identificacion ?>'>
+                        <input type="text" id="p1f2c" onpaste="return false" name="cedula_emp" readonly class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' value='<? echo $identificacion ?>'>
                     </div>
                 </div>
 
@@ -528,7 +527,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="resolucion" name="nit_empleador" class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $nit_empleador ?>'>
+                                <input type="text" id="resolucion" onpaste="return false" name="nit_empleador" class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $nit_empleador ?>'>
                             </div> 
                         </div> 
                     </div>
@@ -541,7 +540,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f2cc" name="nit_previsional" class="fieldcontent" readonly required='required'  onKeyPress='return acceptNum(event)' value='<? echo $nit_previsora ?>'>
+                                <input type="text" id="p1f2cc" onpaste="return false" name="nit_previsional" class="fieldcontent" readonly required='required'  onKeyPress='return acceptNum(event)' value='<? echo $nit_previsora ?>'>
                             </div>
                         </div>
                     </div>
@@ -556,7 +555,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="resolucion" name="resolucion" class="fieldcontent" required='required' maxlength='10'>
+                                <input type="text" id="resolucion" onpaste="return false" name="resolucion" class="fieldcontent" required='required' maxlength='10'>
                             </div> 
                         </div> 
                     </div>
@@ -573,7 +572,7 @@ class html_formRecaudo {
                                 foreach ($cuentas_pago as $key => $value) {
                                     if (strstr($key, 'cuenta_pagar_')) {
                                         $valor = substr($key, strlen('cuenta_pagar_'));
-                                        echo "<input type='text' name='consec_cc" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $value . "'> <br>";
+                                        echo "<input type='text' onpaste='return false' name='consec_cc" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $value . "'> <br>";
                                     }
                                 }
                                 ?>
@@ -591,7 +590,7 @@ class html_formRecaudo {
                             foreach ($cuentas_pago as $key => $value) {
                                 if (strstr($key, 'cuenta_pagar_')) {
                                     $valor = substr($key, strlen('cuenta_pagar_'));
-                                    echo "<input type='text' name='valor_pago" . $valor . "' class='fieldcontent' required='required' onKeyPress='return acceptNum(event)'maxlength='10'>  <br>";
+                                    echo "<input type='text' onpaste='return false' name='valor_pago" . $valor . "' class='fieldcontent' required='required' onKeyPress='return acceptNum(event)'maxlength='10'>  <br>";
                                 }
                             }
                             ?>
@@ -607,7 +606,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="resolucion" name="resolucion_OP" title="Si no aplica, escriba 0" class="fieldcontent" required='required' maxlength='10' >
+                                <input type="text" id="resolucion" onpaste="return false" name="resolucion_OP" title="Si no aplica, escriba 0" class="fieldcontent" required='required' maxlength='10' >
                             </div> 
                         </div> 
                     </div>
@@ -632,7 +631,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_pago" name="fecha_pago" class="fieldcontent" required='required' >
+                                <input type="text" id="fecha_pago" onpaste='return false' name="fecha_pago" class="fieldcontent" required='required' >
                             </div>
                         </div>
                     </div>
@@ -644,7 +643,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text"  name="valor_pagado_capital" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='10'>
+                                    <input type="text"  onpaste='return false' name="valor_pagado_capital" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='10'>
                                 </div>
                             </div>
                         </div>       
@@ -655,7 +654,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f12cc" name="valor_pagado_interes" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)'>
+                                    <input type="text" id="p1f12cc" onpaste='return false' name="valor_pagado_interes" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)'>
                                 </div>
                             </div>
                         </div>
@@ -668,7 +667,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f12cc" name="total_recaudo" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)'>
+                                    <input type="text" id="p1f12cc" onpaste='return false' name="total_recaudo" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)'>
                                 </div>                       
                             </div>      
                         </div>
@@ -681,7 +680,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f12cc" name="medio_pago" class="fieldcontent" required='required' >
+                                    <input type="text" id="p1f12cc" onpaste='return false' name="medio_pago" class="fieldcontent" required='required' >
                                 </div>                       
                             </div>      
                         </div>

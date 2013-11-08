@@ -239,7 +239,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" name="norma" maxlength="6" onKeyPress='return acceptNumLetter(event)'  class="fieldcontent" required='required' autocomplete="off">
+                                <input type="text" id="indice_Ipc" onpaste='return false' name="norma" maxlength="6" onKeyPress='return acceptNumLetter(event)'  class="fieldcontent" required='required' autocomplete="off">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -256,7 +256,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" name="numero"  maxlength="6" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
+                                <input type="text" id="indice_Ipc" onpaste='return false' name="numero"  maxlength="6" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
 
                             </div>
                             <div class="null"></div>
@@ -306,7 +306,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_desde" name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                                <input type="text" id="fecvig_desde" onpaste='return false' name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                             <div class="null"></div>
                         </div>
@@ -324,7 +324,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_hasta" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecvig_hasta" onpaste='return false' name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -341,7 +341,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" name="monto_mensual" class="fieldcontent" maxlength='6' required='required'  onKeyPress='return acceptNum(event)' >
+                                <input type="text" id="sum_fj" onpaste='return false' name="monto_mensual" class="fieldcontent" maxlength='6' required='required'  onKeyPress='return acceptNum(event)' >
                             </div>
                             <div class="null"></div>
                         </div>

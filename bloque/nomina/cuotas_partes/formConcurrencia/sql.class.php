@@ -38,9 +38,9 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
                 $cadena_sql.=" '" . $variable['nit_previsora'] . "' ,";
                 $cadena_sql.=" '" . $variable['fecha_concurrencia'] . "' ,";
-                $cadena_sql.=" '" . $variable['resolucion_pension']."', ";
-                $cadena_sql.=" '" . $variable['fecha_res_pension']."', ";
-                $cadena_sql.=" '" . $variable['fecha_pension']."', ";
+                $cadena_sql.=" '" . $variable['resolucion_pension'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_res_pension'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_pension'] . "', ";
                 $cadena_sql.=" '" . $variable['valor_mesada'] . "' ,";
                 $cadena_sql.=" '" . $variable['valor_cuota'] . "' ,";
                 $cadena_sql.=" '" . $variable['porcen_cuota'] . "' ,";
@@ -51,6 +51,14 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" '" . $variable['registro'] . "');";
                 break;
 
+            case "consultarPrevisora":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" prev_nit, ";
+                $cadena_sql.=" prev_nombre ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
+                $cadena_sql.=" ORDER BY prev_nombre ASC ";
+                break;
+            
             default:
                 $cadena_sql = "";
                 break;

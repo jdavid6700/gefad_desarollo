@@ -17,6 +17,8 @@
   ----------------------------------------------------------------------------------------
   | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
+  | 01/11/2013 | Violet Sosa             | 0.0.0.3     |                                 |
+  ---------------------------------------------------------------------------------------
  */
 
 if (!isset($GLOBALS["autorizado"])) {
@@ -171,7 +173,7 @@ class html_formIPC {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("¿Revisó bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
                 if (r == true) {
                     return true;
                 } else {
@@ -202,7 +204,7 @@ class html_formIPC {
                     <div class="null"></div>
                 </div>
 
-                <div class="formrow f1 ">
+                   <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
@@ -210,15 +212,13 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()"  required='required'>
-                                    <?php
-                                    $var = "<option selected>" . "Seleccione Año" . "</option>";
+                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" required='required'>
+                                  <?php
+                                    $var = "<option selected value=''>" . "Seleccione Año" . "</option>";
                                     $i = 1920;
                                     $año = date("Y");
                                     for ($i = 1940; $i <= $año; $i++) {
-
                                         switch ($i) {
-
                                             case "1984":
                                                 $var.= "<option>" . $i . "-1</option>";
                                                 $var.= "<option>" . $i . "-2</option>";
@@ -251,7 +251,6 @@ class html_formIPC {
                                     }
                                     echo $var;
                                     ?>   
-
                                 </select>
 
                             </div>
@@ -270,7 +269,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" name="indice_Ipc" placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" class="fieldcontent" required='required' title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
+                                <input type="text" id="indice_Ipc" onpaste="return false"  name="indice_Ipc" placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" class="fieldcontent" required='required' onpaste="return false" title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
 
                             </div>
                             <div class="null"></div>
@@ -288,7 +287,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" name="sum_fj" class="fieldcontent" maxlength='5' required='required'  onKeyPress='return acceptNum(event)'  > **Solo se debe diligenciar entre los años 1976 y 1988
+                                <input type="text" id="sum_fj" onpaste="return false" name="sum_fj" class="fieldcontent" maxlength='5' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
                             </div>
                             <div class="null"></div>
                         </div>
@@ -309,5 +308,3 @@ class html_formIPC {
             }
 
         }
-
-        

@@ -78,7 +78,7 @@ class html_formDTF {
                 </tr>
                 <tbody id="itemContainer">
                     <?php
-                    if (is_array($datos))
+                    if (is_array($datos)) {
                         foreach ($datos as $key => $values) {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][0] . "</td>";
@@ -88,7 +88,8 @@ class html_formDTF {
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][4] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][5] . "</td>";
                             echo "</tr>";
-                        } else {
+                        }
+                    } else {
 
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
@@ -112,8 +113,6 @@ class html_formDTF {
 
     function formularioDTF() {
 
-        $mes = date('m');
-        $anio = date('Y');
         $this->formulario = "formDTF";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -178,7 +177,7 @@ class html_formDTF {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890.";
-                especiales = [8, 39, 9, 37];
+                especiales = [8, 9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -191,8 +190,25 @@ class html_formDTF {
                     return false;
                 }
             }
+        </script>
+        <script>
+            function acceptNum2(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
 
-
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
         </script>
 
         <script>
@@ -249,7 +265,7 @@ class html_formDTF {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("¿Revisó bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
                 if (r == true) {
                     return true;
                 } else {
@@ -324,7 +340,7 @@ class html_formDTF {
                                 <select id="tri_mestre" name="tri_mestre"  autocomplete="off" onchange="validarperiodo()" required='required' >
                                     <?php
                                     $var = "<option selected value=''>" . "Seleccione Trimestre" . "</option>";
-                                    ;
+
 
                                     for ($i = 1; $i <= 4; $i++) {
 
@@ -351,7 +367,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="n_resolucion" name="n_resolucion" class="fieldcontent" required='required'  maxLength="10"  autocomplete="off" onKeyPress='return acceptNum(event)'>
+                                <input type="text" id="n_resolucion" name="n_resolucion" class="fieldcontent" required='required'  maxLength="10" pattern=".{2,10}"  autocomplete="off" onKeyPress='return acceptNum2(event)' onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -368,7 +384,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fec_reso" name="fec_reso" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fec_reso" name="fec_reso" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -386,7 +402,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_desde" name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                                <input type="text" id="fecvig_desde" name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
                             </div>
                             <div class="null"></div>
                         </div>
@@ -404,7 +420,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_hasta" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecvig_hasta" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -422,7 +438,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_dtf" name="indice_dtf"  placeholder="0.0000"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" title="Ingrese indice en numeros decimales." class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
+                                <input type="text" id="indice_dtf" name="indice_dtf"  placeholder="0.0000"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" onpaste="return false" step="0.0000" title="Ingrese indice en numeros decimales." class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
                             </div>
                             <div class="null"></div>
                         </div>
@@ -446,5 +462,4 @@ class html_formDTF {
             }
 
         }
-
         

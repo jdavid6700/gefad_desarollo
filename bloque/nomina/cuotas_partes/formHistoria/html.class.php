@@ -130,7 +130,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "1234567890";
-                especiales = [8,9];
+                especiales = [8, 9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -176,7 +176,7 @@ class html_formHistoria {
                         <div class="null"></div>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' readonly value='<? echo $datos_interrupcion['cedula'] ?>' maxlength="10">
+                        <input type="text" id="p1f2c" name="cedula_emp" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' readonly value='<? echo $datos_interrupcion['cedula'] ?>' maxlength="10">
                     </div>
                 </div>
 
@@ -198,40 +198,7 @@ class html_formHistoria {
                     <div class="null"></div>
                 </div>
 
-                <div class="formrow f1">
-                    <div id="p1f6" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Número Interrupción<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="p1f6c" name="nro_interrupcion" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2"  value='<? echo $datos_interrupcion['nro_interrupcion'] ?>'>
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
-                <div class="formrow f1">
-                    <div id="p1f6" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Número Ingreso<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="p1f6c" name="nro_ingreso" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2" value='<? echo $datos_interrupcion['nro_ingreso'] ?>'>
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
+            
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
@@ -240,7 +207,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="nit_entidad" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_entidad'] ?>'>
+                                <input type="text" id="p1f6c" onpaste="return false" name="nit_entidad" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_entidad'] ?>'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -259,7 +226,7 @@ class html_formHistoria {
                         <div class="control capleft">
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f6c" name="prev_nit" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_previsora'] ?>'> 
+                                    <input type="text" id="p1f6c"  onpaste="return false" name="prev_nit" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_previsora'] ?>'> 
                                 </div>
                             </div>
 
@@ -296,7 +263,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_desde" name="dias_nor_desde" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="dias_nor_desde" onpaste="return false" name="dias_nor_desde" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -313,7 +280,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_hasta"  name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="dias_nor_hasta" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -331,7 +298,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="total_dias" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
+                                <input type="text" id="p1f6c" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -348,7 +315,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="num_certificado" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7">
+                                <input type="text" id="p1f6c" name="num_certificado" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -365,7 +332,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_certificado"  name="fecha_certificado" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecha_certificado"  onpaste="return false" name="fecha_certificado" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -391,7 +358,7 @@ class html_formHistoria {
     }
 
     function formularioHistoria($datos_previsora) {
-   
+
         $this->formulario = "formHistoria";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -409,34 +376,34 @@ class html_formHistoria {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <script>
-            $(document).ready(function() {
-                $("#fecha_salida").datepicker(
-                        {
-                            changeMonth: true,
-                            changeYear: true,
-                            yearRange: '1940:c',
-                            maxDate: "+0D",
-                            dateFormat: 'dd/mm/yy',
-                            onSelect: function(dateValue, inst) {
-                                $("#fecha_acto_adm").datepicker("option", "minDate", dateValue)
-                            }
-                        }
-                );
+                        $(document).ready(function() {
+                            $("#fecha_salida").datepicker(
+                                    {
+                                        changeMonth: true,
+                                        changeYear: true,
+                                        yearRange: '1940:c',
+                                        maxDate: "+0D",
+                                        dateFormat: 'dd/mm/yy',
+                                        onSelect: function(dateValue, inst) {
+                                            $("#fecha_acto_adm").datepicker("option", "minDate", dateValue)
+                                        }
+                                    }
+                            );
 
-            });
+                        });
 
-            $(document).ready(function() {
-                $("#fecha_ingreso").datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '1940:c',
-                    maxDate: "+0D",
-                    dateFormat: 'dd/mm/yy',
-                    onSelect: function(dateValue, inst) {
-                        $("#fecha_salida").datepicker("option", "minDate", dateValue)
-                    }
-                });
-            });
+                        $(document).ready(function() {
+                            $("#fecha_ingreso").datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                yearRange: '1940:c',
+                                maxDate: "+0D",
+                                dateFormat: 'dd/mm/yy',
+                                onSelect: function(dateValue, inst) {
+                                    $("#fecha_salida").datepicker("option", "minDate", dateValue)
+                                }
+                            });
+                        });
         </script>
 
         <script>
@@ -479,7 +446,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
-                especiales = [8,9];
+                especiales = [8, 9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -499,7 +466,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "1234567890";
-                especiales = [8,9];
+                especiales = [8, 9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -541,7 +508,7 @@ class html_formHistoria {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8,9];
+                especiales = [8, 9];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -586,7 +553,7 @@ class html_formHistoria {
                         <div class="null"></div>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10" pattern=".{4,10}">
+                        <input type="text" id="p1f2c" name="cedula_emp" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10" pattern=".{4,10}">
 
                     </div>
                 </div>
@@ -604,23 +571,6 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
                         <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DATOS ENTIDAD DE LABOR</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
-                <div class="formrow f1">
-                    <div id="p1f6" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Número Ingreso<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" id="miCampo" name="nro_ingreso" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength="2" pattern=".{1,2}">
-                            </div>
-                            <div class="null"></div>
-                        </div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -730,7 +680,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_ingreso" placeholder="dd/mm/aaaa" name="fecha_ingreso" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecha_ingreso" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_ingreso" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -744,7 +694,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_salida" placeholder="dd/mm/aaaa" name="fecha_salida" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecha_salida" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_salida" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
 
                             </div>
                             <div class="null"></div>
@@ -762,7 +712,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f12c" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="3" min="8" max="240">
+                                <input type="text" id="p1f12c" onpaste="return false" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="3" min="8" max="240">
 
                             </div>
                             <div class="null"></div>
@@ -916,7 +866,7 @@ class html_formHistoria {
                 </tr>
                 <tr>
                     <td class='texto_elegante2 estilo_td' colspan="2" align=center><? echo $historia[0]['hlab_nro_identificacion'] ?></td>
-                    <td class='texto_elegante2 estilo_td' colspan="10" align=center></td>
+                    <td class='texto_elegante2 estilo_td' colspan="10" align=center>CARDENAS CUBILLOS JOSE VICENTE</td>
                 </tr>
 
                 <tr>

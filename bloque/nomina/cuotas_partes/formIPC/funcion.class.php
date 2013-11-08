@@ -89,7 +89,7 @@ class funciones_formIPC extends funcionGeneral {
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotaFormularis';
+                $variable = 'pagina=formularioIPC';
                 $variable.='&opcion=';
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -100,7 +100,7 @@ class funciones_formIPC extends funcionGeneral {
         foreach ($datos as $key => $value) {
             if (!ereg("^[0-9.-]{1,7}$", $datos[$key])) {
                 echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente B');" .
+                "alert('Formulario NO diligenciado correctamente. Formato erróneo');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                 $variable = 'pagina=formularioIPC';
@@ -110,10 +110,16 @@ class funciones_formIPC extends funcionGeneral {
                 exit;
             }
         }
-
+                
         $parametros = "";
         $anio = $datos['año_registrar'];
-
+        
+        if(($anio>= 1976 && $anio <= 1988)){
+            $sumas_fijas=$datos['sum_fj'];
+        }else{
+            $sumas_fijas=0;
+        }
+     
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
         $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
@@ -137,7 +143,7 @@ class funciones_formIPC extends funcionGeneral {
         $parametros2 = array(
             'Fecha' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
             'Indice_IPC' => (isset($datos['indice_Ipc']) ? $datos['indice_Ipc'] : ''),
-            'Suma_fijas' => (isset($datos['sum_fj']) ? $datos['sum_fj'] : ''),
+            'Suma_fijas' => $sumas_fijas,
             'estado_registro' => $estado,
             'fecha_registro' => $fecha_registro);
 
