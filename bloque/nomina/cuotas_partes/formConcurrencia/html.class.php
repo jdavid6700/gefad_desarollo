@@ -161,10 +161,7 @@ class html_formConcurrencia {
                     changeYear: true,
                     yearRange: '1940:c',
                     maxDate: "+0D",
-                    dateFormat: 'dd/mm/yy',
-                    onSelect: function(dateValue, inst) {
-                        $("#fecha_res_pension").datepicker("option", "minDate", dateValue)
-                    }
+                    dateFormat: 'dd/mm/yy'
                 });
             });
         </script>
@@ -439,23 +436,6 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_res_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Res. Pensión<a STYLE="color: red" >*</a></span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="fecha_res_pension" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="fecha_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Pensión<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
@@ -470,6 +450,22 @@ class html_formConcurrencia {
                 <div class="null"></div>
             </div>
 
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="fecha_res_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Res. Pensión<a STYLE="color: red" >*</a></span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="fecha_res_pension" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
 
             <div class="formrow f1">
                 <div id="p1f12" class="field n1">
@@ -514,7 +510,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="porc_aceptado" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[0]+([\.][0-9]+[0-9])?" step="0.0000" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
+                            <input type="text" id="p1f6c" name="porc_aceptado" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="^[0]\d{0,1}(\.\d{1,4})?%?$" step="0.00" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
                         </div>
                         <div class="null"></div>
                     </div>

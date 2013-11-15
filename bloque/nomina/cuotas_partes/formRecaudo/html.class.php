@@ -617,7 +617,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_resolucion" name="fecha_resolucion" title="Si no aplica, escriba 0" class="fieldcontent" required='required' >
+                                <input type="text" id="fecha_resolucion" name="fecha_resolucion" title="Si no aplica, escriba 0" class="fieldcontent" required='required' placeholder="dd/mm/aaaa" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                         </div>
                     </div> 
@@ -631,7 +631,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_pago" onpaste='return false' name="fecha_pago" class="fieldcontent" required='required' >
+                                <input type="text" id="fecha_pago" onpaste='return false' name="fecha_pago" class="fieldcontent" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                         </div>
                     </div>

@@ -110,16 +110,26 @@ class funciones_formIPC extends funcionGeneral {
                 exit;
             }
         }
-                
+
         $parametros = "";
         $anio = $datos['año_registrar'];
-        
-        if(($anio>= 1976 && $anio <= 1988)){
-            $sumas_fijas=$datos['sum_fj'];
-        }else{
-            $sumas_fijas=0;
+
+        if (($anio >= 1976 && $anio <= 1988)) {
+            $sumas_fijas = $datos['sum_fj'];
+        } else {
+            if (isset($datos['sum_fj'])) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('El valor de sumas fijas fue ingresado en un intervalo no válido.');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = "pagina=formularioIPC";
+                $variable .= "&opcion=";
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
         }
-     
+
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
         $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 

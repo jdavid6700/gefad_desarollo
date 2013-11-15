@@ -107,8 +107,11 @@ class funciones_formConcurrencia extends funcionGeneral {
                 exit;
             }
         }
+/*
+        if (!preg_match('^[0]([.][0-9]{1,4})?$', $datos['porc_aceptado'])) {
 
-        if (!preg_match('[0]+([\.][0-9]+[0-9])?', $datos['horas_laboradas'])) {
+            echo 'pailaaaaa'. $datos['porc_aceptado'];
+            exit;
             echo "<script type=\"text/javascript\">" .
             "alert('Formato Porcentaje Cuota no diligenciado correctamente');" .
             "</script> ";
@@ -120,6 +123,8 @@ class funciones_formConcurrencia extends funcionGeneral {
             exit;
         }
 
+        echo "logrado";
+        exit;*/
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
             'nit_entidad' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),

@@ -358,7 +358,6 @@ class html_formDTF {
                     <div class="null"></div>
                 </div>
 
-
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">

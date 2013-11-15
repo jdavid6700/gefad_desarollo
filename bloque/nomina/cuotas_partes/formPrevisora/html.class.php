@@ -245,7 +245,7 @@ class html_formPrevisora {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890-/()eExt.";
-                especiales = [8, 9,32];
+                especiales = [8,9,32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -266,7 +266,7 @@ class html_formPrevisora {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-                especiales = [8, 9,32];
+                especiales = [8,9,32];
 
                 tecla_especial = false
                 for (var i in especiales) {

@@ -94,13 +94,13 @@
                                         echo $this->indice . $variable;
                                         ?>'>Consultar Historia Laboral</a></li>
 
-                                    <li><a href=
+                                   <!--li><a href=
                                            "<?
                                            $variable = "pagina=liquidadorCP";
                                            $variable.="&opcion=";
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
-                                           ?>">Consultar Detalle Liquidación Cuota Parte</a></li>
+                                           ?>">Consultar Detalle Liquidación Cuota Parte</a></li-->
                                 </ul>
                             </li>
 
@@ -159,14 +159,14 @@
                             </li>
 
 
-                            <li><a href="#">Cuenta de Cobro</a>
+                            <!--li><a href="#">Cuenta de Cobro</a>
                                 <ul>
                                     <li><a href="<?
                                         $variable = 'pagina=cuentaCobro';
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Generar Cuenta de Cobro</a></li>
+                                        ?>">Generar Cuenta de Cobro</a></li-->
                                 </ul>
                             </li>
                         </ul>
