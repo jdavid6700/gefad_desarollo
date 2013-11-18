@@ -65,7 +65,7 @@ class html_formDTF {
             <table width="90%" class='bordered' align="center">
                 <tr>
                     <th colspan="11" class='encabezado_registro'>TABLA TASA DE INTERÉS</th>
-                    <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                    <td class='texto_elegante estilo_td' ></td>
                 </tr>
 
                 <tr>                       
@@ -115,6 +115,7 @@ class html_formDTF {
 
         $this->formulario = "formDTF";
 
+        
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -138,11 +139,8 @@ class html_formDTF {
                     dateFormat: 'dd/mm/yy',
                     onChangeMonthYear: function(year, month, inst) {
                         $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
-                    },
-                    maxDate: "+0D",
-                    onSelect: function(dateValue, inst) {
-                        $("#fecvig_hasta").datepicker("option", "minDate", dateValue)
                     }
+                 
                 });
 
                 $("#fecvig_hasta").datepicker({
@@ -150,10 +148,7 @@ class html_formDTF {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-                    maxDate: "+0D",
-                    onChangeMonthYear: function(year, month, inst) {
-                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
-                    }
+               
                 });
 
                 $("#fec_reso").datepicker({
@@ -222,8 +217,6 @@ class html_formDTF {
                     document.getElementById("fecvig_desde").disabled = true;
                     document.getElementById("n_resolucion").disabled = false;
                     document.getElementById("fec_reso").disabled = false;
-                    document.getElementById("tri_mestre").value = "Seleccione Trimestre";
-                    document.getElementById("tri_mestre").disabled = true;
                 } else {
                     document.getElementById("indice_dtf").value = "";
                     document.getElementById("indice_dtf").disabled = false;
@@ -231,35 +224,8 @@ class html_formDTF {
                     document.getElementById("fecvig_desde").disabled = false;
                     document.getElementById("n_resolucion").disabled = false;
                     document.getElementById("fec_reso").disabled = false;
-                    document.getElementById("tri_mestre").value = "Seleccione Trimestre";
-                    document.getElementById("tri_mestre").disabled = false;
                 }
             }
-        </script>
-
-        <script>
-            function  validarperiodo() {
-                var anio = document.getElementById("año_registrar").value;
-                var periodo = document.getElementById("tri_mestre").value;
-                if (anio == 2006) {
-                    if (periodo < 3) {
-                        document.getElementById("indice_dtf").value = 0.12;
-                        document.getElementById("indice_dtf").disabled = true;
-                        document.getElementById("fecvig_hasta").disabled = true;
-                        document.getElementById("fecvig_desde").disabled = true;
-                        document.getElementById("n_resolucion").disabled = false;
-                        document.getElementById("fec_reso").disabled = false;
-                    } else {
-                        document.getElementById("indice_dtf").value = "";
-                        document.getElementById("indice_dtf").disabled = false;
-                        document.getElementById("fecvig_hasta").disabled = false;
-                        document.getElementById("fecvig_desde").disabled = false;
-                        document.getElementById("n_resolucion").disabled = false;
-                        document.getElementById("fec_reso").disabled = false;
-                    }
-                }
-            }
-
         </script>
 
         <script>
@@ -313,43 +279,12 @@ class html_formDTF {
                                     $i = 1920;
                                     $año = date("Y");
                                     for ($i = 1980; $i <= $año; $i++) {
-
                                         $var.= "<option>" . $i . "</option>";
                                     }
                                     echo $var;
                                     ?>   
-
                                 </select>
 
-                            </div>
-                            <div class="null"></div>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-
-                <div class="formrow f1">
-                    <div id="p1f6" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="tri_mestre"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Trimestre a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
-                            <div class="null"></div>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <select id="tri_mestre" name="tri_mestre"  autocomplete="off" onchange="validarperiodo()" required='required' >
-                                    <?php
-                                    $var = "<option selected value=''>" . "Seleccione Trimestre" . "</option>";
-
-
-                                    for ($i = 1; $i <= 4; $i++) {
-
-                                        $var.= "<option>" . $i . "</option>";
-                                    }
-                                    echo $var;
-                                    ?>   
-
-                                </select>**Se debe seleccionar  primero el año.
                             </div>
                             <div class="null"></div>
                         </div>

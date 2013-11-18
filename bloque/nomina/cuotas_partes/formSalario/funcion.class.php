@@ -122,7 +122,7 @@ class funciones_formSalario extends funcionGeneral {
         $parametros2 = array(
             'salario_norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
             'salario_numero' => (isset($datos['numero']) ? $datos['numero'] : ''),
-            'salario_anio' => (isset($datos['anio_registrar']) ? $datos['anio_registrar'] : ''),
+            'salario_anio' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
             'salario_vdesde' => (isset($datos['fecvig_desde']) ? $datos['fecvig_desde'] : ''),
             'salario_vhasta' => (isset($datos['fecvig_hasta']) ? $datos['fecvig_hasta'] : ''),
             'salario_monto' => (isset($datos['monto_mensual']) ? $datos['monto_mensual'] : ''),
@@ -131,6 +131,7 @@ class funciones_formSalario extends funcionGeneral {
 
         $cadena_sql2 = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarSalario", $parametros2);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql2, "registrar");
+ 
 
         if ($datos_registrados == true) {
 

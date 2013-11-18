@@ -134,7 +134,7 @@ class html_formSalario {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
-                especiales = [8,9];
+                especiales = [8, 9];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -192,9 +192,6 @@ class html_formSalario {
                         $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
                     },
                     maxDate: "+0D",
-                    onSelect: function(dateValue, inst) {
-                        $("#fecvig_hasta").datepicker("option", "minDate", dateValue)
-                    }
                 });
 
                 $("#fecvig_hasta").datepicker({
@@ -202,7 +199,7 @@ class html_formSalario {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-                    maxDate: "+0D",
+                    maxDate: "+1M",
                     onChangeMonthYear: function(year, month, inst) {
                         $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
                     }
@@ -239,7 +236,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste='return false' name="norma" maxlength="6" onKeyPress='return acceptNumLetter(event)'  class="fieldcontent" required='required' autocomplete="off">
+                                <input type="text" id="indice_Ipc" onpaste='return false' name="norma" maxlength="15" onKeyPress='return acceptNumLetter(event)'  class="fieldcontent" required='required' autocomplete="off">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -256,7 +253,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste='return false' name="numero"  maxlength="6" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
+                                <input type="text" id="indice_Ipc" onpaste='return false' name="numero"  maxlength="10" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
 
                             </div>
                             <div class="null"></div>
@@ -266,8 +263,8 @@ class html_formSalario {
                     <div class="null"></div>
                 </div>
 
-    
-      <div class="formrow f1 ">
+
+                <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>

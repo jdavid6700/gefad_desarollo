@@ -287,7 +287,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste="return false" name="sum_fj" class="fieldcontent" maxlength='5' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
+                                <input type="text" id="sum_fj" onpaste="return false" name="sum_fj" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
                             </div>
                             <div class="null"></div>
                         </div>
