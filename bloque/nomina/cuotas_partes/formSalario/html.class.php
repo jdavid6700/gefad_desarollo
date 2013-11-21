@@ -150,6 +150,25 @@ class html_formSalario {
         </script>
 
         <script>
+            function acceptNum2(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890.";
+                especiales = [8, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+        <script>
             function acceptNumLetter(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
@@ -206,8 +225,8 @@ class html_formSalario {
                 });
             });</script>
 
-        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off'>
 
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off'>
             <h1>Formulario de Registro Salario Mínimo Legal</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
@@ -236,7 +255,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste='return false' name="norma" maxlength="15" onKeyPress='return acceptNumLetter(event)'  class="fieldcontent" required='required' autocomplete="off">
+                                <select id="p1f13c" name="norma" class="fieldcontent"><option value="Ley" selected="selected">Ley</option><option value="Decreto">Decreto</option></select>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -253,8 +272,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste='return false' name="numero"  maxlength="10" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
-
+                                <input type="text" id="indice_Ipc" onpaste='return false' name="numero"  maxlength="7" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -338,7 +356,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' name="monto_mensual" class="fieldcontent" maxlength='6' required='required'  onKeyPress='return acceptNum(event)' >
+                                <input type="text" id="sum_fj" onpaste='return false' name="monto_mensual" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
                             </div>
                             <div class="null"></div>
                         </div>

@@ -107,8 +107,8 @@ class funciones_formConcurrencia extends funcionGeneral {
                 exit;
             }
         }
-/*
-        if (!preg_match('^[0]([.][0-9]{1,4})?$', $datos['porc_aceptado'])) {
+
+        if (!preg_match("^[0]([.][0-9]{1,4})?$", $datos['porc_aceptado'])) {
 
             echo 'pailaaaaa'. $datos['porc_aceptado'];
             exit;
@@ -124,7 +124,8 @@ class funciones_formConcurrencia extends funcionGeneral {
         }
 
         echo "logrado";
-        exit;*/
+        exit;
+        
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
             'nit_entidad' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),

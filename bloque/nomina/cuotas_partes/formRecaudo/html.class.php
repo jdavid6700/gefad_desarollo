@@ -72,7 +72,7 @@ class html_formRecaudo {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
 
-            <h2>Ingrese la cédula a consultar historial de recaudos y cuentas de cobro: </h2>
+            <h2>Ingrese la cédula a consultar historial de recaudos: </h2>
             <br>
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
             <br><br>
@@ -120,7 +120,7 @@ class html_formRecaudo {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <form id="form" method="post" action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
-            <h2>Ingrese los parametros para consultar Cuentas de Cobro y Recaudos registrados:</h2>
+            <h2>Ingrese los parametros para consultar Recaudos registrados:</h2>
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
@@ -546,8 +546,6 @@ class html_formRecaudo {
                     </div>
                 </div>
 
-
-
                 <div class="formrow f1">
                     <div id="p1f7" class="field n1">
                         <div class="caption capleft alignleft">
@@ -687,12 +685,9 @@ class html_formRecaudo {
                     </div>
 
                     <div class="null"></div
-
                     <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
-
                     <input type='hidden' name='opcion' value='guardarRecaudo'>
                     <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
-
                 </div>
         </form>
 
@@ -700,4 +695,3 @@ class html_formRecaudo {
     }
 
 }
-

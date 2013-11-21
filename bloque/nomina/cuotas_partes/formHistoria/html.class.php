@@ -712,7 +712,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f12c" onpaste="return false" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="3" min="8" max="240">
+                                <input type="text" id="p1f12c" onpaste="return false" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="3" min="8" max="240" value="8">
 
                             </div>
                             <div class="null"></div>
@@ -731,7 +731,7 @@ class html_formHistoria {
                         <div class="control capleft">
                             <div>
                                 <div class="dropdown">
-                                    <select id="p1f13c" name="tipo_horas" class="fieldcontent"><option value="0">Diaria</option><option value="1">Semanal</option><option value="2">Mensual</option><option value="3" selected="selected">En el Periodo</option></select>
+                                    <select id="p1f13c" name="tipo_horas" class="fieldcontent"><option value="0" selected="selected">Diarias</option><option value="1">Semanales</option><option value="2">Mensuales</option><option value="3" >En el Periodo</option></select>
                                     <div class="fielderror"></div>
                                 </div>
                             </div>

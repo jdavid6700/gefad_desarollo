@@ -98,7 +98,7 @@ class funciones_formIPC extends funcionGeneral {
         }
 
         foreach ($datos as $key => $value) {
-            if (!ereg("^[0-9.-]{1,7}$", $datos[$key])) {
+            if (!ereg("^[0-9.-]{1,10}$", $datos[$key])) {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente. Formato erróneo');" .
                 "</script> ";

@@ -475,7 +475,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7" pattern=".{3,7}." onpaste="return false">
+                            <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
 
                         </div>
                         <div class="null"></div>

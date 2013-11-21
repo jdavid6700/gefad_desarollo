@@ -147,7 +147,7 @@ class html_formPrevisora {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
         ?>
 
-        <style>                    h3{text-align: left}                </style>
+        
 
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
@@ -302,6 +302,8 @@ class html_formPrevisora {
                 }
             }
         </script>
+        
+        
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
             <h1>Formulario de Registro Entidades Previsoras y Empleadoras</h1>

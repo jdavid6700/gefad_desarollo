@@ -137,8 +137,8 @@ class funciones_formRecaudo extends funcionGeneral {
                 exit;
             }
         }
-/*
-        if (!preg_match('#((^(10|12|0?[13578])([/])(3[01]|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(11|0?[469])([/])(30|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(2[0-8]|1[0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(29)([/])([2468][048]00)$)|(^(0?2)([/])(29)([/])([3579][26]00)$)|(^(0?2)([/])(29)([/])([1][89][0][48])$)|(^(0?2)([/])(29)([/])([2-9][0-9][0][48])$)|(^(0?2)([/])(29)([/])([1][89][2468][048])$)|(^(0?2)([/])(29)([/])([2-9][0-9][2468][048])$)|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$))#', $datos['fecha_resolucion'])) {
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_resolucion'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formato fecha diligenciado incorrectamente');" .
             "</script> ";
@@ -150,7 +150,7 @@ class funciones_formRecaudo extends funcionGeneral {
             exit;
         }
 
-        if (!preg_match('#((^(10|12|0?[13578])([/])(3[01]|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(11|0?[469])([/])(30|[12][0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(2[0-8]|1[0-9]|0?[1-9])([/])((1[8-9]\d{2})|([2-9]\d{3}))$)|(^(0?2)([/])(29)([/])([2468][048]00)$)|(^(0?2)([/])(29)([/])([3579][26]00)$)|(^(0?2)([/])(29)([/])([1][89][0][48])$)|(^(0?2)([/])(29)([/])([2-9][0-9][0][48])$)|(^(0?2)([/])(29)([/])([1][89][2468][048])$)|(^(0?2)([/])(29)([/])([2-9][0-9][2468][048])$)|(^(0?2)([/])(29)([/])([1][89][13579][26])$)|(^(0?2)([/])(29)([/])([2-9][0-9][13579][26])$))#', $datos['fecha_pago'])) {
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pago'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formato fecha diligenciado incorrectamente');" .
             "</script> ";
@@ -161,7 +161,7 @@ class funciones_formRecaudo extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
-*/
+
         $datos_recaudo = $this->registrarPago($datos);
 
         if ($datos_recaudo == true) {
@@ -213,13 +213,12 @@ class funciones_formRecaudo extends funcionGeneral {
             echo "<script type=\"text/javascript\">" .
             "alert('Datos Registrados');" .
             "</script> ";
-
-            exit;
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=reportesCuotas";
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
         } else {
 
             echo "<script type=\"text/javascript\">" .
@@ -231,7 +230,7 @@ class funciones_formRecaudo extends funcionGeneral {
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            break;
+            exit;
         }
     }
 

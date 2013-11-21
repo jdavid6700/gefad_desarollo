@@ -269,7 +269,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste="return false"  name="indice_Ipc" placeholder="0.00"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" step="0.0000" class="fieldcontent" required='required' onpaste="return false" title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
+                                <input type="text" id="indice_Ipc" onpaste="return false"  name="indice_Ipc" placeholder="0.00"  maxlength="10" pattern="[0]+([\.]][0-9]{4,10})?" step="0.0000" class="fieldcontent" required='required' onpaste="return false" title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
 
                             </div>
                             <div class="null"></div>

@@ -115,7 +115,7 @@ class html_formDTF {
 
         $this->formulario = "formDTF";
 
-        
+
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -140,7 +140,7 @@ class html_formDTF {
                     onChangeMonthYear: function(year, month, inst) {
                         $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
                     }
-                 
+
                 });
 
                 $("#fecvig_hasta").datepicker({
@@ -148,7 +148,6 @@ class html_formDTF {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-               
                 });
 
                 $("#fec_reso").datepicker({
@@ -263,28 +262,15 @@ class html_formDTF {
                     <div class="null"></div>
                 </div>
 
-
-                <div class="formrow f1 ">
-                    <div id="p1f10" class="field n1">
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Norma<a STYLE="color: red" >*</a></span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" required='required'>
-
-                                    <?php
-                                    $var = "<option selected value=''>" . "Seleccione Año" . "</option>";
-                                    $i = 1920;
-                                    $año = date("Y");
-                                    for ($i = 1980; $i <= $año; $i++) {
-                                        $var.= "<option>" . $i . "</option>";
-                                    }
-                                    echo $var;
-                                    ?>   
-                                </select>
-
+                                <select id="p1f13c" name="norma" class="fieldcontent"><option value="Ley">Ley</option><option value="Decreto" selected="selected">Resolución</option></select>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -301,7 +287,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="n_resolucion" name="n_resolucion" class="fieldcontent" required='required'  maxLength="10" pattern=".{2,10}"  autocomplete="off" onKeyPress='return acceptNum2(event)' onpaste="return false">
+                                <input type="text" id="n_resolucion" name="n_resolucion" class="fieldcontent" required='required'  maxLength="7" pattern=".{2,7}"  autocomplete="off" onKeyPress='return acceptNum2(event)' onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>
