@@ -66,6 +66,16 @@ class funciones_formRecaudo extends funcionGeneral {
         $this->html_formRecaudo->form_valor();
     }
 
+    function mostrarRecaudos() {
+        $cedula = array('cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''));
+        $datos_entidad = $this->consultarEntidades($cedula);
+        $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
+    }
+
+    function mostrarFormulario($cuentas_pago) {
+        $this->html_formRecaudo->formularioRecaudos($cuentas_pago);
+    }
+
     function consultarEntidades($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -84,12 +94,6 @@ class funciones_formRecaudo extends funcionGeneral {
         return $datos;
     }
 
-    function mostrarRecaudos() {
-        $cedula = array('cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''));
-        $datos_entidad = $this->consultarEntidades($cedula);
-        $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
-    }
-
     function registrarPago($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPago", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
@@ -106,10 +110,6 @@ class funciones_formRecaudo extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarCobro", $parametro);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "actualizar");
         return $datos;
-    }
-
-    function mostrarFormulario($cuentas_pago) {
-        $this->html_formRecaudo->formularioRecaudos($cuentas_pago);
     }
 
     function historiaRecaudos($datos_consulta) {

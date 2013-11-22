@@ -52,13 +52,34 @@ class sql_formConcurrencia extends sql {
                 break;
 
             case "consultarPrevisora":
-                $cadena_sql = " SELECT ";
-                $cadena_sql.=" prev_nit, ";
-                $cadena_sql.=" prev_nombre ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
-                $cadena_sql.=" ORDER BY prev_nombre ASC ";
+                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
+                $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 break;
-            
+
+            case "consultarPrevFormulario":
+                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
+                $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
+                break;
+
+            case "consultarEmpleador":
+                $cadena_sql = " SELECT prev_nombre, hlab_nro_identificacion, hlab_nitprev,hlab_nitenti, hlab_fingreso, hlab_fretiro ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral, cuotas_partes.cuotas_previsora ";
+                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
+                $cadena_sql.=" AND prev_nit=hlab_nitenti ";
+                $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
+                break;
+
+            case "consultarHistoria":
+                $cadena_sql = " SELECT DISTINCT hlab_nro_identificacion, hlab_nitenti, hlab_nitprev, hlab_fingreso, hlab_fretiro  ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
+                $cadena_sql.=" and hlab_nitprev='" . $variable['previsor'] . "' ";
+                $cadena_sql.= "ORDER BY hlab_fretiro DESC ";
+                break;
+
             default:
                 $cadena_sql = "";
                 break;

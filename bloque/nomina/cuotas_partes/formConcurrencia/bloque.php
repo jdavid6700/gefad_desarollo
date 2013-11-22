@@ -51,25 +51,35 @@ class bloque_formConcurrencia extends bloque {
 
             switch ($accion) {
 
-                default :
+                case "historiaConcurrencia":
+                    $cedula = $_REQUEST['cedula_emp'];
+                    $this->funcion->mostrarPrevisoras($cedula);
+                    break;
+
+                case "formulario":
                     $this->funcion->mostrarFormulario();
+                    break;
+
+                default :
+                    $this->funcion->inicio();
             }
         } else {
             $accion = "inicio";
-            $this->funcion->mostrarFormulario();
+            $this->funcion->inicio();
         }
     }
 
     function action() {
 
         switch ($_REQUEST['opcion']) {
-            case "registrarConcurrencia":
 
+
+            case "registrarConcurrencia":
                 $registro_previsora = array();
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                      $registro_previsora[$key] = $_REQUEST[$key];
+                        $registro_previsora[$key] = $_REQUEST[$key];
                     }
                 }
 

@@ -63,29 +63,57 @@ class funciones_formConcurrencia extends funcionGeneral {
         $this->html_formConcurrencia = new html_formConcurrencia($configuracion);
     }
 
+    function inicio() {
+        $this->html_formConcurrencia->form_valor();
+    }
+
+    function mostrarPrevisoras($cedula) {
+        $parametros = array('cedula' => $cedula);
+        $datos_previsora = $this->consultarPrevisora($parametros);
+        $this->html_formConcurrencia->datosPrevisora($cedula, $datos_previsora);
+    }
+
+    function mostrarFormulario() {
+
+        $parametros = array(
+            'cedula' => $_REQUEST['cedula_emp'],
+            'previsor' => $_REQUEST['hlab_nitprev']);
+
+        $datos_laboral = $this->consultarHistoria($parametros);
+        $datos_entidad = $this->consultarEmpleador($parametros);
+        $datos_previsora = $this->consultarPrevForm($parametros);
+
+        $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora);
+    }
+
     function registrarDescripcionCP($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
         $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
         return $datos_DescripcionCP;
     }
 
-    function consultarRegistros() {
-        $parametros = array();
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarConcurrencia", $parametros);
+    function consultarHistoria($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarHistoria", $parametros);
         $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        $this->html_formConcurrencia->mostrarRegistros($datos_registro);
+        return $datos_registro;
     }
 
-    function consultarPrevisora() {
-        $parametros = array();
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
+    function consultarEmpleador($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEmpleador", $parametros);
+        $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_registro;
+    }
+
+    function consultarPrevisora($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametro);
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_previsora;
     }
 
-    function mostrarFormulario() {
-        $datos_previsor = $this->consultarPrevisora();
-        $this->html_formConcurrencia->formularioConcurrencia($datos_previsor);
+    function consultarPrevForm($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevFormulario", $parametro);
+        $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_previsora;
     }
 
     function procesarFormulario($datos) {
@@ -110,7 +138,7 @@ class funciones_formConcurrencia extends funcionGeneral {
 
         if (!preg_match("^[0]([.][0-9]{1,4})?$", $datos['porc_aceptado'])) {
 
-            echo 'pailaaaaa'. $datos['porc_aceptado'];
+            echo 'pailaaaaa' . $datos['porc_aceptado'];
             exit;
             echo "<script type=\"text/javascript\">" .
             "alert('Formato Porcentaje Cuota no diligenciado correctamente');" .
@@ -125,7 +153,7 @@ class funciones_formConcurrencia extends funcionGeneral {
 
         echo "logrado";
         exit;
-        
+
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
             'nit_entidad' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),

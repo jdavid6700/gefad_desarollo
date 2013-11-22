@@ -42,7 +42,159 @@ class html_formConcurrencia {
         $this->formulario = "formConcurrencia";
     }
 
-    function formularioConcurrencia($datos_previsora) {
+    function form_valor() {
+
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+        $this->formulario = "formConcurrencia";
+        ?>
+        <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 39];
+
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+
+        <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
+        <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
+
+            <h2>Ingrese la cédula a consultar historial de recaudos: </h2>
+            <br>
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
+            <br><br>
+            <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
+
+            <input type='hidden' name='pagina' value='formularioConcurrencia'>
+            <input type='hidden' name='opcion' value='historiaConcurrencia'>
+            <br>
+        </form>
+        <?
+    }
+
+    function datosPrevisora($cedula, $datos_en) {
+
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+
+        $this->formulario = "formRecaudo";
+        ?>
+        <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 39];
+
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+        <!referencias a estilos y plugins>
+        <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
+        <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel = "stylesheet" type = "text/css"/>
+        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+        <form id="form" method="post" action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
+            <h2>Seleccione el parámetro para consultar la entidad previsoras a registrarle la concurrencia:</h2>
+            <div class="formrow f1">
+                <div class="formrow f1">
+                    <div id="p1f4" class="field n1">
+                        <div class="staticcontrol">
+                            <div class="hrcenter px1"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f7" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" onpaste="return false" id="p1f7c" name="cedula_emp" readonly class="fieldcontent" required='required'  onKeyPress='return acceptNum(event)' value="<?php echo $cedula ?>">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div id="p1f103" class="field n1">
+                <div class="caption capleft alignleft">
+                    <label class="fieldlabel" for="entidades"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Entidad a cobrar:</span></span></span></label>
+                    <div class="null"></div>
+                </div>
+            </div>
+
+            <div class="control capleft">
+                <div class="dropdown">
+
+                    <?
+                    unset($combo);
+                    //prepara los datos como se deben mostrar en el combo
+                    $combo[0][0] = '0';
+                    $combo[0][1] = 'Todos';
+                    foreach ($datos_en as $cmb => $values) {
+                        $combo[$cmb + 1][0] = isset($datos_en[$cmb]['hlab_nitprev']) ? $datos_en[$cmb]['hlab_nitprev'] : 0;
+                        $combo[$cmb + 1][1] = isset($datos_en[$cmb]['prev_nombre']) ? $datos_en[$cmb]['prev_nombre'] : '';
+                    }
+                    // echo$combo;
+                    if (isset($_REQUEST['hlab_nitprev'])) {
+                        $lista_combo = $this->html->cuadro_lista($combo, 'hlab_nitprev', $this->configuracion, $_REQUEST['hlab_nitprev'], 0, FALSE, 0, 'hlab_nitprev');
+                    } else {
+                        $lista_combo = $this->html->cuadro_lista($combo, 'hlab_nitprev', $this->configuracion, 0, 0, FALSE, 0, 'hlab_nitprev');
+                    }
+                    echo $lista_combo;
+                    ?> 
+                </div>
+            </div>
+            <div>
+                <br><br><br>
+                <input id="generarBoton" type="submit" class="navbtn"  value="Registrar">
+                <input type='hidden' name='pagina' value='formularioConcurrencia'>
+                <input type='hidden' name='opcion' value='formulario'>
+            </div>
+        </form>
+
+        <?
+    }
+
+    function formularioConcurrencia($datos_historia, $datos_empleador, $datos_previsora) {
+
+        $minDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fingreso'] . "+1 month"));
+        $maxDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro'] . " + 1 month"));
 
         $this->formulario = "formConcurrencia";
 
@@ -121,28 +273,26 @@ class html_formConcurrencia {
         </script>
 
         <script>
-
             $(document).ready(function() {
                 $("#fecha_con").datepicker({
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
                     maxDate: "+0D",
-                    dateFormat: 'dd/mm/yy',
-                    onSelect: function(dateValue, inst) {
-                        $("#fecha_act").datepicker("option", "minDate", dateValue)
-                    }
+                    dateFormat: 'dd/mm/yy'
                 });
+                $("#fecha_con").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
 
             $(document).ready(function() {
-                $("#fecha_act").datepicker({
+                $("#fecha_acto_adm").datepicker({
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
                     maxDate: "+0D",
                     dateFormat: 'dd/mm/yy'
                 });
+                $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
 
             $(document).ready(function() {
@@ -153,6 +303,7 @@ class html_formConcurrencia {
                     maxDate: "+0D",
                     dateFormat: 'dd/mm/yy'
                 });
+                $("#fecha_res_pension").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
 
             $(document).ready(function() {
@@ -161,91 +312,79 @@ class html_formConcurrencia {
                     changeYear: true,
                     yearRange: '1940:c',
                     maxDate: "+0D",
-                    dateFormat: 'dd/mm/yy'
+                    dateFormat: 'dd/mm/yy',
                 });
+                $("#fecha_pension").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
         </script>
 
         <script language = "Javascript">
-            /**
-             * DHTML email validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
-             */
-
+            //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
             function echeck(str) {
 
-                var at = "@"
-                var dot = "."
-                var lat = str.indexOf(at)
-                var lstr = str.length
-                var ldot = str.indexOf(dot)
-                if (str.indexOf(at) == -1) {
-                    alert("Verifique su e-mail")
-                    return false
-                }
+                var min = '<? echo $maxDate ?>'
 
-                if (str.indexOf(at) == -1 || str.indexOf(at) == 0 || str.indexOf(at) == lstr) {
-                    alert("Verifique su e-mail")
-                    return false
-                }
-
-                if (str.indexOf(dot) == -1 || str.indexOf(dot) == 0 || str.indexOf(dot) == lstr) {
-                    alert("Verifique su e-mail")
-                    return false
-                }
-
-                if (str.indexOf(at, (lat + 1)) != -1) {
-                    alert("Verifique su e-mail")
-                    return false
-                }
-
-                if (str.substring(lat - 1, lat) == dot || str.substring(lat + 1, lat + 2) == dot) {
-                    alert("Verifique su e-mail")
-                    return false
-                }
-
-                if (str.indexOf(dot, (lat + 2)) == -1) {
-                    alert("Verifique su e-mail")
-                    return false
-                }
-
-                if (str.indexOf(" ") != -1) {
-                    alert("Verifique su e-mail")
+                if (str < min) {
+                    alert(min)
                     return false
                 }
 
                 return true
             }
 
-            function ValidateForm() {
-                var emailID = document.formConcurrencia.txtEmail
+            function minDate() {
+                var fechaID = document.formConcurrencia.fecha_acto_adm
 
-                if ((emailID.value == null) || (emailID.value == "")) {
-                    alert("Ingrese un correo electrónico!")
-                    emailID.focus()
-                    return false
-                }
-                if (echeck(emailID.value) == false) {
-                    emailID.value = ""
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
                     emailID.focus()
                     return false
                 }
 
-                var emailID2 = document.formConcurrencia.txtEmail2
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
 
-                if ((emailID2.value == null) || (emailID2.value == "")) {
-                    alert("Ingrese un correo electrónico!")
-                    emailID2.focus()
+                return true
+
+
+                var fechaID = document.formConcurrencia.fecha_pension
+
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    emailID.focus()
                     return false
                 }
-                if (echeck(emailID2.value) == false) {
-                    emailID2.value = ""
-                    emailID2.focus()
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
                     return false
                 }
+
+                return true
+
+                var fechaID = document.formConcurrencia.fecha_res_pension
+
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    emailID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
                 return true
             }
 
         </script>
+
 
         <script>
             function acceptNumLetter(e) {
@@ -281,7 +420,7 @@ class html_formConcurrencia {
             }
         </script>
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
+        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return minDate();" autocomplete='Off'>
             <h1>Formulario de Registro Descripción Cuota Parte Aceptada</h1>
 
             <div class="formrow f1">
@@ -310,8 +449,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="cedula" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10" pattern=".{3,10}." onpaste="return false">
-
+                            <input type="text" id="p1f12c" name="cedula" class="fieldcontent" readonly required='required' value="<? echo $datos_historia[0]['hlab_nro_identificacion'] ?>" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -337,8 +475,8 @@ class html_formConcurrencia {
                                 $combo[0][0] = '1';
                                 $combo[0][1] = 'No registra en la base de datos';
                                 foreach ($datos_previsora as $cmb => $values) {
-                                    $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
-                                    $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                    $combo[$cmb][0] = isset($datos_empleador[$cmb]['prev_nit']) ? $datos_empleador[$cmb]['prev_nit'] : 0;
+                                    $combo[$cmb][1] = isset($datos_empleador[$cmb]['prev_nombre']) ? $datos_empleador[$cmb]['prev_nombre'] : '';
                                 }
 
                                 // echo$combo;
@@ -376,8 +514,8 @@ class html_formConcurrencia {
                                 $combo[0][0] = '0';
                                 $combo[0][1] = 'Empleador';
                                 foreach ($datos_previsora as $cmb => $values) {
-                                    $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
-                                    $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                    $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
+                                    $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                 }
 
                                 // echo$combo;
@@ -559,12 +697,12 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_act"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Acto Admin.<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="fecha_acto_adm"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Acto Admin.<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_act" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
+                            <input type="text" id="fecha_acto_adm" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
                         </div>
                         <div class="null"></div>
                     </div>
