@@ -43,13 +43,8 @@ class html_formHistoria {
 
     function formularioInterrupcion($datos_prev, $datos_interrupcion) {
 
-        $minY = date("Y", strtotime($datos_interrupcion['fecha_ingreso']));
-        $minD = date("n", strtotime($datos_interrupcion['fecha_ingreso']));
-        $minM = date("j", strtotime($datos_interrupcion['fecha_ingreso'])) - 1;
-
-        $maxY = date("Y", strtotime($datos_interrupcion['fecha_salida']));
-        $maxD = date("n", strtotime($datos_interrupcion['fecha_salida']));
-        $maxM = date("j", strtotime($datos_interrupcion['fecha_salida'])) - 1;
+        $fecha_min = date('d-m-Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['fecha_ingreso']) . "+1 month")));
+        $fecha_max = date('d-m-Y', strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida'])));
 
         $this->formulario = "formHistoria";
 
@@ -73,37 +68,33 @@ class html_formHistoria {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    minDate: new Date(<? echo $minY ?>,<? echo $minM ?>,<? echo $minD ?>),
-                    maxDate: new Date(<? echo $maxY ?>,<? echo $maxM ?>,<? echo $maxD ?>),
-                    dateFormat: 'dd/mm/yy',
-                    onSelect: function(dateValue, inst) {
-                        $("#dias_nor_hasta").datepicker("option", "minDate", dateValue)
-                    }
+                    dateFormat: 'dd-mm-yy'
                 });
-            });
+                $("#dias_nor_desde").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
+                $("#dias_nor_desde").datepicker('option', 'maxDate', '<?php echo $fecha_max ?>');
 
+            });
             $(document).ready(function() {
                 $("#dias_nor_hasta").datepicker({
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    dateFormat: 'dd/mm/yy',
-                    minDate: new Date(<? echo $minY ?>,<? echo $minM ?>,<? echo $minD ?>),
-                    maxDate: new Date(<? echo $maxY ?>,<? echo $maxM ?>,<? echo $maxD ?>),
+                    dateFormat: 'dd-mm-yy'
                 });
+                $("#dias_nor_hasta").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
+                $("#dias_nor_hasta").datepicker('option', 'maxDate', '<?php echo $fecha_max ?>');
             });
-
             $(document).ready(function() {
                 $("#fecha_certificado").datepicker({
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    dateFormat: 'dd/mm/yy',
-                    minDate: new Date(<? echo $minY ?>,<? echo $minM ?>,<? echo $minD ?>),
-                    maxDate: new Date(<? echo $maxY ?>,<? echo $maxM ?>,<? echo $maxD ?>),
+                    dateFormat: 'dd-mm-yy'
                 });
+                $("#fecha_certificado").datepicker('option', 'minDate', '<?php echo $fecha_max ?>');
             });
         </script>
+
 
         <script>
             function acceptNum(e) {
@@ -158,7 +149,54 @@ class html_formHistoria {
             }
         </script>
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off'>
+        <script language = "Javascript">
+            //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
+
+            function echeck(str) {
+
+                var min = new Date('<? echo $fecha_min ?>');
+                var max = new Date('<? echo $fecha_max ?>');
+                var cadena = new Date(str);
+                if (cadena < min || cadena > max) {
+                    alert('Fuera del rango'+cadena)
+                    return false
+                }
+                return true
+            }
+
+            function minDate() {
+
+                var fechaID = document.formHistoria.dias_nor_desde
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+                var fechaID = document.formHistoria.dias_nor_hasta
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+            }
+
+        </script>
+
+        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
             <h1>Formulario de Registro Interrupciones</h1>
 
             <div class="formrow f1">
@@ -198,7 +236,7 @@ class html_formHistoria {
                     <div class="null"></div>
                 </div>
 
-            
+
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
@@ -263,7 +301,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_desde" onpaste="return false" name="dias_nor_desde" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="dias_nor_desde" onpaste="return false" name="dias_nor_desde" placeholder="dd-mm-aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[012])[-](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -280,7 +318,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_hasta" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="dias_nor_hasta" onpaste="return false" name="dias_nor_hasta" placeholder="dd-mm-aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[012])[-](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -332,7 +370,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_certificado"  onpaste="return false" name="fecha_certificado" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecha_certificado"  onpaste="return false" name="fecha_certificado" placeholder="dd-mm-aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[012])[-](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -357,8 +395,9 @@ class html_formHistoria {
         <?
     }
 
-    function formularioHistoria($datos_previsora) {
+    function formularioHistoria($datos_previsora, $datos_historia, $cedula, $rango) {
 
+        var_dump($rango);
         $this->formulario = "formHistoria";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -389,9 +428,7 @@ class html_formHistoria {
                                         }
                                     }
                             );
-
                         });
-
                         $(document).ready(function() {
                             $("#fecha_ingreso").datepicker({
                                 changeMonth: true,
@@ -412,7 +449,6 @@ class html_formHistoria {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890-";
                 especiales = [8, 9];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -447,7 +483,6 @@ class html_formHistoria {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
                 especiales = [8, 9];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -467,7 +502,6 @@ class html_formHistoria {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "1234567890";
                 especiales = [8, 9];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -488,7 +522,6 @@ class html_formHistoria {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
                 especiales = [8, 9];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -509,7 +542,6 @@ class html_formHistoria {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
                 especiales = [8, 9];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -536,7 +568,57 @@ class html_formHistoria {
             }
         </script>
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off'>
+        <script language = "Javascript">
+            //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
+            function echeck(str) {
+
+        <?
+        foreach ($rango as $key => $values) {
+            echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+            echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n";
+            echo "var cadena = new Date(str);\n\n";
+            echo "if (cadena > min && cadena < max) {\n";
+            echo "alert('Traslape en rangos de fecha')\n";
+            echo " return false\n";
+            echo "    }\n\n";
+        }
+        ?>
+                return true
+            }
+
+            function minDate() {
+
+                var fechaID = document.formHistoria.fecha_ingreso;
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+                var fechaID = document.formHistoria.fecha_salida
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+            }
+
+        </script>
+
+        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
             <h1>Formulario de Registro Historia Laboral Pensionado CP</h1>
             <div class="formrow f1">
                 <div id="p1f1" class="field n1">
@@ -553,7 +635,7 @@ class html_formHistoria {
                         <div class="null"></div>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' maxlength="10" pattern=".{4,10}">
+                        <input type="text" id="p1f2c" name="cedula_emp" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' readonly maxlength="10" pattern=".{4,10}" value="<? echo $cedula ?>">
 
                     </div>
                 </div>
@@ -592,8 +674,8 @@ class html_formHistoria {
                                     $combo[0][0] = '1';
                                     $combo[0][1] = 'No registra en la base de datos';
                                     foreach ($datos_previsora as $cmb => $values) {
-                                        $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
-                                        $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                        $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
+                                        $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                     }
 
                                     // echo$combo;
@@ -800,7 +882,6 @@ class html_formHistoria {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
                 especiales = [8, 39, 9];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -818,13 +899,57 @@ class html_formHistoria {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='Off'>
 
-            <h2>Ingrese la cédula a realizar la consulta de historia laboral: </h2>
+            <h2>Ingrese la cédula a realizar la Consulta de historia laboral: </h2>
             <br>
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10">
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
             <input type='hidden' name='pagina' value='formHistoria'>
             <input type='hidden' name='opcion' value='mostrarHistoria'>
+
+            <br>
+        </form>
+        <?
+    }
+
+    function datoBasicoR() {
+
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+        $this->formulario = "cuentaCobro";
+        ?>
+
+        <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 39, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+
+        <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
+        <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='Off'>
+
+            <h2>Ingrese la cédula a realizar Registro de historia laboral: </h2>
+            <br>
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10">
+            <br><br>
+            <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
+            <input type='hidden' name='pagina' value='formHistoria'>
+            <input type='hidden' name='opcion' value='registrarHistoria'>
 
             <br>
         </form>

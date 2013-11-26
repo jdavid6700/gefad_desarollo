@@ -65,12 +65,20 @@ class bloque_formHistoria extends bloque {
                     break;
 
                 case "mostrarHistoria":
+
                     $cedula = $_REQUEST['cedula_emp'];
                     $this->funcion->mostrarHistoria($cedula);
                     break;
 
+                case "registrarHistoria":
+
+                    $cedula = $_REQUEST['cedula_emp'];
+                    $this->funcion->mostrarFormulario($cedula);
+                    break;
+
                 default :
-                    $this->funcion->mostrarFormulario();
+
+                    $this->funcion->dbasicoHistoriaR();
                     break;
             }
         } else {
@@ -83,9 +91,7 @@ class bloque_formHistoria extends bloque {
 
         switch ($_REQUEST['opcion']) {
             case "registrarHistoria":
-
                 $registro_historia = array();
-
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
                         $registro_historia[$key] = $_REQUEST[$key];
@@ -96,15 +102,12 @@ class bloque_formHistoria extends bloque {
                 break;
 
             case "registrarInterrupcion":
-
                 $registro_interrupcion = array();
-
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
                         $registro_interrupcion[$key] = $_REQUEST[$key];
                     }
                 }
-
                 $this->funcion->procesarFormularioInterrupcion($registro_interrupcion);
                 break;
 

@@ -68,16 +68,6 @@ class funciones_formHistoria extends funcionGeneral {
         $this->html_formHistoria = new html_formHistoria($configuracion);
     }
 
-    function mostrarFormulario() {
-        $datos_previsor = $this->consultarPrevisora();
-        $this->html_formHistoria->formularioHistoria($datos_previsor);
-    }
-
-    function nuevaInterrupcion($datos_interrupcion) {
-        $datos_previsor = $this->consultarPrevisora();
-        $this->html_formHistoria->formularioInterrupcion($datos_previsor, $datos_interrupcion);
-    }
-
     function consultarPrevisora() {
         $parametros = array();
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
@@ -104,6 +94,58 @@ class funciones_formHistoria extends funcionGeneral {
       }
      */
 
+    function dbasicoHistoria() {
+        $this->html_formHistoria->datoBasico();
+    }
+
+    function dbasicoHistoriaR() {
+        $this->html_formHistoria->datoBasicoR();
+    }
+
+    function mostrarFormulario($cedula) {
+
+        $datos_previsor = $this->consultarPrevisora();
+        $datos_historia = $this->consultarHistoria($cedula);
+
+        /* Para determinar los limites del registro de la historia laboral */
+
+        foreach ($datos_historia as $key => $value) {
+            $rango[$key] = array(
+                'inicio' => date('d/m/Y', strtotime($value['hlab_fingreso'])),
+                'fin' => date('d/m/Y', strtotime($value['hlab_fretiro'])));
+        }
+
+        //array_multisort($fin, SORT_DESC, $inicio, SORT_DESC, $datos_historia);
+
+        $this->html_formHistoria->formularioHistoria($datos_previsor, $datos_historia, $cedula, $rango);
+    }
+
+    function mostrarHistoria($cedula) {
+        $parametro = $cedula;
+        $consulta_historia = $this->reporteHistoria($parametro);
+        $consulta_interrupcion = $this->reporteInterrupcion($parametro);
+        $consulta_descripcion = $this->reporteDescripcion($parametro);
+        // $consulta_geo = $this->consultarGeografia($parametro);
+        $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
+    }
+
+    function nuevaInterrupcion($datos_interrupcion) {
+        $datos_previsor = $this->consultarPrevisora();
+        $this->html_formHistoria->formularioInterrupcion($datos_previsor, $datos_interrupcion);
+    }
+
+    function registrarHLaboral($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarHistoria", $parametros);
+        $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos_Hlaboral;
+    }
+
+    function registrarEntidad($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarEntidad", $parametros);
+        $datos_Entidad = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos_Entidad;
+    }
+
     function reporteHistoria($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria", $parametro);
         $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -120,31 +162,6 @@ class funciones_formHistoria extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteDescripcion", $parametro);
         $datos_descripcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_descripcion;
-    }
-
-    function registrarHLaboral($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarHistoria", $parametros);
-        $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-        return $datos_Hlaboral;
-    }
-
-    function registrarEntidad($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarEntidad", $parametros);
-        $datos_Entidad = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-        return $datos_Entidad;
-    }
-
-    function dbasicoHistoria() {
-        $this->html_formHistoria->datoBasico();
-    }
-
-    function mostrarHistoria($cedula) {
-        $parametro = $cedula;
-        $consulta_historia = $this->reporteHistoria($parametro);
-        $consulta_interrupcion = $this->reporteInterrupcion($parametro);
-        $consulta_descripcion = $this->reporteDescripcion($parametro);
-        // $consulta_geo = $this->consultarGeografia($parametro);
-        $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
     }
 
     function procesarFormulario($datos) {
@@ -232,21 +249,21 @@ class funciones_formHistoria extends funcionGeneral {
             exit;
         }
 
-      /*  $antes = strtotime($datos['fecha_ingreso']);
-        $despues = strtotime($datos['fecha_salida']);
+        /*  $antes = strtotime($datos['fecha_ingreso']);
+          $despues = strtotime($datos['fecha_salida']);
 
-        if ($antes > $despues) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Fecha de Salida no coincide con Fecha de Ingreso');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formHistoria';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
-*/
+          if ($antes > $despues) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Fecha de Salida no coincide con Fecha de Ingreso');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
+         */
 
 
         $historia = $this->consultarHistoria($datos['cedula_emp']);
@@ -403,7 +420,7 @@ class funciones_formHistoria extends funcionGeneral {
             }
         }
 
-        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['dias_nor_desde'])) {
+        if (!preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $datos['dias_nor_desde'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formato fecha diligenciado incorrectamente');" .
             "</script> ";
@@ -415,7 +432,7 @@ class funciones_formHistoria extends funcionGeneral {
             exit;
         }
 
-        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['dias_nor_hasta'])) {
+        if (!preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $datos['dias_nor_hasta'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formato fecha diligenciado incorrectamente');" .
             "</script> ";
@@ -426,6 +443,8 @@ class funciones_formHistoria extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
+
+        var_dump($datos);
 
         $parametros = array(
             'nro_interrupcion' => (isset($datos['nro_interrupcion']) ? $datos['nro_interrupcion'] : ''),
@@ -441,9 +460,10 @@ class funciones_formHistoria extends funcionGeneral {
             'registro' => $fecha_registro,
             'total_dias' => (isset($datos['total_dias']) ? $datos['total_dias'] : ''),);
 
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarInterrupcion", $parametros);
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarInterrupcion", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
+        exit;
         if ($datos_registrados == true) {
             $registro[0] = "GUARDAR";
             $registro[1] = $parametros['cedula'] . '|' . $parametros['nro_interrupcion'] . '|' . $parametros['nit_entidad']; //

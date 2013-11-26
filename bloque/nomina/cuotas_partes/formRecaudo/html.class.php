@@ -450,7 +450,7 @@ class html_formRecaudo {
                 var fechaID = document.formRecaudo.fecha_resolucion
                 if ((fechaID.value == null) || (fechaID.value == "")) {
                     alert("Ingrese una fecha válida!")
-                    emailID.focus()
+                    fechaID.focus()
                     return false
                 }
 
@@ -463,7 +463,7 @@ class html_formRecaudo {
                 var fechaID = document.formRecaudo.fecha_pago_cuenta
                 if ((fechaID.value == null) || (fechaID.value == "")) {
                     alert("Ingrese una fecha válida!")
-                    emailID.focus()
+                    fechaID.focus()
                     return false
                 }
 

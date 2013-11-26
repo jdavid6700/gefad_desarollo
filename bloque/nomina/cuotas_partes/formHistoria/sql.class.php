@@ -104,6 +104,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_registro ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion = '" . $variable . "' ";
+                $cadena_sql.=" ORDER BY hlab_fingreso DESC ";
                 break;
 
             case "reporteHistoria":
