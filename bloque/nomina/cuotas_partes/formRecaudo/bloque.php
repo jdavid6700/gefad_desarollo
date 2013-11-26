@@ -68,14 +68,25 @@ class bloque_formRecaudo extends bloque {
                     break;
 
                 case "registro_pago":
-                    $cuentas_pago = array();
 
-                    foreach ($_REQUEST as $key => $value) {
-                        if ($key != 'action' && $key != 'opcion') {
-                            $cuentas_pago[$key] = $_REQUEST[$key];
-                        }
+                    $cuentas_pago = array();
+                    $cont = 0;
+
+                    foreach ($_REQUEST["cuenta_pagar"] as $key => $value) {
+
+                        $cuentas_pago[$cont] = array(
+                            'fecha_cuenta' => $_REQUEST["fecha_cuenta"][$key],
+                            'consecutivo_cuenta' => $_REQUEST["consecutivo_pagar"][$key],
+                            'empleador' => $_REQUEST["entidad_empleador"][$key],
+                            'previsor' => $_REQUEST["entidad_previsora"][$key],
+                            'fechai_pago' => $_REQUEST["fechai_pago"][$key],
+                            'fechaf_pago' => $_REQUEST["fechaf_pago"][$key],
+                            'valor_pago' => $_REQUEST["valor_pago"][$key],
+                            'saldo' => $_REQUEST["saldo"][$key],
+                            'identificacion' => $_REQUEST["identificacion"][$key]);
+
+                        $cont = $cont + 1;
                     }
-                
 
                     $this->funcion->mostrarFormulario($cuentas_pago);
                     break;
@@ -100,10 +111,10 @@ class bloque_formRecaudo extends bloque {
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                       $parametros_recaudo[$key] = $_REQUEST[$key];
+                        $parametros_recaudo[$key] = $_REQUEST[$key];
                     }
                 }
-               
+
                 $this->funcion->procesarFormulario($parametros_recaudo);
                 break;
 

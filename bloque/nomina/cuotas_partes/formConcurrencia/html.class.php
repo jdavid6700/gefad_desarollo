@@ -325,7 +325,7 @@ class html_formConcurrencia {
                 var min = '<? echo $maxDate ?>'
 
                 if (str < min) {
-                    alert(min)
+                    alert("Ingrese una fecha dentro del rango permitido")
                     return false
                 }
 
@@ -333,7 +333,8 @@ class html_formConcurrencia {
             }
 
             function minDate() {
-                var fechaID = document.formConcurrencia.fecha_acto_adm
+                
+                 var fechaID = document.formConcurrencia.fecha_con
 
                 if ((fechaID.value == null) || (fechaID.value == "")) {
                     alert("Ingrese una fecha válida!")
@@ -347,7 +348,20 @@ class html_formConcurrencia {
                     return false
                 }
 
-                return true
+             
+                var fechaID = document.formConcurrencia.fecha_acto_adm
+
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    emailID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
 
 
                 var fechaID = document.formConcurrencia.fecha_pension
@@ -363,8 +377,6 @@ class html_formConcurrencia {
                     fechaID.focus()
                     return false
                 }
-
-                return true
 
                 var fechaID = document.formConcurrencia.fecha_res_pension
 

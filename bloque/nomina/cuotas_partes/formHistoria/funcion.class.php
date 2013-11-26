@@ -149,7 +149,6 @@ class funciones_formHistoria extends funcionGeneral {
 
     function procesarFormulario($datos) {
 
-
         $parametros = array(
             'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
             'nit_entidad' => (isset($datos['empleador_nit']) ? $datos['empleador_nit'] : ''),
@@ -233,7 +232,7 @@ class funciones_formHistoria extends funcionGeneral {
             exit;
         }
 
-        $antes = strtotime($datos['fecha_ingreso']);
+      /*  $antes = strtotime($datos['fecha_ingreso']);
         $despues = strtotime($datos['fecha_salida']);
 
         if ($antes > $despues) {
@@ -247,7 +246,7 @@ class funciones_formHistoria extends funcionGeneral {
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
-
+*/
 
 
         $historia = $this->consultarHistoria($datos['cedula_emp']);

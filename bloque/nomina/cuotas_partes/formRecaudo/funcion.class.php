@@ -73,7 +73,25 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
     function mostrarFormulario($cuentas_pago) {
-        $this->html_formRecaudo->formularioRecaudos($cuentas_pago);
+
+        /*
+          foreach ($cuentas_pago as $key => $value) {
+          $inicio[$key] = date('d/m/Y', strtotime($value['fechai_pago']));
+          $fin[$key] = date('d/m/Y', strtotime($value['fechaf_pago']));
+          }
+
+          array_multisort($fin, SORT_DESC, $inicio, SORT_ASC, $cuentas_pago);
+         */
+
+        foreach ($cuentas_pago as $key => $value) {
+            $fecha_cuenta[$key] = date('d/m/Y', strtotime($value['fecha_cuenta']));
+        }
+
+        rsort($fecha_cuenta);
+
+        $fecha_minima_datepicker = $fecha_cuenta[0];
+
+        $this->html_formRecaudo->formularioRecaudos($cuentas_pago, $fecha_minima_datepicker);
     }
 
     function consultarEntidades($parametros) {
@@ -88,6 +106,12 @@ class funciones_formRecaudo extends funcionGeneral {
         return $datos;
     }
 
+    function consultarConsecutivo($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarConsecutivo", $parametros);
+        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_historia;
+    }
+
     function consultarCobros($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarCobros", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -95,7 +119,7 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
     function registrarPago($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPago", $parametros);
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPago", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
         return $datos;
     }
@@ -140,29 +164,30 @@ class funciones_formRecaudo extends funcionGeneral {
 
         if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_resolucion'])) {
             echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha diligenciado incorrectamente');" .
+            "alert('Formato fecha ingreso diligenciado incorrectamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioRecaudo';
+            $variable = 'pagina=formHistoria';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
 
-        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pago'])) {
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pago_cuenta'])) {
             echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha diligenciado incorrectamente');" .
+            "alert('Formato fecha ingreso diligenciado incorrectamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioRecaudo';
+            $variable = 'pagina=formHistoria';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
 
         $datos_recaudo = $this->registrarPago($datos);
+        exit;
 
         if ($datos_recaudo == true) {
 
@@ -235,5 +260,4 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
 }
-
 ?>

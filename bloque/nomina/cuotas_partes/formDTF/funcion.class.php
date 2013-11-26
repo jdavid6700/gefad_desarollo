@@ -135,6 +135,7 @@ class funciones_formDTF extends funcionGeneral {
             $parametros = "";
             $parametros = array(
                 'Anio_registrado' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
+                'Norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
                 'Numero_resolucion' => (isset($datos['n_resolucion']) ? $datos['n_resolucion'] : ''),
                 'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),
                 'Fecha_vigencia_inicio' => $fecha_inicio,
@@ -184,6 +185,7 @@ class funciones_formDTF extends funcionGeneral {
             $parametros = "";
             $parametros = array(
                 'Anio_registrado' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
+                'Norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
                 'Numero_resolucion' => (isset($datos['n_resolucion']) ? $datos['n_resolucion'] : ''),
                 'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),
                 'Fecha_vigencia_inicio' => (isset($datos['fecvig_desde']) ? $datos['fecvig_desde'] : ''),

@@ -407,7 +407,7 @@ class html_formHistoria {
         </script>
 
         <script>
-            function acceptNum(e) {
+            function acceptNum9(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890-";
@@ -442,7 +442,7 @@ class html_formHistoria {
         </script>
 
         <script>
-            function acceptNum2(e) {
+            function acceptNum8(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
