@@ -154,7 +154,7 @@
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Registrar Descripción de Cuota Parte</a></li>
+                                        ?>">Registrar Concurrencia Aceptada</a></li>
                                 </ul>
                             </li>
 

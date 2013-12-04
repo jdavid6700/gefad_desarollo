@@ -19,7 +19,7 @@ class sql_formDTF extends sql {
 
             case "insertarDTF":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_dtf (
-                    dtf_periodo, 
+                    dtf_norma, 
                     dtf_n_reso, 
                     dtf_fe_resolucion, 
                     dtf_fe_desde, 
@@ -27,7 +27,7 @@ class sql_formDTF extends sql {
                     dtf_indi_ce,
                     dtf_estado,
                     dtf_fecha_registro) VALUES ( ";
-                $cadena_sql.=" '" . $variable['Anio_registrado'] . "' ,";
+                $cadena_sql.=" '" . $variable['norma'] . "' ,";
                 $cadena_sql.=" " . $variable['Numero_resolucion'] . ",  ";
                 $cadena_sql.=" '" . $variable['Fecha_resolucion'] . "',  ";
                 $cadena_sql.=" '" . $variable['Fecha_vigencia_inicio'] . "',  ";
@@ -45,18 +45,18 @@ class sql_formDTF extends sql {
             case "Consultar":
                 $cadena_sql = "SELECT *  ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_indc_dtf ";
-                $cadena_sql.=" ORDER BY dtf_periodo ASC;  ";
+                $cadena_sql.=" ORDER BY dtf_fe_hasta DESC;  ";
                 break;
 
             case "periodo_ante":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_dtf 
-                               (dtf_periodo,
+                               (dtf_norma,
                                 dtf_n_reso,
                                 dtf_fe_resolucion, 
                                 dtf_indi_ce,
                                 dtf_estado,
                                 dtf_fecha_registro) VALUES (";
-                $cadena_sql.=" '" . $variable['Anio_registrado'] . "' ,";
+                $cadena_sql.=" '" . $variable['norma'] . "' ,";
                 $cadena_sql.=" '" . $variable['Numero_resolucion'] . "',";
                 $cadena_sql.=" '" . $variable['Fecha_resolucion'] . "',  ";
                 $cadena_sql.=" '" . $variable['Interes_DTF'] . "', ";

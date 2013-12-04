@@ -97,10 +97,10 @@ class funciones_formSalario extends funcionGeneral {
         }
 
         $parametros = "";
-        $anio = $datos['anio_registrar'];
+        $anio = $datos['año_registrar'];
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
-        $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "verificar");
+        $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
         foreach ($verificacion as $key => $value) {
             $Ani_ = $verificacion[$key]['salario_anio'];
@@ -131,7 +131,7 @@ class funciones_formSalario extends funcionGeneral {
 
         $cadena_sql2 = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarSalario", $parametros2);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql2, "registrar");
- 
+
 
         if ($datos_registrados == true) {
 

@@ -43,8 +43,17 @@ class html_formHistoria {
 
     function formularioInterrupcion($datos_prev, $datos_interrupcion) {
 
-        $fecha_min = date('d-m-Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['fecha_ingreso']) . "+1 month")));
-        $fecha_max = date('d-m-Y', strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida'])));
+        $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['fecha_ingreso']) . "+1 month")));
+        $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida'])));
+
+
+        $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_ingreso']))));
+        $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_ingreso']))));
+        $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_interrupcion['fecha_ingreso']) . "+1 month")));
+
+        $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida']))));
+        $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida']))));
+        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida']))));
 
         $this->formulario = "formHistoria";
 
@@ -67,8 +76,8 @@ class html_formHistoria {
                 $("#dias_nor_desde").datepicker({
                     changeMonth: true,
                     changeYear: true,
-                    yearRange: '1940:c',
-                    dateFormat: 'dd-mm-yy'
+                    yearRange: '1940:2100',
+                    dateFormat: 'dd/mm/yy'
                 });
                 $("#dias_nor_desde").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
                 $("#dias_nor_desde").datepicker('option', 'maxDate', '<?php echo $fecha_max ?>');
@@ -79,7 +88,7 @@ class html_formHistoria {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    dateFormat: 'dd-mm-yy'
+                    dateFormat: 'dd/mm/yy'
                 });
                 $("#dias_nor_hasta").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
                 $("#dias_nor_hasta").datepicker('option', 'maxDate', '<?php echo $fecha_max ?>');
@@ -89,7 +98,7 @@ class html_formHistoria {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    dateFormat: 'dd-mm-yy'
+                    dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_certificado").datepicker('option', 'minDate', '<?php echo $fecha_max ?>');
             });
@@ -154,45 +163,54 @@ class html_formHistoria {
 
             function echeck(str) {
 
-                var min = new Date('<? echo $fecha_min ?>');
-                var max = new Date('<? echo $fecha_max ?>');
-                var cadena = new Date(str);
-                if (cadena < min || cadena > max) {
-                    alert('Fuera del rango'+cadena)
-                    return false
-                }
-                return true
-            }
+                var min = new Date('<? echo $i_fecha_anio ?>,<? echo $i_fecha_mes ?>,<? echo $i_fecha_dia ?>');
+                        var max = new Date('<? echo $f_fecha_anio ?>,<? echo $f_fecha_mes ?>,<? echo $f_fecha_dia ?>');
 
-            function minDate() {
+                                var y = str.substring(6);
+                                var m3 = str.substring(3, 5);
+                                var m2 = m3 - 1;
+                                var m = '0' + m2;
+                                var d = str.substring(0, 2);
 
-                var fechaID = document.formHistoria.dias_nor_desde
-                if ((fechaID.value == null) || (fechaID.value == "")) {
-                    alert("Ingrese una fecha válida!")
-                    fechaID.focus()
-                    return false
-                }
+                                var cadena = new Date(y, m, d);
 
-                if (echeck(fechaID.value) == false) {
-                    fechaID.value = ""
-                    fechaID.focus()
-                    return false
-                }
+                                if (cadena < min || cadena > max) {
+                                    alert('Fuera del rango')
+                                    return false
+                                }
+                                return true
 
-                var fechaID = document.formHistoria.dias_nor_hasta
-                if ((fechaID.value == null) || (fechaID.value == "")) {
-                    alert("Ingrese una fecha válida!")
-                    fechaID.focus()
-                    return false
-                }
+                            }
 
-                if (echeck(fechaID.value) == false) {
-                    fechaID.value = ""
-                    fechaID.focus()
-                    return false
-                }
+                            function minDate() {
 
-            }
+                                var fechaID = document.formHistoria.dias_nor_desde
+                                if ((fechaID.value == null) || (fechaID.value == "")) {
+                                    alert("Ingrese una fecha válida!")
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                if (echeck(fechaID.value) == false) {
+                                    fechaID.value = ""
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                var fechaID = document.formHistoria.dias_nor_hasta
+                                if ((fechaID.value == null) || (fechaID.value == "")) {
+                                    alert("Ingrese una fecha válida!")
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                if (echeck(fechaID.value) == false) {
+                                    fechaID.value = ""
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                            }
 
         </script>
 
@@ -301,7 +319,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_desde" onpaste="return false" name="dias_nor_desde" placeholder="dd-mm-aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[012])[-](19|20)\d\d">
+                                <input type="text" id="dias_nor_desde" onpaste="return false" name="dias_nor_desde" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -318,7 +336,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_hasta" onpaste="return false" name="dias_nor_hasta" placeholder="dd-mm-aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[012])[-](19|20)\d\d">
+                                <input type="text" id="dias_nor_hasta" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -370,7 +388,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_certificado"  onpaste="return false" name="fecha_certificado" placeholder="dd-mm-aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[012])[-](19|20)\d\d">
+                                <input type="text" id="fecha_certificado"  onpaste="return false" name="fecha_certificado" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -381,8 +399,8 @@ class html_formHistoria {
 
                 <div class="null"></div>
                 <center> 
-                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Otra Interrupción" onClick='return confirmarEnvio();'>
-                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Registrar Interrupción Actual" onClick='return confirmarEnvio();'>
+                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Guardar y Registrar Otra Interrupción" onClick='return confirmarEnvio();'>
+                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Guardar Interrupción" onClick='return confirmarEnvio();'>
                 </center>
 
                 <input type='hidden' name='opcion' value='registrarInterrupcion'>
@@ -397,7 +415,6 @@ class html_formHistoria {
 
     function formularioHistoria($datos_previsora, $datos_historia, $cedula, $rango) {
 
-        var_dump($rango);
         $this->formulario = "formHistoria";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -574,8 +591,20 @@ class html_formHistoria {
 
         <?
         foreach ($rango as $key => $values) {
-            echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
-            echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n";
+            /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+              echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
+
+            $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']) . "+ 1 day")));
+
+            $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']) . "+ 1 day")));
+
+
+            echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+            echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
             echo "var cadena = new Date(str);\n\n";
             echo "if (cadena > min && cadena < max) {\n";
             echo "alert('Traslape en rangos de fecha')\n";

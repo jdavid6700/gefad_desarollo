@@ -135,24 +135,22 @@ class funciones_formConcurrencia extends funcionGeneral {
                 exit;
             }
         }
+        /*
+          if (!preg_match("^[0]([.][0-9]{1,4})?$", $datos['porc_aceptado'])) {
 
-        if (!preg_match("^[0]([.][0-9]{1,4})?$", $datos['porc_aceptado'])) {
-
-            echo 'pailaaaaa' . $datos['porc_aceptado'];
-            exit;
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato Porcentaje Cuota no diligenciado correctamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
-
-        echo "logrado";
-        exit;
+          echo 'pailaaaaa' . $datos['porc_aceptado'];
+          exit;
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato Porcentaje Cuota no diligenciado correctamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
+         */
 
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),

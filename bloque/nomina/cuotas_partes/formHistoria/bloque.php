@@ -43,6 +43,7 @@ class bloque_formHistoria extends bloque {
         $this->configuracion = $configuracion;
         $this->sql = new sql_formHistoria();
         $this->funcion = new funciones_formHistoria($configuracion, $this->sql);
+        $this->cripto = new encriptar();
     }
 
     function html() {
@@ -67,13 +68,39 @@ class bloque_formHistoria extends bloque {
                 case "mostrarHistoria":
 
                     $cedula = $_REQUEST['cedula_emp'];
-                    $this->funcion->mostrarHistoria($cedula);
+                    if (!preg_match("^\d+$^", $cedula)) {
+                        echo "<script type=\"text/javascript\">" .
+                        "alert('La cédula posee un formato inválido');" .
+                        "</script> ";
+                        error_log('\n');
+                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                        $variable = 'pagina=formHistoria';
+                        $variable.='&opcion=';
+                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                        exit;
+                    } else {
+                        $this->funcion->mostrarHistoria($cedula);
+                    }
                     break;
 
                 case "registrarHistoria":
 
                     $cedula = $_REQUEST['cedula_emp'];
-                    $this->funcion->mostrarFormulario($cedula);
+                    if (!preg_match("^\d+$^", $cedula)) {
+                        echo "<script type=\"text/javascript\">" .
+                        "alert('La cédula posee un formato inválido');" .
+                        "</script> ";
+                        error_log('\n');
+                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                        $variable = 'pagina=formHistoria';
+                        $variable.='&opcion=';
+                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                        exit;
+                    } else {
+                        $this->funcion->mostrarFormulario($cedula);
+                    }
                     break;
 
                 default :

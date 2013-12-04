@@ -43,6 +43,7 @@ class bloque_formConcurrencia extends bloque {
         $this->configuracion = $configuracion;
         $this->sql = new sql_formConcurrencia();
         $this->funcion = new funciones_formConcurrencia($configuracion, $this->sql);
+        $this->cripto = new encriptar();
     }
 
     function html() {
@@ -52,8 +53,22 @@ class bloque_formConcurrencia extends bloque {
             switch ($accion) {
 
                 case "historiaConcurrencia":
+
                     $cedula = $_REQUEST['cedula_emp'];
-                    $this->funcion->mostrarPrevisoras($cedula);
+                    
+                    if (!preg_match("^\d+$^", $cedula)) {
+                        echo "<script type=\"text/javascript\">" .
+                        "alert('La cédula no posee un formato válido');" .
+                        "</script> ";
+                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                        $variable = 'pagina=reportesCuotas';
+                        $variable.='&opcion=';
+                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                        exit;
+                    } else {
+                        $this->funcion->mostrarPrevisoras($cedula);
+                    }
                     break;
 
                 case "formulario":

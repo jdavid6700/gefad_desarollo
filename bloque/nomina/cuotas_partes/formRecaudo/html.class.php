@@ -293,7 +293,7 @@ class html_formRecaudo {
                                   <input type='hidden' name='saldo[" . $key . "]' value='" . $saldo . "'>
                                   <input type='hidden' name='identificacion[" . $key . "]' value='" . $cobros[$key]['cob_cedula'] . "'>
                                   
-                                  <input type='checkbox' name='cuenta_pagar[" . $key . "]' value='" . [$key] . "'>
+                                  <input type='checkbox' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>
                                       
                                   </td>";
                             echo "</tr>";
@@ -390,6 +390,10 @@ class html_formRecaudo {
         $nit_empleador = $cuentas_pago[0]['empleador'];
 
         $maxDate = $fecha_minima_datepicker;
+        
+        $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $fecha_minima_datepicker))));
+        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $fecha_minima_datepicker))));
+        $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $fecha_minima_datepicker) )));
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -435,10 +439,18 @@ class html_formRecaudo {
             //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
             function echeck(str) {
 
-                var min = '<? echo $maxDate ?>'
+                var min = new Date('<? echo $f_fecha_anio ?>,<? echo $f_fecha_mes ?>,<? echo $f_fecha_dia ?>,');
+                var y = str.substring(6);
+                var m3 = str.substring(3, 5);
+                var m2 = m3 - 1;
+                var m = '0' + m2;
+                var d = str.substring(0, 2);
+                
 
-                if (str < min) {
-                    alert("Ingrese una fecha en el rango de fechas permitido")
+                var cadena = new Date(y, m, d);
+
+                if (cadena < min) {
+                    alert('Ingrese una fecha válida')
                     return false
                 }
 
@@ -805,7 +817,7 @@ class html_formRecaudo {
                     </div>
 
                     <div class="null"></div
-                    <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
+                    <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Guardar" onClick='return confirmarEnvio();'></center>
                     <input type='hidden' name='opcion' value='guardarRecaudo'>
                     <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
                 </div>

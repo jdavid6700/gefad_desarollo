@@ -53,7 +53,7 @@ class bloque_formDTF extends bloque {
 
                 default :
                     $this->funcion->mostrarFormulario();
-                    $this->funcion->ConsultarIndice();
+                    $this->funcion->mostrarIndice();
 
                     break;
             }

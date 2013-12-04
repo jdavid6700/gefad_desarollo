@@ -38,6 +38,8 @@ class sql_formSalario extends sql {
                 break;
 
             case "VeriAnio":
+                
+                
                 $cadena_sql = "SELECT salario_anio ";
                 $cadena_sql.="  FROM cuotas_partes.cuotas_salario; ";
                 break;

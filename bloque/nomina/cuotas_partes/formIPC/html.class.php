@@ -124,28 +124,23 @@ class html_formIPC {
         <link rel="stylesheet" href="/resources/demos/style.css" />
 
         <script>
-            $(function() {
-                $(".p1f6c").tooltip("Ingresar indice en decimales.");
-            });</script>
+        function acceptNum(e) {
+         key = e.keyCode || e.which;
+         tecla = String.fromCharCode(key).toLowerCase();
+         letras = "01234567890.";
+         especiales = [8, 39];
+         tecla_especial = false
+         for (var i in especiales) {
+             if (key == especiales[i]) {
+                 tecla_especial = true;
+                 break;
+             }
+         }
 
-        <script>
-            function acceptNum(e) {
-                key = e.keyCode || e.which;
-                tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890.";
-                especiales = [8, 39];
-                tecla_especial = false
-                for (var i in especiales) {
-                    if (key == especiales[i]) {
-                        tecla_especial = true;
-                        break;
-                    }
-                }
-
-                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                    return false;
-                }
-            }
+         if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+             return false;
+         }
+        }
         </script>
 
         <script>
@@ -161,12 +156,6 @@ class html_formIPC {
                         document.getElementById("sum_fj").disabled = true;
                     }
                 }
-            }
-        </script>
-
-        <script>
-            function mensaje() {
-                document.write('Ingreso del indice en numeros decimales');
             }
         </script>
 
@@ -204,7 +193,7 @@ class html_formIPC {
                     <div class="null"></div>
                 </div>
 
-                   <div class="formrow f1 ">
+                <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
@@ -213,7 +202,7 @@ class html_formIPC {
                         <div class="control capleft">
                             <div>
                                 <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" required='required'>
-                                  <?php
+                                    <?php
                                     $var = "<option selected value=''>" . "Seleccione Año" . "</option>";
                                     $i = 1920;
                                     $año = date("Y");
@@ -243,7 +232,7 @@ class html_formIPC {
                                                 $var.= "<option>" . $i . "-1</option>";
                                                 $var.= "<option>" . $i . "-2</option>";
                                                 $var.= "<option>" . $i . "-3</option>";
-                                                break;                                           
+                                                break;
                                             default:
                                                 $var.= "<option>" . $i . "</option>";
                                                 break;
@@ -269,7 +258,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste="return false"  name="indice_Ipc" placeholder="0.00"  maxlength="10" pattern="[0]+([\.]][0-9]{4,10})?" step="0.0000" class="fieldcontent" required='required' onpaste="return false" title="Ingrese indice en numeros decimales." autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
+                                <input type="text" id="indice_Ipc" onpaste="return false"  name="indice_Ipc" placeholder="0.0000"  pattern=".{2,9}" maxlength="12" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
 
                             </div>
                             <div class="null"></div>
@@ -308,3 +297,4 @@ class html_formIPC {
             }
 
         }
+        

@@ -66,20 +66,47 @@ class funciones_formDTF extends funcionGeneral {
     }
 
     function mostrarFormulario() {
-        $this->html_formDTF->formularioDTF();
+        $parametros = "";
+        $indices = $this->ConsultarIndice($parametros);
+
+        if ($indices == true) {
+
+            foreach ($indices as $key => $value) {
+                $rango[$key] = array(
+                    'inicio' => date('d/m/Y', strtotime($value['dtf_fe_desde'])),
+                    'fin' => date('d/m/Y', strtotime($value['dtf_fe_hasta'])));
+            }
+        } else {
+            $rango[0] = array(
+                'inicio' => date('d/m/Y', strtotime('01/01/1940')),
+                'fin' => date('d/m/Y', strtotime('01/01/1940')));
+        }
+
+
+        $this->html_formDTF->formularioDTF($rango);
+    }
+
+    function mostrarIndice() {
+        $parametros = "";
+        $indices = $this->ConsultarIndice($parametros);
+
+        $this->html_formDTF->tablaDTF($indices);
     }
 
     function ConsultarIndice() {
         $parametros = "";
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "Consultar", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
-        $this->html_formDTF->tablaDTF($datos);
+        return $datos;
     }
 
     function procesarFormulario($datos) {
 
         $estado = 1;
-        $fecha_registro = date('d/m/Y');
+        $fecha_registro = date('d-m-Y');
+
+        $anio_inicio = date("Y", strtotime(str_replace('/', '-', $datos['fecvig_desde'])));
+        $anio_fin = date("Y", strtotime(str_replace('/', '-', $datos['fecvig_hasta'])));
 
         foreach ($datos as $key => $value) {
 
@@ -88,53 +115,41 @@ class funciones_formDTF extends funcionGeneral {
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotaFormularis';
-                $variable.='&opcion=';
+                $variable = "pagina=formularioDTF";
+                $variable .= "&opcion=";
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
             }
         }
-
-        foreach ($datos as $key => $value) {
-            if (!ereg("^[a-zA-Z0-9.-/]{1,20}$", $datos[$key])) {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotaFormularis';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
-        }
-
-        if ($datos['año_registrar'] == "Seleccione Año") {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Campo no valido \"Año a Registrar\"');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioDTF';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
+        /*
+          foreach ($datos as $key => $value) {
+          if (!ereg("^[a-zA-Z0-9.-/]{1,30}$", $datos[$key])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formulario NO diligenciado correctamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = "pagina=formularioDTF";
+          $variable .= "&opcion=";
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
+          }
 
 
-        /* verificar si es menor a 2006 para asignar 0.12 OJO con el segundo semestre */
+          /* verificar si es menor a 2006 para asignar 0.12 OJO con el segundo semestre */
 
-        if ($datos['año_registrar'] < 2006) {
+        if ($anio_fin < 2006) {
 
             $datos['indice_dtf'] = 0.12;
 
-            $fecha_inicio = '01/01/' . $datos['año_registrar'];
-            $fecha_final = '01/12/' . $datos['año_registrar'];
+            $fecha_inicio = '01-01-' . $datos['año_registrar'];
+            $fecha_final = '01-12-' . $datos['año_registrar'];
 
             $parametros = "";
             $parametros = array(
-                'Anio_registrado' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
+                'Anio_registrado' => $anio_fin,
                 'Norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
                 'Numero_resolucion' => (isset($datos['n_resolucion']) ? $datos['n_resolucion'] : ''),
                 'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),
@@ -184,8 +199,8 @@ class funciones_formDTF extends funcionGeneral {
 
             $parametros = "";
             $parametros = array(
-                'Anio_registrado' => (isset($datos['año_registrar']) ? $datos['año_registrar'] : ''),
-                'Norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
+                'Anio_registrado' => $anio_fin,
+                'norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
                 'Numero_resolucion' => (isset($datos['n_resolucion']) ? $datos['n_resolucion'] : ''),
                 'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),
                 'Fecha_vigencia_inicio' => (isset($datos['fecvig_desde']) ? $datos['fecvig_desde'] : ''),

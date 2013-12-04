@@ -73,7 +73,7 @@ class html_formConcurrencia {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
 
-            <h2>Ingrese la cédula a consultar historial de recaudos: </h2>
+            <h2>Ingrese la cédula a consultar: </h2>
             <br>
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
             <br><br>
@@ -195,6 +195,10 @@ class html_formConcurrencia {
 
         $minDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fingreso'] . "+1 month"));
         $maxDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro'] . " + 1 month"));
+
+        $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
+        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
+        $f_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_historia[0]['hlab_fretiro']) . "+1 month")));
 
         $this->formulario = "formConcurrencia";
 
@@ -322,10 +326,17 @@ class html_formConcurrencia {
             //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
             function echeck(str) {
 
-                var min = '<? echo $maxDate ?>'
+                var min = new Date('<? echo $f_fecha_anio ?>,<? echo $f_fecha_mes ?>,<? echo $f_fecha_dia ?>,');
+                var y = str.substring(6);
+                var m3 = str.substring(3, 5);
+                var m2 = m3 - 1;
+                var m = '0' + m2;
+                var d = str.substring(0, 2);
 
-                if (str < min) {
-                    alert("Ingrese una fecha dentro del rango permitido")
+                var cadena = new Date(y, m, d);
+
+                if (cadena < min) {
+                    alert('Ingrese una fecha válida')
                     return false
                 }
 
@@ -333,8 +344,8 @@ class html_formConcurrencia {
             }
 
             function minDate() {
-                
-                 var fechaID = document.formConcurrencia.fecha_con
+
+                var fechaID = document.formConcurrencia.fecha_con
 
                 if ((fechaID.value == null) || (fechaID.value == "")) {
                     alert("Ingrese una fecha válida!")
@@ -348,7 +359,7 @@ class html_formConcurrencia {
                     return false
                 }
 
-             
+
                 var fechaID = document.formConcurrencia.fecha_acto_adm
 
                 if ((fechaID.value == null) || (fechaID.value == "")) {
@@ -433,7 +444,7 @@ class html_formConcurrencia {
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return minDate();" autocomplete='Off'>
-            <h1>Formulario de Registro Descripción Cuota Parte Aceptada</h1>
+            <h1>Formulario de Registro Concurrencia Aceptada</h1>
 
             <div class="formrow f1">
                 <div id="p1f4" class="field n1">

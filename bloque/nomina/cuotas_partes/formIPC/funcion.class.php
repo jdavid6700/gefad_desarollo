@@ -81,6 +81,7 @@ class funciones_formIPC extends funcionGeneral {
 
         $estado = 1;
         $fecha_registro = date('d/m/Y');
+        $sumas_fijas=0;
 
         foreach ($datos as $key => $value) {
 
@@ -97,7 +98,7 @@ class funciones_formIPC extends funcionGeneral {
             }
         }
 
-        foreach ($datos as $key => $value) {
+        /*foreach ($datos as $key => $value) {
             if (!ereg("^[0-9.-]{1,10}$", $datos[$key])) {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente. Formato erróneo');" .
@@ -110,7 +111,7 @@ class funciones_formIPC extends funcionGeneral {
                 exit;
             }
         }
-
+*/
         $parametros = "";
         $anio = $datos['año_registrar'];
 

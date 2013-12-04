@@ -69,7 +69,7 @@ class html_formDTF {
                 </tr>
 
                 <tr>                       
-                    <th class='encabezado_registro' style="text-align:center">Periodo</th>
+                    <th class='encabezado_registro' style="text-align:center">Norma</th>
                     <th class='encabezado_registro' style="text-align:center">N° Resolución</th>
                     <th class='encabezado_registro' style="text-align:center">Fecha Resolución</th>
                     <th class='encabezado_registro' style="text-align:center">Fecha Vigencia Inicio</th>
@@ -111,7 +111,15 @@ class html_formDTF {
         <?php
     }
 
-    function formularioDTF() {
+    function formularioDTF($rango) {
+
+
+        $fecha_max = date('d/m/Y', (strtotime("" . str_replace('/', '-', $rango[0]['fin']) . "+1 day")));
+        $fecha_min = date('d/m/Y', strtotime(str_replace('/', '-', $rango[0]['inicio'])));
+
+        $fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[0]['fin']))));
+        $fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[0]['fin']))));
+        $fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[0]['fin']) . "+ 1 day")));
 
         $this->formulario = "formDTF";
 
@@ -136,12 +144,9 @@ class html_formDTF {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    dateFormat: 'dd/mm/yy',
-                    onChangeMonthYear: function(year, month, inst) {
-                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
-                    }
-
+                    dateFormat: 'dd/mm/yy'
                 });
+                $("#fecvig_desde").datepicker('option', 'minDate', '<?php echo $fecha_max ?>');
 
                 $("#fecvig_hasta").datepicker({
                     changeMonth: true,
@@ -149,19 +154,14 @@ class html_formDTF {
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
                 });
+                $("#fecvig_hasta").datepicker('option', 'minDate', '<?php echo $fecha_max ?>');
 
                 $("#fec_reso").datepicker({
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-                    maxDate: "+0D",
-                    onSelect: function(dateValue, inst) {
-                        $("#fecvig_desde").datepicker("option", "minDate", dateValue)
-                    },
-                    onChangeMonthYear: function(year, month, inst) {
-                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year)
-                    }
+                    maxDate: "+0D"
                 });
 
             });</script>
@@ -185,6 +185,27 @@ class html_formDTF {
                 }
             }
         </script>
+
+        <script>
+            function acceptNumLetter(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
+                especiales = [8, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+
         <script>
             function acceptNum2(e) {
                 key = e.keyCode || e.which;
@@ -239,7 +260,40 @@ class html_formDTF {
             }
         </script>
 
-        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off'>
+
+        <script language = "Javascript">
+            //Éste script valida si la fecha inicial de vigencia es minimo la vigencia final anterior
+            function echeck(str) {
+
+                var min = new Date('<? echo $fecha_anio ?>,<? echo $fecha_mes ?>,<? echo $fecha_dia ?>');
+                var fecha = '<? echo $fecha_max ?>'
+
+                        if (str < fecha || str > fecha) {
+                            alert('Fecha vigencia desde, mínimo es ' + fecha)
+                            return false
+                        }
+                        return true
+                    }
+
+                    function minDate() {
+
+                        var fechaID = document.formDTF.fecvig_desde
+                        if ((fechaID.value == null) || (fechaID.value == "")) {
+                            alert("Ingrese una fecha válida!")
+                            fechaID.focus()
+                            return false
+                        }
+
+                        if (echeck(fechaID.value) == false) {
+                            fechaID.value = ""
+                            fechaID.focus()
+                            return false
+                        }
+                    }
+
+        </script>
+
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
             <h1>Formulario de Registro de Tasa de Interés</h1> 
 
             <div class="formrow f1">
@@ -270,7 +324,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="p1f13c" name="norma" class="fieldcontent"><option value="Ley">Ley</option><option value="Decreto" selected="selected">Resolución</option></select>
+                                <select id="p1f13c" name="norma" class="fieldcontent" title="*Campo Obligatorio"><option value="Ley">Ley</option><option value="Resolucion" selected="selected">Resolución</option></select>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -287,7 +341,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="n_resolucion" name="n_resolucion" class="fieldcontent" required='required'  maxLength="7" pattern=".{2,7}"  autocomplete="off" onKeyPress='return acceptNum2(event)' onpaste="return false">
+                                <input type="text" id="n_resolucion" name="n_resolucion" title="*Campo Obligatorio" class="fieldcontent" required='required'  maxLength="7" pattern=".{2,7}"  autocomplete="off" onKeyPress='return acceptNumLetter(event)' onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -304,7 +358,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fec_reso" name="fec_reso" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                                <input type="text" id="fec_reso" name="fec_reso" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -322,7 +376,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_desde" name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
+                                <input type="text" id="fecvig_desde" name="fecvig_desde" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<?echo $fecha_max?>">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -340,7 +394,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_hasta" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                                <input type="text" id="fecvig_hasta" name="fecvig_hasta"  title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -358,7 +412,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_dtf" name="indice_dtf"  placeholder="0.0000"  maxlength="6" pattern="[0]+([\.|,][0-9]+[0-9])?" onpaste="return false" step="0.0000" title="Ingrese indice en numeros decimales." class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
+                                <input type="text" id="indice_dtf" name="indice_dtf" title="*Campo Obligatorio" placeholder="0.0000"  maxlength="10" pattern="[0]+([\.|,][0-9]+[0-9])?" onpaste="return false" step="0.0000" title="*Campo obligatorio. Ingrese indice en numeros decimales" class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
                             </div>
                             <div class="null"></div>
                         </div>
