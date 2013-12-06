@@ -81,7 +81,6 @@ class html_formHistoria {
                 });
                 $("#dias_nor_desde").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
                 $("#dias_nor_desde").datepicker('option', 'maxDate', '<?php echo $fecha_max ?>');
-
             });
             $(document).ready(function() {
                 $("#dias_nor_hasta").datepicker({
@@ -101,8 +100,7 @@ class html_formHistoria {
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_certificado").datepicker('option', 'minDate', '<?php echo $fecha_max ?>');
-            });
-        </script>
+            });</script>
 
 
         <script>
@@ -165,15 +163,12 @@ class html_formHistoria {
 
                 var min = new Date('<? echo $i_fecha_anio ?>,<? echo $i_fecha_mes ?>,<? echo $i_fecha_dia ?>');
                         var max = new Date('<? echo $f_fecha_anio ?>,<? echo $f_fecha_mes ?>,<? echo $f_fecha_dia ?>');
-
                                 var y = str.substring(6);
                                 var m3 = str.substring(3, 5);
                                 var m2 = m3 - 1;
                                 var m = '0' + m2;
                                 var d = str.substring(0, 2);
-
                                 var cadena = new Date(y, m, d);
-
                                 if (cadena < min || cadena > max) {
                                     alert('Fuera del rango')
                                     return false
@@ -457,8 +452,7 @@ class html_formHistoria {
                                     $("#fecha_salida").datepicker("option", "minDate", dateValue)
                                 }
                             });
-                        });
-        </script>
+                        });</script>
 
         <script>
             function acceptNum9(e) {
@@ -647,7 +641,35 @@ class html_formHistoria {
 
         </script>
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
+        <script>
+            function  validarFecha() {
+                var desde = (document.getElementById("fecha_ingreso").value);
+                var hasta = (document.getElementById("fecha_salida").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
+
+                if (cadena1.getTime() > cadena2.getTime()) {
+                    document.getElementById("fecha_ingreso").focus();
+                    document.getElementById("fecha_salida").focus();
+                    alert("La fecha de RETIRO es anterior a la fecha de INGRESO");
+                    return false
+                }
+
+                return true
+            }
+        </script>
+
+        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onsubmit="return minDate()">
             <h1>Formulario de Registro Historia Laboral Pensionado CP</h1>
             <div class="formrow f1">
                 <div id="p1f1" class="field n1">
@@ -805,7 +827,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_salida" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_salida" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecha_salida" onchange="validarFecha()" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_salida" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
 
                             </div>
                             <div class="null"></div>

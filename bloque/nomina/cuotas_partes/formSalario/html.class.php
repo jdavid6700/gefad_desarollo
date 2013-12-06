@@ -225,8 +225,36 @@ class html_formSalario {
                 });
             });</script>
 
+        <script>
+            function  validarFecha() {
+                var desde = (document.getElementById("fecvig_desde").value);
+                var hasta = (document.getElementById("fecvig_hasta").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
 
-        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off'>
+                if (cadena1.getTime() > cadena2.getTime()) {
+                    document.getElementById("fecvig_desde").focus();
+                    document.getElementById("fecvig_hasta").focus();
+                    alert("La fecha de RETIRO es anterior a la fecha de INGRESO");
+                    return false
+                }
+
+                return true
+            }
+        </script>
+
+
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off' >
             <h1>Formulario de Registro Salario Mínimo Legal</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
@@ -339,7 +367,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_hasta" onpaste='return false' title="*Campo Obligatorio" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecvig_hasta" onchange="validarFecha()" onpaste='return false' title="*Campo Obligatorio" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -356,7 +384,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
+                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" pattern=".{4,10}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
                             </div>
                             <div class="null"></div>
                         </div>

@@ -88,13 +88,30 @@ class funciones_formSalario extends funcionGeneral {
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotaFormularis';
+                $variable = 'pagina=formularioSalario';
                 $variable.='&opcion=';
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
             }
         }
+
+
+        $antes = strtotime($datos['fecvig_desde']);
+        $despues = strtotime($datos['fecvig_hasta']);
+
+        if ($antes > $despues) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha Vigencia Hasta es menor a Fecha Vigencia Desde');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
 
         $parametros = "";
         $anio = $datos['año_registrar'];
