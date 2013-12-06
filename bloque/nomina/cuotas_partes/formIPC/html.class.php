@@ -76,14 +76,15 @@ class html_formIPC {
                 <tbody id="itemContainer">
                     <tr>
                         <?php
-                        if (is_array($datos))
+                        if (is_array($datos)) {
                             foreach ($datos as $key => $values) {
                                 echo "<tr>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][0] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][1] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key][2] . "</td>";
                                 echo "</tr>";
-                            } else {
+                            }
+                        } else {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
@@ -124,23 +125,23 @@ class html_formIPC {
         <link rel="stylesheet" href="/resources/demos/style.css" />
 
         <script>
-        function acceptNum(e) {
-         key = e.keyCode || e.which;
-         tecla = String.fromCharCode(key).toLowerCase();
-         letras = "01234567890.";
-         especiales = [8, 39];
-         tecla_especial = false
-         for (var i in especiales) {
-             if (key == especiales[i]) {
-                 tecla_especial = true;
-                 break;
-             }
-         }
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890.";
+                especiales = [8, 39];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
 
-         if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-             return false;
-         }
-        }
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
         </script>
 
         <script>
@@ -258,7 +259,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste="return false"  name="indice_Ipc" placeholder="0.0000"  pattern=".{2,9}" maxlength="12" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
+                                <input type="text" id="indice_Ipc" onpaste="return false"  title="*Campo Obligatorio" name="indice_Ipc" placeholder="0.0000"  pattern=".{2,11}" maxlength="11" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
 
                             </div>
                             <div class="null"></div>
@@ -276,7 +277,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste="return false" name="sum_fj" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
+                                <input type="text" id="sum_fj" onpaste="return false" title="*Campo Obligatorio en el caso correspondiente" name="sum_fj" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
                             </div>
                             <div class="null"></div>
                         </div>

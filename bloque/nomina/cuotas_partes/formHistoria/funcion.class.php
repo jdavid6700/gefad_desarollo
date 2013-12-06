@@ -123,8 +123,8 @@ class funciones_formHistoria extends funcionGeneral {
             }
         } else {
             $rango = array(
-            'inicio' => date('d/m/Y', strtotime('01/01/1940')),
-            'fin' => date('d/m/Y', strtotime('01/01/2000')));           
+                'inicio' => date('d/m/Y', strtotime('01/01/1940')),
+                'fin' => date('d/m/Y', strtotime('01/01/2000')));
         }
 
         //array_multisort($fin, SORT_DESC, $inicio, SORT_DESC, $datos_historia);
@@ -138,7 +138,21 @@ class funciones_formHistoria extends funcionGeneral {
         $consulta_interrupcion = $this->reporteInterrupcion($parametro);
         $consulta_descripcion = $this->reporteDescripcion($parametro);
         // $consulta_geo = $this->consultarGeografia($parametro);
-        $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
+
+
+        if (is_array($consulta_historia)) {
+            $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No existen historias laborales registradas para la cédula " . $parametro . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
     }
 
     function nuevaInterrupcion($datos_interrupcion) {
@@ -261,21 +275,21 @@ class funciones_formHistoria extends funcionGeneral {
             exit;
         }
 
-        /*  $antes = strtotime($datos['fecha_ingreso']);
-          $despues = strtotime($datos['fecha_salida']);
+        $antes = strtotime($datos['fecha_ingreso']);
+        $despues = strtotime($datos['fecha_salida']);
 
-          if ($antes > $despues) {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Fecha de Salida no coincide con Fecha de Ingreso');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formHistoria';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-          exit;
-          }
-         */
+        if ($antes > $despues) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha de Salida no coincide con Fecha de Ingreso');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
 
 
         $historia = $this->consultarHistoria($datos['cedula_emp']);

@@ -83,20 +83,24 @@ class funciones_formRecaudo extends funcionGeneral {
         } else {
 
             $datos_entidad = $this->consultarEntidades($cedula);
-            $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
+
+            if (is_array($datos_entidad)) {
+                $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
+            } else {
+                echo "<script type=\"text/javascript\">" .
+                "alert('No existen historias laborales registradas para la cédula " .$cedula['cedula'] . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
         }
     }
 
     function mostrarFormulario($cuentas_pago) {
-
-        /*
-          foreach ($cuentas_pago as $key => $value) {
-          $inicio[$key] = date('d/m/Y', strtotime($value['fechai_pago']));
-          $fin[$key] = date('d/m/Y', strtotime($value['fechaf_pago']));
-          }
-
-          array_multisort($fin, SORT_DESC, $inicio, SORT_ASC, $cuentas_pago);
-         */
 
         foreach ($cuentas_pago as $key => $value) {
             $fecha_cuenta[$key] = date('d/m/Y', strtotime($value['fecha_cuenta']));
@@ -202,19 +206,7 @@ class funciones_formRecaudo extends funcionGeneral {
           }
 
           }
-         * 
-         * 
-         *  echo "<script type=\"text/javascript\">" .
-          "alert('Datos Registrados');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = "pagina=reportesCuotas";
-          $variable .= "&opcion=";
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-          exit;
 
-          exit;
 
          */
 

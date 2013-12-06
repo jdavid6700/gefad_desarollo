@@ -70,7 +70,21 @@ class funciones_formConcurrencia extends funcionGeneral {
     function mostrarPrevisoras($cedula) {
         $parametros = array('cedula' => $cedula);
         $datos_previsora = $this->consultarPrevisora($parametros);
-        $this->html_formConcurrencia->datosPrevisora($cedula, $datos_previsora);
+
+        if (is_array($datos_previsora)) {
+            $this->html_formConcurrencia->datosPrevisora($cedula, $datos_previsora);
+        } else {
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('No existen historias laborales registradas para la cédula ".$parametros['cedula'].". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;           
+        }
     }
 
     function mostrarFormulario() {

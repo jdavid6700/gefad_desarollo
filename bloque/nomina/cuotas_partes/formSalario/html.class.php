@@ -78,7 +78,7 @@ class html_formSalario {
                     <tr>
                         <?php
                         if (is_array($datos)) {
-                            foreach ($datos as $key => $value) {
+                            foreach ($datos as $key => $values) {
                                 echo "<tr>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_norma'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos[$key]['salario_numero'] . "</td>";
@@ -255,7 +255,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="p1f13c" name="norma" class="fieldcontent"><option value="Ley" selected="selected">Ley</option><option value="Decreto">Decreto</option></select>
+                                <select id="p1f13c" name="norma" required='required' class="fieldcontent"><option value="Ley" selected="selected">Ley</option><option value="Decreto">Decreto</option></select>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -272,7 +272,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste='return false' name="numero"  maxlength="7" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
+                                <input type="text" id="indice_Ipc" onpaste='return false' title="*Campo Obligatorio" name="numero"  maxlength="7" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -321,7 +321,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_desde" onpaste='return false' name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                                <input type="text" id="fecvig_desde" onpaste='return false' title="*Campo Obligatorio" name="fecvig_desde" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                             <div class="null"></div>
                         </div>
@@ -339,7 +339,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_hasta" onpaste='return false' name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecvig_hasta" onpaste='return false' title="*Campo Obligatorio" name="fecvig_hasta" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -356,7 +356,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' name="monto_mensual" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
+                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
                             </div>
                             <div class="null"></div>
                         </div>
