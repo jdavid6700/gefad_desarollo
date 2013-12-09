@@ -1,5 +1,6 @@
 
 <?
+
 /*
   ############################################################################
   #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
@@ -19,6 +20,8 @@
   | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
   | 11/10/2013 | Violet Sosa             | 0.0.0.3     |                                 |
+  ----------------------------------------------------------------------------------------
+  | 09/12/2013 | Violet Sosa             | 0.0.0.4     |                                 |
   ----------------------------------------------------------------------------------------
  */
 
@@ -81,9 +84,9 @@ class funciones_formIPC extends funcionGeneral {
         $estado = 1;
         $fecha_registro = date('d/m/Y');
         $sumas_fijas = 0;
-        
-        $indice=(int)($datos['indice_Ipc']);
-       
+
+        $indice = (int) ($datos['indice_Ipc']);
+
         foreach ($datos as $key => $value) {
 
             if ($datos[$key] == "") {
@@ -99,7 +102,7 @@ class funciones_formIPC extends funcionGeneral {
             }
         }
 
-        if ($datos['indice_Ipc']==0) {
+        if ($datos['indice_Ipc'] == 0) {
             echo "<script type=\"text/javascript\">" .
             "alert('Valor de Índice NO válido');" .
             "</script> ";
@@ -110,23 +113,20 @@ class funciones_formIPC extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
-        
 
+        if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['indice_Ipc'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formulario NO diligenciado correctamente. Formato índice erróneo');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioIPC';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
 
-        /* foreach ($datos as $key => $value) {
-          if (!ereg("^[0-9.-]{1,10}$", $datos[$key])) {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Formulario NO diligenciado correctamente. Formato erróneo');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formularioIPC';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-          exit;
-          }
-          }
-         */
+      
         $parametros = "";
         $anio = $datos['año_registrar'];
 
@@ -149,20 +149,22 @@ class funciones_formIPC extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
         $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
-        foreach ($verificacion as $key => $value) {
-            $Ani_ = $verificacion[$key]['ipc_fecha'];
+        if (is_array($verificacion)) {
+            foreach ($verificacion as $key => $value) {
+                $Ani_ = $verificacion[$key]['ipc_fecha'];
 
-            if ($anio == $Ani_) {
+                if ($anio == $Ani_) {
 
-                echo "<script type=\"text/javascript\">" .
-                "alert('El año ya registra indice.');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = "pagina=formularioIPC";
-                $variable .= "&opcion=";
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('El año ya registra indice.');" .
+                    "</script> ";
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = "pagina=formularioIPC";
+                    $variable .= "&opcion=";
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    exit;
+                }
             }
         }
 
@@ -210,7 +212,5 @@ class funciones_formIPC extends funcionGeneral {
     }
 
 }
-
-
 
 ?>

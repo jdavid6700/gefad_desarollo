@@ -17,6 +17,8 @@
   ----------------------------------------------------------------------------------------
   | 27/09/2013 | Violet Sosa             | 0.0.0.4     | Adaptación formulario           |
   ----------------------------------------------------------------------------------------
+  | 09/12/2013 | Violet Sosa             | 0.0.0.5     |                                 |
+  ----------------------------------------------------------------------------------------
  */
 
 /* --------------------------------------------------------------------------------------------------------------------------
@@ -44,7 +46,6 @@ class funciones_formConcurrencia extends funcionGeneral {
 
         $this->cripto = new encriptar();
         $this->log_us = new log();
-        $this->tema = $tema;
         $this->sql = $sql;
 
         //Conexion General
@@ -76,14 +77,14 @@ class funciones_formConcurrencia extends funcionGeneral {
         } else {
 
             echo "<script type=\"text/javascript\">" .
-            "alert('No existen historias laborales registradas para la cédula ".$parametros['cedula'].". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+            "alert('No existen historias laborales registradas para la cédula " . $parametros['cedula'] . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formHistoria';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;           
+            exit;
         }
     }
 
@@ -149,22 +150,78 @@ class funciones_formConcurrencia extends funcionGeneral {
                 exit;
             }
         }
-        /*
-          if (!preg_match("^[0]([.][0-9]{1,4})?$", $datos['porc_aceptado'])) {
 
-          echo 'pailaaaaa' . $datos['porc_aceptado'];
-          exit;
-          echo "<script type=\"text/javascript\">" .
-          "alert('Formato Porcentaje Cuota no diligenciado correctamente');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formularioConcurrencia';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-          exit;
-          }
-         */
+        if ($datos['porc_aceptado'] == 0) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Porcentaje NO válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['porc_aceptado'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formulario NO diligenciado correctamente. Formato porcentaje erróneo');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_concurrencia'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha concurrencia diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_res_pension'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha resolución pensión diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pension'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha pensión diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_acto_adm'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha acto administrativo diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
 
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),

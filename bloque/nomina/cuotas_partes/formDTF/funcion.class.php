@@ -122,23 +122,67 @@ class funciones_formDTF extends funcionGeneral {
                 exit;
             }
         }
-        /*
-          foreach ($datos as $key => $value) {
-          if (!ereg("^[a-zA-Z0-9.-/]{1,30}$", $datos[$key])) {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Formulario NO diligenciado correctamente');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = "pagina=formularioDTF";
-          $variable .= "&opcion=";
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-          exit;
-          }
-          }
 
+        if ($datos['indice_dtf'] == 0) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Índice NO válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioDTF";
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
 
-          /* verificar si es menor a 2006 para asignar 0.12 OJO con el segundo semestre */
+        if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['indice_dtf'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formulario NO diligenciado correctamente. Formato índice erróneo');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioDTF";
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecvig_desde'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha vigencia desde diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioDTF";
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecvig_hasta'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha vigencia hasta diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioDTF";
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fec_reso'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha resolución diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioDTF";
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+        /* verificar si es menor a 2006 para asignar 0.12 OJO con el segundo semestre */
 
         if ($anio_fin < 2006) {
 

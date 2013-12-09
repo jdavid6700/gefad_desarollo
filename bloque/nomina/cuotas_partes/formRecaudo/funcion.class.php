@@ -88,7 +88,7 @@ class funciones_formRecaudo extends funcionGeneral {
                 $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
             } else {
                 echo "<script type=\"text/javascript\">" .
-                "alert('No existen historias laborales registradas para la cédula " .$cedula['cedula'] . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+                "alert('No existen historias laborales registradas para la cédula " . $cedula['cedula'] . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                 $variable = 'pagina=formHistoria';
@@ -166,50 +166,69 @@ class funciones_formRecaudo extends funcionGeneral {
 
     function procesarFormulario($datos) {
 
-        /* foreach ($datos as $key => $value) {
+        foreach ($datos as $key => $value) {
 
-          if ($datos[$key] == "") {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Formulario NO diligenciado correctamente');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formularioRecaudo';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-          exit;
-          }
-          }
+            if ($datos[$key] == "") {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Formulario NO diligenciado correctamente');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioRecaudo';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
 
-          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_resolucion'])) {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Formato fecha ingreso diligenciado incorrectamente');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formHistoria';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-          exit;
-          }
-
-          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pago_cuenta'])) {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Formato fecha ingreso diligenciado incorrectamente');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formHistoria';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-          exit;
-          }
-
-          }
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_resolucion'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha resolución diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
 
 
-         */
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pago_cuenta'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha pago cuenta diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
 
+        if ($datos['valor_pagado_capital'] == 0) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor Pagado NO Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if ($datos['valor_pagado_interes'] == 0) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor Pagado NO Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
 
         $datos_recaudo = $this->registrarPago($datos);
 
@@ -235,7 +254,7 @@ class funciones_formRecaudo extends funcionGeneral {
                         "</script> ";
 
                         $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                        $variable = "pagina=reportesCuotas";
+                        $variable = 'pagina=formularioRecaudo';
                         $variable .= "&opcion=";
                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                         echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -250,7 +269,7 @@ class funciones_formRecaudo extends funcionGeneral {
                         "</script> ";
 
                         $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                        $variable = "pagina=reportesCuotas";
+                        $variable = 'pagina=formularioRecaudo';
                         $variable .= "&opcion=";
                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                         echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -275,7 +294,7 @@ class funciones_formRecaudo extends funcionGeneral {
             "</script> ";
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = "pagina=reportesCuotas";
+            $variable = 'pagina=formularioRecaudo';
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -284,5 +303,4 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
 }
-
 ?>

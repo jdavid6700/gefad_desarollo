@@ -95,7 +95,7 @@ class funciones_adminNovedad extends funcionGeneral
 		switch($opcion)
 		{
 			case "multiplesNovedades":
-				$this->htmlNovedad->multiplesNovedades($configuracion,$registro, $totalRegistros, $variable);
+				$this->htmlNovedad->multiplesNovedades($registro, $totalRegistros, $variable);
 				break;
 		
 		}
@@ -142,6 +142,7 @@ ________________________________________________________________________________
                         $registroPresupuestal = $this->consultarDatosRegistroPresupuestal($nro_cdp,$contrato[0]['CODIGO_UNIDAD_EJECUTORA'],$vigencia);
                         $fecha_contrato=$registroPresupuestal[0]["FECHA_REGISTRO"];
                         $ordenPago = $this->consultarDatosOrdenPago($contrato[0]['NUM_IDENTIFICACION'],$nro_cdp,$vigencia);
+                        $saldo_contrato = $this->calcularSaldoContrato($registroPresupuestal,$ordenPago);
                         $tipo_contrato = $this->consultarTipoContrato($vigencia,$contrato[0]['CODIGO_UNIDAD_EJECUTORA'],$registroPresupuestal[0]['NUMERO_REGISTRO']);
                         //var_dump($ordenPago);exit;
                         $contrato[0]['NUM_CONTRATO']=(isset($contrato[0]['NUM_CONTRATO'])?$contrato[0]['NUM_CONTRATO']:'');
@@ -208,11 +209,18 @@ ________________________________________________________________________________
                                                         $this->htmlNovedad->mostrarDatosOrdenPago($ordenPago);
                                                         ?>
 						</td>
-					  </tr>    
+					  </tr>  
                                           <tr>
 						<td>
 							<?
-                                                        $this->htmlNovedad->mostrarNovedades($novedades);
+                                                        $this->htmlNovedad->mostrarSaldo($saldo_contrato);
+                                                        ?>
+						</td>
+					  </tr>  
+                                          <tr>
+						<td>
+							<?
+                                                        $this->htmlNovedad->mostrarNovedades($novedades,$contrato);
                                                         ?>
 						</td>
 					  </tr>
@@ -542,6 +550,7 @@ ________________________________________________________________________________
      * Funcion que captura los datos y valida para realizar el registro de la novedad en el sistema 
      */
     function registrarNovedad(){
+            $insertado=0;
             $mensaje='';
             $id=$this->obtenerNumeroNovedad();
             $id_tipo=(isset($_REQUEST['id_tipo'])?$_REQUEST['id_tipo']:'');
@@ -556,6 +565,8 @@ ________________________________________________________________________________
             $fecha_ini=(isset($_REQUEST['finicial'])?$_REQUEST['finicial']:''); 
             $fecha_fin=(isset($_REQUEST['ffinal'])?$_REQUEST['ffinal']:''); 
             $valor=(isset($_REQUEST['valor'])?$_REQUEST['valor']:''); 
+            $nivel=(isset($_REQUEST['nivel'])?$_REQUEST['nivel']:''); 
+            $dependientes=(isset($_REQUEST['dependientes'])?$_REQUEST['dependientes']:''); 
             $descripcion=  strtoupper(isset($_REQUEST['descripcion'])?$_REQUEST['descripcion']:''); 
             $cta_id=(isset($_REQUEST['cta_id'])?$_REQUEST['cta_id']:0);
             $estado="A";
@@ -568,6 +579,14 @@ ________________________________________________________________________________
                 $this->insertarDatosContrato($vigencia,$cod_contrato,$unidad_ejec,$interno_oc ,$cod_contratista,$tipo_id_contratista);
                 
             }
+            
+            if($id_tipo==2){
+                $valor=$nivel;
+            }//ARP
+            elseif($id_tipo==7){
+                $valor=$dependientes;
+            }
+                        
             if($cta_id>0){
                 $existe_novedad = $this->consultarDatosNovedades( $cod_contrato,$vigencia,$id_tipo,$fecha_ini,$fecha_fin,$valor,$descripcion,$cta_id);
             }else{
@@ -578,58 +597,58 @@ ________________________________________________________________________________
                 $mensaje = "Ya existe el registro de la Novedad";
                 $pagina=$this->configuracion["host"].$this->configuracion["site"]."/index.php?";
                 $variable="pagina=nom_adminNovedad";
-                $variable.="&opcion=consultar";
+                $variable.="&opcion=crearNovedad";
                 $variable.="&interno_oc=".$interno_oc;
                 $variable.="&vigencia=".$vigencia;
                 $variable.="&cod_contrato=".$cod_contrato;
+                $variable.="&cod_contratista=".$cod_contratista;
+                $variable.="&tipo_id=".$tipo_id_contratista;
+                $variable.="&interno_prov=".$interno_prov;
+                $variable.="&unidad_ejec=".$unidad_ejec;
                 $insertado='';
                 $variable=$this->cripto->codificar_url($variable,$this->configuracion);
                 $this->retornar($pagina,$variable,$mensaje);
 
             }else{
+                if($fecha_ini < $fecha_fin){
+                    
                     switch ($id_tipo) {
                         case 1://cuenta AFC
                                 
-                                if($cta_id<1 && $id_banco && $num_cta && $tipo){
-                                    $cta_id=$this->consultarCodigoCuentaBanco($cod_contratista,$tipo_id_contratista,$id_banco,$num_cta,$tipo);
-                                    if($cta_id<1){
-                                            $relacionado = $this->relacionarCuentaBancariaAContratista($cod_contratista,$tipo_id_contratista,$id_banco,$num_cta,$tipo);
-                                            if($relacionado >0){
-                                                $cta_id=$relacionado;
-
-                                            }
-                                    }
-
-                                }
-                               
-                                if($cta_id>0 ){
-                                        $codigo_nov_afc = $this->consultarNovedadAFC($cod_contrato,$vigencia);
-                                        if($codigo_nov_afc){
-                                            $modificado = $this->inactivarNovedad($codigo_nov_afc);
-                                        }
-                                        $insertado = $this->insertarNovedad($id,$id_tipo, $vigencia,$cod_contrato,$fecha,$fecha_ini,$fecha_fin,$valor,$descripcion,$estado,$cta_id);
-                                }else{
-                                        $insertado = 0;
-                                        $mensaje= "Verifique cuenta bancaria ";
-//                                      
-                                }
+                                $resultado_afc = $this->registrarAFC($cta_id,$id_banco,$num_cta,$tipo,$fecha_ini,$fecha_fin,$valor,$descripcion,$cod_contratista,$tipo_id_contratista,$cod_contrato,$vigencia);
+                                $insertado=$resultado_afc['insertado'];
+                                $mensaje=$resultado_afc['mensaje'];
                                 break;
                         
                         case 2: //arp
-                                $codigo_novedad_arp = $this->consultarNovedadARP($cod_contrato,$vigencia);
-                                if($codigo_novedad_arp){
-                                    $modificado = $this->inactivarNovedad($codigo_novedad_arp);
+                                if($fecha_ini && $fecha_fin && $valor){
+                                    $codigo_novedad_arp = $this->consultarNovedadARP($cod_contrato,$vigencia);
+                                    if($codigo_novedad_arp){
+                                        $modificado = $this->inactivarNovedad($codigo_novedad_arp);
+                                    }
+                                    $cta_id=0;
+                                    $insertado = $this->insertarNovedad($id,$id_tipo, $vigencia,$cod_contrato,$fecha,$fecha_ini,$fecha_fin,$valor,$descripcion,$estado,$cta_id);        
+                                }else{
+                                    $mensaje='Verifique los campos obligatorios';
                                 }
-                                $cta_id=0;
-                                $insertado = $this->insertarNovedad($id,$id_tipo, $vigencia,$cod_contrato,$fecha,$fecha_ini,$fecha_fin,$valor,$descripcion,$estado,$cta_id);        
                                 break;
                        
                         default:
-                            
-                                $cta_id=0;
-                                $insertado = $this->insertarNovedad($id,$id_tipo,$vigencia, $cod_contrato,$fecha,$fecha_ini,$fecha_fin,$valor,$descripcion,$estado,$cta_id);
+                                if($fecha_ini && $fecha_fin && $valor){
+                                    $codigo_novedad_arp = $this->consultarNovedadPorTipo($cod_contrato,$vigencia,$id_tipo);
+                                    if($codigo_novedad_arp){
+                                        $modificado = $this->inactivarNovedad($codigo_novedad_arp);
+                                    }
+                                    $cta_id=0;
+                                    $insertado = $this->insertarNovedad($id,$id_tipo,$vigencia, $cod_contrato,$fecha,$fecha_ini,$fecha_fin,$valor,$descripcion,$estado,$cta_id);
+                                }else{
+                                    $mensaje='Verifique los campos obligatorios';
+                                }
                                 break;
                     }
+                }else{
+                        $mensaje='La fecha inicial debe ser menor a la fecha final';
+                }
                     if($insertado){
                         //VARIABLES PARA EL LOG
                                 $registro[0] = "INSERTAR";
@@ -1209,7 +1228,174 @@ ________________________________________________________________________________
         
     }
     
+    function consultarNovedadPorTipo($cod_contrato,$vigencia,$id_tipo){
+             $datos = array('cod_contrato'=>$cod_contrato,
+                                'vigencia'=>$vigencia,
+                                'id_tipo'=>$id_tipo);
+            $cadena_sql = $this->sql->cadena_sql($this->configuracion,$this->acceso_nomina,"novedad_por_tipo",$datos);
+            $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_nomina, $cadena_sql, "busqueda");
+            return $datos[0][0];
+        
+    }
     
+    function verificarMontoAfc($vigencia,$cod_contrato,$valor){
+            $validacion='';
+            $valor_max_afc = $this->calcularValorMaximoAFC();
+            if($valor <= $valor_max_afc){
+                $validacion = 'ok';
+            }
+            return $validacion;
+    }
+    
+    function calcularValorMaximoAFC(){
+            $valor_maximo = 0;
+            $valor_mes = 0;
+            $interno_oc = (isset($_REQUEST['interno_oc'])?$_REQUEST['interno_oc']:'');
+            $vigencia = (isset($_REQUEST['vigencia'])?$_REQUEST['vigencia']:'');
+            $contrato = $this->consultarDatosContrato($interno_oc,$vigencia);
+            if(is_array($contrato)){
+                $valor_contrato=$contrato[0]['CUANTIA'];
+                $dias_contrato=  $this->calcularDiasContrato($contrato[0]['FECHA_INICIO'], $contrato[0]['FECHA_FINAL']);
+                $valor_mes = ($valor_contrato/$dias_contrato)*30;
+                $valor_maximo = $valor_mes * 0.3;
+            }else{
+                echo "Error al calcular valor máximo de AFC, datos incompletos";
+            }
+            return $valor_maximo;
+    }
+    
+     /**
+     * Funcion para calcular la cantidad de días de un contrato a partir de la fecha inicial y fecha final de este
+     * @param date $fecha_inicio
+     * @param date $fecha_fin
+     * @return int 
+     */
+    function calcularDiasContrato($fecha_inicio,$fecha_fin){
+        if(strtotime($fecha_inicio) > strtotime($fecha_fin)){
+                echo "ERROR -> la fecha inicial es mayor a la fecha final <br>";
+               exit();
+        }else{
+                    
+                $dia_inicio= substr($fecha_inicio, 8,2);
+                $dia_fin= substr($fecha_fin, 8,2);
+                
+                $dias_mes_inicial = 30 - $dia_inicio + 1;
+                $dias_mes_final = $dia_fin;
+                $meses=$this->calcularCantidadMeses($fecha_inicio,$fecha_fin);
+                $meses=(int)$meses-1;
+                $dias_meses = $meses*30;
+     
+                $dias= $dias_mes_inicial + $dias_meses + $dias_mes_final;
+        }
+      
+        return $dias;
+    }
+    
+     /**
+     * Funcion para calcular la cantidad de meses entre 2 fechas
+     * @param date $fecha_inicio
+     * @param date $fecha_fin
+     * @return int 
+     */
+    function calcularCantidadMeses($fecha_inicio,$fecha_fin){
+        $dia_inicio= substr($fecha_inicio, 8,2);
+        $mes_inicio= substr($fecha_inicio, 5,2);
+        $ano_inicio= substr($fecha_inicio, 0,4);
+
+        $dia_fin= substr($fecha_fin, 8,2);
+        $mes_fin= substr($fecha_fin, 5,2);
+        $ano_fin= substr($fecha_fin, 0,4);
+        $dif_anios = $ano_fin- $ano_inicio;
+                if($dif_anios == 1){
+                    $mes_inicio = 12 - $mes_inicio;
+                    $meses = $mes_fin + $mes_inicio;
+                   
+                   
+                }
+                else{
+                        if($dif_anios == 0){
+                            $meses=$mes_fin - $mes_inicio;
+                           
+                            
+                        }
+                        else{
+                            if($dif_anios > 1){
+                                $mes_inicio = 12 - $mes_inicio;
+                                $meses = $mes_fin + $mes_inicio + (($dif_anios - 1) * 12);
+                                
+                            }
+                            else { exit;    }
+                        }
+                    }
+                    return $meses;
+    }
+    
+    function calcularSaldoContrato($registrosPresupuestales,$ordenesPago){
+        $valor_crp=0;
+        $valor_op=0;
+        $saldo=0;
+        foreach ($registrosPresupuestales as $datos_registro) {
+                    $valor_crp=$valor_crp+(isset($datos_registro['VALOR'])?$datos_registro['VALOR']:0);
+        }
+        foreach ($ordenesPago as $datos_orden) {
+                   $valor_op=$valor_op+(isset($datos_orden['VALOR_OP'])?$datos_orden['VALOR_OP']:0);
+        }
+        
+        $saldo=$valor_crp-$valor_op;
+        return $saldo;
+    }
+    
+    function registrarAFC($cta_id,$id_banco,$num_cta,$tipo,$fecha_ini,$fecha_fin,$valor,$descripcion,$cod_contratista,$tipo_id_contratista,$cod_contrato,$vigencia){
+            $id=$this->obtenerNumeroNovedad();
+            $id_tipo=1;
+            $fecha=date('Y-m-d');
+            $estado="A";
+            $resultado='';
+            $insertado = 0;
+            $mensaje='';
+            if(($cta_id || ($id_banco && $num_cta && $tipo)) && $fecha_ini && $fecha_fin && $valor){
+                    if($fecha_ini < $fecha_fin){
+                            //si no selecciono una cuenta existente toma los datos para crearla y relacionarla al contratista    
+                            if($cta_id<1 && $id_banco && $num_cta && $tipo){
+                                    $cta_id=$this->consultarCodigoCuentaBanco($cod_contratista,$tipo_id_contratista,$id_banco,$num_cta,$tipo);
+                                    if($cta_id<1){
+                                            $relacionado = $this->relacionarCuentaBancariaAContratista($cod_contratista,$tipo_id_contratista,$id_banco,$num_cta,$tipo);
+                                            if($relacionado >0){
+                                                $cta_id=$relacionado;
+
+                                            }
+                                    }
+
+                                }
+                                //si selecciono una cuenta bancaria existente   
+                                if($cta_id>0 ){
+                                        $codigo_nov_afc = $this->consultarNovedadAFC($cod_contrato,$vigencia);
+                                        if($codigo_nov_afc){
+                                            $modificado = $this->inactivarNovedad($codigo_nov_afc);
+                                        }
+                                        $valida_monto = $this->verificarMontoAfc($vigencia,$cod_contrato,$valor);
+                                        if($valida_monto =='ok'){
+                                            $insertado = $this->insertarNovedad($id,$id_tipo, $vigencia,$cod_contrato,$fecha,$fecha_ini,$fecha_fin,$valor,$descripcion,$estado,$cta_id);
+                                        }else{
+                                            $insertado = 0;
+                                            $mensaje= "Verifique valor de consignacion a la cuenta AFC, debe ser menor al 30 % del valor del pago ";
+                                        }
+                                }else{
+                                        $insertado = 0;
+                                        $mensaje= "Verifique cuenta bancaria ";
+                                }
+                    }else{
+                        $mensaje='La fecha inicial debe ser menor a la fecha final';
+                    }
+
+            }else{
+                $mensaje='Verifique los campos obligatorios';
+            }
+            $resultado= array('insertado'=>$insertado,
+                            'mensaje'=>$mensaje);
+            return $resultado;
+    }
+   
 } // fin de la clase
 	
 

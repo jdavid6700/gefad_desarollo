@@ -234,6 +234,46 @@ class sql_adminActaInicio extends sql
                                 $cadena_sql.=" AND con_num_id='".$variable['identificacion']."'";
                                 break;		
 
+                        case "existe_datos_contratista":
+                                $cadena_sql=" SELECT   ";
+                                $cadena_sql.=" con_tipo_id, ";
+                                $cadena_sql.=" con_num_id ";
+                                $cadena_sql.=" FROM fn_nom_datos_contratista";
+                                $cadena_sql.=" WHERE ";
+                                $cadena_sql.=" con_tipo_id='".$variable['tipo_id']."' ";
+                                $cadena_sql.=" AND con_num_id='".$variable['cod_contratista']."'";
+                                break;
+                            
+                        case "insertar_datos_contratista":
+                                $cadena_sql=" INSERT INTO  fn_nom_datos_contratista (";
+                                $cadena_sql.=" con_tipo_id, ";
+                                $cadena_sql.=" con_num_id, ";
+                                $cadena_sql.=" con_interno_proveedor)";
+                                $cadena_sql.=" VALUES(";
+                                $cadena_sql.="'".$variable['tipo_id']."',";
+                                $cadena_sql.="'".$variable['cod_contratista']."',";
+                                $cadena_sql.="'".$variable['interno_prov']."'";
+                                $cadena_sql.=" )";
+                                break;
+
+                        case "insertar_datos_contrato":
+                                $cadena_sql=" INSERT INTO  fn_nom_datos_contrato (";
+                                $cadena_sql.=" cto_vigencia, ";
+                                $cadena_sql.=" cto_num, ";
+                                $cadena_sql.=" cto_con_tipo_id, ";
+                                $cadena_sql.=" cto_con_num_id, ";
+                                $cadena_sql.=" cto_interno_co, ";
+                                $cadena_sql.=" cto_uni_ejecutora)";
+                                $cadena_sql.=" VALUES(";
+                                $cadena_sql.="'".$variable['vigencia']."',";
+                                $cadena_sql.="'".$variable['cod_contrato']."',";
+                                $cadena_sql.="'".$variable['tipo_id']."',";
+                                $cadena_sql.="'".$variable['cod_contratista']."',";
+                                $cadena_sql.="'".$variable['interno_oc']."',";
+                                $cadena_sql.="'".$variable['unidad_ejec']."'";
+                                $cadena_sql.=" )";
+                                break;
+
 			default:
 				$cadena_sql="";
 				break;

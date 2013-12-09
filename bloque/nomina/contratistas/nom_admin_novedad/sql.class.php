@@ -476,6 +476,17 @@ class sql_adminNovedad extends sql
                                 $cadena_sql.=" AND nov_estado='A'";
                                 break;		
                        
+                        case "novedad_por_tipo":
+                                $cadena_sql=" SELECT DISTINCT ";
+                                $cadena_sql.=" nov_id";
+                                $cadena_sql.=" FROM fn_nom_novedad";
+                                $cadena_sql.=" WHERE ";
+                                $cadena_sql.=" nov_cto_vigencia='".$variable['vigencia']."'";
+                                $cadena_sql.=" AND nov_cto_num='".$variable['cod_contrato']."'";
+                                $cadena_sql.=" AND nov_id_tipo=".$variable['id_tipo']."";
+                                $cadena_sql.=" AND nov_estado='A'";
+                                break;		
+                       
                         case "inactivar_novedad":
                                 $cadena_sql=" UPDATE  fn_nom_novedad ";
                                 $cadena_sql.=" SET nov_estado ='I'";

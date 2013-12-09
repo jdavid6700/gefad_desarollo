@@ -117,7 +117,22 @@ ________________________________________________________________________________
       
             $interno_oc=(isset($_REQUEST['interno_oc'])?$_REQUEST['interno_oc']:'');
             $vigencia_contrato=(isset($_REQUEST['vigencia_contrato'])?$_REQUEST['vigencia_contrato']:'');
+            
             $contrato = $this->consultarDatosContrato($interno_oc,$vigencia_contrato);
+            $cod_contratista = (isset($contrato[0]['NUM_IDENTIFICACION'])?$contrato[0]['NUM_IDENTIFICACION']:''); 
+            $tipo_id_contratista = (isset($contrato[0]['TIPO_IDENTIFICACION'])?$contrato[0]['TIPO_IDENTIFICACION']:''); 
+            
+            $datos_contratista =$this->consultarExisteDatosContratista($cod_contratista,$tipo_id_contratista);
+            if(!is_array($datos_contratista)){
+                $interno_prov = (isset($contrato[0]['INTERNO_PROVEEDOR'])?$contrato[0]['INTERNO_PROVEEDOR']:''); 
+                $unidad_ejec = (isset($contrato[0]['CODIGO_UNIDAD_EJECUTORA'])?$contrato[0]['CODIGO_UNIDAD_EJECUTORA']:''); 
+                $cod_contrato = (isset($contrato[0]['NUM_CONTRATO'])?$contrato[0]['NUM_CONTRATO']:''); 
+            
+                $this->insertarDatosContratista($cod_contratista,$tipo_id_contratista,$interno_prov);
+                $this->insertarDatosContrato($vigencia_contrato,$cod_contrato,$unidad_ejec,$interno_oc ,$cod_contratista,$tipo_id_contratista);
+                
+            }
+            
             $this->revisarDatosActaInicio($contrato);
             $dias_contrato= $this->calcularDiasContrato($contrato[0]['FECHA_INICIO'], $contrato[0]['FECHA_FINAL']);
             $contrato[0]['CANTIDAD_DIAS']=$dias_contrato;
@@ -136,9 +151,22 @@ ________________________________________________________________________________
             
             }
             //var_dump($contrato);
-            $acta = $this->consultarActaInicio($contrato[0]['NUM_CONTRATO'], $vigencia_contrato);
-            $contratista = $this->consultarAspectoContratista($contrato[0]['TIPO_IDENTIFICACION'], $contrato[0]['NUM_IDENTIFICACION']);
-            $this->htmlActaInicio->form_acta($tipo_nomina,$contrato,$acta,$contratista,"", "");
+            $contrato[0]['NUM_CONTRATO']=(isset($contrato[0]['NUM_CONTRATO'])?$contrato[0]['NUM_CONTRATO']:'');
+            if($contrato[0]['NUM_CONTRATO'] && $vigencia_contrato){
+                $acta = $this->consultarActaInicio($contrato[0]['NUM_CONTRATO'], $vigencia_contrato);
+                $contratista = $this->consultarAspectoContratista($contrato[0]['TIPO_IDENTIFICACION'], $contrato[0]['NUM_IDENTIFICACION']);
+                $this->htmlActaInicio->form_acta($tipo_nomina,$contrato,$acta,$contratista,"", "");
+            
+            }else{
+                $mensaje = "No se encuentra registrado el número de contrato, necesario para registrar el acta de inicio";
+                $pagina=$this->configuracion["host"].$this->configuracion["site"]."/index.php?";
+                $variable="pagina=nom_adminNovedad";
+                $variable.="&opcion=consultar";
+                $variable.="&vigencia=".$vigencia_contrato;
+                $variable=$this->cripto->codificar_url($variable,$this->configuracion);
+                $this->retornar($pagina,$variable,$mensaje);
+                
+            }
             
    }        
    
@@ -307,9 +335,12 @@ ________________________________________________________________________________
     
     function verificaExisteActaInicio($cod_contrato,$vigencia_contrato){
         $existe = 0;
-        $acta = $this->consultarActaInicio($cod_contrato, $vigencia_contrato);
-        if($acta[0]['aci_id']>0 ){
-            $existe=$acta[0]['aci_id'];
+        if($cod_contrato && $vigencia_contrato){
+            $acta = $this->consultarActaInicio($cod_contrato, $vigencia_contrato);
+        
+            if($acta[0]['aci_id']>0 ){
+                $existe=$acta[0]['aci_id'];
+            }
         }
         return $existe;
     }
@@ -319,7 +350,6 @@ ________________________________________________________________________________
         $datos = array('vigencia_contrato'=>$vigencia_contrato,
                             'cod_contrato'=>$cod_contrato);
         $cadena_sql = $this->sql->cadena_sql($this->configuracion,$this->acceso_nomina,"acta_inicio",$datos);
-        //echo "<br>cadena ".$cadena_sql ;
         return $datos_contrato = $this->ejecutarSQL($this->configuracion, $this->acceso_nomina, $cadena_sql, "busqueda");
 	
     }
@@ -383,19 +413,20 @@ ________________________________________________________________________________
     
     function revisarDatosActaInicio($datos_contrato){
         
-            $cod_contrato = $datos_contrato[0]['NUM_CONTRATO'];
-            $vigencia = $datos_contrato[0]['VIGENCIA'];
-            
-            $acta =$this->consultarExisteDatosActa($cod_contrato,$vigencia);
-            if(!$acta[0][0] && $datos_contrato[0]['FECHA_INICIO'] && $datos_contrato[0]['FECHA_FINAL']){
-                $fecha=date('Y-m-d');
-                $fecha_ini=$datos_contrato[0]['FECHA_INICIO']; 
-                $fecha_fin=$datos_contrato[0]['FECHA_FINAL']; 
-                $fecha_firma=$datos_contrato[0]['FECHA_INICIO']; 
-                $estado = 'A';
-                $id=$this->obtenerNumeroActaInicio();
-                $tipo_nomina='0';
-                $relacionado = $this->insertarActaInicio($id,$cod_contrato,$vigencia,$fecha,$fecha_ini,$fecha_fin,$fecha_firma,$estado,$tipo_nomina);
+            $cod_contrato = (isset($datos_contrato[0]['NUM_CONTRATO'])?$datos_contrato[0]['NUM_CONTRATO']:'');
+            $vigencia = (isset($datos_contrato[0]['VIGENCIA'])?$datos_contrato[0]['VIGENCIA']:'');
+            if($cod_contrato && $vigencia){
+                $acta =$this->consultarExisteDatosActa($cod_contrato,$vigencia);
+                if(!$acta[0][0] && $datos_contrato[0]['FECHA_INICIO'] && $datos_contrato[0]['FECHA_FINAL']){
+                    $fecha=date('Y-m-d');
+                    $fecha_ini=$datos_contrato[0]['FECHA_INICIO']; 
+                    $fecha_fin=$datos_contrato[0]['FECHA_FINAL']; 
+                    $fecha_firma=$datos_contrato[0]['FECHA_INICIO']; 
+                    $estado = 'A';
+                    $id=$this->obtenerNumeroActaInicio();
+                    $tipo_nomina='0';
+                    $relacionado = $this->insertarActaInicio($id,$cod_contrato,$vigencia,$fecha,$fecha_ini,$fecha_fin,$fecha_firma,$estado,$tipo_nomina);
+                }
             }
     }
     
@@ -612,7 +643,59 @@ ________________________________________________________________________________
        
        }
        
-
+ /**
+     * Funcion 
+     * @param type $cod_contratista
+     * @param type $tipo_id
+     * @return type 
+     */
+    function consultarExisteDatosContratista($cod_contratista,$tipo_id){
+            $datos = array('cod_contratista'=>$cod_contratista,
+                                'tipo_id'=>$tipo_id);
+            $cadena_sql = $this->sql->cadena_sql($this->configuracion,$this->acceso_nomina,"existe_datos_contratista",$datos);
+            return $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_nomina, $cadena_sql, "busqueda");
+            
+    }
+    
+ /**
+     * Funcion para insertar el registro de un contratista en la base de datos
+     * @param String $cod_contratista
+     * @param String $tipo_id_contratista
+     * @param int $interno_prov
+     * @return int 
+     */
+    function insertarDatosContratista($cod_contratista,$tipo_id_contratista,$interno_prov){
+            $datos = array('tipo_id'=>$tipo_id_contratista,
+                                'cod_contratista'=>$cod_contratista,
+                                'interno_prov'=>$interno_prov);
+            $cadena_sql = $this->sql->cadena_sql($this->configuracion,$this->acceso_nomina,"insertar_datos_contratista",$datos);
+            $this->ejecutarSQL($this->configuracion, $this->acceso_nomina, $cadena_sql, "");
+            return $this->totalAfectados($this->configuracion, $this->acceso_nomina);
+    }
+           
+    /**
+     * Funcion para insertar el registro del contrato en la base de datos 
+     * @param int $vigencia
+     * @param int $cod_contrato
+     * @param int $unidad_ejec
+     * @param int $interno_oc
+     * @param String $cod_contratista
+     * @param String $tipo_id_contratista
+     * @return type 
+     */
+    function insertarDatosContrato($vigencia,$cod_contrato,$unidad_ejec,$interno_oc ,$cod_contratista,$tipo_id_contratista){
+            $datos = array('vigencia'=>$vigencia,
+                                'cod_contrato'=>$cod_contrato,
+                                'unidad_ejec'=>$unidad_ejec,
+                                'interno_oc'=>$interno_oc,
+                                'tipo_id'=>$tipo_id_contratista,
+                                'cod_contratista'=>$cod_contratista);
+                            
+            $cadena_sql = $this->sql->cadena_sql($this->configuracion,$this->acceso_nomina,"insertar_datos_contrato",$datos);
+            $this->ejecutarSQL($this->configuracion, $this->acceso_nomina, $cadena_sql, "");
+            return $this->totalAfectados($this->configuracion, $this->acceso_nomina);
+    }
+    
 } // fin de la clase
 	
 

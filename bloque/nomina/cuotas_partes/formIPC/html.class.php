@@ -259,8 +259,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste="return false"  title="*Campo Obligatorio" name="indice_Ipc" placeholder="0.0000"  pattern=".{2,11}" maxlength="11" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
-
+                                <input type="text" id="indice_Ipc" onpaste="return false"  title="*Campo Obligatorio" name="indice_Ipc" placeholder="0.0000"  pattern="[0]+([\.|,][0-9]+[0-9])?" maxlength="11" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
                             </div>
                             <div class="null"></div>
                         </div>

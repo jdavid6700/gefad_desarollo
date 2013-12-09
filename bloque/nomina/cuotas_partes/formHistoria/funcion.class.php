@@ -413,6 +413,18 @@ class funciones_formHistoria extends funcionGeneral {
             }
         }
 
+        if ($datos['total_dias'] == 0) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor días de trabajo NO válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
         foreach ($datos as $key => $value) {
             if (!preg_match("#^[a-zA-Z0-9/.-\só]{1,50}$#", $datos[$key])) {
                 echo "<script type=\"text/javascript\">" .

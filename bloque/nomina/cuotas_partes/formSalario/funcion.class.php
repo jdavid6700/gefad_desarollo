@@ -96,6 +96,41 @@ class funciones_formSalario extends funcionGeneral {
             }
         }
 
+        if ($datos['monto_mensual'] == 0) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Monto Mensual NO válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecvig_desde'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha vigencia desde diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecvig_hasta'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formato fecha vigencia hasta diligenciado incorrectamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
 
         $antes = strtotime($datos['fecvig_desde']);
         $despues = strtotime($datos['fecvig_hasta']);

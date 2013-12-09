@@ -600,7 +600,7 @@ class html_adminSolicitudPagoSupervisor {
          */
         function generarEnlaceOficioSolicitud($id,$cordis,$tipo_documento){
                 $archivo=$this->configuracion["host"] . $this->configuracion["site"] .$tipo_documento[0]['ubicacion'].$tipo_documento[0]['nombre_pdf'].$id."_".$cordis.".pdf";
-                $enlace ="<a href='".$archivo."' ><img width='26' heigth='26' src='".$this->configuracion["host"].$this->configuracion["site"].$this->configuracion["grafico"]."/pdf_logo.jpg' alt='Ver oficio' title='Ver oficio' border='0' />&nbsp;<br>Ver oficio solicitud</a>";
+                $enlace ="<a href='".$archivo."'  target='_blank'><img width='26' heigth='26' src='".$this->configuracion["host"].$this->configuracion["site"].$this->configuracion["grafico"]."/pdf_logo.jpg' alt='Ver oficio' title='Ver oficio' border='0' />&nbsp;<br>Ver oficio solicitud</a>";
        
             return $enlace;
             

@@ -2,7 +2,6 @@
 /*
 ############################################################################
 #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
-#    Copyright: Vea el archivo EULA.txt que viene con la distribucion      #
 ############################################################################
 */
 
@@ -28,15 +27,16 @@ class html_adminNovedad {
         $this->cripto=new encriptar();
         $this->indice=$configuracion["host"].$configuracion["site"]."/index.php?";
         $this->html = new html();
+        $this->configuracion=$configuracion;
 										
     }    
 
    	// funcion que muestra los datos de varios Contratistas
 
-	function multiplesNovedades($configuracion,$registro, $total, $variable)
+	function multiplesNovedades($registro, $total, $variable)
 	{
-		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
-		$indice = $configuracion["host"].$configuracion["site"]."/index.php?";
+		include_once($this->configuracion["raiz_documento"].$this->configuracion["clases"]."/encriptar.class.php");
+		$indice = $this->configuracion["host"].$this->configuracion["site"]."/index.php?";
 		$cripto = new encriptar();
 		if((isset($registro[0]['VIGENCIA'])?$registro[0]['VIGENCIA']:0)>0){
                     $vigencia = "Vigencia ".$registro[0]['VIGENCIA'];
@@ -44,118 +44,101 @@ class html_adminNovedad {
                     $vigencia = "";
                 }
 		?>
-               
-                        <link rel="stylesheet" href="<? echo $configuracion["host"].$configuracion["site"].$configuracion["plugins"];?>/jPages-master/css/jPages.css">
-
-                        <script type="text/javascript" src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["plugins"];?>/jPages-master/js/jquery-1.8.2.min.js"></script>
-                        <script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["plugins"];?>/jPages-master/js/jPages.js"></script>
-
-                        <script>
-                        $(function (){
-                            $("div.holder").jPages({
-                            containerID : "contratistas",
-                            previous : "←",
-                            next : "→",
-                            perPage : <? echo $configuracion["registro"]?>,
-                            delay : 20
-                            });
-                        });
-                        </script>
+               <script type="text/javascript" src="<? echo $this->configuracion["host"].$this->configuracion["site"].$this->configuracion["javascript"];?>/datatables/js/jquery.js"></script>
+                <script type="text/javascript" src="<? echo $this->configuracion["host"].$this->configuracion["site"].$this->configuracion["javascript"];?>/datatables/js/jquery.dataTables.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        $('#tabla').dataTable();
+                    })
+                </script>
+                <link type="text/css" href="<? echo $this->configuracion["host"].$this->configuracion["site"].$this->configuracion["javascript"];?>/datatables/css/jquery.dataTables_themeroller.css" rel="stylesheet"/>
                 
+               
+		<br>
                 <table width="80%" align="center" border="0" cellpadding="10" cellspacing="0" >
-			<tbody>
-				<tr>
+                                    <tr><td>
+                                             Contratistas <? echo $vigencia;?><br>
+                                            <hr class="hr_subtitulo">
+                                        </td>
+                                    </tr>		
+                                    <tr>
 					<td >
-						<table width="100%" border="0" align="center" cellpadding="5 px" cellspacing="1px" >
-							
-                                                            <tr class="texto_subtitulo">
-								<td>
-								Contratistas <? echo $vigencia;?><br>
-								<hr class="hr_subtitulo">
-								</td>
-							</tr>
-                                                        <tr>
-								<td>
-									<table class="bordered" >
+                                                                <table class='contenidotabla' id="tabla">
+                    
+                                                                            <thead>
 										<tr class='cuadro_color'>
-                                                                                        <th>Tipo Id.</th>
-											<th>No. Identificaci&oacute;n</th>
-											<th>Nombre </th>
-                                                                                        <th>N&uacute;mero de Contrato </th>
-                                                                                        <th>Opciones </th>
+											<td class='cuadro_plano centrar'>Tipo Id.</td>
+											<td class='cuadro_plano centrar'>No. Identificaci&oacute;n</td>
+											<td class='cuadro_plano centrar'>Nombre</td>
+											<td class='cuadro_plano centrar'>N&uacute;mero de Contrato</td>
+											<td class='cuadro_plano centrar'>Opciones</td>
+                                                                                        <td class='cuadro_plano centrar'>&nbsp;</td>
 										</tr>
-                                                                                <tbody id="contratistas">
-                                                        
-                                                                                    <?
-                                                                                
-                                                         foreach ($registro as $key => $value)
-                                                                {                                                                                                         
-                                                        		$tipo = (isset($registro[$key]['TIPO_IDENTIFICACION'])?$registro[$key]['TIPO_IDENTIFICACION']:'');
-                                                                        $identificacion = (isset($registro[$key]['NUM_IDENTIFICACION'])?$registro[$key]['NUM_IDENTIFICACION']:'');
-                                                                        $nombre = (isset($registro[$key]['RAZON_SOCIAL'])?$registro[$key]['RAZON_SOCIAL']:'');
-                                                                        $num_contrato = (isset($registro[$key]['NUM_CONTRATO'])?$registro[$key]['NUM_CONTRATO']:'');
-                                                                        $interno_oc = (isset($registro[$key]['INTERNO_OC'])?$registro[$key]['INTERNO_OC']:'');
-									$vigencia = (isset($registro[$key]['VIGENCIA'])?$registro[$key]['VIGENCIA']:'');
-									$interno_prov = (isset($registro[$key]['INTERNO_PROVEEDOR'])?$registro[$key]['INTERNO_PROVEEDOR']:'');
-                                                                        $unidad_ejec= (isset($registro[$key]['CODIGO_UNIDAD_EJECUTORA'])?$registro[$key]['CODIGO_UNIDAD_EJECUTORA']:'');
-                                                                        
-									//Con enlace a la busqueda
-									$parametro = "pagina=nom_adminNovedad";
-									$parametro .= "&hoja=1";
-									$parametro .= "&opcion=consultar";
-									$parametro .= "&accion=consultar";
-									$parametro .= "&vigencia=".$vigencia;
-                                                                        $parametro .= "&cod_contrato=".$num_contrato;
-									$parametro .= "&cod_contratista=".$identificacion;
-									$parametro .= "&tipo_id=".$tipo;
-									$parametro .= "&interno_oc=".$interno_oc;
-                                                                        $parametro .= "&unidad_ejec=".$unidad_ejec;
-                                                                        $parametro = $cripto->codificar_url($parametro,$this->configuracion);
-                                                                        $ruta="pagina=nom_adminNovedad";
-                                                                        $ruta.="&opcion=crearNovedad";
-                                                                        $ruta.="&cod_contrato=".$num_contrato;
-                                                                        $ruta.= "&cod_contratista=".$identificacion;
-									$ruta.= "&tipo_id=".$tipo;
-									$ruta.="&vigencia=".$vigencia;
-                                                                        $ruta.="&interno_prov=".$interno_prov;
-                                                                        $ruta.= "&interno_oc=".$interno_oc;
-                                                                        $ruta.= "&unidad_ejec=".$unidad_ejec;
-                                                                        //$rutaCrear=$ruta;
-                                                                        $rutaCrear=$cripto->codificar_url($ruta,$this->configuracion);
-                                                                        $acta="pagina=nom_adminActaInicio";
-                                                                        $acta.="&opcion=crearActaInicio";
-                                                                        $acta.= "&interno_oc=".$interno_oc;
-                                                                        $acta.="&cod_contrato=".$num_contrato;
-                                                                        $acta.="&vigencia_contrato=".$vigencia;
-                                                                       $rutaActa=$cripto->codificar_url($acta,$this->configuracion);
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <?
+                                                                                    foreach ($registro as $key => $value)
+                                                                                    {
+                                                                                        $tipo = (isset($registro[$key]['TIPO_IDENTIFICACION'])?$registro[$key]['TIPO_IDENTIFICACION']:'');
+                                                                                        $identificacion = (isset($registro[$key]['NUM_IDENTIFICACION'])?$registro[$key]['NUM_IDENTIFICACION']:'');
+                                                                                        $nombre = (isset($registro[$key]['RAZON_SOCIAL'])?$registro[$key]['RAZON_SOCIAL']:'');
+                                                                                        $num_contrato = (isset($registro[$key]['NUM_CONTRATO'])?$registro[$key]['NUM_CONTRATO']:'');
+                                                                                        $interno_oc = (isset($registro[$key]['INTERNO_OC'])?$registro[$key]['INTERNO_OC']:'');
+                                                                                        $vigencia = (isset($registro[$key]['VIGENCIA'])?$registro[$key]['VIGENCIA']:'');
+                                                                                        $interno_prov = (isset($registro[$key]['INTERNO_PROVEEDOR'])?$registro[$key]['INTERNO_PROVEEDOR']:'');
+                                                                                        $unidad_ejec= (isset($registro[$key]['CODIGO_UNIDAD_EJECUTORA'])?$registro[$key]['CODIGO_UNIDAD_EJECUTORA']:'');
+                //                                                                        
+                                                                                        //Con enlace a la busqueda
+                                                                                        $parametro = "pagina=nom_adminNovedad";
+                                                                                        $parametro .= "&hoja=1";
+                                                                                        $parametro .= "&opcion=consultar";
+                                                                                        $parametro .= "&accion=consultar";
+                                                                                        $parametro .= "&vigencia=".$vigencia;
+                                                                                        $parametro .= "&cod_contrato=".$num_contrato;
+                                                                                        $parametro .= "&cod_contratista=".$identificacion;
+                                                                                        $parametro .= "&tipo_id=".$tipo;
+                                                                                        $parametro .= "&interno_oc=".$interno_oc;
+                                                                                        $parametro .= "&unidad_ejec=".$unidad_ejec;
+                                                                                        $parametro = $cripto->codificar_url($parametro,$this->configuracion);
+                                                                                        $ruta="pagina=nom_adminNovedad";
+                                                                                        $ruta.="&opcion=crearNovedad";
+                                                                                        $ruta.="&cod_contrato=".$num_contrato;
+                                                                                        $ruta.= "&cod_contratista=".$identificacion;
+                                                                                        $ruta.= "&tipo_id=".$tipo;
+                                                                                        $ruta.="&vigencia=".$vigencia;
+                                                                                        $ruta.="&interno_prov=".$interno_prov;
+                                                                                        $ruta.= "&interno_oc=".$interno_oc;
+                                                                                        $ruta.= "&unidad_ejec=".$unidad_ejec;
+                                                                                        $rutaCrear=$ruta;
+                                                                                        $rutaCrear=$cripto->codificar_url($ruta,$this->configuracion);
+                                                                                        $acta="pagina=nom_adminActaInicio";
+                                                                                        $acta.="&opcion=crearActaInicio";
+                                                                                        $acta.= "&interno_oc=".$interno_oc;
+                                                                                        $acta.="&cod_contrato=".$num_contrato;
+                                                                                        $acta.="&vigencia_contrato=".$vigencia;
+                                                                                        $rutaActa=$cripto->codificar_url($acta,$this->configuracion);
 
-                                                                        
-									echo "	<tr> 
-										 	<td class='texto_elegante estilo_td'>".$tipo."</td>
-                                                                                        <td class='texto_elegante estilo_td'>".$identificacion."</td>    
-											<td class='texto_elegante estilo_td'><a href='".$indice.$parametro."'>".$nombre."</a></td>
-                                                                                        <td class='texto_elegante estilo_td'>".$num_contrato."</td>    
-                                                                                        <td class='texto_elegante estilo_td'><a href='".$indice.$rutaCrear."'><span>:: Registrar Novedad</span></a></td>    
-                                                                                        <td class='texto_elegante estilo_td'><a href='".$indice.$rutaActa."'><span>:: Registrar Acta de inicio</span></a></td>    
-										</tr>";
-					
-								}//fin for 
-								?>
-									</table>
-                                                                    <center><div class="holder"></div></center>
-								</td>
-							</tr>
-                                                        </tbody>
-						</table>
-                                          
-					</td>
+                                        
+                                                                                            echo "<tr>\n";
+                                                                                            echo "<td class='cuadro_plano centrar'>".$tipo."</td>\n";
+                                                                                            echo "<td class='cuadro_plano'>".$identificacion."</a></td>\n";
+                                                                                            echo "<td class='cuadro_plano'><a href='".$indice.$parametro."'>".$nombre."</a></td>\n";
+                                                                                            echo "<td class='cuadro_plano centrar'>".$num_contrato."</td>\n";
+                                                                                            echo "<td class='cuadro_plano centrar'><a href='".$indice.$rutaCrear."'><span>:: Registrar Novedad</span></a></td>\n";
+                                                                                            echo "<td class='cuadro_plano centrar'><a href='".$indice.$rutaActa."'><span>:: Registrar Acta de inicio</span></a></td>";
+                                                                                            echo "</tr>";
+                                                                                    }
+                                                                            ?>
+									</tbody>
+                                                                        </table>
+                                        </td>
+						
 				</tr>
 				<tr>
 					<td class='cuadro_plano cuadro_brown'>
 						<p class="textoNivel0">Por favor realice click sobre el nombre del contratista que desea consultar.</p>
 					</td>
 				</tr>
-			</tbody>
 		</table>
 
 		<?
@@ -279,10 +262,7 @@ class html_adminNovedad {
      * Funcion que muestra los datos de la disponibilidad de un contrtao
      * @param <array> $datos_disponibilidad 
      */
-    function mostrarDatosDisponibilidad($datos_disponibilidad){
-            $nro_cdp=(isset($datos_disponibilidad[0]['NUMERO_DISPONIBILIDAD'])?$datos_disponibilidad[0]['NUMERO_DISPONIBILIDAD']:'');
-            $fecha_cdp=(isset($datos_disponibilidad[0]['FECHA_DISPONIBILIDAD'])?$datos_disponibilidad[0]['FECHA_DISPONIBILIDAD']:'');
-            $valor_cdp=(isset($datos_disponibilidad[0]['VALOR'])?$datos_disponibilidad[0]['VALOR']:'');
+    function mostrarDatosDisponibilidad($registros){
             		
         ?>
     
@@ -290,6 +270,13 @@ class html_adminNovedad {
                     <tr>
                         <th colspan="6" class="estilo_th">CERTIFICADO DE DISPONIBILIDAD PRESUPUESTAL</th>
                     </tr>
+            <?
+                foreach ($registros as $datos_disponibilidad) {
+                    $nro_cdp=(isset($datos_disponibilidad['NUMERO_DISPONIBILIDAD'])?$datos_disponibilidad['NUMERO_DISPONIBILIDAD']:'');
+                    $fecha_cdp=(isset($datos_disponibilidad['FECHA_DISPONIBILIDAD'])?$datos_disponibilidad['FECHA_DISPONIBILIDAD']:'');
+                    $valor_cdp=(isset($datos_disponibilidad['VALOR'])?$datos_disponibilidad['VALOR']:'');
+            
+            ?>
                     <tr>
                             <td class='texto_elegante estilo_td' >Certificado de Disponibilidad Presupuestal No:</td>
                             <td class='texto_elegante estilo_td' ><? echo  $nro_cdp?></td>
@@ -298,7 +285,9 @@ class html_adminNovedad {
                             <td class='texto_elegante estilo_td' >Valor:</td>
                             <td class='texto_elegante estilo_td' ><? echo "$ ".number_format($valor_cdp)?></td>
                     </tr>
-                   
+            <?
+                }
+            ?>
             </table>
     <?
     }
@@ -307,10 +296,7 @@ class html_adminNovedad {
      * Funcion que muestra los datos de registros presupuestales
      * @param <array> $datos_registro 
      */
-    function mostrarDatosRegistroPresupuestal($datos_registro){
-            $nro_crp=(isset($datos_registro[0]['NUMERO_REGISTRO'])?$datos_registro[0]['NUMERO_REGISTRO']:'');
-            $fecha_crp=(isset($datos_registro[0]['FECHA_REGISTRO'])?$datos_registro[0]['FECHA_REGISTRO']:'');
-            $valor_crp=(isset($datos_registro[0]['VALOR'])?$datos_registro[0]['VALOR']:'');
+    function mostrarDatosRegistroPresupuestal($registros){
             
         ?>
     
@@ -318,15 +304,24 @@ class html_adminNovedad {
                     <tr>
                         <th colspan="6" class="estilo_th">CERTIFICADO DE REGISTRO PRESUPUESTAL</th>
                     </tr>
+            <?
+                foreach ($registros as $key => $datos_registro) {
+                    $nro_crp=(isset($datos_registro['NUMERO_REGISTRO'])?$datos_registro['NUMERO_REGISTRO']:'');
+                    $fecha_crp=(isset($datos_registro['FECHA_REGISTRO'])?$datos_registro['FECHA_REGISTRO']:'');
+                    $valor_crp=(isset($datos_registro['VALOR'])?$datos_registro['VALOR']:'');
+                    if(is_numeric($valor_crp)){$valor_crp=number_format($valor_crp);}
+            ?>
                     <tr>
                             <td class='texto_elegante estilo_td' >Certificado de Registro Presupuestal No:</td>
                             <td class='texto_elegante estilo_td' ><? echo  $nro_crp?></td>
                             <td class='texto_elegante estilo_td' >Fecha:</td>
                             <td class='texto_elegante estilo_td' ><? echo  $fecha_crp?></td>
                             <td class='texto_elegante estilo_td' >Valor:</td>
-                            <td class='texto_elegante estilo_td' ><? echo "$ ".number_format($valor_crp)?></td>
+                            <td class='texto_elegante estilo_td' ><? echo "$ ".$valor_crp?></td>
                     </tr>
-                   
+            <?
+                    }
+            ?>
             </table>
     <?
     }
@@ -437,15 +432,34 @@ class html_adminNovedad {
      * Funcion que muestra los datos de las novedades
      * @param <array> $datos_novedad 
      */   
-    function mostrarNovedades($datos_novedad){
-                echo "<table class='bordered'>";
+    function mostrarNovedades($datos_novedad,$contrato){
+        
+                include_once($this->configuracion["raiz_documento"].$this->configuracion["clases"]."/encriptar.class.php");
+		$indice = $this->configuracion["host"].$this->configuracion["site"]."/index.php?";
+		$cripto = new encriptar();
+		$ruta="pagina=nom_adminNovedad";
+                $ruta.="&opcion=crearNovedad";
+                $ruta.="&cod_contrato=".$contrato[0]['NUM_CONTRATO'];
+                $ruta.= "&cod_contratista=".$contrato[0]['NUM_IDENTIFICACION'];
+                $ruta.= "&tipo_id=".$contrato[0]['TIPO_IDENTIFICACION'];
+                $ruta.="&vigencia=".$contrato[0]['VIGENCIA'];
+                $ruta.="&interno_prov=".$contrato[0]['INTERNO_PROVEEDOR'];
+                $ruta.= "&interno_oc=".$contrato[0]['INTERNO_OC'];
+                $ruta.= "&unidad_ejec=".$contrato[0]['CODIGO_UNIDAD_EJECUTORA'];
+                $enlaceRegistrarNovedad=$cripto->codificar_url($ruta,$this->configuracion);
+                                                                                        
+                echo "<table class='bordered' width ='100%' >";
                 echo "    <tr>";
                 echo "          <th colspan='7' class='estilo_th'>NOVEDADES</th>";
                 echo "    </tr>";
                 echo "    <tr>";
+                echo "      <td colspan='7' class='cuadro_plano derecha'><a href='".$indice.$enlaceRegistrarNovedad."'><span>:: Registrar Novedad</span></a></td>\n";
+                echo "    </tr>";
+                                                                                            
+                echo "    <tr>";
                 echo "        <td class='texto_elegante estilo_td' width='5%'>No.</td>";
                 echo "        <td class='texto_elegante estilo_td' width='15%'>Tipo</td>";
-                echo "        <td class='texto_elegante estilo_td' width='12%'>Fecha</td>";
+                echo "        <td class='texto_elegante estilo_td' width='12%'>Fecha de Registro</td>";
                 echo "        <td class='texto_elegante estilo_td' width='12%'>Fecha Inicial</td>";
                 echo "        <td class='texto_elegante estilo_td' width='12%'>Fecha Final</td>";
                 echo "        <td class='texto_elegante estilo_td' width='39%'>Descripcion</td>";
@@ -468,16 +482,25 @@ class html_adminNovedad {
                                             $descripcion.="<br>BANCO: ".(isset($datos_novedad[$key]['banco'])?$datos_novedad[$key]['banco']:'')."";
                                             $descripcion.="<br>No. CUENTA: ".(isset($datos_novedad[$key]['num_cta'])?$datos_novedad[$key]['num_cta']:'');
                                             $descripcion.="<br>TIPO CUENTA: ".(isset($datos_novedad[$key]['tipo_cta'])?$datos_novedad[$key]['tipo_cta']:'');
-                                            $descripcion.="<br>VALOR: $".number_format($valor,2)."<br>";
+                                            $descripcion.="<br>VALOR: $ ".number_format($valor,2)."<br>";
                                             break;
                                         case 2:
                                             $descripcion=(isset($datos_novedad[$key]['descripcion_nov'])?$datos_novedad[$key]['descripcion_nov']:'');
                                             $descripcion.="<br>NIVEL: ".number_format($valor,0)."<br>";
                                             break;
+                                        case 7:
+                                            $descripcion=(isset($datos_novedad[$key]['descripcion_nov'])?$datos_novedad[$key]['descripcion_nov']:'');
+                                            $descripcion.="<br>Dependientes: ";
+                                            if($valor==1){
+                                                $descripcion.="SI ";
+                                            }else{
+                                                $descripcion.="NO ";
+                                            }
+                                            break;
                                         default:
                                             $descripcion=(isset($datos_novedad[$key]['descripcion_nov'])?$datos_novedad[$key]['descripcion_nov']:'');
                                             if($valor){
-                                                $descripcion.="<br>VALOR: ".$valor;
+                                                $descripcion.="<br>VALOR: $ ".$valor;
                                             }
                                             break;
                                     }
@@ -527,7 +550,8 @@ class html_adminNovedad {
 		$tab = 1;
 		$this->formulario = "nom_admin_novedad";
 		$this->verificar .= "seleccion_valida(".$this->formulario.",'id_tipo')";
-                $this->verificar .= "&&control_vacio(".$this->formulario.",'descripcion')";
+                $this->verificar .= "&&control_vacio(".$this->formulario.",'finicial')";
+		$this->verificar .= "&&control_vacio(".$this->formulario.",'ffinal')";
 		
                 $id_tipo=(isset($_REQUEST['id_tipo'])?$_REQUEST['id_tipo']:'');
                 $finicial=(isset($_REQUEST['finicial'])?$_REQUEST['finicial']:'');
@@ -539,7 +563,6 @@ class html_adminNovedad {
                 $cod_contratista=(isset($cod_contratista)?$cod_contratista:'');
                 $tipo_id_contratista = (isset($tipo_id_contratista)?$tipo_id_contratista:'');
                 
-                $lista_tipo_novedad=$this->html->cuadro_lista($tipo,'id_tipo',$this->configuracion,-1,0,FALSE,$tab++,'id_tipo');
                 $lista_bancos=$this->html->cuadro_lista($bancos,'id_banco',$this->configuracion,-1,0,FALSE,$tab++,'id_banco');
                 $lista_tipo_cta=$this->html->cuadro_lista($tipo_cta,'id_cta_tipo',$this->configuracion,-1,0,FALSE,$tab++,'id_cta_tipo');
                 $lista_cuentas = $this->html->cuadro_lista($cuentas,'cta_id',$this->configuracion,-1,0,FALSE,$tab++,'cta_id');
@@ -551,8 +574,69 @@ class html_adminNovedad {
                 <script type='text/javascript' src=<? echo $this->configuracion['host'].$this->configuracion['site'].$this->configuracion['estilo']."/calendario/calendar.js"?>></script> 
                 <script type='text/javascript' src=<? echo $this->configuracion['host'].$this->configuracion['site'].$this->configuracion['estilo']."/calendario/calendar-es.js"?>></script>
                 <script type='text/javascript' src=<? echo $this->configuracion['host'].$this->configuracion['site'].$this->configuracion['estilo']."/calendario/calendar-setup.js"?>></script>
-            	<body topmargin="0" leftmargin="0" >
+                <script>
+                        function pagoOnChange(sel) {
+                            if (sel.value==1){
+                                 div1 = document.getElementById("nCuentaBancaria");
+                                 div1.style.display = "";
 
+                                 div2 = document.getElementById("nValor");
+                                 div2.style.display = "";
+
+                                 div3 = document.getElementById("nNivel");
+                                 div3.style.display = "none";
+                                 
+                                 div4 = document.getElementById("nDependiente");
+                                 div4.style.display = "none";
+
+                            }else if (sel.value==2){
+
+                                 div1 = document.getElementById("nCuentaBancaria");
+                                 div1.style.display = "none";
+
+                                 div2 = document.getElementById("nValor");
+                                 div2.style.display = "none";
+
+                                 div3 = document.getElementById("nNivel");
+                                 div3.style.display = "";
+                                 
+                                 div4 = document.getElementById("nDependiente");
+                                 div4.style.display = "none";
+
+                            }else if (sel.value==3 ||sel.value==4 || sel.value==5 || sel.value==6){
+
+                                 div1 = document.getElementById("nCuentaBancaria");
+                                 div1.style.display = "none";
+
+                                 div2 = document.getElementById("nValor");
+                                 div2.style.display = "";
+
+                                 div3 = document.getElementById("nNivel");
+                                 div3.style.display = "none";
+                                 
+                                 div4 = document.getElementById("nDependiente");
+                                 div4.style.display = "none";
+
+                            }else if (sel.value==7){
+
+                                 div1 = document.getElementById("nCuentaBancaria");
+                                 div1.style.display = "none";
+
+                                 div2 = document.getElementById("nValor");
+                                 div2.style.display = "none";
+
+                                 div3 = document.getElementById("nNivel");
+                                 div3.style.display = "none";
+                                 
+                                 div4 = document.getElementById("nDependiente");
+                                 div4.style.display = "";
+
+                            }
+                      }
+                </script>
+                    
+                <body topmargin="0" leftmargin="0" >
+                    
 		<form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario;?>'>
 
 		
@@ -566,15 +650,21 @@ class html_adminNovedad {
                                         ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Tipo de Novedad:</span>
                                 </td>
                                 <td>
+                                        <select id='id_tipo' name='id_tipo' size='1' onChange="pagoOnChange(this)" tabindex='<? echo $tab++;?>'>
+                                            <option>&nbsp;</option>
                                         <?
-                                        echo $lista_tipo_novedad;
+                                            foreach ($tipo as $dato_tipo) {
+                                                echo "<option value='".$dato_tipo[0]."' >".$dato_tipo[1]."</option>";
+                                            }
+                                        //echo $lista_tipo_novedad;
                                         ?>
+                                        </select>
                                 </td>
                         </tr>
                         <tr>
                                 <td width='25%' class="texto_elegante estilo_td"><?
                                         $texto_ayuda = "<b>Fecha Inicio.</b><br>Fecha inicial del periodo- formato AAAA-MM-DD. ";
-                                        ?>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Fecha Inicio:</span>
+                                        ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Fecha Inicio:</span>
                                 </td>
                                 <td colspan="2">
                                     <input name="finicial" type="text" id="finicial" size="15" value="" readonly="readonly"/>
@@ -593,7 +683,7 @@ class html_adminNovedad {
                         <tr>
                                 <td width='25%' class="texto_elegante estilo_td"><?
                                         $texto_ayuda = "<b>Fecha Final.</b><br>Fecha final del periodo- formato AAAA-MM-DD. ";
-                                        ?>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Fecha Final:</span>
+                                        ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Fecha Final:</span>
                                 </td>
                                 <td colspan="2">
                                     <input name="ffinal" type="text" id="ffinal" size="15" value="" readonly="readonly"/>
@@ -608,13 +698,27 @@ class html_adminNovedad {
                                     </script>
                                 </td>
                         </tr>
-                        <tr>
+                        <tr >
                                 <td width='25%' class="texto_elegante estilo_td"><?
-                                        $texto_ayuda = "<b>Cuenta Bancaria.</b><br>Seleccione una opción de la lista de cuentas existentes, si no existe ingrese los datos para crearla. ";
-                                        ?>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Cuenta Bancaria:</span>
+                                        $texto_ayuda = "<b>Descripcion.</b><br>Descripcion detallada de la novedad.";
+                                        ?>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Descripcion:</span>
                                 </td>
                                 <td>
-                                    <table class='bordered'>
+                                        <TEXTAREA name="descripcion" rows="5" cols="60"><?if($descripcion) echo $descripcion; ?></TEXTAREA>
+
+                                </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="nCuentaBancaria" style="display:none;">
+                                <table width='100%' class="bordered">
+                                    <tr>
+                                    <td width='25%' class="texto_elegante estilo_td"><?
+                                            $texto_ayuda = "<b>Cuenta Bancaria.</b><br>Seleccione una opción de la lista de cuentas existentes, si no existe ingrese los datos para crearla. ";
+                                            ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Cuenta Bancaria:</span>
+                                    </td>
+                                    <td>
+                                        <table class='bordered'>
                                         <tr>
                                             <td> Cuenta existente</td>
                                             <td>
@@ -660,29 +764,81 @@ class html_adminNovedad {
                                                 </td>
                                         </tr>
                                     </table>
-                                </td>
-                        </tr>
-                        
-                        
-                        <tr >
-                                <td width='25%' class="texto_elegante estilo_td"><?
-                                        $texto_ayuda = "<b>Valor.Valor en pesos</b><br> ";
-                                        ?>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Valor:</span>
-                                </td>
-                                <td>
-                                        <input type='text' name='valor' value='<?if($valor) echo $valor; ?>' size='25' maxlength='15' tabindex='<? echo $tab++ ?>' oncontextmenu='return false;'  onKeyPress="return solo_numero_sin_slash(event)">
-                                </td>
-                        </tr>
-                        <tr >
-                                <td width='25%' class="texto_elegante estilo_td"><?
-                                        $texto_ayuda = "<b>Descripcion.</b><br>Descripcion detallada de la novedad.";
-                                        ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Descripcion:</span>
-                                </td>
-                                <td>
-                                        <TEXTAREA name="descripcion" rows="5" cols="60"><?if($descripcion) echo $descripcion; ?></TEXTAREA>
+                                                               
 
                                 </td>
+                                    </tr>
+                                    
+                                </table>
+                                 </div>
+                            </td>
                         </tr>
+                        <tr >
+                            <td colspan='2'>
+                                <div id="nValor" style="display:none;">
+                                <table width='100%' class="bordered">
+                                    <tr>
+                                        <td width='25%' class="texto_elegante estilo_td"><?
+                                        $texto_ayuda = "<b>Valor.Valor en pesos</b><br> ";
+                                        ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Valor ($):</span>
+                                        </td>
+                                        <td>
+                                                <input type='text' name='valor' value='<?if($valor) echo $valor; ?>' size='25' maxlength='15' tabindex='<? echo $tab++ ?>' oncontextmenu='return false;'  onKeyPress="return solo_numero_sin_slash(event)">
+                                        </td>
+                                    </tr>
+                                </table>
+                                </div>
+                            </td>
+                                
+                        </tr>
+                        <tr >
+                            <td colspan='2'>
+                                <div id="nNivel" style="display:none;">
+                                <table width='100%' class="bordered">
+                                    <tr>
+                                        <td width='25%' class="texto_elegante estilo_td"><?
+                                        $texto_ayuda = "<b>Nivel</b>Nivel de riesgo profesional 1-5<br> ";
+                                        ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Nivel:</span>
+                                        </td>
+                                        <td>
+                                                <SELECT NAME="nivel">
+                                                    <OPTION VALUE=0></OPTION>
+                                                    <OPTION VALUE=1>1</OPTION>
+                                                    <OPTION VALUE=2>2</OPTION> 
+                                                    <OPTION VALUE=3>3</OPTION>
+                                                    <OPTION VALUE=4>4</OPTION> 
+                                                    <OPTION VALUE=5>5</OPTION> 
+                                                 </SELECT>
+                                        </td>
+                                    </tr>
+                                </table>
+                                </div>
+                            </td>
+                                
+                        </tr>
+                        <tr >
+                            <td colspan='2'>
+                                <div id="nDependiente" style="display:none;">
+                                <table width='100%' class="bordered">
+                                    <tr>
+                                        <td width='25%' class="texto_elegante estilo_td"><?
+                                        $texto_ayuda = "<b>El contratista tiene personas que dependan de él?</b><br> ";
+                                        ?><font color="red" >*</font>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">¿Tiene personas dependientes?:</span>
+                                        </td>
+                                        <td>
+                                                <SELECT NAME="dependientes">
+                                                    <OPTION VALUE=0></OPTION>
+                                                    <OPTION VALUE=1>Si</OPTION>
+                                                    <OPTION VALUE=2>No</OPTION> 
+                                                 </SELECT>
+                                        </td>
+                                    </tr>
+                                </table>
+                                </div>
+                            </td>
+                                
+                        </tr>
+                        
                         <tr >
                                 <td colspan="2">
                                     <table width='90%' height="45" >
@@ -732,18 +888,18 @@ class html_adminNovedad {
             	
             ?>
                 <form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario;?>'>
-                    <table  align="center">
+                    <table  align="left" width='360' >
                         <tr>
-                            <td width='30%' class="texto_elegante estilo_td"><?
+                            <td width='120' ><?
                                     $texto_ayuda = "<b>Vigencia.</b><br>Seleccione una opción de la lista. ";
                                     ?>&nbsp;<span onmouseover="return escape('<? echo $texto_ayuda?>')">Vigencia:</span>
                             </td>
-                            <td>
+                            <td width='120' >
                                     <?
                                     echo $lista_vigencias;
                                     ?>
                             </td>
-                            <td colspan='2' rowspan='1' align="center">
+                            <td rowspan='1' align="center" width='120' >
                                 <br>
                                    <input type='hidden' name='action' value='nom_admin_novedad'>
                                          <input type='hidden' name='opcion' value=''>
@@ -755,5 +911,13 @@ class html_adminNovedad {
                         <?
         }
         
+        function mostrarSaldo($saldo_contrato){
+            echo "<table class='bordered'  width ='100%' >";
+                echo "    <tr>";
+                echo "        <td class='texto_elegante estilo_td' width ='50%'>Saldo Contrato:</td>";
+                echo "        <td class='texto_elegante estilo_td' >$ ".number_format($saldo_contrato,2)."</td>";
+                echo "    </tr>";
+            echo "</table>";
+        }
 }
 ?>

@@ -704,7 +704,7 @@ class html_adminCumplidoContratista {
          */
         function generarEnlaceCumplido($id,$cedula,$tipo_documento){
                 $archivo=$this->configuracion["host"] . $this->configuracion["site"] .$tipo_documento[0]['ubicacion'].$tipo_documento[0]['nombre_pdf'].$cedula."_".$id.".pdf";
-                $enlace ="<a href='".$archivo."' ><img width='26' heigth='26' src='".$this->configuracion["host"].$this->configuracion["site"].$this->configuracion["grafico"]."/pdf_logo.jpg' alt='Ver cumplido' title='Ver cumplido' border='0' />&nbsp;<br>Ver cumplido</a>";
+                $enlace ="<a href='".$archivo."'  target='_blank'><img width='26' heigth='26' src='".$this->configuracion["host"].$this->configuracion["site"].$this->configuracion["grafico"]."/pdf_logo.jpg' alt='Ver cumplido' title='Ver cumplido' border='0' />&nbsp;<br>Ver cumplido</a>";
        
             return $enlace;
             

@@ -32,7 +32,7 @@ class html_adminActaInicio {
     }    
 
    	// funcion que muestra los datos de varios Contratistas
-
+/*
 	function multiplesNovedades($configuracion,$registro, $total, $variable)
 	{
 		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
@@ -162,7 +162,7 @@ class html_adminActaInicio {
          * @param String $tipo_contrato
          * @param date $fecha_contrato 
          */
-        function mostrarDatosContrato($datos_contrato,$tipo_contrato,$fecha_contrato){
+/*        function mostrarDatosContrato($datos_contrato,$tipo_contrato,$fecha_contrato){
             $unidad_ejecutora=(isset($datos_contrato[0]['CODIGO_UNIDAD_EJECUTORA'])?$datos_contrato[0]['CODIGO_UNIDAD_EJECUTORA']:'');
             $tipo_identificacion=(isset($datos_contrato[0]['TIPO_IDENTIFICACION'])?$datos_contrato[0]['TIPO_IDENTIFICACION']:'');
             $identificacion=(isset($datos_contrato[0]['NUM_IDENTIFICACION'])?$datos_contrato[0]['NUM_IDENTIFICACION']:'');
@@ -233,7 +233,7 @@ class html_adminActaInicio {
      * Funcion para mostrat datos de las cuentas bancarias
      * @param <array> $datos_cuenta 
      */
-    function mostrarDatosCuentaBanco($datos_cuenta){
+/*    function mostrarDatosCuentaBanco($datos_cuenta){
                 
                 echo "<table class='bordered'  width ='100%' >";
                 echo "    <tr>";
@@ -272,7 +272,7 @@ class html_adminActaInicio {
      * Funcion que muestra los datos de la disponibilidad de un contrtao
      * @param <array> $datos_disponibilidad 
      */
-    function mostrarDatosDisponibilidad($datos_disponibilidad){
+/*    function mostrarDatosDisponibilidad($datos_disponibilidad){
             $nro_cdp=(isset($datos_disponibilidad[0]['NUMERO_DISPONIBILIDAD'])?$datos_disponibilidad[0]['NUMERO_DISPONIBILIDAD']:'');
             $fecha_cdp=(isset($datos_disponibilidad[0]['FECHA_DISPONIBILIDAD'])?$datos_disponibilidad[0]['FECHA_DISPONIBILIDAD']:'');
             $valor_cdp=(isset($datos_disponibilidad[0]['VALOR'])?$datos_disponibilidad[0]['VALOR']:'');
@@ -300,7 +300,7 @@ class html_adminActaInicio {
      * Funcion que muestra los datos de registros presupuestales
      * @param <array> $datos_registro 
      */
-    function mostrarDatosRegistroPresupuestal($datos_registro){
+ /*   function mostrarDatosRegistroPresupuestal($datos_registro){
             $nro_crp=(isset($datos_registro[0]['NUMERO_REGISTRO'])?$datos_registro[0]['NUMERO_REGISTRO']:'');
             $fecha_crp=(isset($datos_registro[0]['FECHA_REGISTRO'])?$datos_registro[0]['FECHA_REGISTRO']:'');
             $valor_crp=(isset($datos_registro[0]['VALOR'])?$datos_registro[0]['VALOR']:'');
@@ -329,7 +329,7 @@ class html_adminActaInicio {
      * Funcion que muestra los datos del contratista
      * @param <array> $datos_contratista 
      */
-    function mostrarDatosContratista($datos_contratista){
+  /*  function mostrarDatosContratista($datos_contratista){
             $tipo_identificacion=(isset($datos_contratista[0]['TIPO_DOCUMENTO'])?$datos_contratista[0]['TIPO_DOCUMENTO']:'');
             $identificacion=(isset($datos_contratista[0]['NUMERO_DOCUMENTO'])?$datos_contratista[0]['NUMERO_DOCUMENTO']:'');
             $primer_nombre=(isset($datos_contratista[0]['PRIMER_NOMBRE'])?$datos_contratista[0]['PRIMER_NOMBRE']:'');
@@ -391,7 +391,7 @@ class html_adminActaInicio {
      * Funcion que muestra los datos de las ordenes de pago
      * @param <array> $datos_orden 
      */   
-    function mostrarDatosOrdenPago($datos_orden){
+ /*   function mostrarDatosOrdenPago($datos_orden){
                 
                 echo "<table class='bordered'  width ='100%' >";
                 echo "    <tr>";
@@ -430,7 +430,7 @@ class html_adminActaInicio {
      * Funcion que muestra los datos de las novedades
      * @param <array> $datos_novedad 
      */   
-    function mostrarNovedades($datos_novedad){
+/*    function mostrarNovedades($datos_novedad){
                 echo "<table class='bordered'>";
                 echo "    <tr>";
                 echo "          <th colspan='7' class='estilo_th'>NOVEDADES</th>";
