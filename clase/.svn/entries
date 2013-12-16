@@ -10,9 +10,9 @@ svn://10.20.0.15/usr/local/svn/DW/portalBI
 2009-11-24T17:43:58.729973Z
 1
 root
-
-
-
+has-props
+has-prop-mods
+svn:special svn:externals svn:needs-lock
 
 
 

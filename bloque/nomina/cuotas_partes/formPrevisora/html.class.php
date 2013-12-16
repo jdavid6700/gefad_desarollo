@@ -287,7 +287,7 @@ class html_formPrevisora {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-@_ñÑ";
-                especiales = [8, 9, 64];
+                especiales = [8, 9, 64,32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -333,7 +333,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false">
+                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>

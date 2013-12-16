@@ -144,7 +144,7 @@ class funciones_formHistoria extends funcionGeneral {
             $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('No existen historias laborales registradas para la cédula " . $parametro . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+            "alert('No existen historias laborales registradas para la cédula " . $parametro . ". Por favor, diligencie el Formulario de Registro de Historia Laboral');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formHistoria';

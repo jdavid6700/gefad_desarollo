@@ -144,7 +144,9 @@ class autenticacion
 	}
 
 	function mensaje_error($configuracion)
-		{?>
+		{
+            $indice=$configuracion["host"].$configuracion["site"];
+            ?>
 <link
 	rel='stylesheet' type='text/css'
 	href='<? echo $configuracion["host"].$configuracion["site"].$configuracion["estilo"]."/basico/estilo.php" ?>' />
@@ -171,13 +173,10 @@ class autenticacion
 								contacte al administrador del sistema en:<br> <a
 								href="mailto:<? echo $configuracion["correo"]?>"><? echo $configuracion["correo"]?>
 							</a><br></td>
-						
-						
-						<tr class="bloquecentralcuerpo centrar">
-							<td><b>Recuerde que el sistema C&oacute;ndor est&aacute;
-									optimizado para Mozilla Firefox.</b></td>
-						</tr>
-
+						<tr class="bloquecentralcuerpo">
+							<td style="font-size: 130%" align="center"><a
+								href="<? echo $indice;?>" target='_top'><b>Aceptar</b> </a>
+							</td>
 						</tr>
 					</tbody>
 				</table>

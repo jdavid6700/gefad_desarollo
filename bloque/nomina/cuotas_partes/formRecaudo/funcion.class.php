@@ -88,7 +88,7 @@ class funciones_formRecaudo extends funcionGeneral {
                 $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
             } else {
                 echo "<script type=\"text/javascript\">" .
-                "alert('No existen historias laborales registradas para la cédula " . $cedula['cedula'] . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+                "alert('No existen historias laborales registradas para la cédula " . $cedula['cedula'] . ". Por favor, diligencie el Formulario de Registro de Historia Laboral');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                 $variable = 'pagina=formHistoria';

@@ -1,103 +1,101 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<HTML>
-<HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
-<TITLE>Cell</TITLE>
-<LINK TYPE="text/css" REL="stylesheet" HREF="../fpdf.css">
-</HEAD>
-<BODY>
-<H2>Cell</H2>
-<TT>Cell(<B>float</B> w [, <B>float</B> h [, <B>string</B> txt [, <B>mixed</B> border [, <B>int</B> ln [, <B>string</B> align [, <B>int</B> fill [, <B>mixed</B> link]]]]]]])</TT>
-<H4 CLASS='st'>Version</H4>
-1.0
-<H4 CLASS='st'>Descripción</H4>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Cell</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>Cell</h1>
+<code>Cell(<b>float</b> w [, <b>float</b> h [, <b>string</b> txt [, <b>mixed</b> border [, <b>int</b> ln [, <b>string</b> align [, <b>boolean</b> fill [, <b>mixed</b> link]]]]]]])</code>
+<h2>Descripción</h2>
 Imprime una celda (de área rectangular) bordes opcionales, color de fondo y secuencia de carácteres
 La esquina superior izquierda de la celda corresponde a la posición actual. El texto puede ser alineado o centrado. Despues de invocar, la posición actual se desplaza a la derecha o la siguietne línea. Es posible poner una referencia en el texto.
-<BR>
+<br>
 Si esta el salto de página automático habilitado y la celda esta por fuera del límite, es realizado un salto de página antes de producir la salida.
-<H4 CLASS='st'>Parámetros</H4>
-<TT><U>w</U></TT>
-<BLOCKQUOTE>
-Ancho de Celda. Si es <TT>0</TT>, la celda se extiende hasta la márgen derecha.
-</BLOCKQUOTE>
-<TT><U>h</U></TT>
-<BLOCKQUOTE>
+<h2>Parámetros</h2>
+<dl class="param">
+<dt><code>w</code></dt>
+<dd>
+Ancho de Celda. Si es <code>0</code>, la celda se extiende hasta la márgen derecha.
+</dd>
+<dt><code>h</code></dt>
+<dd>
 Alto de celda.
-Valor por defecto: <TT>0</TT>.
-</BLOCKQUOTE>
-<TT><U>txt</U></TT>
-<BLOCKQUOTE>
+Valor por defecto: <code>0</code>.
+</dd>
+<dt><code>txt</code></dt>
+<dd>
 cadena a ser impresa.
 Valor por defecto: cadena vacia.
-</BLOCKQUOTE>
-<TT><U>border</U></TT>
-<BLOCKQUOTE>
+</dd>
+<dt><code>border</code></dt>
+<dd>
 Indica si los bordes deben se dibujados alrededor de la celda. El valor puede ser un número:
-<UL>
-<LI><TT>0</TT>: sin borde
-<LI><TT>1</TT>: marco
-</UL>
-o una cadena conteniedo alguno o todos de los sigueitne s carácteres (en cualquier orden):
-<UL>
-<LI><TT>L</TT>: izquierda
-<LI><TT>T</TT>: superior
-<LI><TT>R</TT>: derecha
-<LI><TT>B</TT>: inferior
-</UL>
-Valor por defecto: <TT>0</TT>.
-</BLOCKQUOTE>
-<TT><U>ln</U></TT>
-<BLOCKQUOTE>
+<ul>
+<li><code>0</code>: sin borde</li>
+<li><code>1</code>: marco</li>
+</ul>
+o una cadena que contenga una o una combinación de los siguientes caracteres (en cualquier orden):
+<ul>
+<li><code>L</code>: izquierda</li>
+<li><code>T</code>: superior</li>
+<li><code>R</code>: derecha</li>
+<li><code>B</code>: inferior</li>
+</ul>
+Valor por defecto: <code>0</code>.
+</dd>
+<dt><code>ln</code></dt>
+<dd>
 Indica donde la posición actula debería ir antes de invocar. Los valores posibles son:
-<UL>
-<LI><TT>0</TT>: a la derecha
-<LI><TT>1</TT>: al comienzo de la siguiente línea
-<LI><TT>2</TT>: debajo
-</UL>
-Poner <TT>1</TT> es equivalente a poner <TT>0</TT> y llamar justo despues Ln().
-Valor por defecto: <TT>0</TT>.
-</BLOCKQUOTE>
-<TT><U>align</U></TT>
-<BLOCKQUOTE>
+<ul>
+<li><code>0</code>: a la derecha</li>
+<li><code>1</code>: al comienzo de la siguiente línea</li>
+<li><code>2</code>: debajo</li>
+</ul>
+Poner <code>1</code> es equivalente a poner <code>0</code> y llamar justo despues Ln().
+Valor por defecto: <code>0</code>.
+</dd>
+<dt><code>align</code></dt>
+<dd>
 Permite centrar o alinear el texto. Los posibles valores son:
-<UL>
-<LI><TT>L</TT> o una cadena vacia: alineación izquierda (valor por defecto)
-<LI><TT>C</TT>: centro
-<LI><TT>R</TT>: alineación derecha
-</UL>
-</BLOCKQUOTE>
-<TT><U>fill</U></TT>
-<BLOCKQUOTE>
-Indica si elfondo de la celda debe ser dibujada (<TT>1</TT>) o transparente (<TT>0</TT>).
-Valor por defecto: <TT>0</TT>.
-</BLOCKQUOTE>
-<TT><U>link</U></TT>
-<BLOCKQUOTE>
+<ul>
+<li><code>L</code> o una cadena vacia: alineación izquierda (valor por defecto)</li>
+<li><code>C</code>: centro</li>
+<li><code>R</code>: alineación derecha</li>
+</ul>
+</dd>
+<dt><code>fill</code></dt>
+<dd>
+Indica si elfondo de la celda debe ser dibujada (<code>true</code>) o transparente (<code>false</code>).
+Valor por defecto: <code>false</code>.
+</dd>
+<dt><code>link</code></dt>
+<dd>
 URL o identificador retornado por AddLink().
-</BLOCKQUOTE>
-<H4 CLASS='st'>Ejemplo</H4>
-<DIV STYLE="background-color:#E0E0E0; padding:3px; margin-top:1.2em; margin-bottom:1.2em">
-<TT>
-//Set font<BR>
-$pdf-&gt;SetFont('Arial','B',16);<BR>
-//Move to 8 cm to the right<BR>
-$pdf-&gt;Cell(80);<BR>
-//Texto centrado en una celda con cuadro  20*10 mm y salto de línea<BR>
-$pdf-&gt;Cell(20,10,'Title',1,1,'C');
-</TT>
-</DIV>
-<H4 CLASS='st'>Vea además</H4>
-<A HREF="setfont.htm">SetFont()</A>,
-<A HREF="setdrawcolor.htm">SetDrawColor()</A>,
-<A HREF="setfillcolor.htm">SetFillColor()</A>,
-<A HREF="settextcolor.htm">SetTextColor()</A>,
-<A HREF="setlinewidth.htm">SetLineWidth()</A>,
-<A HREF="addlink.htm">AddLink()</A>,
-<A HREF="ln.htm">Ln()</A>,
-<A HREF="multicell.htm">MultiCell()</A>,
-<A HREF="write.htm">Write()</A>,
-<A HREF="setautopagebreak.htm">SetAutoPageBreak()</A>.
-<HR STYLE="margin-top:1.5em">
-<DIV STYLE="text-align:center"><A HREF="index.htm">Inicio</A></DIV>
-</BODY>
-</HTML>
+</dd>
+</dl>
+<h2>Ejemplo</h2>
+<div class="doc-source">
+<pre><code>// Set font
+$pdf-&gt;SetFont('Arial','B',16);
+// Move to 8 cm to the right
+$pdf-&gt;Cell(80);
+// Texto centrado en una celda con cuadro 20*10 mm y salto de línea
+$pdf-&gt;Cell(20,10,'Title',1,1,'C');</code></pre>
+</div>
+<h2>Vea además</h2>
+<a href="setfont.htm">SetFont()</a>,
+<a href="setdrawcolor.htm">SetDrawColor()</a>,
+<a href="setfillcolor.htm">SetFillColor()</a>,
+<a href="settextcolor.htm">SetTextColor()</a>,
+<a href="setlinewidth.htm">SetLineWidth()</a>,
+<a href="addlink.htm">AddLink()</a>,
+<a href="ln.htm">Ln()</a>,
+<a href="multicell.htm">MultiCell()</a>,
+<a href="write.htm">Write()</a>,
+<a href="setautopagebreak.htm">SetAutoPageBreak()</a>.
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Inicio</a></div>
+</body>
+</html>

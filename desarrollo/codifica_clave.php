@@ -33,8 +33,8 @@ echo "<br>clave: ".$pwd." => ".$crypto->codificar_variable($pwd,  $semilla);
 
 
 echo "<br>CODIFICACION DE CLAVE<BR> ";
-$usuario='frame_gefad';
-$pwd='79188139';		
+$usuario='root';
+$pwd='sistemasoas';		
 
 /*
 WQI55POzSFHRzd2bVg   --- motor
@@ -49,8 +49,8 @@ echo "<br>clave: ".$pwd." => ".$crypto->codificar_variable($pwd,  $semilla);
 
 
 echo "<br><br>DECODIFICACION DE CLAVE<BR> ";
-$usuario2='WgH2n-3-E1KQhHt1405L0Czptg';
-$pwd2='YAJArPOzSFFrfEAfIS1EcQ';		
+$usuario2='4QON2E68eVHH9mzaiqVBMg';
+$pwd2='4gNQjk68eVErQchONtU';		
 
 echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
 echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);	

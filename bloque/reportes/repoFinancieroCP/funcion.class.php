@@ -100,7 +100,6 @@ class funciones_reporteFinanciero extends funcionGeneral {
                     $parametroRep[$key]['caja_html'] = $parametrosSQL[$key]['caja_html'];
                     $parametroRep[$key]['actualiza'] = $parametrosSQL[$key]['alimenta_par'];
 
-
                     //verifica los parametros de control para ejecutar la consulta sql 
                     if ($parametrosSQL[$key]['sql_par'] <> '' && $parametrosSQL[$key]['control_busqueda'] <> '' && strstr($parametrosSQL[$key]['control_busqueda'], "|") && $parametrosSQL[$key]['caja_html'] == 'combo') {
                         //identifica los controles registrados para la consulta

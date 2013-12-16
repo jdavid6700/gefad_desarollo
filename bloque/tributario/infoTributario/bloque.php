@@ -43,7 +43,6 @@ class bloqueInfoTributario extends bloque {
 
         switch ($_REQUEST['opcion']) {
 
-
             case "verificar":
                 $this->funcion->generarCuenta();
                 break;

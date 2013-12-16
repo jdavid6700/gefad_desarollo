@@ -83,6 +83,7 @@ function mostrarReporte($configuracion,$registro,$nombre,$titulo)
 
             <link rel="stylesheet" href="<? echo $configuracion["host"].$configuracion["site"].$configuracion["plugins"];?>/jPages-master/css/jPages.css">
             <script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["plugins"];?>/jPages-master/js/jPages.js"></script>
+            <script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["plugins"];?>/jquery/js/base64_encode.js"></script>
             <!-- permite la paginacion-->        
             <script>
                     $(function (){
@@ -95,16 +96,18 @@ function mostrarReporte($configuracion,$registro,$nombre,$titulo)
                         });
                     });
             </script>
+            </script>
             <!-- permite exporta a hoja de calculo-->
              <script type='text/javascript'>//<![CDATA[ 
                 $(window).load(function(){
                 $("#btnExport").click(function(e) {
-	    window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#dvData').html()));
+	    window.open('data:application/vnd.ms-excel;base64,' + encodeURIComponent($.base64.encode($('#dvData').html())));
 	    e.preventDefault();
                 });
                 });//]]>  
  
             </script>
+            
             
             <table width="100%" align="center" border="0" cellpadding="10"  cellspacing="0">
                     <tbody>

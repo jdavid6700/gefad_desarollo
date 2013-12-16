@@ -952,7 +952,7 @@ class html_formHistoria {
 
             <h2>Ingrese la cédula a realizar la Consulta de historia laboral: </h2>
             <br>
-            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10">
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10" pattern=".{4,10}" >
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
             <input type='hidden' name='pagina' value='formHistoria'>
@@ -996,7 +996,7 @@ class html_formHistoria {
 
             <h2>Ingrese la cédula a realizar Registro de historia laboral: </h2>
             <br>
-            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10">
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10" pattern=".{4,10}">
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
             <input type='hidden' name='pagina' value='formHistoria'>

@@ -47,13 +47,13 @@ class log
 			$this->esta_sesion=$this->nueva_sesion->numero_sesion();
 			//Rescatar el valor de la variable usuario de la sesion
 			$usuario=$this->nueva_sesion->rescatar_valor_sesion($configuracion,"id_usuario");
-			if($usuario)
-			{
-				
-				$id_usuario=$usuario[0][0];
-			}
+		     
+                        if($usuario)
+                            {  $id_usuario=$usuario[0][0];
+                            }
+                         else   
+                            {$id_usuario=1;}
                         $host=$this->obtenerIP();
-                                
                         
 			$cadena_sql="INSERT INTO ";
 			$cadena_sql.=$configuracion["prefijo"]."log_usuario "; 
@@ -78,7 +78,8 @@ class log
 			$cadena_sql.="'".$registro[5]."', "; 
                         $cadena_sql.="'".$host."' "; 
                         $cadena_sql.=")"; 
-			//$cadena_sql;exit;
+                        
+			//echo $cadena_sql;exit;
  
 			$acceso_db->registro_db($cadena_sql,0);
 			$resultado=$acceso_db->obtener_registro_db();
