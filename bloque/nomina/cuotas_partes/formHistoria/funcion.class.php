@@ -377,6 +377,7 @@ class funciones_formHistoria extends funcionGeneral {
 
     function procesarFormularioInterrupcion($datos) {
 
+        
         $parametros = array(
             'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
             'nit_entidad' => (isset($datos['empleador_nit']) ? $datos['empleador_nit'] : ''),
@@ -384,7 +385,7 @@ class funciones_formHistoria extends funcionGeneral {
         );
 
         $consecutivo_acumulado = $this->consultarConsecutivoI($parametros);
-
+      
         if ($consecutivo_acumulado == true) {
             $consecutivo = $consecutivo_acumulado[0]['int_nro_interrupcion'];
             $ingreso = $consecutivo_acumulado[0]['int_nro_ingreso'];
@@ -438,14 +439,14 @@ class funciones_formHistoria extends funcionGeneral {
                 exit;
             }
         }
-
+/*
         if (!preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $datos['dias_nor_desde'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formato fecha diligenciado incorrectamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formHistoria';
-            $variable.='&opcion=interrupcion';
+            $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
@@ -457,11 +458,11 @@ class funciones_formHistoria extends funcionGeneral {
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formHistoria';
-            $variable.='&opcion=interrupcion';
+            $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
-        }
+        }*/
 
         $parametros = array(
             'nro_interrupcion' => ($consecutivo_def),

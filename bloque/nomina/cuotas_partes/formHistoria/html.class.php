@@ -950,7 +950,8 @@ class html_formHistoria {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='Off'>
 
-            <h2>Ingrese la cédula a realizar la Consulta de historia laboral: </h2>
+            <h2>Ingrese la cédula a realizar la <br>Consulta de Historia Laboral: </h2>
+
             <br>
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10" pattern=".{4,10}" >
             <br><br>
@@ -994,7 +995,7 @@ class html_formHistoria {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='Off'>
 
-            <h2>Ingrese la cédula a realizar Registro de historia laboral: </h2>
+            <h2>Ingrese la cédula a realizar<br>Registro de Historia Laboral: </h2>
             <br>
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10" pattern=".{4,10}">
             <br><br>
