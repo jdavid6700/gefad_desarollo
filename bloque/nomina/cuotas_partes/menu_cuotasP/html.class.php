@@ -94,13 +94,13 @@
                                         echo $this->indice . $variable;
                                         ?>'>Consultar Historia Laboral</a></li>
 
-                                   <!--li><a href=
-                                           "<?
-                                           $variable = "pagina=liquidadorCP";
-                                           $variable.="&opcion=";
-                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                           echo $this->indice . $variable;
-                                           ?>">Consultar Detalle Liquidación Cuota Parte</a></li-->
+                                    <!--li><a href=
+                                            "<?
+                                    $variable = "pagina=liquidadorCP";
+                                    $variable.="&opcion=";
+                                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                    echo $this->indice . $variable;
+                                    ?>">Consultar Detalle Liquidación Cuota Parte</a></li-->
                                 </ul>
                             </li>
 
@@ -120,6 +120,13 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Registrar y Consultar Recaudos</a></li>
+
+                                    <li><a href="<?
+                                        $variable = 'pagina=formularioCManual';
+                                        $variable.='&opcion=manual';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Registrar Cuenta Cobro Manual</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioPrevisora';
@@ -162,20 +169,20 @@
                             <!--li><a href="#">Cuenta de Cobro</a>
                                 <ul>
                                     <li><a href="<?
-                                        $variable = 'pagina=cuentaCobro';
-                                        $variable.='&opcion=';
-                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                        echo $this->indice . $variable;
-                                        ?>">Generar Cuenta de Cobro</a></li-->
-                                </ul>
-                            </li>
+                            $variable = 'pagina=cuentaCobro';
+                            $variable.='&opcion=';
+                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                            echo $this->indice . $variable;
+                            ?>">Generar Cuenta de Cobro</a></li-->
                         </ul>
                     </li>
-
-
-
                 </ul>
-            </div>
+            </li>
+
+
+
+        </ul>
+        </div>
         </body>
 
 
