@@ -54,7 +54,6 @@ class html_formRecaudo {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
                 especiales = [8, 39];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -72,7 +71,7 @@ class html_formRecaudo {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
 
-            <h2>Ingrese la cédula a consultar historial de recaudos: </h2>
+            <h2>Ingrese la cédula a consultar <br>Historial de Recaudos: </h2>
             <br>
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
             <br><br>
@@ -99,7 +98,6 @@ class html_formRecaudo {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
                 especiales = [8, 39];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -120,7 +118,7 @@ class html_formRecaudo {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <form id="form" method="post" action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
-            <h2>Ingrese los parametros para consultar Recaudos registrados:</h2>
+            <h2>Ingrese los parámetros para consultar Recaudos registrados:</h2>
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
@@ -164,10 +162,10 @@ class html_formRecaudo {
                     unset($combo);
                     //prepara los datos como se deben mostrar en el combo
                     $combo[0][0] = '0';
-                    $combo[0][1] = 'Todos';
+                    $combo[0][1] = '';
                     foreach ($datos_en as $cmb => $values) {
-                        $combo[$cmb + 1][0] = isset($datos_en[$cmb]['hlab_nitprev']) ? $datos_en[$cmb]['hlab_nitprev'] : 0;
-                        $combo[$cmb + 1][1] = isset($datos_en[$cmb]['prev_nombre']) ? $datos_en[$cmb]['prev_nombre'] : '';
+                        $combo[$cmb][0] = isset($datos_en[$cmb]['hlab_nitprev']) ? $datos_en[$cmb]['hlab_nitprev'] : 0;
+                        $combo[$cmb][1] = isset($datos_en[$cmb]['prev_nombre']) ? $datos_en[$cmb]['prev_nombre'] : '';
                     }
                     // echo$combo;
                     if (isset($_REQUEST['hlab_nitprev'])) {
@@ -203,6 +201,50 @@ class html_formRecaudo {
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
         ?>
 
+
+
+        <script>
+            function validate()
+            {
+                var blnFlag = 0, i = 0, aNodes = document.getElementsByName('cuenta_pagar[0]');
+                while (oNode = aNodes.item(i++)) {
+                    if (oNode.checked) {
+                        blnFlag = 1;
+                        break;
+                    }
+                }
+
+                alert(blnFlag)
+
+                if (blnFlag == 0) {
+                    alert('Para continuar:Seleccione al menos una Cuenta de Cobro');
+                    return false
+                } else {
+                    return true
+                }
+
+
+                var blnFlag = 0, i = 0, aNodes = document.getElementsByName('cuenta_pagar[1]');
+                while (oNode = aNodes.item(i++)) {
+                    if (oNode.checked) {
+                        blnFlag = 1;
+                        break;
+                    }
+                }
+
+                alert(blnFlag)
+
+                if (blnFlag == 0) {
+                    alert('Para continuar:Seleccione al menos una Cuenta de Cobro');
+                    return false
+                } else {
+                    return true
+                }
+
+
+            }
+        </script>
+
         <!referencias a estilos y plugins>
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel = "stylesheet" type = "text/css"/>
@@ -221,7 +263,7 @@ class html_formRecaudo {
 
         <h1>Cuentas de Cobro Registradas</h1>
 
-        <form autocomplete='off'>
+        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
             <table class='bordered'  width ="75%" align="center">
                 <tr>
                     <th colspan="12" class='encabezado_registro'>CUENTAS COBRO REGISTRADAS</th>
@@ -293,7 +335,7 @@ class html_formRecaudo {
                                   <input type='hidden' name='saldo[" . $key . "]' value='" . $saldo . "'>
                                   <input type='hidden' name='identificacion[" . $key . "]' value='" . $cobros[$key]['cob_cedula'] . "'>
                                   
-                                  <input type='checkbox' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>
+                                  <input type='checkbox' id='cuenta_" . $key . "' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>
                                       
                                   </td>";
                             echo "</tr>";
@@ -390,10 +432,10 @@ class html_formRecaudo {
         $nit_empleador = $cuentas_pago[0]['empleador'];
 
         $maxDate = $fecha_minima_datepicker;
-        
+
         $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $fecha_minima_datepicker))));
         $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $fecha_minima_datepicker))));
-        $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $fecha_minima_datepicker) )));
+        $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $fecha_minima_datepicker))));
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -420,7 +462,6 @@ class html_formRecaudo {
                 });
                 $("#fecha_resolucion").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
-
             $(document).ready(function() {
                 $("#fecha_pago_cuenta").datepicker({
                     changeMonth: true,
@@ -430,10 +471,7 @@ class html_formRecaudo {
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_pago_cuenta").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
-            });
-
-
-        </script>
+            });</script>
 
         <script language = "Javascript">
             //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
@@ -445,10 +483,7 @@ class html_formRecaudo {
                 var m2 = m3 - 1;
                 var m = '0' + m2;
                 var d = str.substring(0, 2);
-                
-
                 var cadena = new Date(y, m, d);
-
                 if (cadena < min) {
                     alert('Ingrese una fecha válida')
                     return false
@@ -495,7 +530,6 @@ class html_formRecaudo {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890";
                 especiales = [8, 39];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -516,7 +550,6 @@ class html_formRecaudo {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
                 especiales = [8, 9];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -555,15 +588,12 @@ class html_formRecaudo {
         <? } ?>
                 var total = parseInt(num0) + parseInt(num1);
                 document.getElementById('total_recaudo').value = total;
-
         <? foreach ($cuentas_pago as $key => $values) { ?>
                     var num_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
                     var num_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
         <? } ?>
 
                 var total_cobro = parseInt(num_0) + parseInt(num_1);
-
-
                 if (total_cobro < total) {
                     alert("Cuidado! Suma de Valor Pago es MAYOR a la Suma de Valor Cobrado")
                     return false

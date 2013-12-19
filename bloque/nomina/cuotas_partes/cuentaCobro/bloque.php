@@ -55,6 +55,28 @@ class bloqueAdminCuentaCobro extends bloque {
                 echo "estamos en html";
                 break;
 
+            case "manual":
+                $this->funcion->registroManual();
+                break;
+
+            case "manual_consulta":
+                $cedula = $_REQUEST['cedula_emp'];
+                $this->funcion->consultaPManual($cedula);
+                break;
+
+            case "formulario_manual":
+
+                $form_manual = array();
+
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $form_manual[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->formularioCManual($form_manual);
+                break;
+
             default:
                 $this->funcion->inicio();
                 break;
@@ -74,6 +96,17 @@ class bloqueAdminCuentaCobro extends bloque {
                     }
                 }
                 $this->funcion->guardarCC($cuentaCobro_datos);
+                break;
+
+            case "cuentaManual":
+                $cuentaManual_datos = array();
+
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $cuentaManual_datos[$key] = $_REQUEST[$key];
+                    }
+                }
+                $this->funcion->registrarManual($cuentaManual_datos);
                 break;
 
             default:

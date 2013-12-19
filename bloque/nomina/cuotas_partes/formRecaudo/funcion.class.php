@@ -88,15 +88,36 @@ class funciones_formRecaudo extends funcionGeneral {
                 $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
             } else {
                 echo "<script type=\"text/javascript\">" .
-                "alert('No existen historias laborales registradas para la cédula " . $cedula['cedula'] . ". Por favor, diligencie el Formulario de Registro de Historia Laboral');" .
+                "alert('No existen Cuentas de Cobro registradas con cédula " . $cedula['cedula'] . ". Por lo tanto, no hay pagos a registrar.');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formHistoria';
+                $variable = 'pagina=reportesCuotas';
                 $variable.='&opcion=';
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
             }
+        }
+    }
+
+    function historiaRecaudos($datos_consulta) {
+        $parametros = array('cedula' => $datos_consulta['cedula_emp'], 'entidad' => $datos_consulta['hlab_nitprev']);
+
+        $datos_recaudos = $this->consultarRecaudos($parametros);
+        $datos_cobros = $this->consultarCobros($parametros);
+
+        if (is_array($datos_cobros)) {
+            $this->html_formRecaudo->historiaRecaudos($datos_recaudos, $datos_cobros);
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No existen Cuentas de Cobro registradas con cédula " . $parametros['cedula'] . " para la Entidad " . $parametros['entidad'] . ". Por lo tanto, no hay pagos a registrar.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=reportesCuotas';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
         }
     }
 
@@ -155,17 +176,11 @@ class funciones_formRecaudo extends funcionGeneral {
         return $datos;
     }
 
-    function historiaRecaudos($datos_consulta) {
-        $parametros = array('cedula' => $datos_consulta['cedula_emp'], 'entidad' => $datos_consulta['hlab_nitprev']);
-
-        $datos_recaudos = $this->consultarRecaudos($parametros);
-        $datos_cobros = $this->consultarCobros($parametros);
-
-        $this->html_formRecaudo->historiaRecaudos($datos_recaudos, $datos_cobros);
-    }
-
     function procesarFormulario($datos) {
 
+        
+        var_dump($datos);
+        exit;
         foreach ($datos as $key => $value) {
 
             if ($datos[$key] == "") {
@@ -230,13 +245,19 @@ class funciones_formRecaudo extends funcionGeneral {
             exit;
         }
 
+
         $datos_recaudo = $this->registrarPago($datos);
+        $total_pagado = $datos['valor_pagado_interes'] + $datos['valor_pagado_capital'];
+
 
         if ($datos_recaudo == true) {
 
             foreach ($datos as $key => $value) {
                 if (strstr($key, 'consec_cc')) {
                     $valor = substr($key, strlen('consec_cc'));
+
+
+
 
                     $parametros = array(
                         'consecutivo' => $datos['consec_cc' . $valor],
@@ -303,4 +324,5 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
 }
+
 ?>

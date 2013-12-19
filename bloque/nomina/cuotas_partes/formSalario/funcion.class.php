@@ -137,7 +137,7 @@ class funciones_formSalario extends funcionGeneral {
 
         if ($antes > $despues) {
             echo "<script type=\"text/javascript\">" .
-            "alert('Fecha Vigencia Hasta es menor a Fecha Vigencia Desde');" .
+            "alert('El rango de Vigencia no es correcto. Revise la Fecha de Inicio de Vigencia, Fecha Final de Vigencia y el Año a Registrar');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioSalario';
@@ -146,6 +146,34 @@ class funciones_formSalario extends funcionGeneral {
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
+
+
+        $año_desde = date('Y', (strtotime(str_replace('/', '-', $datos['fecvig_desde']))));
+        $año_hasta = date('Y', (strtotime(str_replace('/', '-', $datos['fecvig_desde']))));
+        $anio = $datos['año_registrar'];
+
+        if ($anio!== $año_desde) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha Vigencia Fuera del Rango del Año de Vigencia');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        } elseif ($anio!== $año_hasta) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha Vigencia Fuera del Rango del Año de Vigencia');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
 
 
         $parametros = "";

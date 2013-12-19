@@ -165,10 +165,10 @@ class html_formConcurrencia {
                     unset($combo);
                     //prepara los datos como se deben mostrar en el combo
                     $combo[0][0] = '0';
-                    $combo[0][1] = 'Todos';
+                    $combo[0][1] = ' ';
                     foreach ($datos_en as $cmb => $values) {
-                        $combo[$cmb + 1][0] = isset($datos_en[$cmb]['hlab_nitprev']) ? $datos_en[$cmb]['hlab_nitprev'] : 0;
-                        $combo[$cmb + 1][1] = isset($datos_en[$cmb]['prev_nombre']) ? $datos_en[$cmb]['prev_nombre'] : '';
+                        $combo[$cmb][0] = isset($datos_en[$cmb]['hlab_nitprev']) ? $datos_en[$cmb]['hlab_nitprev'] : 0;
+                        $combo[$cmb][1] = isset($datos_en[$cmb]['prev_nombre']) ? $datos_en[$cmb]['prev_nombre'] : '';
                     }
                     // echo$combo;
                     if (isset($_REQUEST['hlab_nitprev'])) {
@@ -654,7 +654,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="cp_aceptada"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7" pattern=".{3,7}." onpaste="return false">
+                            <input type="text" id="p1f6c" name="cp_aceptada"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7"  step="0.0000"  pattern="[0-1]+([\.][0-9]+[0-9]+[0-9]+[0-9])?" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>

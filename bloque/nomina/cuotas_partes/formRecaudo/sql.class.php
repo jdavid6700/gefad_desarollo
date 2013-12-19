@@ -65,6 +65,7 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" from cuotas_partes.cuotas_cobros ";
                 $cadena_sql.=" where cob_cedula = '" . $variable['cedula'] . "' ";
                 $cadena_sql.=" and cob_estado_cuenta = 'ACTIVA' ";
+                $cadena_sql.=" and cob_nitprev='".$variable['entidad']."' " ;
                 $cadena_sql.=" order by cob_fgenerado ASC ";
                 break;
 

@@ -384,7 +384,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" pattern=".{4,10}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
+                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" pattern=".{4,10}" maxlength='10' required='required'  onKeyPress='return acceptNum2(event)' >
                             </div>
                             <div class="null"></div>
                         </div>
