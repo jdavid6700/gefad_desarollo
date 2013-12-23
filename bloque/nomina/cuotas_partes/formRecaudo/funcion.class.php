@@ -178,9 +178,6 @@ class funciones_formRecaudo extends funcionGeneral {
 
     function procesarFormulario($datos) {
 
-        
-        var_dump($datos);
-        exit;
         foreach ($datos as $key => $value) {
 
             if ($datos[$key] == "") {
@@ -245,9 +242,21 @@ class funciones_formRecaudo extends funcionGeneral {
             exit;
         }
 
+        $total_pagado = intval($datos['valor_pagado_interes']) + intval($datos['valor_pagado_capital']);
+
+        if (intval($datos['total_recaudo']) !== intval($total_pagado)) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor Total Pagado no corresponde a la Suma de los valores correspondientes!');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
 
         $datos_recaudo = $this->registrarPago($datos);
-        $total_pagado = $datos['valor_pagado_interes'] + $datos['valor_pagado_capital'];
 
 
         if ($datos_recaudo == true) {
@@ -255,9 +264,6 @@ class funciones_formRecaudo extends funcionGeneral {
             foreach ($datos as $key => $value) {
                 if (strstr($key, 'consec_cc')) {
                     $valor = substr($key, strlen('consec_cc'));
-
-
-
 
                     $parametros = array(
                         'consecutivo' => $datos['consec_cc' . $valor],

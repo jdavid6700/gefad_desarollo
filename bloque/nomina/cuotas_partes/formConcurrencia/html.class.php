@@ -497,14 +497,14 @@ class html_formConcurrencia {
                                 //prepara los datos como se deben mostrar en el combo
                                 $combo[0][0] = '1';
                                 $combo[0][1] = 'No registra en la base de datos';
-                                foreach ($datos_previsora as $cmb => $values) {
-                                    $combo[$cmb][0] = isset($datos_empleador[$cmb]['prev_nit']) ? $datos_empleador[$cmb]['prev_nit'] : 0;
+                                foreach ($datos_empleador as $cmb => $values) {
+                                    $combo[$cmb][0] = isset($datos_empleador[$cmb]['hlab_nitenti']) ? $datos_empleador[$cmb]['hlab_nitenti'] : 0;
                                     $combo[$cmb][1] = isset($datos_empleador[$cmb]['prev_nombre']) ? $datos_empleador[$cmb]['prev_nombre'] : '';
                                 }
 
                                 // echo$combo;
                                 if (isset($_REQUEST['entidad2'])) {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'entidad_empleadora');
+                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, $_REQUEST['hlab_nitenti'], 0, FALSE, 0, 'entidad_empleadora');
                                 } else {
                                     $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, 0, 0, FALSE, 0, 'entidad_empleadora');
                                 }
@@ -530,7 +530,6 @@ class html_formConcurrencia {
                     <div class="control capleft">
                         <div class="control capleft">
                             <div class="dropdown" required='required' >
-
                                 <?
                                 unset($combo);
                                 //prepara los datos como se deben mostrar en el combo
@@ -540,7 +539,6 @@ class html_formConcurrencia {
                                     $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
                                     $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                 }
-
                                 // echo$combo;
                                 if (isset($_REQUEST['entidad2'])) {
                                     $lista_combo = $this->html->cuadro_lista($combo, 'entidad_previsora', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'entidad_previsora');
@@ -549,7 +547,6 @@ class html_formConcurrencia {
                                 }
                                 echo $lista_combo;
                                 ?> 
-
                             </div>
                         </div>
 

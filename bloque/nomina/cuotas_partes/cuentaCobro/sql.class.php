@@ -179,10 +179,6 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.=" LIMIT 1";
                 break;
 
-
-
-
-
             /*             * * Consultas SQL para el registro de cuentas de cobro manuales */
 
 
@@ -213,6 +209,51 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
                 $cadena_sql.=" and hlab_nitprev='" . $variable['previsor'] . "' ";
                 $cadena_sql.= "ORDER BY hlab_fretiro DESC ";
+                break;
+
+
+            case "insertarCManual":
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_cobros (";
+                $cadena_sql.= " cob_fgenerado, ";
+                $cadena_sql.= " cob_cedula, ";
+                $cadena_sql.= " cob_nitemp, ";
+                $cadena_sql.= " cob_nitprev, ";
+                $cadena_sql.= " cob_consecu_cta, ";
+                $cadena_sql.= " cob_saldo, ";
+                $cadena_sql.= " cob_finicial, ";
+                $cadena_sql.= " cob_ffinal, ";
+                $cadena_sql.= " cob_mesada, ";
+                $cadena_sql.= " cob_mesada_ad, ";
+                $cadena_sql.= " cob_subtotal, ";
+                $cadena_sql.= " cob_incremento, ";
+                $cadena_sql.= " cob_ts_interes, ";
+                $cadena_sql.= " cob_interes, ";
+                $cadena_sql.= " cob_tc_interes, ";
+                $cadena_sql.= " cob_total, ";
+                $cadena_sql.= " cob_ie_correspondencia, ";
+                $cadena_sql.= " cob_estado_cuenta, ";
+                $cadena_sql.= " cob_estado, ";
+                $cadena_sql.= " cob_fecha_registro ) VALUES ( ";
+                $cadena_sql.= " '" . $variable['fecha_generacion'] . "', ";
+                $cadena_sql.= " '" . $variable['cedula'] . "', ";
+                $cadena_sql.= " '" . $variable['empleador'] . "', ";
+                $cadena_sql.= " '" . $variable['previsor'] . "', ";
+                $cadena_sql.= " '" . $variable['consecutivo_cc'] . "', ";
+                $cadena_sql.= " '" . $variable['saldo_fecha'] . "', ";
+                $cadena_sql.= " '" . $variable['fecha_inicial'] . "', ";
+                $cadena_sql.= " '" . $variable['fecha_final'] . "', ";
+                $cadena_sql.= " '" . $variable['mesada'] . "', ";
+                $cadena_sql.= " '" . $variable['mesada_adc'] . "', ";
+                $cadena_sql.= " '" . $variable['subtotal'] . "', ";
+                $cadena_sql.= " '" . $variable['incremento'] . "', ";
+                $cadena_sql.= " '" . $variable['t_sin_interes'] . "', ";
+                $cadena_sql.= " '" . $variable['interes'] . "', ";
+                $cadena_sql.= " '" . $variable['t_con_interes'] . "', ";
+                $cadena_sql.= " '" . $variable['t_con_interes'] . "', ";
+                $cadena_sql.= " '" . $variable['fecha_recibido'] . "', ";
+                $cadena_sql.= " '" . $variable['estado_cuenta'] . "', ";
+                $cadena_sql.= " '" . $variable['estado'] . "', ";
+                $cadena_sql.= " '" . $variable['fecha_registro'] . "'); ";
                 break;
 
             default:

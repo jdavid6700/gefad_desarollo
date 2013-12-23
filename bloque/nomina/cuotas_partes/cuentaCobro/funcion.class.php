@@ -110,25 +110,6 @@ class funciones_adminCuentaCobro extends funcionGeneral {
 
     function registrarManual($datos) {
 
-        /* 'cedula' => string '17135139' (length=8)
-          'entidad_empleadora' => string '0' (length=1)
-          'entidad_previsora' => string '891480035-9' (length=11)
-          'consecutivo_cc' => string 'CP-234234' (length=9)
-          'fecha_generacion' => string '18/12/2013' (length=10)
-          'fecha_inicial' => string '03/12/2013' (length=10)
-          'fecha_final' => string '18/12/2013' (length=10)
-          'mesada' => string '897897897' (length=9)
-          'mesada_adc' => string '8798798' (length=7)
-          'subtotal' => string '7987' (length=4)
-          'incremento' => string '897' (length=3)
-          't_sin_interes' => string '98' (length=2)
-          'interes' => string '798' (length=3)
-          't_con_interes' => string '79' (length=2)
-          'saldo_fecha' => string '8987987' (length=7)
-          'fecha_recibido' => string '11/12/2013' (length=10) */
-
-        var_dump($datos);
-
         /* validación campos vacíos */
         foreach ($datos as $key => $value) {
 
@@ -229,25 +210,13 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         }
 
-        if ($datos['saldo_fecha'] == 0) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Valor de Saldo Fecha No Válido');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioCManual';
-            $variable.='&opcion=manual';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
-
         /* validación suma de campos */
 
-        $subtotal = $datos['mesada'] + $datos['mesada_adc'];
-        $total_sin_interes = $subtotal + $datos['incremento'];
-        $total_con_interes = $total_sin_interes + $datos['interes'];
+        $subtotal = floatval($datos['mesada'] + $datos['mesada_adc']);
+        $total_sin_interes = floatval($subtotal + $datos['incremento']);
+        $total_con_interes = floatval($total_sin_interes + $datos['interes']);
 
-        if ($datos['subtotal'] !== $subtotal) {
+        if (floatval($datos['subtotal']) !== $subtotal) {
             echo "<script type=\"text/javascript\">" .
             "alert('El Subtotal no corresponde a la suma de valores correspondientes!');" .
             "</script> ";
@@ -259,7 +228,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         }
 
-        if ($datos['t_sin_interes'] !== $total_sin_interes) {
+        if (floatval($datos['t_sin_interes']) !== $total_sin_interes) {
             echo "<script type=\"text/javascript\">" .
             "alert('El Valor Total Sin Interes no corresponde a la suma de valores correspondientes!');" .
             "</script> ";
@@ -271,7 +240,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         }
 
-        if ($datos['t_conn_interes'] !== $total_con_interes) {
+        if (floatval($datos['t_con_interes']) !== $total_con_interes) {
             echo "<script type=\"text/javascript\">" .
             "alert('El Valor Total con Interes no corresponde a la suma de valores correspondientes!');" .
             "</script> ";
@@ -283,12 +252,199 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         }
 
-        exit;
+        /* validación formato de campos numéricos */
 
-        /* validación formato de campos fecha
-         * validación formato de campos numéricos
-         * validación traslape fechas
-         */
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['mesada'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Mesada No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['mesada_adc'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Mesada Adicional No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['subtotal'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Subtotal No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['incremento'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Incremento No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['t_sin_interes'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Total sin Interes No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['interes'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Interes No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['t_con_interes'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Total con Interes No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if (!preg_match("^(?!\.?$)\d{0,10}(\.\d{0,2})?$^", $datos['saldo_fecha'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Saldo Fecha No Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        /* validación traslape fechas 
+          $antes = strtotime($datos['fecha_inicial']);
+          $despues = strtotime($datos['fecha_final']);
+
+          if ($antes > $despues) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Fecha Final no coincide con Fecha Inicial');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formCManual';
+          $variable.='&opcion=manual';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
+
+          $antes = strtotime($datos['fecha_final']);
+          $despues = strtotime($datos['fecha_generacion']);
+
+          if ($antes > $despues) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Fecha Final no coincide con Fecha Generación Cuenta de Cobro');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formCManual';
+          $variable.='&opcion=manual';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          } */
+
+        /* validación formato de campos fecha */
+
+        /* Proceder a registrar después de procesar los datos */
+
+        $estado = 1;
+        $fecha_registro = date('d/m/Y');
+
+        $parametros = array(
+            'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
+            'empleador' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),
+            'previsor' => (isset($datos['entidad_previsora']) ? $datos['entidad_previsora'] : ''),
+            'consecutivo_cc' => (isset($datos['consecutivo_cc']) ? $datos['consecutivo_cc'] : ''),
+            'fecha_generacion' => (isset($datos['fecha_generacion']) ? $datos['fecha_generacion'] : ''),
+            'fecha_inicial' => (isset($datos['fecha_inicial']) ? $datos['fecha_inicial'] : ''),
+            'fecha_final' => (isset($datos['fecha_final']) ? $datos['fecha_final'] : ''),
+            'mesada' => (isset($datos['mesada']) ? $datos['mesada'] : ''),
+            'mesada_adc' => (isset($datos['mesada_adc']) ? $datos['mesada_adc'] : ''),
+            'subtotal' => (isset($datos['subtotal']) ? $datos['subtotal'] : ''),
+            'incremento' => (isset($datos['incremento']) ? $datos['incremento'] : ''),
+            't_sin_interes' => (isset($datos['t_sin_interes']) ? $datos['t_sin_interes'] : ''),
+            'interes' => (isset($datos['interes']) ? $datos['interes'] : ''),
+            't_con_interes' => (isset($datos['t_con_interes']) ? $datos['t_con_interes'] : ''),
+            'saldo_fecha' => (isset($datos['saldo_fecha']) ? $datos['saldo_fecha'] : ''),
+            'fecha_recibido' => (isset($datos['fecha_recibido']) ? $datos['fecha_recibido'] : ''),
+            'estado_cuenta' => 'ACTIVA',
+            'estado' => 'ACTIVA',
+            'fecha_registro' => $fecha_registro
+        );
+
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarCManual", $parametros);
+        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+
+        if ($datos_registrados == true) {
+            $registro[0] = "GUARDAR";
+            $registro[1] = $parametros['cedula'] . '|' . $parametros['empleador'] . '|' . $parametros['previsor']; //
+            $registro[2] = "CUOTAS_PARTES-CuentaCobroManual";
+            $registro[3] = $parametros['consecutivo_cc'] . '|' . $parametros['fecha_inicial'] . '|' . $parametros['fecha_final'] . '|' . $parametros['mesada']
+                    . '|' . $parametros['mesada_adc'] . '|' . $parametros['subtotal'] . '|' . $parametros['incremento'] . '|' . $parametros['t_sin_interes'] . '|' . $parametros['interes']
+                    . '|' . $parametros['t_con_interes'] . '|' . $parametros['saldo_fecha'] . '|' . $parametros['fecha_recibido']; //
+            $registro[4] = time();
+            $registro[5] = "Registra datos cuenta de cobro manual del pensionado con ";
+            $registro[5] .= " identificacion =" . $parametros['cedula'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos Registrados');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=reportesCuotas";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos de Interrupción NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioCManual";
+            $variable .= "&opcion=manual";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
     }
 
     /* __________________________________________________________________________________________________

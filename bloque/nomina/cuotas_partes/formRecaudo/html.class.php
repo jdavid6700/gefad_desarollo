@@ -201,47 +201,21 @@ class html_formRecaudo {
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
         ?>
 
-
-
         <script>
-            function validate()
-            {
-                var blnFlag = 0, i = 0, aNodes = document.getElementsByName('cuenta_pagar[0]');
-                while (oNode = aNodes.item(i++)) {
-                    if (oNode.checked) {
-                        blnFlag = 1;
-                        break;
+            function validate() {
+                a = document.formRecaudo.cuenta.length;
+
+                count = 0;
+                for (x = 0; x < document.formRecaudo.cuenta.length; x++) {
+                    if (document.formRecaudo.cuenta[x].checked == true) {
+                        count++
                     }
                 }
 
-                alert(blnFlag)
-
-                if (blnFlag == 0) {
-                    alert('Para continuar:Seleccione al menos una Cuenta de Cobro');
+                if (count == 0) {
+                    alert("Debe elegir al menos una cuenta de cobro!");
                     return false
-                } else {
-                    return true
                 }
-
-
-                var blnFlag = 0, i = 0, aNodes = document.getElementsByName('cuenta_pagar[1]');
-                while (oNode = aNodes.item(i++)) {
-                    if (oNode.checked) {
-                        blnFlag = 1;
-                        break;
-                    }
-                }
-
-                alert(blnFlag)
-
-                if (blnFlag == 0) {
-                    alert('Para continuar:Seleccione al menos una Cuenta de Cobro');
-                    return false
-                } else {
-                    return true
-                }
-
-
             }
         </script>
 
@@ -263,7 +237,7 @@ class html_formRecaudo {
 
         <h1>Cuentas de Cobro Registradas</h1>
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
+        <form id="<? echo $this->formulario; ?>" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
             <table class='bordered'  width ="75%" align="center">
                 <tr>
                     <th colspan="12" class='encabezado_registro'>CUENTAS COBRO REGISTRADAS</th>
@@ -311,7 +285,7 @@ class html_formRecaudo {
                               }
                               }
                              */
-                            echo "<tr>";
+                            echo "<tr id='yesOptions'>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_fgenerado'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitemp'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitprev'] . "</td>";
@@ -335,7 +309,7 @@ class html_formRecaudo {
                                   <input type='hidden' name='saldo[" . $key . "]' value='" . $saldo . "'>
                                   <input type='hidden' name='identificacion[" . $key . "]' value='" . $cobros[$key]['cob_cedula'] . "'>
                                   
-                                  <input type='checkbox' id='cuenta_" . $key . "' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>
+                                  <input type='checkbox' id='cuenta' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>  
                                       
                                   </td>";
                             echo "</tr>";
@@ -549,7 +523,7 @@ class html_formRecaudo {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8, 9];
+                especiales = [8, 9,32];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -588,6 +562,8 @@ class html_formRecaudo {
         <? } ?>
                 var total = parseInt(num0) + parseInt(num1);
                 document.getElementById('total_recaudo').value = total;
+
+
         <? foreach ($cuentas_pago as $key => $values) { ?>
                     var num_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
                     var num_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
@@ -718,9 +694,6 @@ class html_formRecaudo {
                         </div> 
                     </div>
                 </div>
-
-
-
 
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">

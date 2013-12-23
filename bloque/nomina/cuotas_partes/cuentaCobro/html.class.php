@@ -174,7 +174,7 @@ class html_adminCuentaCobro {
 
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formConcurrencia/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formRecaudo/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -289,7 +289,7 @@ class html_adminCuentaCobro {
                     maxDate: "+0D",
                     dateFormat: 'dd/mm/yy',
                     onSelect: function(dateValue, inst) {
-                        $("#fecha_salida").datepicker("option", "minDate", dateValue)
+                        $("#fecha_final").datepicker("option", "minDate", dateValue)
                     }
                 });
             });
@@ -301,10 +301,42 @@ class html_adminCuentaCobro {
                             changeYear: true,
                             yearRange: '1940:c',
                             maxDate: "+0D",
-                            dateFormat: 'dd/mm/yy',
+                            dateFormat: 'dd/mm/yy'
                         }
                 );
             });
+        </script>
+
+        <script  type="text/javascript">
+
+            function valor()
+            {
+                var num0 = document.cuentaCobro.mesada.value;
+                var num1 = document.cuentaCobro.mesada_adc.value;
+                var total = parseFloat(num0) + parseFloat(num1);
+                document.getElementById('subtotal').value = total;
+
+            }
+
+            function valor2()
+            {
+                var num0 = document.cuentaCobro.subtotal.value;
+                var num1 = document.cuentaCobro.incremento.value;
+                var total = parseFloat(num0) + parseFloat(num1);
+                document.getElementById('t_sin_interes').value = total;
+
+            }
+
+            function valor3()
+            {
+                var num0 = document.cuentaCobro.interes.value;
+                var num1 = document.cuentaCobro.t_sin_interes.value;
+                var total = parseFloat(num0) + parseFloat(num1);
+                document.getElementById('t_con_interes').value = total;
+
+            }
+
+
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off'>
@@ -345,7 +377,6 @@ class html_adminCuentaCobro {
                 <div class="null"></div>
             </div>
 
-
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
@@ -361,14 +392,14 @@ class html_adminCuentaCobro {
                                 //prepara los datos como se deben mostrar en el combo
                                 $combo[0][0] = '1';
                                 $combo[0][1] = '';
-                                foreach ($datos_previsora as $cmb => $values) {
-                                    $combo[$cmb][0] = isset($datos_empleador[$cmb]['prev_nit']) ? $datos_empleador[$cmb]['prev_nit'] : 0;
+                                foreach ($datos_empleador as $cmb => $values) {
+                                    $combo[$cmb][0] = isset($datos_empleador[$cmb]['hlab_nitenti']) ? $datos_empleador[$cmb]['hlab_nitenti'] : 0;
                                     $combo[$cmb][1] = isset($datos_empleador[$cmb]['prev_nombre']) ? $datos_empleador[$cmb]['prev_nombre'] : '';
                                 }
 
                                 // echo$combo;
                                 if (isset($_REQUEST['entidad2'])) {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'entidad_empleadora');
+                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, $_REQUEST['hlab_nitenti'], 0, FALSE, 0, 'entidad_empleadora');
                                 } else {
                                     $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, 0, 0, FALSE, 0, 'entidad_empleadora');
                                 }
@@ -424,7 +455,6 @@ class html_adminCuentaCobro {
                 <div class="null"></div>
             </div>
 
-
             <div class="formrow f1">
                 <div id="p1f5" class="field n1">
                     <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">CUENTA DE COBRO</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
@@ -432,7 +462,6 @@ class html_adminCuentaCobro {
                 </div>
                 <div class="null"></div>
             </div>
-
 
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
@@ -467,7 +496,6 @@ class html_adminCuentaCobro {
                 </div>
                 <div class="null"></div>
             </div>
-
 
             <div class="formrow f1 f2">
                 <div id="p1f10" class="field n1">
@@ -510,7 +538,6 @@ class html_adminCuentaCobro {
                 <div class="null"></div>
             </div>
 
-
             <div class="formrow f1">
                 <div id="p1f12" class="field n1">
                     <div class="caption capleft alignleft">
@@ -519,7 +546,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
+                            <input type="text" id="mesada" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
 
                         </div>
                         <div class="null"></div>
@@ -537,7 +564,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="mesada_adc" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
+                            <input type="text" id="mesada_adc" name="mesada_adc" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
 
                         </div>
                         <div class="null"></div>
@@ -548,15 +575,15 @@ class html_adminCuentaCobro {
             </div>
 
             <div class="formrow f1">
-                <div id="p1f12" class="field n1">
+                <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Subtotal<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="subtotal" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
-
+                            <input type="text" id="subtotal" name="subtotal" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
+                            <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
                         </div>
                         <div class="null"></div>
                     </div>
@@ -573,8 +600,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="incremento" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
-
+                            <input type="text" id="incremento" name="incremento" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -583,17 +609,16 @@ class html_adminCuentaCobro {
                 <div class="null"></div>
             </div>
 
-
             <div class="formrow f1">
-                <div id="p1f12" class="field n1">
+                <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Total sin Intereses<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="t_sin_interes" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
-
+                            <input type="text" id="t_sin_interes" name="t_sin_interes" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
+                            <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor2()" />
                         </div>
                         <div class="null"></div>
                     </div>
@@ -610,8 +635,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="interes" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
-
+                            <input type="text" id="interes" name="interes" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -621,15 +645,15 @@ class html_adminCuentaCobro {
             </div>
 
             <div class="formrow f1">
-                <div id="p1f12" class="field n1">
+                <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Total con Interés<a STYLE="color: red" >*</a></span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="t_con_interes" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
-
+                            <input type="text" id="t_con_interes" name="t_con_interes" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="10" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
+                            <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor3()" />
                         </div>
                         <div class="null"></div>
                     </div>
@@ -656,8 +680,6 @@ class html_adminCuentaCobro {
                 <div class="null"></div>
             </div>
 
-
-
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
@@ -675,11 +697,8 @@ class html_adminCuentaCobro {
                 <div class="null"></div>
             </div>
 
-
-
             <div class="null"></div>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  onClick='return confirmarEnvio();' value="Registrar"></center>
-
             <input type='hidden' name='opcion' value='cuentaManual'>
             <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
 

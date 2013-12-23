@@ -275,8 +275,8 @@ class funciones_formHistoria extends funcionGeneral {
             exit;
         }
 
-        $antes = strtotime($datos['fecha_ingreso']);
-        $despues = strtotime($datos['fecha_salida']);
+        $antes = strtotime(str_replace('/', '-', $datos['fecha_ingreso']));
+        $despues = strtotime(str_replace('/', '-', $datos['fecha_salida']));
 
         if ($antes > $despues) {
             echo "<script type=\"text/javascript\">" .
@@ -332,6 +332,22 @@ class funciones_formHistoria extends funcionGeneral {
 
 
             if ($datos['interrupcion'] == 'interrupcion') {
+
+                echo $dias_transcurridos = abs(($despues - $antes)/86400);
+          
+                if ($dias_transcurridos < 60) {
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('Intervalo de trabajo muy corto para registrar una interrupción! Historia Laboral Registrada');" .
+                    "</script> ";
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = 'pagina=formHistoria';
+                    $variable.='&opcion=';
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+                    exit;
+                }
+
+
                 echo "<script type=\"text/javascript\">" .
                 "alert('Ingresando a Formulario Registro de Interrupción');" .
                 "</script> ";
@@ -377,7 +393,7 @@ class funciones_formHistoria extends funcionGeneral {
 
     function procesarFormularioInterrupcion($datos) {
 
-        
+
         $parametros = array(
             'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
             'nit_entidad' => (isset($datos['empleador_nit']) ? $datos['empleador_nit'] : ''),
@@ -385,7 +401,7 @@ class funciones_formHistoria extends funcionGeneral {
         );
 
         $consecutivo_acumulado = $this->consultarConsecutivoI($parametros);
-      
+
         if ($consecutivo_acumulado == true) {
             $consecutivo = $consecutivo_acumulado[0]['int_nro_interrupcion'];
             $ingreso = $consecutivo_acumulado[0]['int_nro_ingreso'];
@@ -439,30 +455,30 @@ class funciones_formHistoria extends funcionGeneral {
                 exit;
             }
         }
-/*
-        if (!preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $datos['dias_nor_desde'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formHistoria';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
+        /*
+          if (!preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $datos['dias_nor_desde'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-        if (!preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $datos['dias_nor_hasta'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formHistoria';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }*/
+          if (!preg_match("/([0-9]{2})\-([0-9]{2})\-([0-9]{4})/", $datos['dias_nor_hasta'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          } */
 
         $parametros = array(
             'nro_interrupcion' => ($consecutivo_def),

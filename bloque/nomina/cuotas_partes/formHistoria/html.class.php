@@ -601,7 +601,7 @@ class html_formHistoria {
             echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
             echo "var cadena = new Date(str);\n\n";
             echo "if (cadena > min && cadena < max) {\n";
-            echo "alert('Traslape en rangos de fecha')\n";
+            echo "alert('Traslape en rangos de fecha con otras historias laborales')\n";
             echo " return false\n";
             echo "    }\n\n";
         }
