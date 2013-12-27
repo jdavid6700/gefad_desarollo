@@ -20,12 +20,12 @@ class sql_formIPC extends sql {
             case "insertarIPC":
                 if ($variable['Suma_fijas'] != "") {
 
-                    $cadena_sql =" INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc, ipc_sumas_Fijas) VALUES ( ";
+                    $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc, ipc_sumas_Fijas) VALUES ( ";
                     $cadena_sql.=" '" . $variable['Fecha'] . "' ,";
                     $cadena_sql.=" '" . $variable['Indice_IPC'] . "',  ";
                     $cadena_sql.=" '" . $variable['Suma_fijas'] . "' );";
                 } else {
-                    $cadena_sql =" INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc) VALUES ( ";
+                    $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc) VALUES ( ";
                     $cadena_sql.=" '" . $variable['Fecha'] . "' ,";
                     $cadena_sql.=" '" . $variable['Indice_IPC'] . "' );";
                 }
@@ -37,7 +37,7 @@ class sql_formIPC extends sql {
                 break;
 
             case "Consultar":
-                $cadena_sql = "SELECT *  ";
+                $cadena_sql = "SELECT ipc_fecha, to_char(ipc_indiceipc,'0.99999'), ipc_sumas_fijas as ipc_indiceipc  ";
                 $cadena_sql.="FROM cuotas_partes.cuotas_indc_ipc ";
                 $cadena_sql.="ORDER BY ipc_fecha ASC;  ";
                 break;

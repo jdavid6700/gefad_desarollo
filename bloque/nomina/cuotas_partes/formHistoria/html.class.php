@@ -147,7 +147,7 @@ class html_formHistoria {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -223,11 +223,11 @@ class html_formHistoria {
             <div class="formrow f1">
                 <div id="p1f2" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Pensionado<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Cédula Pensionado</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' readonly value='<? echo $datos_interrupcion['cedula'] ?>' maxlength="10">
+                        <input type="text" id="p1f2c" name="cedula_emp" title="*Campo Obligatorio" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' readonly value='<? echo $datos_interrupcion['cedula'] ?>' maxlength="10">
                     </div>
                 </div>
 
@@ -253,12 +253,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit Empleador<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit Empleador</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" onpaste="return false" name="nit_entidad" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_entidad'] ?>'>
+                                <input type="text" id="p1f6c" title="*Campo Obligatorio" onpaste="return false" name="nit_entidad" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_entidad'] ?>'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -271,13 +271,13 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit Entidad Previsora<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit Entidad Previsora</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f6c"  onpaste="return false" name="prev_nit" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_previsora'] ?>'> 
+                                    <input type="text" id="p1f6c" title="*Campo Obligatorio" onpaste="return false" name="prev_nit" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['nit_previsora'] ?>'> 
                                 </div>
                             </div>
 
@@ -309,12 +309,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="dias_nor_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >No remunera desde<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="dias_nor_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Inicio</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_desde" onpaste="return false" name="dias_nor_desde" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="dias_nor_desde" title="*Campo Obligatorio" onpaste="return false" name="dias_nor_desde" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -326,12 +326,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n2">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="dias_nor_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >No remunera hasta<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="dias_nor_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Final</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_hasta" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="dias_nor_hasta" title="*Campo Obligatorio" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -344,12 +344,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Total Días<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Total Días</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
+                                <input type="text" id="p1f6c" title="*Campo Obligatorio" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -361,12 +361,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Núm. Certificado<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Núm. Certificado</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" name="num_certificado" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7">
+                                <input type="text" id="p1f6c" title="*Campo Obligatorio" name="num_certificado" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -378,7 +378,7 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n2">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecha_certificado"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Certificado<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" title="*Campo Obligatorio" for="fecha_certificado"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Certificado</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -393,6 +393,11 @@ class html_formHistoria {
                 </div>
 
                 <div class="null"></div>
+
+
+                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
+
+
                 <center> 
                     <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Guardar y Registrar Otra Interrupción" onClick='return confirmarEnvio();'>
                     <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Guardar Interrupción" onClick='return confirmarEnvio();'>
@@ -455,40 +460,6 @@ class html_formHistoria {
                         });</script>
 
         <script>
-            function acceptNum9(e) {
-                key = e.keyCode || e.which;
-                tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890-";
-                especiales = [8, 9];
-                tecla_especial = false
-                for (var i in especiales) {
-                    if (key == especiales[i]) {
-                        tecla_especial = true;
-                        break;
-                    }
-                }
-
-                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                    return false;
-                }
-            }
-        </script>
-
-        <script type="text/javascript">
-            function validar() {
-                //obteniendo el valor que se puso en el campo text del formulario
-                miCampoTexto = document.getElementById("miCampo").value;
-                //la condición
-                if (miCampoTexto.length == 0 || /^\s+$/.test(miCampoTexto)) {
-                    alert('Existen campos diligenciados incorrectamente');
-                    return true;
-                }
-
-                return false;
-            }
-        </script>
-
-        <script>
             function acceptNum8(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
@@ -507,70 +478,11 @@ class html_formHistoria {
                 }
             }
         </script>
-        <script>
-            function acceptNum3(e) {
-                key = e.keyCode || e.which;
-                tecla = String.fromCharCode(key).toLowerCase();
-                letras = "1234567890";
-                especiales = [8, 9];
-                tecla_especial = false
-                for (var i in especiales) {
-                    if (key == especiales[i]) {
-                        tecla_especial = true;
-                        break;
-                    }
-                }
-
-                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                    return false;
-                }
-            }
-        </script>
-
-        <script>
-            function acceptLetter(e) {
-                key = e.keyCode || e.which;
-                tecla = String.fromCharCode(key).toLowerCase();
-                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-                especiales = [8, 9];
-                tecla_especial = false
-                for (var i in especiales) {
-                    if (key == especiales[i]) {
-                        tecla_especial = true;
-                        break;
-                    }
-                }
-
-                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                    return false;
-                }
-            }
-        </script>
-
-        <script>
-            function acceptNumLetter(e) {
-                key = e.keyCode || e.which;
-                tecla = String.fromCharCode(key).toLowerCase();
-                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8, 9];
-                tecla_especial = false
-                for (var i in especiales) {
-                    if (key == especiales[i]) {
-                        tecla_especial = true;
-                        break;
-                    }
-                }
-
-                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                    return false;
-                }
-            }
-        </script>
 
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -601,7 +513,7 @@ class html_formHistoria {
             echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
             echo "var cadena = new Date(str);\n\n";
             echo "if (cadena > min && cadena < max) {\n";
-            echo "alert('Traslape en rangos de fecha con otras historias laborales')\n";
+            echo "alert('Ya existen historias laborales registradas para este periodo.')\n";
             echo " return false\n";
             echo "    }\n\n";
         }
@@ -636,7 +548,6 @@ class html_formHistoria {
                     fechaID.focus()
                     return false
                 }
-
             }
 
         </script>
@@ -682,11 +593,11 @@ class html_formHistoria {
             <div class="formrow f1">
                 <div id="p1f2" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Pensionado<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"> <a STYLE="color: red" >* </a>Cédula Pensionado</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" name="cedula_emp" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum3(event)' readonly maxlength="10" pattern=".{4,10}" value="<? echo $cedula ?>">
+                        <input type="text" id="p1f2c" name="cedula_emp" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' readonly maxlength="10" pattern=".{4,10}" value="<? echo $cedula ?>">
 
                     </div>
                 </div>
@@ -712,12 +623,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Empleador<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nombre Empleador</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div class="control capleft">
-                                <div class="dropdown" required='required' >
+                                <div class="dropdown" required='required' title="*Campo Obligatorio">
 
                                     <?
                                     unset($combo);
@@ -751,12 +662,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Previsora<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nombre Previsora</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div class="control capleft">
-                                <div class="dropdown" required='required' >
+                                <div class="dropdown" required='required' title="*Campo Obligatorio">
 
                                     <?
                                     unset($combo);
@@ -764,8 +675,8 @@ class html_formHistoria {
                                     $combo[0][0] = '0';
                                     $combo[0][1] = 'Empleador';
                                     foreach ($datos_previsora as $cmb => $values) {
-                                        $combo[$cmb + 1][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
-                                        $combo[$cmb + 1][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                        $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
+                                        $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                     }
 
                                     // echo$combo;
@@ -808,12 +719,12 @@ class html_formHistoria {
                 <div class="formrow f1 f2">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecha_ingreso"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Ingreso<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="fecha_ingreso"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Ingreso</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_ingreso" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_ingreso" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecha_ingreso" title="*Campo Obligatorio" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_ingreso" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -822,12 +733,12 @@ class html_formHistoria {
 
                     <div id="p1f11" class="field n2">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecha_salida"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Retiro<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="fecha_salida"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Retiro</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_salida" onchange="validarFecha()" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_salida" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="fecha_salida" title="*Campo Obligatorio" onchange="validarFecha()" onpaste="return false" placeholder="dd/mm/aaaa" name="fecha_salida" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
 
                             </div>
                             <div class="null"></div>
@@ -840,12 +751,12 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Horas Laboradas<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"> <a STYLE="color: red" >* </a>Horas Laboradas</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f12c" onpaste="return false" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="3" min="8" max="240" value="8">
+                                <input type="text" id="p1f12c" title="*Campo Obligatorio" onpaste="return false" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum8(event)' maxlength="3" min="8" max="240" value="8">
 
                             </div>
                             <div class="null"></div>
@@ -858,13 +769,13 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Tipo Hora Laborada<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Tipo Hora Laborada</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
                                 <div class="dropdown">
-                                    <select id="p1f13c" name="tipo_horas" class="fieldcontent"><option value="0" selected="selected">Diarias</option><option value="1">Semanales</option><option value="2">Mensuales</option><option value="3" >En el Periodo</option></select>
+                                    <select id="p1f13c" name="tipo_horas" title="*Campo Obligatorio" class="fieldcontent"><option value="0" selected="selected">Diarias</option><option value="1">Semanales</option><option value="2">Mensuales</option><option value="3" >En el Periodo</option></select>
                                     <div class="fielderror"></div>
                                 </div>
                             </div>
@@ -878,7 +789,7 @@ class html_formHistoria {
                 <div class="formrow f1">
                     <div id="p1f14" class="field checkBoxField n1">
                         <div class="caption capleft alignleft">
-                            <div class="grouplabel"><span class="wordwrap"><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Ingreso Interrupción<a STYLE="color: red" >*</a></span></span></span><div class="null"></div>
+                            <div class="grouplabel"><span class="wordwrap"><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Ingreso Interrupción</span></span></span><div class="null"></div>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -907,6 +818,7 @@ class html_formHistoria {
                     <div class="null"></div>
                 </div>
 
+                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
 
                 <div class="null"></div>
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  onClick='return confirmarEnvio();' value="Registrar"></center>
@@ -953,7 +865,7 @@ class html_formHistoria {
             <h2>Ingrese la cédula a realizar la <br>Consulta de Historia Laboral: </h2>
 
             <br>
-            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10" pattern=".{4,10}" >
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10" pattern=".{4,10}" title="*Campo Obligatorio">
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
             <input type='hidden' name='pagina' value='formHistoria'>

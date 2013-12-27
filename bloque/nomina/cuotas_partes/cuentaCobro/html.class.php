@@ -243,7 +243,7 @@ class html_adminCuentaCobro {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {

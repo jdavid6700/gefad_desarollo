@@ -62,9 +62,10 @@ class html_formDTF {
         </script>
         <center>     
             <center><div class="holder"></div></center>
+            <h2>Tasas de Interés Registradas<br><br></h2>
             <table width="90%" class='bordered' align="center">
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>TABLA TASA DE INTERÉS</th>
+                    <th colspan="11" class='encabezado_registro'>TASA DE INTERÉS</th>
                     <td class='texto_elegante estilo_td' ></td>
                 </tr>
 
@@ -266,7 +267,7 @@ class html_formDTF {
             function echeck(str) {
 
                 var min = new Date('<? echo $fecha_anio ?>,<? echo $fecha_mes ?>,<? echo $fecha_dia ?>');
-                var fecha = '<? echo $fecha_max ?>'
+                        var fecha = '<? echo $fecha_max ?>'
 
                         if (str < fecha || str > fecha) {
                             alert('Fecha vigencia desde, mínimo es ' + fecha)
@@ -310,7 +311,7 @@ class html_formDTF {
 
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
-                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO DE TASA<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DETALLE DEL REGISTRO<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -319,7 +320,7 @@ class html_formDTF {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Norma<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Norma</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -336,7 +337,7 @@ class html_formDTF {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="n_resolucion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">N° de la  Resolución <a STYLE="color: red" >*</a></span></span></span></label>*Superintendencia<br> Financiera
+                            <label class="fieldlabel" for="n_resolucion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>N° de la  Resolución</span></span></span></label>*Superintendencia<br> Financiera
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -353,7 +354,7 @@ class html_formDTF {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fec_reso"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Resolución <a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="fec_reso"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Resolución</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -371,12 +372,12 @@ class html_formDTF {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Vigencia<br>Inicio<a STYLE="color: red" >*</a> </span></span></span></label>
+                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Inicio</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_desde" name="fecvig_desde" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<?echo $fecha_max?>">
+                                <input type="text" id="fecvig_desde" name="fecvig_desde" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<? echo $fecha_max ?>">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -389,7 +390,7 @@ class html_formDTF {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecvig_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Vigencia<br>Hasta<a STYLE="color: red" >*</a> </span></span></span></label>
+                            <label class="fieldlabel" for="fecvig_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Hasta</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -407,7 +408,7 @@ class html_formDTF {
                 <div class="formrow f1">
                     <div id="p1f7" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="indice_dtf"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Tasa de Interés<br>(DTF)<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="indice_dtf"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Tasa de Interés<br>   (DTF)</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -422,6 +423,7 @@ class html_formDTF {
                     <div class="null"></div>
                 </div>
 
+                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
 
                 <div class="null"></div>
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"  onClick='return confirmarEnvio();'></center>

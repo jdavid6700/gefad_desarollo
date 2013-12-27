@@ -73,9 +73,9 @@ class html_formConcurrencia {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
 
-            <h2>Ingrese la cédula a consultar: </h2>
+            <h2>Ingrese la cédula para realizar <br> Registro de Concurrencia Aceptada: </h2>
             <br>
-            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' title="*Campo Obligatorio">
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
 
@@ -142,7 +142,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" onpaste="return false" id="p1f7c" name="cedula_emp" readonly class="fieldcontent" required='required'  onKeyPress='return acceptNum(event)' value="<?php echo $cedula ?>">
+                            <input type="text" onpaste="return false" id="p1f7c" title="*Campo Obligatorio" name="cedula_emp" readonly class="fieldcontent" required='required'  onKeyPress='return acceptNum(event)' value="<?php echo $cedula ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -181,6 +181,7 @@ class html_formConcurrencia {
                 </div>
             </div>
             <div>
+
                 <br><br><br>
                 <input id="generarBoton" type="submit" class="navbtn"  value="Registrar">
                 <input type='hidden' name='pagina' value='formularioConcurrencia'>
@@ -434,7 +435,7 @@ class html_formConcurrencia {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -472,7 +473,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="cedula" class="fieldcontent" readonly required='required' value="<? echo $datos_historia[0]['hlab_nro_identificacion'] ?>" onpaste="return false">
+                            <input type="text" id="p1f12c" name="cedula" title="*Campo Obligatorio" class="fieldcontent" readonly required='required' value="<? echo $datos_historia[0]['hlab_nro_identificacion'] ?>" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -490,7 +491,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div class="control capleft">
-                            <div class="dropdown" required='required' >
+                            <div class="dropdown" required='required' title="*Campo Obligatorio">
 
                                 <?
                                 unset($combo);
@@ -529,7 +530,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div class="control capleft">
-                            <div class="dropdown" required='required' >
+                            <div class="dropdown" required='required' title="*Campo Obligatorio" >
                                 <?
                                 unset($combo);
                                 //prepara los datos como se deben mostrar en el combo
@@ -565,7 +566,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_con" name="fecha_concurrencia" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_con" title="*Campo Obligatorio" name="fecha_concurrencia" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -582,7 +583,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="res_pensión" name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false">
+                            <input type="text" id="res_pensión" title="*Campo Obligatorio" name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -599,7 +600,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_pension" name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_pension" title="*Campo Obligatorio" name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -616,7 +617,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_res_pension" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_res_pension" title="*Campo Obligatorio" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -633,7 +634,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="mesada" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
+                            <input type="text" id="p1f12c" name="mesada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
 
                         </div>
                         <div class="null"></div>
@@ -651,7 +652,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="cp_aceptada"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7"  step="0.0000"  pattern="[0-1]+([\.][0-9]+[0-9]+[0-9]+[0-9])?" onpaste="return false">
+                            <input type="text" id="p1f6c" name="cp_aceptada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7"  onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -668,7 +669,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="porc_aceptado" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="^[0]\d{0,1}(\.\d{1,4})?%?$" step="0.00" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
+                            <input type="text" id="p1f6c" name="porc_aceptado" title="*Campo Obligatorio" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[0-1]+([\.][0-9]+[0-9]+[0-9]+[0-9])?" step="0.00" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
                         </div>
                         <div class="null"></div>
                     </div>
@@ -685,8 +686,8 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <div class="dropdown">
-                                <select id="p1f13c" name="tipo_acto" class="fieldcontent"><option selected="selected "value="Silencio Administrativo">Silencio Administrativo</option><option value="Resolución">Resolución</option><option value="Oficio">Oficio</option></select>
+                            <div class="dropdown"> 
+                                <select id="p1f13c" name="tipo_acto" title="*Campo Obligatorio" class="fieldcontent"><option selected="selected "value="Silencio Administrativo">Silencio Administrativo</option><option value="Resolución">Resolución</option><option value="Oficio">Oficio</option></select>
                                 <div class="fielderror"></div>
                             </div>
                         </div>
@@ -705,7 +706,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="acto_adm" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Oficio/Resolución/Silencio Administrativo" onpaste="return false">
+                            <input type="text" id="p1f7c" name="acto_adm" title="*Campo Obligatorio" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Oficio/Resolución/Silencio Administrativo" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -722,7 +723,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_acto_adm" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
+                            <input type="text" id="fecha_acto_adm" title="*Campo Obligatorio" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -731,8 +732,7 @@ class html_formConcurrencia {
                 <div class="null"></div>
             </div>
 
-
-
+            <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
 
             <div class="null"></div>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  onClick='return confirmarEnvio();' value="Registrar"></center>

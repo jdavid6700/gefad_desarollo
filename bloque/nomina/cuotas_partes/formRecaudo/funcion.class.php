@@ -91,8 +91,8 @@ class funciones_formRecaudo extends funcionGeneral {
                 "alert('No existen Cuentas de Cobro registradas con cédula " . $cedula['cedula'] . ". Por lo tanto, no hay pagos a registrar.');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotas';
-                $variable.='&opcion=';
+                $variable = 'pagina=formularioCManual';
+                $variable.='&opcion=manual';
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;

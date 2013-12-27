@@ -73,7 +73,7 @@ class html_formRecaudo {
 
             <h2>Ingrese la cédula a consultar <br>Historial de Recaudos: </h2>
             <br>
-            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' title="*Campo Obligatorio">
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
 
@@ -85,7 +85,7 @@ class html_formRecaudo {
     }
 
     function datosRecaudos($cedula, $datos_en) {
-
+    
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -139,7 +139,7 @@ class html_formRecaudo {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" onpaste="return false" id="p1f7c" name="cedula_emp" readonly class="fieldcontent" required='required'  onKeyPress='return acceptNum(event)' value="<?php echo $cedula['cedula'] ?>">
+                            <input type="text" onpaste="return false" title="*Campo Obligatorio" id="p1f7c" name="cedula_emp" readonly class="fieldcontent" required='required'  onKeyPress='return acceptNum(event)' value="<?php echo $cedula['cedula'] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -213,7 +213,7 @@ class html_formRecaudo {
                 }
 
                 if (count == 0) {
-                    alert("Debe elegir al menos una cuenta de cobro!");
+                    alert("¡Debe elegir al menos una cuenta de cobro!");
                     return false
                 }
             }
@@ -523,7 +523,7 @@ class html_formRecaudo {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-";
-                especiales = [8, 9,32];
+                especiales = [8, 9, 32];
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -541,7 +541,7 @@ class html_formRecaudo {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -599,7 +599,7 @@ class html_formRecaudo {
                         <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Pensionado<a STYLE="color: red" >*</a></span></span></span></label>
                     </div>
                     <div>
-                        <input type="text" id="p1f2c" onpaste="return false" name="cedula_emp" readonly class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $identificacion ?>'>
+                        <input type="text" title="*Campo Obligatorio" id="p1f2c" onpaste="return false" name="cedula_emp" readonly class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $identificacion ?>'>
                     </div>
                 </div>
 
@@ -616,10 +616,6 @@ class html_formRecaudo {
 
                     </div>
                 </div>
-                <br>
-
-                <br>
-                <br>
 
                 <div class="formrow f1">
                     <div id="p1f7" class="field n1">
@@ -628,7 +624,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="resolucion" onpaste="return false" name="nit_empleador" class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $nit_empleador ?>'>
+                                <input type="text" title="*Campo Obligatorio" id="resolucion" onpaste="return false" name="nit_empleador" class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $nit_empleador ?>'>
                             </div> 
                         </div> 
                     </div>
@@ -641,7 +637,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f2cc" onpaste="return false" name="nit_previsional" class="fieldcontent" readonly required='required'  onKeyPress='return acceptNum(event)' value='<? echo $nit_previsora ?>'>
+                                <input type="text" id="p1f2cc" title="*Campo Obligatorio" onpaste="return false" name="nit_previsional" class="fieldcontent" readonly required='required'  onKeyPress='return acceptNum(event)' value='<? echo $nit_previsora ?>'>
                             </div>
                         </div>
                     </div>
@@ -654,7 +650,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="resolucion" onpaste="return false" name="resolucion" class="fieldcontent" required='required' maxlength='10' onKeyPress='return acceptNumLetter(event)'>
+                                <input type="text" id="resolucion" title="*Campo Obligatorio" onpaste="return false" name="resolucion" class="fieldcontent" required='required' maxlength='10' onKeyPress='return acceptNumLetter(event)'>
                             </div> 
                         </div> 
                     </div>
@@ -749,7 +745,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_resolucion" name="fecha_resolucion" title="Si no aplica, escriba 0" class="fieldcontent" required='required' placeholder="dd/mm/aaaa" maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                                <input type="text" id="fecha_resolucion"  name="fecha_resolucion" title="Si no aplica, escriba 0" class="fieldcontent" required='required' placeholder="dd/mm/aaaa" maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                         </div>
                     </div> 
@@ -763,7 +759,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_pago_cuenta" onpaste='return false' name="fecha_pago_cuenta" class="fieldcontent" placeholder="dd/mm/aaaa" required='required' maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                                <input type="text" id="fecha_pago_cuenta" title="*Campo Obligatorio" onpaste='return false' name="fecha_pago_cuenta" class="fieldcontent" placeholder="dd/mm/aaaa" required='required' maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
                             </div>
                         </div>
                     </div>
@@ -775,7 +771,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text"  onpaste='return false' name="valor_pagado_capital" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)' maxlength='10'>
+                                    <input type="text"  onpaste='return false' title="*Campo Obligatorio" name="valor_pagado_capital" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)' maxlength='10'>
                                 </div>
                             </div>
                         </div>       
@@ -786,7 +782,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f12cc" onpaste='return false' name="valor_pagado_interes" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)'>
+                                    <input type="text" id="p1f12cc" onpaste='return false' title="*Campo Obligatorio" name="valor_pagado_interes" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)'>
                                 </div>
                             </div>
                         </div>
@@ -799,7 +795,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="total_recaudo" onpaste='return false' name="total_recaudo" class="fieldcontent" required='required' maxlength="12" onKeyPress='return acceptNum2(event)'>
+                                    <input type="text" id="total_recaudo" onpaste='return false' title="*Campo Obligatorio" name="total_recaudo" class="fieldcontent" required='required' maxlength="12" onKeyPress='return acceptNum2(event)'>
                                     <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
                                 </div>                       
                             </div>      
@@ -813,11 +809,13 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f7c" onpaste='return false' name="medio_pago" maxlength="50" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' >
-                                </div>                       
+                                    <input type="text" id="p1f7c" onpaste='return false' title="*Campo Obligatorio" name="medio_pago" maxlength="50" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' >
+                                </div>
+                                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
                             </div>      
                         </div>
                     </div>
+
 
                     <div class="null"></div
                     <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Guardar" onClick='return confirmarEnvio();'></center>

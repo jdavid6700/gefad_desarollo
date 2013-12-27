@@ -114,6 +114,23 @@ class funciones_formIPC extends funcionGeneral {
             exit;
         }
 
+
+        $long_ipc = strlen($datos['indice_Ipc']);
+
+        if ($long_ipc > 11) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Formulario NO diligenciado correctamente. Formato índice erróneo');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioIPC';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+
+
         if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['indice_Ipc'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formulario NO diligenciado correctamente. Formato índice erróneo');" .
@@ -126,7 +143,8 @@ class funciones_formIPC extends funcionGeneral {
             exit;
         }
 
-      
+
+
         $parametros = "";
         $anio = $datos['año_registrar'];
 

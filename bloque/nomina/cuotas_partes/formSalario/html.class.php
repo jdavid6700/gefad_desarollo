@@ -61,9 +61,10 @@ class html_formSalario {
 
         <center>     
             <center><div class="holder"></div></center>
+            <h2>Salarios Mínimos Legales Registrados<br><br></h2>
             <table width="90%" class='bordered' >
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>SALARIOS MINIMOS LEGALES REGISTRADOS</th>
+                    <th colspan="11" class='encabezado_registro'>SALARIOS MINIMOS LEGALES</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -191,7 +192,7 @@ class html_formSalario {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -269,7 +270,7 @@ class html_formSalario {
 
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
-                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO DE SALARIO MINIMO<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DETALLES DEL REGISTRO<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -278,7 +279,7 @@ class html_formSalario {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Norma<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Norma</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -295,7 +296,7 @@ class html_formSalario {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Número<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Número</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -309,11 +310,10 @@ class html_formSalario {
                     <div class="null"></div>
                 </div>
 
-
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Año a Registrar</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -344,7 +344,7 @@ class html_formSalario {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Vigencia<br>Desde<a STYLE="color: red" >*</a> </span></span></span></label>
+                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Desde</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -362,7 +362,7 @@ class html_formSalario {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecvig_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha Vigencia<br>Hasta<a STYLE="color: red" >*</a> </span></span></span></label>
+                            <label class="fieldlabel" for="fecvig_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Hasta</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -379,7 +379,8 @@ class html_formSalario {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Monto Mensual<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Monto Mensual
+                                        </span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -393,6 +394,8 @@ class html_formSalario {
                     <div class="null"></div>
                 </div>
 
+                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
+                
                 <div class="null"></div>
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
 

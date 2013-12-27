@@ -63,9 +63,10 @@ class html_formIPC {
 
         <center>     
             <center><div class="holder"></div></center>
+            <h2>Índices Precio Consumidor Registrados<br><br></h2>
             <table width="90%" class='bordered' >
                 <tr>
-                    <th colspan="11" class='encabezado_registro'>TABLA INDICES (IPC)</th>
+                    <th colspan="11" class='encabezado_registro'>INDICES (IPC)</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -128,7 +129,7 @@ class html_formIPC {
             function acceptNum(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890.";
+                letras = "01234567890.-";
                 especiales = [8, 39];
                 tecla_especial = false
                 for (var i in especiales) {
@@ -188,7 +189,7 @@ class html_formIPC {
 
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
-                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO DE INDICES<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DETALLES DEL REGISTRO<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -197,7 +198,7 @@ class html_formIPC {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF">Año a Registrar<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Año a Registrar</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -254,12 +255,12 @@ class html_formIPC {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Indice (IPC)<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Indice (IPC)</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste="return false"  title="*Campo Obligatorio" name="indice_Ipc" placeholder="0.0000"  step="0.0000"  pattern="[0-1]+([\.][0-9]+[0-9]+[0-9]+[0-9])?" maxlength="11" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
+                                <input type="text" id="indice_Ipc" onpaste="return false"  title="*Campo Obligatorio" name="indice_Ipc" placeholder="0.0000"  step="0.0000"  pattern="(?[\-][0-1])+([\.][0-9]+[0-9]+[0-9])?" maxlength="11" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
                             </div>
                             <div class="null"></div>
                         </div>
@@ -271,12 +272,12 @@ class html_formIPC {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Sumas Fijas<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Sumas Fijas</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste="return false" title="*Campo Obligatorio en el caso correspondiente" name="sum_fj" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
+                                <input type="text" id="sum_fj" onpaste="return false" title="*Campo Obligatorio en el caso correspondiente" name="sum_fj" pattern="\d{4,8}\.?\d{1,2}" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
                             </div>
                             <div class="null"></div>
                         </div>
@@ -284,6 +285,8 @@ class html_formIPC {
                     </div>
                     <div class="null"></div>
                 </div>
+
+                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
 
                 <div class="null"></div>
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>

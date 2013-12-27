@@ -210,12 +210,31 @@ class funciones_formHistoria extends funcionGeneral {
         $estado = 1;
         $fecha_registro = date('d/m/Y');
 
+        $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos['fecha_salida'])));
+
+        $antes = strtotime(str_replace('/', '-', $datos['fecha_ingreso']));
+        $despues = strtotime(str_replace('/', '-', $datos['fecha_salida']));
+
+        $dias_transcurridos = abs(($despues - $antes) / 86400);
+      
+        if ($dias_transcurridos<30) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('El número de días laborados es menor a 30 días.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+
         foreach ($datos as $key => $value) {
             if ($datos[$key] == "") {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
-                error_log('\n');
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                 $variable = 'pagina=formHistoria';
                 $variable.='&opcion=';
@@ -290,6 +309,19 @@ class funciones_formHistoria extends funcionGeneral {
             exit;
         }
 
+        if ($fecha_max > $fecha_registro) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('El intervalo de fechas no es válido');" .
+            "</script> ";
+            error_log('\n');
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
 
         $historia = $this->consultarHistoria($datos['cedula_emp']);
 
@@ -333,8 +365,8 @@ class funciones_formHistoria extends funcionGeneral {
 
             if ($datos['interrupcion'] == 'interrupcion') {
 
-                echo $dias_transcurridos = abs(($despues - $antes)/86400);
-          
+                $dias_transcurridos = abs(($despues - $antes) / 86400);
+
                 if ($dias_transcurridos < 60) {
                     echo "<script type=\"text/javascript\">" .
                     "alert('Intervalo de trabajo muy corto para registrar una interrupción! Historia Laboral Registrada');" .
@@ -393,7 +425,6 @@ class funciones_formHistoria extends funcionGeneral {
 
     function procesarFormularioInterrupcion($datos) {
 
-
         $parametros = array(
             'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
             'nit_entidad' => (isset($datos['empleador_nit']) ? $datos['empleador_nit'] : ''),
@@ -407,6 +438,7 @@ class funciones_formHistoria extends funcionGeneral {
             $ingreso = $consecutivo_acumulado[0]['int_nro_ingreso'];
         } else {
             $consecutivo = 0;
+            $ingreso = 0;
         }
 
 
@@ -414,6 +446,24 @@ class funciones_formHistoria extends funcionGeneral {
         $ingreso_def = $ingreso + 1;
         $fecha_registro = date('d/m/Y');
         $estado = 1;
+
+        $antes = strtotime(str_replace('/', '-', $datos['dias_nor_desde']));
+        $despues = strtotime(str_replace('/', '-', $datos['dias_nor_hasta']));
+
+        $dias_transcurridos = abs(($despues - $antes) / 86400);
+        $dias_registrados = intval($datos['total_dias']);
+
+        if ($dias_registrados > $dias_transcurridos) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('El número de días de interrupción es mayor a los días existentes en el periodo de interrupción.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
 
         foreach ($datos as $key => $value) {
 

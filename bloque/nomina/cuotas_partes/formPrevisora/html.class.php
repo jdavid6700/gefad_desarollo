@@ -147,7 +147,7 @@ class html_formPrevisora {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
         ?>
 
-        
+
 
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
@@ -231,7 +231,7 @@ class html_formPrevisora {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -245,7 +245,7 @@ class html_formPrevisora {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890-/()eExt.";
-                especiales = [8,9,32];
+                especiales = [8, 9, 32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -266,7 +266,7 @@ class html_formPrevisora {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-                especiales = [8,9,32];
+                especiales = [8, 9, 32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -287,7 +287,7 @@ class html_formPrevisora {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-@_ñÑ";
-                especiales = [8, 9, 64,32];
+                especiales = [8, 9, 64, 32];
 
                 tecla_especial = false
                 for (var i in especiales) {
@@ -302,8 +302,8 @@ class html_formPrevisora {
                 }
             }
         </script>
-        
-        
+
+
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
             <h1>Formulario de Registro Entidades Previsoras y Empleadoras</h1>
@@ -550,6 +550,8 @@ class html_formPrevisora {
                 </div>
                 <div class="null"></div>
             </div>
+
+            <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
 
             <div class="null"></div>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>

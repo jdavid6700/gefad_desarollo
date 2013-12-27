@@ -31,7 +31,7 @@ class sql_formRecaudo extends sql {
                 break;
 
             case "consultarEntidades":
-                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
+                $cadena_sql = " SELECT prev_nombre, hlab_nro_ingreso, hlab_nitprev, prev_nit ";
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 break;
