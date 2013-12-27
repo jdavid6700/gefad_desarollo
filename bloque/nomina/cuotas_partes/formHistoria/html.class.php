@@ -209,6 +209,26 @@ class html_formHistoria {
 
         </script>
 
+        <script>
+            function validarDias() {
+
+                alert("entro")
+                var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+                var inicio = (document.getElementById("dias_nor_desde").value);
+                var fin = (document.getElementById("dias_nor_hasta").value);
+
+                var utc1 = Date.UTC(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
+                var utc2 = Date.UTC(fin.getFullYear(), fin.getMonth(), fin.getDate());
+
+                diferencia = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+
+                alert(diferencia)
+
+                return false
+            }
+
+        </script>
+
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
             <h1>Formulario de Registro Interrupciones</h1>
 
@@ -249,7 +269,6 @@ class html_formHistoria {
                     <div class="null"></div>
                 </div>
 
-
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
@@ -266,7 +285,6 @@ class html_formHistoria {
                     </div>
                     <div class="null"></div>
                 </div>
-
 
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
@@ -349,7 +367,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" title="*Campo Obligatorio" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
+                                <input type="text" id="p1f6c" title="*Campo Obligatorio" onchange="validarDias()" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
                             </div>
                             <div class="null"></div>
                         </div>
