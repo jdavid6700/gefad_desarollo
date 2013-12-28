@@ -118,7 +118,7 @@ class html_formRecaudo {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <form id="form" method="post" action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
-            <h2>Ingrese los parámetros para consultar Recaudos registrados:</h2>
+            <h2>Ingrese los parámetros para consultar <br>Recaudos registrados:</h2>
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">

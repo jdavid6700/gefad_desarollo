@@ -210,14 +210,15 @@ class funciones_formHistoria extends funcionGeneral {
         $estado = 1;
         $fecha_registro = date('d/m/Y');
 
+
         $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos['fecha_salida'])));
 
         $antes = strtotime(str_replace('/', '-', $datos['fecha_ingreso']));
         $despues = strtotime(str_replace('/', '-', $datos['fecha_salida']));
 
         $dias_transcurridos = abs(($despues - $antes) / 86400);
-      
-        if ($dias_transcurridos<30) {
+
+        if ($dias_transcurridos < 30) {
             echo "<script type=\"text/javascript\">" .
             "alert('El número de días laborados es menor a 30 días.');" .
             "</script> ";
@@ -293,9 +294,6 @@ class funciones_formHistoria extends funcionGeneral {
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
-
-        $antes = strtotime(str_replace('/', '-', $datos['fecha_ingreso']));
-        $despues = strtotime(str_replace('/', '-', $datos['fecha_salida']));
 
         if ($antes > $despues) {
             echo "<script type=\"text/javascript\">" .
@@ -450,8 +448,22 @@ class funciones_formHistoria extends funcionGeneral {
         $antes = strtotime(str_replace('/', '-', $datos['dias_nor_desde']));
         $despues = strtotime(str_replace('/', '-', $datos['dias_nor_hasta']));
 
+        $certificado = strtotime(str_replace('/', '-', $datos['fecha_certificado']));
+
         $dias_transcurridos = abs(($despues - $antes) / 86400);
         $dias_registrados = intval($datos['total_dias']);
+
+        if ($certificado < $despues) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('La fecha del certificado no corresponde con el periodo de interrupción.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
 
         if ($dias_registrados > $dias_transcurridos) {
             echo "<script type=\"text/javascript\">" .

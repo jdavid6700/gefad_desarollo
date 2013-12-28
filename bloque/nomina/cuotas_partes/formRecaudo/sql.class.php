@@ -36,6 +36,13 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 break;
 
+            case "consultarEntidadesRecaudo":
+                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit  ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral  ";
+                $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" GROUP BY prev_nombre, hlab_nitprev, prev_nit ";
+                break;
+            
             case "consultarRecaudos":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" recta_nitprev, ";
@@ -65,7 +72,7 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" from cuotas_partes.cuotas_cobros ";
                 $cadena_sql.=" where cob_cedula = '" . $variable['cedula'] . "' ";
                 $cadena_sql.=" and cob_estado_cuenta = 'ACTIVA' ";
-                $cadena_sql.=" and cob_nitprev='".$variable['entidad']."' " ;
+                $cadena_sql.=" and cob_nitprev='" . $variable['entidad'] . "' ";
                 $cadena_sql.=" order by cob_fgenerado ASC ";
                 break;
 

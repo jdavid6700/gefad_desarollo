@@ -87,7 +87,10 @@ class html_formHistoria {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    dateFormat: 'dd/mm/yy'
+                    dateFormat: 'dd/mm/yy',
+                    onSelect: function(dateValue, inst) {
+                        $("#fecha_certificado").datepicker("option", "minDate", dateValue)
+                    }
                 });
                 $("#dias_nor_hasta").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
                 $("#dias_nor_hasta").datepicker('option', 'maxDate', '<?php echo $fecha_max ?>');
@@ -99,7 +102,6 @@ class html_formHistoria {
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy'
                 });
-                $("#fecha_certificado").datepicker('option', 'minDate', '<?php echo $fecha_max ?>');
             });</script>
 
 
@@ -174,7 +176,6 @@ class html_formHistoria {
                                     return false
                                 }
                                 return true
-
                             }
 
                             function minDate() {
@@ -212,19 +213,33 @@ class html_formHistoria {
         <script>
             function validarDias() {
 
-                alert("entro")
                 var _MS_PER_DAY = 1000 * 60 * 60 * 24;
-                var inicio = (document.getElementById("dias_nor_desde").value);
-                var fin = (document.getElementById("dias_nor_hasta").value);
 
-                var utc1 = Date.UTC(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
-                var utc2 = Date.UTC(fin.getFullYear(), fin.getMonth(), fin.getDate());
+                var hasta = (document.getElementById("dias_nor_hasta").value)
+                var desde = (document.getElementById("dias_nor_desde").value)
 
-                diferencia = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
 
-                alert(diferencia)
+                var utc1 = new Date(y1, m1, d1);
+                var utc2 = new Date(y2, m2, d2);
 
-                return false
+                var ingreso_dias = parseInt((document.getElementById("total_dias").value))
+
+                var diferencia = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+
+                if (ingreso_dias > diferencia) {
+                    alert("El número total de días es mayor a lo esperado.")
+                }
+
             }
 
         </script>
@@ -367,7 +382,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" title="*Campo Obligatorio" onchange="validarDias()" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
+                                <input type="text" id="total_dias" title="*Campo Obligatorio" onchange="validarDias()" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
                             </div>
                             <div class="null"></div>
                         </div>

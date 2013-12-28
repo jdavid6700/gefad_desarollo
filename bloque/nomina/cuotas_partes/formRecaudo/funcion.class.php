@@ -82,7 +82,7 @@ class funciones_formRecaudo extends funcionGeneral {
             exit;
         } else {
 
-            $datos_entidad = $this->consultarEntidades($cedula);
+            $datos_entidad = $this->consultarEntidadesRecaudo($cedula);
 
             if (is_array($datos_entidad)) {
                 $this->html_formRecaudo->datosRecaudos($cedula, $datos_entidad);
@@ -91,7 +91,7 @@ class funciones_formRecaudo extends funcionGeneral {
                 "alert('No existen Cuentas de Cobro registradas con cédula " . $cedula['cedula'] . ". Por lo tanto, no hay pagos a registrar.');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formularioCManual';
+                $variable = 'pagina=cuentaCobro';
                 $variable.='&opcion=manual';
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -136,6 +136,12 @@ class funciones_formRecaudo extends funcionGeneral {
 
     function consultarEntidades($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarEntidadesRecaudo($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidadesRecaudo", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
@@ -204,7 +210,6 @@ class funciones_formRecaudo extends funcionGeneral {
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
-
 
         if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pago_cuenta'])) {
             echo "<script type=\"text/javascript\">" .
