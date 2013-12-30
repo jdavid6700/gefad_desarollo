@@ -9,7 +9,7 @@
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
   --------------------------------------------------------------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------------------------
-  |				Control Versiones				    	|
+  |				Control Versiones				         |
   ----------------------------------------------------------------------------------------
   | fecha      |        Autor            | version     |              Detalle            |
   ----------------------------------------------------------------------------------------
@@ -41,7 +41,6 @@ class html_formRecaudo {
     }
 
     function form_valor() {
-
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -85,7 +84,7 @@ class html_formRecaudo {
     }
 
     function datosRecaudos($cedula, $datos_en) {
-    
+
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -184,11 +183,10 @@ class html_formRecaudo {
                 <input type='hidden' name='opcion' value='consultar'>
             </div>
         </form>
-
         <?
     }
 
-    function historiaRecaudos($historial, $cobros) {
+    function historiaRecaudos($historial, $cobros, $saldo_cuenta) {
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -232,7 +230,6 @@ class html_formRecaudo {
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
-
         <h2>Reporte de Cobros y Registro de Recaudos</h2>
 
         <h1>Cuentas de Cobro Registradas</h1>
@@ -265,10 +262,8 @@ class html_formRecaudo {
                     if (is_array($cobros)) {
 
                         foreach ($cobros as $key => $value) {
-                            $saldo = 0;
-
+                            $saldo = $saldo_cuenta;
                             /* foreach ($historial as $cont => $value) {
-
                               $a = 0;
                               $b = 1;
                               if ($historial[$cont][1] == $historial[$b][1]) {
@@ -556,28 +551,38 @@ class html_formRecaudo {
             function valor()
             {
 
+                //VALOR PAGADO
         <? foreach ($cuentas_pago as $key => $values) { ?>
                     var num<?php echo $key ?> = document.formRecaudo.valor_pago_<?php echo $key ?>.value;
-                    var num<?php echo $key ?> = document.formRecaudo.valor_pago_<?php echo $key ?>.value;
         <? } ?>
-                var total = parseInt(num0) + parseInt(num1);
+                var total = 0;
+
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var total = parseInt(num<?php echo $key ?>) + total;
+        <? } ?>
+
                 document.getElementById('total_recaudo').value = total;
 
+                //VALOR COBRADO
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
                     var num_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
-                    var num_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
         <? } ?>
 
-                var total_cobro = parseInt(num_0) + parseInt(num_1);
+                var total_cobro = 0;
+
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var total_cobro = parseInt(num_<?php echo $key ?>) + total_cobro;
+        <? } ?>
+
+                // COMPARACIÓN VALORES COBRADOS
                 if (total_cobro < total) {
-                    alert("Cuidado! Suma de Valor Pago es MAYOR a la Suma de Valor Cobrado")
+                    alert("¡Cuidado! Suma de Valor Pago es MAYOR a la Suma de Valor Cobrado")
                     return false
                 }
 
-
                 if (total_cobro > total) {
-                    alert("Cuidado! Suma de Valor Pago es MENOR a la Suma de Valor Cobrado")
+                    alert("¡Cuidado! Suma de Valor Pago es MENOR a la Suma de Valor Cobrado")
                     return false
                 }
             }
@@ -686,7 +691,6 @@ class html_formRecaudo {
                                 echo "<input type='text' onpaste='return false' name='valor_cobro_" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $cobro . "'> <br>";
                             }
                             ?>
-
                         </div> 
                     </div>
                 </div>
@@ -725,7 +729,6 @@ class html_formRecaudo {
                         </div> 
                     </div>
                 </div>
-
 
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">

@@ -100,14 +100,15 @@ class funciones_formRecaudo extends funcionGeneral {
         }
     }
 
-    function historiaRecaudos($datos_consulta) {
+    function historiaRecaudos($datos_consulta,$saldo_cuenta) {
         $parametros = array('cedula' => $datos_consulta['cedula_emp'], 'entidad' => $datos_consulta['hlab_nitprev']);
 
+        $saldo_cc=$saldo_cuenta;
         $datos_recaudos = $this->consultarRecaudos($parametros);
         $datos_cobros = $this->consultarCobros($parametros);
 
         if (is_array($datos_cobros)) {
-            $this->html_formRecaudo->historiaRecaudos($datos_recaudos, $datos_cobros);
+            $this->html_formRecaudo->historiaRecaudos($datos_recaudos, $datos_cobros,$saldo_cc);
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existen Cuentas de Cobro registradas con cédula " . $parametros['cedula'] . " para la Entidad " . $parametros['entidad'] . ". Por lo tanto, no hay pagos a registrar.');" .

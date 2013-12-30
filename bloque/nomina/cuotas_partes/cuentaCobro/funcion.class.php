@@ -62,6 +62,12 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_previsora;
     }
+    
+    function consultarPrevisoraUnica($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisoraUnica", $parametro);
+        $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_previsora;
+    }
 
     function consultarEmpleador($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEmpleador", $parametros);
@@ -77,7 +83,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
 
     function consultaPManual($cedula) {
 
-        $datos_previsora = $this->consultarPrevisora($cedula);
+        $datos_previsora = $this->consultarPrevisoraUnica($cedula);
 
         if (is_array($datos_previsora)) {
             $this->htmlCuentaCobro->previsoraManual($cedula, $datos_previsora);

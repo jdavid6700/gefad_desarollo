@@ -256,6 +256,12 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.= " '" . $variable['fecha_registro'] . "'); ";
                 break;
 
+            case "consultarPrevisoraUnica":
+                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit  ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral  ";
+                $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable . "' ";
+                $cadena_sql.=" GROUP BY prev_nombre, hlab_nitprev, prev_nit ";
+                break;
             default:
                 $cadena_sql = "";
                 break;

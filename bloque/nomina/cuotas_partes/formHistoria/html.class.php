@@ -145,7 +145,6 @@ class html_formHistoria {
             }
         </script>
 
-
         <script>
             function confirmarEnvio()
             {
@@ -661,7 +660,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div class="control capleft">
-                                <div class="dropdown" required='required' title="*Campo Obligatorio">
+                                <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
                                     <?
                                     unset($combo);
@@ -700,7 +699,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div class="control capleft">
-                                <div class="dropdown" required='required' title="*Campo Obligatorio">
+                                <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
                                     <?
                                     unset($combo);
@@ -790,7 +789,6 @@ class html_formHistoria {
                         <div class="control capleft">
                             <div>
                                 <input type="text" id="p1f12c" title="*Campo Obligatorio" onpaste="return false" name="horas_laboradas"  placeholder="000"  class="fieldcontent" required='required' onKeyPress='return acceptNum8(event)' maxlength="3" min="8" max="240" value="8">
-
                             </div>
                             <div class="null"></div>
                         </div>

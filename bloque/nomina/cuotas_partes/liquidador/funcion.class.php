@@ -69,7 +69,7 @@ class funciones_liquidador extends funcionGeneral {
 
     /* __________________________________________________________________________________________________
 
-      Metodos especificos
+      Metodos específicos
       __________________________________________________________________________________________________ */
 
 //datos basicos para liquidar
