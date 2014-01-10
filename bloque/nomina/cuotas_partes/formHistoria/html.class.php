@@ -817,7 +817,7 @@ class html_formHistoria {
                         <div class="control capleft">
                             <div>
                                 <div class="dropdown">
-                                    <select id="p1f13c" name="tipo_horas" title="*Campo Obligatorio" class="fieldcontent"><option value="0" selected="selected">Diarias</option><option value="1">Semanales</option><option value="2">Mensuales</option><option value="3" >En el Periodo</option></select>
+                                    <select id="p1f13c" name="tipo_horas" title="*Campo Obligatorio" class="fieldcontent"><option value="Diario" selected="selected">Diarias</option><option value="Semanal">Semanales</option><option value="Mensual">Mensuales</option><option value="3" >En el Periodo</option></select>
                                     <div class="fielderror"></div>
                                 </div>
                             </div>

@@ -66,7 +66,30 @@ class funciones_formSalario extends funcionGeneral {
     }
 
     function mostrarFormulario() {
-        $this->html_formSalario->formularioSalario();
+        $datos_salario = $this->Salarios();
+
+        //Determinar los límites de las vigencias de los salarios
+
+        if ($datos_salario == true) {
+            foreach ($datos_salario as $key => $value) {
+                $rango_salario[$key] = array(
+                    'inicio' => date('d/m/Y', strtotime($value['salario_vdesde'])),
+                    'fin' => date('d/m/Y', strtotime($value['salario_vhasta'])));
+            }
+        } else {
+            $rango_salario = array(
+                'inicio' => date('d/m/Y', strtotime('01/01/1940')),
+                'fin' => date('d/m/Y', strtotime('01/01/2000')));
+        }
+        
+        $this->html_formSalario->formularioSalario($rango_salario);
+    }
+
+    function Salarios() {
+        $parametros = "";
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "Consultar", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
+        return $datos;
     }
 
     function ConsultarSalario() {
@@ -137,7 +160,7 @@ class funciones_formSalario extends funcionGeneral {
 
         if ($antes > $despues) {
             echo "<script type=\"text/javascript\">" .
-            "alert('El rango de Vigencia no es correcto. Revise la Fecha de Inicio de Vigencia, Fecha Final de Vigencia y el Año a Registrar');" .
+            "alert('El rango de las fechas de vigencia no es correcto');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioSalario';
@@ -146,35 +169,10 @@ class funciones_formSalario extends funcionGeneral {
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
-
 
         $año_desde = date('Y', (strtotime(str_replace('/', '-', $datos['fecvig_desde']))));
         $año_hasta = date('Y', (strtotime(str_replace('/', '-', $datos['fecvig_desde']))));
         $anio = $datos['año_registrar'];
-
-        if ($anio!== $año_desde) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Fecha Vigencia Fuera del Rango del Año de Vigencia');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioSalario';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        } elseif ($anio!== $año_hasta) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Fecha Vigencia Fuera del Rango del Año de Vigencia');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioSalario';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
-
-
 
         $parametros = "";
         $anio = $datos['año_registrar'];
@@ -182,7 +180,7 @@ class funciones_formSalario extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "VeriAnio", $parametros);
         $verificacion = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
 
-        foreach ($verificacion as $key => $value) {
+        /*foreach ($verificacion as $key => $value) {
             $Ani_ = $verificacion[$key]['salario_anio'];
 
             if ($anio == $Ani_) {
@@ -197,6 +195,28 @@ class funciones_formSalario extends funcionGeneral {
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
             }
+        }*/
+
+        if ($anio !== $año_desde) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Las Fechas de Vigencia NO corresponde con el Año seleccionado');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        } elseif ($anio !== $año_hasta) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha Vigencia Fuera del Rango del Año de Vigencia');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSalario';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
         }
 
         $parametros2 = array(
@@ -247,5 +267,4 @@ class funciones_formSalario extends funcionGeneral {
     }
 
 }
-
 ?>

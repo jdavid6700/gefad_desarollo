@@ -188,8 +188,8 @@ class funciones_formDTF extends funcionGeneral {
 
             $datos['indice_dtf'] = 0.12;
 
-            $fecha_inicio = '01-01-' . $datos['año_registrar'];
-            $fecha_final = '01-12-' . $datos['año_registrar'];
+            $fecha_inicio = '01-01-' . $anio_inicio;
+            $fecha_final = '01-12-' . $anio_fin;
 
             $parametros = "";
             $parametros = array(
@@ -244,7 +244,7 @@ class funciones_formDTF extends funcionGeneral {
             $parametros = "";
             $parametros = array(
                 'Anio_registrado' => $anio_fin,
-                'norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
+                'Norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
                 'Numero_resolucion' => (isset($datos['n_resolucion']) ? $datos['n_resolucion'] : ''),
                 'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),
                 'Fecha_vigencia_inicio' => (isset($datos['fecvig_desde']) ? $datos['fecvig_desde'] : ''),

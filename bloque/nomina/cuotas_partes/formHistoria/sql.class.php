@@ -152,14 +152,6 @@ class sql_formHistoria extends sql {
                 $cadena_sql.= " where dcp_nro_identificacion = '" . $variable . "' ";
                 break;
 
-
-            case "consultarGeografia":
-                $cadena_sql = " SELECT dep_nombre, mun_nombre ";
-                $cadena_sql.=" FROM MNTGE.gemunicipio, MNTGE.gedepartamento ";
-                $cadena_sql.=" WHERE mun_dep_cod = dep_cod";
-                $cadena_sql.=" ORDER BY mun_nombre";
-                break;
-
             case "consultarConsecutivo":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" hlab_nro_ingreso, ";

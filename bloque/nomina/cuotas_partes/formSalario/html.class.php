@@ -60,7 +60,7 @@ class html_formSalario {
             });</script>
 
         <center>     
-           
+
             <h2><br><br>Reporte Salarios Mínimos Legales Registrados<br><br></h2>
             <table width="90%" class='bordered' >
                 <tr>
@@ -106,8 +106,10 @@ class html_formSalario {
         <?php
     }
 
-    function formularioSalario() {
-
+    function formularioSalario($rango) {
+        
+        var_dump($rango);
+       
         $this->formulario = "formSalario";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -208,9 +210,6 @@ class html_formSalario {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-                    onChangeMonthYear: function(year, month, inst) {
-                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
-                    },
                     maxDate: "+0D",
                 });
 
@@ -219,10 +218,7 @@ class html_formSalario {
                     changeYear: true,
                     yearRange: '1940:c',
                     dateFormat: 'dd/mm/yy',
-                    maxDate: "+1M",
-                    onChangeMonthYear: function(year, month, inst) {
-                        $('#' + inst.id).datepicker("setDate", month + '/1/' + year);
-                    }
+                    maxDate: "+1M"
                 });
             });</script>
 
@@ -254,8 +250,80 @@ class html_formSalario {
             }
         </script>
 
+        <script language = "Javascript">
+            //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
+            function echeck(str) {
 
-        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off' >
+        <?
+        foreach ($rango as $key => $values) {
+            /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+              echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
+
+            $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']) . "+ 1 day")));
+
+            $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']) . "+ 1 day")));
+
+            echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+            echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
+
+            echo "var y1 = str.substring(6);\n\n";
+            echo "var m13 = str . substring(3, 5);\n\n";
+            echo "var m12 = m13 - 1;\n\n";
+            echo "var m1 = '0' + m12;\n\n";
+            echo "var d1 = str.substring(0, 2);\n\n";
+            echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+            echo "var ming = min.getTime();\n\n";
+            echo "var maxg = max.getTime();\n\n";
+            echo "var cadenag = cadena.getTime();\n\n";
+
+            echo "if (cadenag > ming && cadenag < maxg) {\n";
+            // echo "alert(min  cadena  max)\n\n";
+            echo "alert('Ya existen registros para este periodo.')\n";
+            echo " return false\n";
+            echo "    }\n\n";
+        }
+        ?>
+                return true
+            }
+
+            function minDate() {
+
+                var fechaID = document.formSalario.fecvig_desde;
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+                var fechaID = document.formSalario.fecvig_hasta;
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+            }
+
+        </script>
+
+
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off'  onsubmit="return minDate()">
             <h1>Salario Mínimo Legal</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
@@ -385,7 +453,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" pattern=".{4,10}" maxlength='10' required='required'  onKeyPress='return acceptNum2(event)' >
+                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" pattern="\d\.?\d{1,2}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
                             </div>
                             <div class="null"></div>
                         </div>
@@ -395,7 +463,7 @@ class html_formSalario {
                 </div>
 
                 <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
-                
+
                 <div class="null"></div>
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar" onClick='return confirmarEnvio();'></center>
 

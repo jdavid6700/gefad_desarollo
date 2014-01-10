@@ -58,8 +58,7 @@ class html_formPrevisora {
                     perPage: 5,
                     delay: 20
                 });
-            });
-        </script>
+            });</script>
 
         <h1>Entidades Previsoras y Empleadoras</h1>
 
@@ -136,7 +135,7 @@ class html_formPrevisora {
         <?
     }
 
-    function formularioPrevisora() {
+    function formularioPrevisora($depto, $mun) {
 
         $this->formulario = "formPrevisora";
 
@@ -176,7 +175,9 @@ class html_formPrevisora {
 
         <script language = "Javascript">
             /**
-             * DHTML email validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+             * DHTML email validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dht
+             
+             ml/)
              */
 
             function echeck(str) {
@@ -224,12 +225,41 @@ class html_formPrevisora {
                 return true
             }
 
+            function ValidateForm() {
+                var emailID = document.formPrevisora.txtEmail
+
+                if ((emailID.value == null) || (emailID.value == "")) {
+                    alert("Ingrese un correo electrónico!")
+                    emailID.focus()
+                    return false
+                }
+                if (echeck(emailID.value) == false) {
+                    emailID.value = ""
+                    emailID.focus()
+                    return false
+                }
+
+                var emailID2 = document.formPrevisora.txtEmail2
+
+                if ((emailID2.value == null) || (emailID2.value == "")) {
+                    alert("Ingrese un correo electrónico!")
+                    emailID2.focus()
+                    return false
+                }
+                if (echeck(emailID2.value) == false) {
+                    emailID2.value = ""
+                    emailID2.focus()
+                    return false
+                }
+                return true
+            }
+
         </script>
 
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Confirmar envío de formulario.");
+                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
                 if (r == true) {
                     return true;
                 } else {
@@ -244,7 +274,6 @@ class html_formPrevisora {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "01234567890-/()eExt.";
                 especiales = [8, 9, 32];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -265,7 +294,6 @@ class html_formPrevisora {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
                 especiales = [8, 9, 32];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -286,7 +314,6 @@ class html_formPrevisora {
                 tecla = String.fromCharCode(key).toLowerCase();
                 letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-@_ñÑ";
                 especiales = [8, 9, 64, 32];
-
                 tecla_especial = false
                 for (var i in especiales) {
                     if (key == especiales[i]) {
@@ -406,13 +433,34 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Ciudad</span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Departamento</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="ciudad" class="fieldcontent" required='required' maxlength='35' onKeyPress='return acceptLetter(event)' onpaste="return false">
+
+                        <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
+
+                            <?
+                            unset($combo);
+                            //prepara los datos como se deben mostrar en el combo
+                            $combo[0][0] = '1';
+                            $combo[0][1] = 'No registra en la base de datos';
+                            foreach ($depto as $cmb => $values) {
+                                $combo[$cmb][0] = isset($depto[$cmb]['departamento']) ? $depto[$cmb]['departamento'] : 0;
+                                $combo[$cmb][1] = isset($depto[$cmb]['departamento']) ? $depto[$cmb]['departamento'] : '';
+                            }
+
+                            // echo$combo;
+                            if (isset($_REQUEST['departamento'])) {
+                                $lista_combo = $this->html->cuadro_lista($combo, 'departamento', $this->configuracion, $_REQUEST['departamento'], 0, FALSE, 0, 'departamento');
+                            } else {
+                                $lista_combo = $this->html->cuadro_lista($combo, 'departamento', $this->configuracion, 0, 0, FALSE, 0, 'departamento');
+                            }
+                            echo $lista_combo;
+                            ?> 
+
                         </div>
+
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -423,12 +471,31 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Departamento</span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Municipio</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f7c" name="departamento" class="fieldcontent" required='required' maxlength='35' onKeyPress='return acceptLetter(event)'  onpaste="return false">
+                        <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
+
+                            <?
+                            unset($combo);
+                            //prepara los datos como se deben mostrar en el combo
+                            $combo[0][0] = '1';
+                            $combo[0][1] = 'No registra en la base de datos';
+                            foreach ($mun as $cmb => $values) {
+                                $combo[$cmb][0] = isset($mun[$cmb]['municipio']) ? $mun[$cmb]['municipio'] : 0;
+                                $combo[$cmb][1] = isset($mun[$cmb]['municipio']) ? $mun[$cmb]['municipio'] : '';
+                            }
+
+                            // echo$combo;
+                            if (isset($_REQUEST['departamento'])) {
+                                $lista_combo = $this->html->cuadro_lista($combo, 'municipio', $this->configuracion, $_REQUEST['municipio'], 0, FALSE, 0, 'municipio');
+                            } else {
+                                $lista_combo = $this->html->cuadro_lista($combo, 'municipio', $this->configuracion, 0, 0, FALSE, 0, 'municipio');
+                            }
+                            echo $lista_combo;
+                            ?> 
+
                         </div>
                         <div class="null"></div>
                     </div>

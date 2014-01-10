@@ -55,11 +55,6 @@ class funciones_formHistoria extends funcionGeneral {
         //Conexión a Postgres 
         $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
 
-        //Conexión a Oracle
-        //$this->acceso_oracle = $this->conectarDB($configuracion, "cuotasP");
-        //var_dump($this->acceso_oracle);
-        //Datos de sesion
-
         $this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
         $this->identificacion = $this->rescatarValorSesion($configuracion, $this->acceso_db, "identificacion");
 
@@ -92,13 +87,6 @@ class funciones_formHistoria extends funcionGeneral {
         $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_historia;
     }
-
-    /* function consultarGeografia($parametro) {
-      echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarGeografia", $parametro);
-      $datos_geo = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
-      return $datos_geo;
-      }
-     */
 
     function dbasicoHistoria() {
         $this->html_formHistoria->datoBasico();

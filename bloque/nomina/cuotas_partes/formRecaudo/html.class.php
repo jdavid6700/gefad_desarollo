@@ -688,7 +688,7 @@ class html_formRecaudo {
                             foreach ($cuentas_pago as $key => $value) {
                                 $valor = $key;
                                 $cobro = $cuentas_pago[$key]['valor_pago'];
-                                echo "<input type='text' onpaste='return false' name='valor_cobro_" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $cobro . "'> <br>";
+                                echo "<input type='text' onpaste='return false' pattern='\d{4,8}\.?\d{1,2}' name='valor_cobro_" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $cobro . "'> <br>";
                             }
                             ?>
                         </div> 
@@ -706,7 +706,7 @@ class html_formRecaudo {
                                 foreach ($cuentas_pago as $key => $value) {
                                     $valor = $key;
                                     $saldo = $cuentas_pago[$key]['saldo'];
-                                    echo "<input type='text' onpaste='return false' name='valor_saldo" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $saldo . "'> <br>";
+                                    echo "<input type='text' onpaste='return false' pattern='\d{4,8}\.?\d{1,2}' name='valor_saldo" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $saldo . "'> <br>";
                                 }
                                 ?>
                             </div> 
@@ -722,7 +722,7 @@ class html_formRecaudo {
                             foreach ($cuentas_pago as $key => $value) {
                                 $valor = $key;
                                 $cobro = $cuentas_pago[$key]['valor_pago'];
-                                echo "<input type='text' onpaste='return false' name='valor_pago_" . $valor . "' class='fieldcontent' required='required' maxlength='12' value='" . $cobro . "'> <br>";
+                                echo "<input type='text' onpaste='return false' pattern='\d{4,8}\.?\d{1,2}' name='valor_pago_" . $valor . "' class='fieldcontent' required='required' maxlength='12' value='" . $cobro . "'> <br>";
                             }
                             ?>
 
@@ -774,7 +774,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text"  onpaste='return false' title="*Campo Obligatorio" name="valor_pagado_capital" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)' maxlength='10'>
+                                    <input type="text"  onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{1,2}" name="valor_pagado_capital" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)' maxlength='10'>
                                 </div>
                             </div>
                         </div>       
@@ -785,7 +785,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f12cc" onpaste='return false' title="*Campo Obligatorio" name="valor_pagado_interes" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)'>
+                                    <input type="text" id="p1f12cc" onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{1,2}" name="valor_pagado_interes" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)'>
                                 </div>
                             </div>
                         </div>
@@ -798,7 +798,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="total_recaudo" onpaste='return false' title="*Campo Obligatorio" name="total_recaudo" class="fieldcontent" required='required' maxlength="12" onKeyPress='return acceptNum2(event)'>
+                                    <input type="text" id="total_recaudo" onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{1,2}" name="total_recaudo" class="fieldcontent" required='required' maxlength="12" onKeyPress='return acceptNum2(event)'>
                                     <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
                                 </div>                       
                             </div>      

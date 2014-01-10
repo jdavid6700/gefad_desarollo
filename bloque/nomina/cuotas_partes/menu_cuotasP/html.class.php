@@ -147,7 +147,7 @@
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Registrar y Consultar Indice Tasa de Interés</a></li>
+                                        ?>">Registrar y Consultar Índice Tasa de Interés</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioSalario';

@@ -27,8 +27,8 @@ class sql_formDTF extends sql {
                     dtf_indi_ce,
                     dtf_estado,
                     dtf_fecha_registro) VALUES ( ";
-                $cadena_sql.=" '" . $variable['norma'] . "' ,";
-                $cadena_sql.=" " . $variable['Numero_resolucion'] . ",  ";
+                $cadena_sql.=" '" . $variable['Norma'] . "' ,";
+                $cadena_sql.=" '" . $variable['Numero_resolucion'] . "',  ";
                 $cadena_sql.=" '" . $variable['Fecha_resolucion'] . "',  ";
                 $cadena_sql.=" '" . $variable['Fecha_vigencia_inicio'] . "',  ";
                 $cadena_sql.=" '" . $variable['Fecha_vigencia_final'] . "',  ";
@@ -56,7 +56,7 @@ class sql_formDTF extends sql {
                                 dtf_indi_ce,
                                 dtf_estado,
                                 dtf_fecha_registro) VALUES (";
-                $cadena_sql.=" '" . $variable['norma'] . "' ,";
+                $cadena_sql.=" '" . $variable['Norma'] . "' ,";
                 $cadena_sql.=" '" . $variable['Numero_resolucion'] . "',";
                 $cadena_sql.=" '" . $variable['Fecha_resolucion'] . "',  ";
                 $cadena_sql.=" '" . $variable['Interes_DTF'] . "', ";

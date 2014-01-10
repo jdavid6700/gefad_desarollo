@@ -336,7 +336,7 @@ class html_formDTF {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="n_resolucion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>N° de la  Resolución</span></span></span></label>*Superintendencia<br> Financiera
+                            <label class="fieldlabel" for="n_resolucion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>N° de Norma</span></span></span></label>*Superintendencia<br> Financiera
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -353,7 +353,7 @@ class html_formDTF {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fec_reso"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Resolución</span></span></span></label>
+                            <label class="fieldlabel" for="fec_reso"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Norma</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">

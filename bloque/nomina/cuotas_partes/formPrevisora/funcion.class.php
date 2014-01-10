@@ -57,14 +57,34 @@ class funciones_formPrevisora extends funcionGeneral {
         //Conexión a Postgres 
         $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
 
-        //Datos de sesion
+        //Conexión a Oracle
+        $this->acceso_oracle = $this->conectarDB($configuracion, "cuotasP");
 
+        //Datos de sesion
         $this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
         $this->identificacion = $this->rescatarValorSesion($configuracion, $this->acceso_db, "identificacion");
 
         $this->configuracion = $configuracion;
 
         $this->html_formPrevisora = new html_formPrevisora($configuracion);
+    }
+
+    function consultarGeografia($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarGeografia", $parametro);
+        $datos_geo = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
+        return $datos_geo;
+    }
+
+    function consultarDepartamento($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarGeografiaDEP", $parametro);
+        $datos_geo = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
+        return $datos_geo;
+    }
+
+    function consultarMunicipio($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarGeografiaMUN", $parametro);
+        $datos_geo = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
+        return $datos_geo;
     }
 
     function consultarRegistros() {
@@ -76,8 +96,30 @@ class funciones_formPrevisora extends funcionGeneral {
         $this->html_formPrevisora->mostrarRegistros($datos_registro);
     }
 
+    function consultarNITS() {
+        $parametros = array();
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
+        $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_registro;
+    }
+
     function mostrarFormulario() {
-        $this->html_formPrevisora->formularioPrevisora();
+
+        $parametros = array();
+
+        $geogr = $this->consultarGeografia($parametros);
+
+        var_dump($geogr);
+        exit;
+
+        if ($geogr == true) {
+            foreach ($geogr as $key => $value) {
+                $depto[$key] = array('departamento' => $value['DEP_NOMBRE']);
+                $mun[$key] = array('municipio' => $value['MUN_NOMBRE']);
+            }
+        }
+
+        $this->html_formPrevisora->formularioPrevisora($depto, $mun);
     }
 
     function procesarFormulario($datos) {
@@ -96,6 +138,28 @@ class funciones_formPrevisora extends funcionGeneral {
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                 exit;
+            }
+        }
+
+        $verificacion_nit = $this->consultarNITS();
+        $nit_registro = $datos['nit_previsora'];
+
+        if (is_array($verificacion_nit)) {
+            foreach ($verificacion_nit as $key => $value) {
+                $Nit = $verificacion_nit[$key]['prev_nit'];
+
+                if ($Nit == $nit_registro) {
+
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('El NIT ya se encuentra registrado.');" .
+                    "</script> ";
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = "pagina=formularioPrevisora";
+                    $variable .= "&opcion=";
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    exit;
+                }
             }
         }
 
@@ -120,26 +184,36 @@ class funciones_formPrevisora extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarPrevisora", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
+        if ($datos_registrados == true) {
+            $registro[0] = "GUARDAR";
+            $registro[1] = $parametros['nit_previsora'] . '|' . $parametros['nombre_previsora'] . '|' . $parametros['estado']; //
+            $registro[2] = "CUOTAS_PARTES_previsora";
+            $registro[3] = $parametros['direccion'] . '|' . $parametros['telefono'] . '|' . $parametros['responsable']; //
+            $registro[4] = time();
+            $registro[5] = "Registra datos básicos entidad previsora con ";
+            $registro[5] .= "NIT =" . $parametros['nit_previsora'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
 
-        $registro[0] = "GUARDAR";
-        $registro[1] = $parametros['nit_previsora'] . '|' . $parametros['nombre_previsora'] . '|' . $parametros['estado']; //
-        $registro[2] = "CUOTAS_PARTES_previsora";
-        $registro[3] = $parametros['direccion'] . '|' . $parametros['telefono'] . '|' . $parametros['responsable']; //
-        $registro[4] = time();
-        $registro[5] = "Registra datos básicos entidad previsora con ";
-        $registro[5] .= "NIT =" . $parametros['nit_previsora'];
-        $this->log_us->log_usuario($registro, $this->configuracion);
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos Registrados');" .
+            "</script> ";
 
-
-        echo "<script type=\"text/javascript\">" .
-        "alert('Datos Registrados');" .
-        "</script> ";
-
-        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-        $variable = "pagina=formularioPrevisora";
-        $variable .= "&opcion=";
-        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioPrevisora";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Los datos NO se registraron correctamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioSalario";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
     }
 
 }

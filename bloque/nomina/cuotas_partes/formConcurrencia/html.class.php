@@ -445,7 +445,7 @@ class html_formConcurrencia {
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return minDate();" autocomplete='Off'>
-            <h1>Formulario de Registro Concurrencia Aceptada</h1>
+            <h1>Concurrencias Aceptadas</h1>
 
             <div class="formrow f1">
                 <div id="p1f4" class="field n1">
