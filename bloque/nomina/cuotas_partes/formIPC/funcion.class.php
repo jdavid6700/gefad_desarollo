@@ -131,7 +131,7 @@ class funciones_formIPC extends funcionGeneral {
 
 
 
-        if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['indice_Ipc'])) {
+        if (!preg_match("^[0]{1}(\.[0-9]{1,9})?$^", $datos['indice_Ipc'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formulario NO diligenciado correctamente. Formato índice erróneo');" .
             "</script> ";

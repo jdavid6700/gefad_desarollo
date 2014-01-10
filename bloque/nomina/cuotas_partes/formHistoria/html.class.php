@@ -244,7 +244,7 @@ class html_formHistoria {
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
-            <h1>Formulario de Registro Interrupciones</h1>
+            <h1>Registro Interrupción Laboral</h1>
 
             <div class="formrow f1">
                 <div id="p1f1" class="field n1">
@@ -524,7 +524,7 @@ class html_formHistoria {
         </script>
 
         <script language = "Javascript">
-            //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
+            //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
             function echeck(str) {
 
         <?
@@ -540,11 +540,22 @@ class html_formHistoria {
             $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
             $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']) . "+ 1 day")));
 
-
             echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
             echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
-            echo "var cadena = new Date(str);\n\n";
-            echo "if (cadena > min && cadena < max) {\n";
+
+            echo "var y1 = str.substring(6);\n\n";
+            echo "var m13 = str . substring(3, 5);\n\n";
+            echo "var m12 = m13 - 1;\n\n";
+            echo "var m1 = '0' + m12;\n\n";
+            echo "var d1 = str.substring(0, 2);\n\n";
+            echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+            echo "var ming = min.getTime();\n\n";
+            echo "var maxg = max.getTime();\n\n";
+            echo "var cadenag = cadena.getTime();\n\n";
+
+            echo "if (cadenag > ming && cadenag < maxg) {\n";
+            // echo "alert(min  cadena  max)\n\n";
             echo "alert('Ya existen historias laborales registradas para este periodo.')\n";
             echo " return false\n";
             echo "    }\n\n";
@@ -613,7 +624,7 @@ class html_formHistoria {
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onsubmit="return minDate()">
-            <h1>Formulario de Registro Historia Laboral Pensionado CP</h1>
+            <h1>Registro Historia Laboral Pensionado CP</h1>
             <div class="formrow f1">
                 <div id="p1f1" class="field n1">
                     <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">INFORMACIÓN BÁSICA</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
@@ -973,7 +984,7 @@ class html_formHistoria {
 
         <form id="form" method="post" action='index.php' name='<? echo $this->formulario; ?>' autocomplete='Off'>
 
-            <h1>Historia Laboral Registrada Pensionado Cuota Parte</h1>
+            <h1>Reporte Historia Laboral</h1>
 
             <table class='bordered'  width ="100%"  >
                 <tr>
@@ -1019,11 +1030,11 @@ class html_formHistoria {
                     } else {
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
                     ?>
@@ -1111,7 +1122,7 @@ class html_formHistoria {
                     <td class='texto_elegante2 estilo_td' align=center>INGRESO</td>
                     <td class='texto_elegante2 estilo_td' align=center>INTERRUPCION</td>
                     <td class='texto_elegante2 estilo_td' colspan="3" align=center>NÚMERO CERTIFICACIÓN</td>
-                    <td class='texto_elegante2 estilo_td' colspan="7" align=center>FECHA CERTIFICACIÓN</td>
+                    <td class='texto_elegante2 estilo_td' colspan="6" align=center>FECHA CERTIFICACIÓN</td>
 
                 </tr>
 
@@ -1124,7 +1135,7 @@ class html_formHistoria {
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_ingreso'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_interrupcion'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $interrupcion[$key]['int_num_certificado'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='7' style='text-align:center;'>" . $interrupcion[$key]['int_fecha_cert'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='6' style='text-align:center;'>" . $interrupcion[$key]['int_fecha_cert'] . "</td>";
                             echo "</tr>";
                         }
                     } else {
@@ -1132,13 +1143,13 @@ class html_formHistoria {
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td'  colspan='7'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td'  colspan='6'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
                     ?>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>DESCRIPCIÓN CUOTAS PARTES</th>
+                    <th colspan="12" class='encabezado_registro'>CONCURRENCIA ACEPTADA</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>

@@ -120,7 +120,7 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function consultarPrevisora($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametro);
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisoraU", $parametro);
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_previsora;
     }

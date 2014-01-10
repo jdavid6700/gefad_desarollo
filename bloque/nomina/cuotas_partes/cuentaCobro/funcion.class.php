@@ -62,7 +62,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_previsora;
     }
-    
+
     function consultarPrevisoraUnica($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisoraUnica", $parametro);
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -71,6 +71,12 @@ class funciones_adminCuentaCobro extends funcionGeneral {
 
     function consultarEmpleador($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEmpleador", $parametros);
+        $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_registro;
+    }
+
+    function consultarEmpleadorUnico($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEmpleadorUnico", $parametros);
         $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_registro;
     }
@@ -108,9 +114,9 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             'previsor' => (isset($form_manual['hlab_nitprev']) ? $form_manual['hlab_nitprev'] : '')
         );
 
-        $datos_entidad = $this->consultarEmpleador($parametros);
+        $datos_entidad = $this->consultarEmpleadorUnico($parametros);
         $datos_previsora = $this->consultarPrevForm($parametros);
-
+        
         $this->htmlCuentaCobro->formRegistroManual($datos_entidad, $datos_previsora, $form_manual);
     }
 
@@ -356,36 +362,37 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         }
 
-        /* validación traslape fechas 
-          $antes = strtotime($datos['fecha_inicial']);
-          $despues = strtotime($datos['fecha_final']);
+        /* validación traslape fechas */
 
-          if ($antes > $despues) {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Fecha Final no coincide con Fecha Inicial');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formCManual';
-          $variable.='&opcion=manual';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-          exit;
-          }
+        $antes = strtotime(str_replace('/', '-', $datos['fecha_inicial']));
+        $despues = strtotime(str_replace('/', '-', $datos['fecha_final']));
 
-          $antes = strtotime($datos['fecha_final']);
-          $despues = strtotime($datos['fecha_generacion']);
+        if ($antes > $despues) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha Final no coincide con Fecha Inicial');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
 
-          if ($antes > $despues) {
-          echo "<script type=\"text/javascript\">" .
-          "alert('Fecha Final no coincide con Fecha Generación Cuenta de Cobro');" .
-          "</script> ";
-          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-          $variable = 'pagina=formCManual';
-          $variable.='&opcion=manual';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-          exit;
-          } */
+        $antes = strtotime(str_replace('/', '-', $datos['fecha_final']));
+        $despues = strtotime(str_replace('/', '-', $datos['fecha_generacion']));
+
+        if ($antes > $despues) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha Final no coincide con Fecha Generación Cuenta de Cobro');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formCManual';
+            $variable.='&opcion=manual';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
 
         /* validación formato de campos fecha */
 

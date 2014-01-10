@@ -13,9 +13,9 @@
   ----------------------------------------------------------------------------------------
   | fecha      |        Autor            | version     |              Detalle            |
   ----------------------------------------------------------------------------------------
-  | 11/06/2013 | Violet Sosa             | 0.0.0.1     |                                 |
+  | 11/06/2013 | Violeta Sosa             | 0.0.0.1     |                                 |
   ----------------------------------------------------------------------------------------
-  | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
+  | 02/08/2013 | Violeta Sosa             | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
  */
 
@@ -70,10 +70,8 @@ class html_formPrevisora {
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
         echo $this->indice . $variable;
         ?>">
-            <center><button id="registrarBoton"  class="navbtn">Registrar Nueva Entidad</button></center>
+            <center><button id="registrarBoton"  class="navbtn">Registrar Nueva Entidad</button><br><br><br></center>
         </a>
-
-        <center><div class="holder"></div></center>
 
         <table class = 'bordered' width = "100%" >
             <tr>
@@ -306,12 +304,20 @@ class html_formPrevisora {
 
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
-            <h1>Formulario de Registro Entidades Previsoras y Empleadoras</h1>
+            <h1>Entidades Previsoras y Empleadoras</h1>
+
+            <div class="formrow f1">
+                <div id="p1f5" class="field n1">
+                    <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DETALLES DE LA ENTIDAD<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
 
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit Entidad<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit Entidad</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -328,7 +334,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Entidad<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nombre Entidad</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -345,7 +351,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Estado<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Estado</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -365,7 +371,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Observación</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Observación</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -383,7 +389,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Dirección<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Dirección</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -400,7 +406,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Ciudad<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Ciudad</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -417,7 +423,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Departamento<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Departamento</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -434,7 +440,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Teléfono</span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Teléfono</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -443,6 +449,15 @@ class html_formPrevisora {
                         </div>
                         <div class="null"></div>
                     </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+
+            <div class="formrow f1">
+                <div id="p1f5" class="field n1">
+                    <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DATOS DE CONTACTO<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                     <div class="null"></div>
                 </div>
                 <div class="null"></div>

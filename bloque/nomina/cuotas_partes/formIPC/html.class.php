@@ -62,8 +62,8 @@ class html_formIPC {
             });</script>
 
         <center>     
-            <center><div class="holder"></div></center>
-            <h2>Índices Precio Consumidor Registrados<br><br></h2>
+             <h2><br><br>Reporte Índices de Precios al Consumidor Registrados<br><br></h2>
+             
             <table width="90%" class='bordered' >
                 <tr>
                     <th colspan="11" class='encabezado_registro'>INDICES (IPC)</th>
@@ -164,7 +164,7 @@ class html_formIPC {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("¿Revisó bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -175,7 +175,7 @@ class html_formIPC {
 
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off'>
 
-            <h1>Formulario de Registro Indice Precios Consumidor (IPC)</h1> 
+            <h1>Índice de Precios al Consumidor (IPC)</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
@@ -260,7 +260,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste="return false"  title="*Campo Obligatorio" name="indice_Ipc" placeholder="0.0000"  step="0.0000"  pattern="(?[\-][0-1])+([\.][0-9]+[0-9]+[0-9])?" maxlength="11" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
+                                <input type="text" id="indice_Ipc" onpaste="return false"  title="*Campo Obligatorio" name="indice_Ipc" placeholder="0.0000"  step="0.0000"  pattern="^[0]{1}(\.[0-9]{1,9})?$" maxlength="11" class="fieldcontent" required='required' onpaste="return false" autocomplete="off" onKeyPress='return acceptNum(event)' >Ejemplo: 0.2222
                             </div>
                             <div class="null"></div>
                         </div>

@@ -308,7 +308,6 @@ class html_adminCuentaCobro {
         </script>
 
         <script  type="text/javascript">
-
             function valor()
             {
                 var num0 = document.cuentaCobro.mesada.value;
@@ -335,8 +334,83 @@ class html_adminCuentaCobro {
                 document.getElementById('t_con_interes').value = total;
 
             }
+        </script>
 
+        <script>
+            function  validarFecha() {
+                var desde = (document.getElementById("fecha_inicial").value);
+                var hasta = (document.getElementById("fecha_final").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
 
+                if (cadena1.getTime() > cadena2.getTime()) {
+                    document.getElementById("fecha_inicial").focus();
+                    document.getElementById("fecha_final").focus();
+                    alert("La fecha FINAL es anterior a la fecha INICIAL");
+                    return false
+                }
+                return true
+            }
+        </script>
+
+        <script>
+            function  validarFechaGen() {
+                var desde = (document.getElementById("fecha_generacion").value);
+                var hasta = (document.getElementById("fecha_inicial").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
+
+                if (cadena1.getTime() < cadena2.getTime()) {
+                    document.getElementById("fecha_generacion").focus();
+                    document.getElementById("fecha_final").focus();
+                    alert("La fecha GENERACIÓN es anterior a la fecha INICIAL");
+                    return false
+                }
+
+                var desde = (document.getElementById("fecha_generacion").value);
+                var hasta = (document.getElementById("fecha_final").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
+
+                if (cadena1.getTime() < cadena2.getTime()) {
+                    document.getElementById("fecha_generacion").focus();
+                    document.getElementById("fecha_final").focus();
+                    alert("La fecha GENERACIÓN es anterior a la fecha FINAL");
+                    return false
+                }
+
+                return true
+            }
         </script>
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off'>
@@ -386,7 +460,6 @@ class html_adminCuentaCobro {
                     <div class="control capleft">
                         <div class="control capleft">
                             <div class="dropdown" required='required' title="*Campo Obligatorio" >
-
                                 <?
                                 unset($combo);
                                 //prepara los datos como se deben mostrar en el combo
@@ -405,10 +478,8 @@ class html_adminCuentaCobro {
                                 }
                                 echo $lista_combo;
                                 ?> 
-
                             </div>
                         </div>
-
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -444,10 +515,8 @@ class html_adminCuentaCobro {
                                 }
                                 echo $lista_combo;
                                 ?> 
-
                             </div>
                         </div>
-
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -472,23 +541,6 @@ class html_adminCuentaCobro {
                     <div class="control capleft">
                         <div>
                             <input type="text" id="consec" title="*Campo Obligatorio" name="consecutivo_cc" maxlenght="10" required='required' onpaste="return false" onKeyPress='return acceptNumLetter(event)'>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_generacion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Generación</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="fecha_generacion" title="*Campo Obligatorio" name="fecha_generacion"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -529,6 +581,22 @@ class html_adminCuentaCobro {
                 <div class="null"></div>
             </div>
 
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="fecha_generacion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Generación</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="fecha_generacion" onchange="validarFechaGen()"  title="*Campo Obligatorio" name="fecha_generacion"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
 
             <div class="formrow f1">
                 <div id="p1f5" class="field n1">

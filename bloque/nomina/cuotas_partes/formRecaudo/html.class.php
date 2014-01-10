@@ -230,7 +230,7 @@ class html_formRecaudo {
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
-        <h2>Reporte de Cobros y Registro de Recaudos</h2>
+        <h2>Reporte de Cobros y Recaudos</h2>
 
         <h1>Cuentas de Cobro Registradas</h1>
 
@@ -601,7 +601,7 @@ class html_formRecaudo {
             <div class="formrow f1">
                 <div id="p1f2" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Pensionado<a STYLE="color: red" >*</a></span></span></span></label>
+                        <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Cédula Pensionado</span></span></span></label>
                     </div>
                     <div>
                         <input type="text" title="*Campo Obligatorio" id="p1f2c" onpaste="return false" name="cedula_emp" readonly class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $identificacion ?>'>
@@ -625,7 +625,7 @@ class html_formRecaudo {
                 <div class="formrow f1">
                     <div id="p1f7" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit. Ent. Empleadora<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit. Ent. Empleadora</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -638,7 +638,7 @@ class html_formRecaudo {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nit Ent. Previsional<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit Ent. Previsional</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -651,7 +651,7 @@ class html_formRecaudo {
                 <div class="formrow f1">
                     <div id="p1f7" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Resolución<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Resolución</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -664,7 +664,7 @@ class html_formRecaudo {
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cons. Cuenta Cobro<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Cons. Cuenta Cobro</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -681,7 +681,7 @@ class html_formRecaudo {
 
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Valor Cuenta Cobro</span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Valor Cuenta Cobro</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <?
@@ -698,7 +698,7 @@ class html_formRecaudo {
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Saldo Actual</span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Saldo Actual</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -715,7 +715,7 @@ class html_formRecaudo {
 
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Valor a Pagar<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Valor a Pagar</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <?
@@ -733,7 +733,7 @@ class html_formRecaudo {
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Resol. Orden Pago<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Resol. Orden Pago</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -744,7 +744,7 @@ class html_formRecaudo {
 
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Fecha Resolución<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Fecha Resolución</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -758,7 +758,7 @@ class html_formRecaudo {
 
                     <div id="p1f7" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecha_pago"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Fecha de Pago:<a STYLE="color: red" >*</a></span></span></span></label>
+                            <label class="fieldlabel" for="fecha_pago"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha de Pago:</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
@@ -770,7 +770,7 @@ class html_formRecaudo {
                     <div class="formrow f1 f2">
                         <div id="p1f12" class="field n1">
                             <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Valor Pagado Capital<a STYLE="color: red" >*</a></span></span></span></label>
+                                <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Valor Pagado Capital</span></span></span></label>
                             </div>
                             <div class="control capleft">
                                 <div>
@@ -781,7 +781,7 @@ class html_formRecaudo {
 
                         <div id="p1f12" class="field n1">
                             <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f12"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Valor Pagado Interes</span></span></span></label>
+                                <label class="fieldlabel" for="p1f12"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >   Valor Pagado Interes</span></span></span></label>
                             </div>
                             <div class="control capleft">
                                 <div>
@@ -794,7 +794,7 @@ class html_formRecaudo {
                     <div class="formrow f1">
                         <div id="p1f7" class="field n1">
                             <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Total Pagado<a STYLE="color: red" >*</a></span></span></span></label>
+                                <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Total Pagado</span></span></span></label>
                             </div>
                             <div class="control capleft">
                                 <div>
@@ -808,7 +808,7 @@ class html_formRecaudo {
                     <div class="formrow f1">
                         <div id="p1f6" class="field n1">
                             <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Medio de Pago<a STYLE="color: red" >*</a></span></span></span></label>
+                                <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Medio de Pago</span></span></span></label>
                             </div>
                             <div class="control capleft">
                                 <div>

@@ -61,8 +61,8 @@ class html_formDTF {
             });
         </script>
         <center>     
-            <center><div class="holder"></div></center>
-            <h2>Tasas de Interés Registradas<br><br></h2>
+
+            <h2><br><br>Reporte de Índices de Tasas de Interés Registradas<br><br></h2>
             <table width="90%" class='bordered' align="center">
                 <tr>
                     <th colspan="11" class='encabezado_registro'>TASA DE INTERÉS</th>
@@ -252,7 +252,7 @@ class html_formDTF {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("¿Revisó bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío de formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -295,8 +295,7 @@ class html_formDTF {
         </script>
 
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
-            <h1>Formulario de Registro de Tasa de Interés</h1> 
-
+            <h1>Tasa de Interés DTF</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
@@ -414,10 +413,11 @@ class html_formDTF {
                         <div class="control capleft">
                             <div>
                                 <input type="text" id="indice_dtf" name="indice_dtf" title="*Campo Obligatorio" placeholder="0.0000"  maxlength="10" pattern="[0]+([\.|,][0-9]+[0-9])?" onpaste="return false" step="0.0000" title="*Campo obligatorio. Ingrese indice en numeros decimales" class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
+
                             </div>
-                            <div class="null"></div>
+
                         </div>
-                        <div class="null"></div>
+
 
                     </div>
                     <div class="null"></div>
@@ -425,7 +425,7 @@ class html_formDTF {
 
                 <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
 
-                <div class="null"></div>
+
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"  onClick='return confirmarEnvio();'></center>
 
                 <input type='hidden' name='opcion' value='insertarDTF'>

@@ -60,8 +60,8 @@ class html_formSalario {
             });</script>
 
         <center>     
-            <center><div class="holder"></div></center>
-            <h2>Salarios Mínimos Legales Registrados<br><br></h2>
+           
+            <h2><br><br>Reporte Salarios Mínimos Legales Registrados<br><br></h2>
             <table width="90%" class='bordered' >
                 <tr>
                     <th colspan="11" class='encabezado_registro'>SALARIOS MINIMOS LEGALES</th>
@@ -256,7 +256,7 @@ class html_formSalario {
 
 
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off' >
-            <h1>Formulario de Registro Salario Mínimo Legal</h1> 
+            <h1>Salario Mínimo Legal</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
