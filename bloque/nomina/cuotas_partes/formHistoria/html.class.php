@@ -381,7 +381,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="total_dias" title="*Campo Obligatorio" onchange="validarDias()" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="4">
+                                <input type="text" id="total_dias" title="*Campo Obligatorio" onchange="validarDias()" placeholder="000" name="total_dias" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="3">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -523,7 +523,7 @@ class html_formHistoria {
             }
         </script>
 
-        <script language = "Javascript">
+        <script>
             //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
             function echeck(str) {
 
@@ -962,7 +962,7 @@ class html_formHistoria {
         <?
     }
 
-    function datosReporte($historia, $interrupcion, $descripcion) {
+    function datosReporte($historia, $interrupcion, $descripcion,$basico) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -988,7 +988,7 @@ class html_formHistoria {
 
             <table class='bordered'  width ="100%"  >
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>DATOS BÁSICOS</th>
+                    <th colspan="12" class='encabezado_registro'>DATOS BÁSICOS DEL PENSIONADO</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -996,12 +996,12 @@ class html_formHistoria {
                     <td class='texto_elegante2 estilo_td' colspan="10" align=center>&nbsp;NOMBRE&nbsp;</td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' colspan="2" align=center><? echo $historia[0]['hlab_nro_identificacion'] ?></td>
-                    <td class='texto_elegante2 estilo_td' colspan="10" align=center>CARDENAS CUBILLOS JOSE VICENTE</td>
+                    <td class='texto_elegante2 estilo_td' colspan="2" align=center><? echo $basico[0][0] ?></td>
+                    <td class='texto_elegante2 estilo_td' colspan="10" align=center><? echo $basico[0][1] ?></td>
                 </tr>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>HISTORIA LABORAL</th>
+                    <th colspan="12" class='encabezado_registro'>HISTORIA LABORAL REGISTRADA</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -1115,7 +1115,7 @@ class html_formHistoria {
                     ?>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>DATOS CERTIFICACIÓN</th>
+                    <th colspan="12" class='encabezado_registro'>DATOS CERTIFICACIÓN INTERRUPCIÓN LABORAL</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -1149,16 +1149,17 @@ class html_formHistoria {
                     ?>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>CONCURRENCIA ACEPTADA</th>
+                    <th colspan="12" class='encabezado_registro'>INFORMACIÓN CONCURRENCIAS ACEPTADAS</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
+                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;ENTIDAD PREVISORA&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;FECHA RESOLUCIÓN&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;NÚMERO RESOLUCIÓN&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA PENSIÓN</td>
                     <td class='texto_elegante2 estilo_td' align=center>FECHA ACTO ADMTIVO ACEPTACIÓN</td>
                     <td class='texto_elegante2 estilo_td' align=center>ACTO ADMTIVO ACEPTACIÓN</td>
-                    <td class='texto_elegante2 estilo_td' align=center>FECHA INICIO CONCURRENCIA</td>
+                    <td class='texto_elegante2 estilo_td' align=center>FECHAS INICIO CONCURRENCIA</td>
                     <td class='texto_elegante2 estilo_td' align=center>MESADA INICIAL</td>
                     <td class='texto_elegante2 estilo_td' align=center>% CUOTA PARTE</td>
                     <td class='texto_elegante2 estilo_td' colspan='3'align=center>VALOR CUOTA PARTE</td>
@@ -1170,6 +1171,7 @@ class html_formHistoria {
                         foreach ($descripcion as $key => $value) {
 
                             echo "<tr>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_nitprev'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_resol_pension_fecha'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $descripcion[$key]['dcp_resol_pension'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $descripcion[$key]['dcp_fecha_pension'] . "</td>";

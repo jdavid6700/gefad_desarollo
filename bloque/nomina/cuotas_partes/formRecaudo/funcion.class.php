@@ -236,18 +236,6 @@ class funciones_formRecaudo extends funcionGeneral {
             exit;
         }
 
-        if ($datos['valor_pagado_interes'] == 0) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Valor Pagado NO Válido');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioRecaudo';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
-
         $total_pagado = intval($datos['valor_pagado_interes']) + intval($datos['valor_pagado_capital']);
 
         if (intval($datos['total_recaudo']) !== intval($total_pagado)) {

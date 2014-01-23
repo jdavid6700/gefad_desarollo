@@ -55,12 +55,14 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
                 break;
 
             case "consultarPrevisoraU":
                 $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit  ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral  ";
                 $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
                 $cadena_sql.=" GROUP BY prev_nombre, hlab_nitprev, prev_nit ";
                 break;
 
@@ -77,6 +79,7 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
                 $cadena_sql.=" AND prev_nit=hlab_nitenti ";
                 $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
+                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
                 break;
 
             case "consultarHistoria":
@@ -87,6 +90,22 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.= "ORDER BY hlab_fretiro DESC ";
                 break;
 
+                case "reporteDescripcion":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.= " dcp_nitprev, ";
+                $cadena_sql.= " dcp_resol_pension_fecha, ";
+                $cadena_sql.= " dcp_resol_pension, ";
+                $cadena_sql.= " dcp_fecha_pension, ";
+                $cadena_sql.= " dcp_factoadmin, ";
+                $cadena_sql.= " dcp_actoadmin, ";
+                $cadena_sql.= " dcp_fecha_concurrencia, ";
+                $cadena_sql.= " dcp_valor_mesada, ";
+                $cadena_sql.= " dcp_porcen_cuota, ";
+                $cadena_sql.= " dcp_valor_cuota ";
+                $cadena_sql.= " from cuotas_partes.cuotas_descripcion_cuotaparte ";
+                $cadena_sql.= " where dcp_nro_identificacion = '" . $variable['cedula'] . "' ";
+                break;
+            
             default:
                 $cadena_sql = "";
                 break;

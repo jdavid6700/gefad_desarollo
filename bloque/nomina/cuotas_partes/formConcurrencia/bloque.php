@@ -55,7 +55,7 @@ class bloque_formConcurrencia extends bloque {
                 case "historiaConcurrencia":
 
                     $cedula = $_REQUEST['cedula_emp'];
-                    
+
                     if (!preg_match("^\d+$^", $cedula)) {
                         echo "<script type=\"text/javascript\">" .
                         "alert('La cédula no posee un formato válido');" .
@@ -72,6 +72,7 @@ class bloque_formConcurrencia extends bloque {
                     break;
 
                 case "formulario":
+
                     $this->funcion->mostrarFormulario();
                     break;
 

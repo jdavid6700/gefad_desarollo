@@ -131,7 +131,6 @@ class html_formPrevisora {
                     ?>
         </table >     
         <center><div class="holder" style="-moz-user-select: none;"></div></center>
-
         <?
     }
 
@@ -143,9 +142,6 @@ class html_formPrevisora {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
         ?>
-
-
-
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
         <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
@@ -174,12 +170,7 @@ class html_formPrevisora {
         </script>
 
         <script language = "Javascript">
-            /**
-             * DHTML email validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dht
-             
-             ml/)
-             */
-
+     
             function echeck(str) {
 
                 var at = "@"
@@ -233,24 +224,13 @@ class html_formPrevisora {
                     emailID.focus()
                     return false
                 }
+
                 if (echeck(emailID.value) == false) {
                     emailID.value = ""
                     emailID.focus()
                     return false
                 }
 
-                var emailID2 = document.formPrevisora.txtEmail2
-
-                if ((emailID2.value == null) || (emailID2.value == "")) {
-                    alert("Ingrese un correo electrónico!")
-                    emailID2.focus()
-                    return false
-                }
-                if (echeck(emailID2.value) == false) {
-                    emailID2.value = ""
-                    emailID2.focus()
-                    return false
-                }
                 return true
             }
 
@@ -259,7 +239,7 @@ class html_formPrevisora {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Revisó si está bien el formulario? Si es así, Aceptar. Si desea corregir, Cancelar");
+                var r = confirm("Confirmar envío del formulario.");
                 if (r == true) {
                     return true;
                 } else {
@@ -327,6 +307,32 @@ class html_formPrevisora {
                 }
             }
         </script>
+
+        <script type = text/javascript>
+            function ComponerLista(depto) {
+                document.formPrevisora.departamentos.disabled = true;
+                document.formPrevisora.municipios.innerHTML = ""
+                SeleccionarEmpleados(depto);
+                document.formPrevisora.departamentos.disabled = false;
+            }
+
+            function SeleccionarEmpleados(depto) {
+                var o;
+                document.formPrevisora.municipios.disabled = true;
+        <?php
+        foreach ($mun as $key => $value) {
+            ?>
+                    if (depto === "<?php echo $mun[$key]['departamento']; ?>") {
+                        o = document.createElement("OPTION");
+                        o.text = "<?php echo $mun[$key]['municipio'] ?>";
+                        o.value = "<?php echo $mun[$key]['municipio'] ?>";
+                        document.formPrevisora.municipios.options.add(o);
+                    }
+        <?php } ?>
+                document.formPrevisora.municipios.disabled = false;
+            }
+        </script>
+
 
 
 
@@ -440,25 +446,16 @@ class html_formPrevisora {
 
                         <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
-                            <?
-                            unset($combo);
-                            //prepara los datos como se deben mostrar en el combo
-                            $combo[0][0] = '1';
-                            $combo[0][1] = 'No registra en la base de datos';
-                            foreach ($depto as $cmb => $values) {
-                                $combo[$cmb][0] = isset($depto[$cmb]['departamento']) ? $depto[$cmb]['departamento'] : 0;
-                                $combo[$cmb][1] = isset($depto[$cmb]['departamento']) ? $depto[$cmb]['departamento'] : '';
-                            }
+                            <select name='departamentos' onChange='ComponerLista(this.value)'>
 
-                            // echo$combo;
-                            if (isset($_REQUEST['departamento'])) {
-                                $lista_combo = $this->html->cuadro_lista($combo, 'departamento', $this->configuracion, $_REQUEST['departamento'], 0, FALSE, 0, 'departamento');
-                            } else {
-                                $lista_combo = $this->html->cuadro_lista($combo, 'departamento', $this->configuracion, 0, 0, FALSE, 0, 'departamento');
-                            }
-                            echo $lista_combo;
-                            ?> 
-
+                                <?
+                                foreach ($depto as $key => $value) {
+                                    ?>
+                                    <option value ="<?php echo $depto[$key]['departamento']; ?>"><?php echo$depto[$key]['departamento']; ?></option>
+                                    <?
+                                }
+                                ?>
+                            </select>
                         </div>
 
                         <div class="null"></div>
@@ -477,25 +474,9 @@ class html_formPrevisora {
                     <div class="control capleft">
                         <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
-                            <?
-                            unset($combo);
-                            //prepara los datos como se deben mostrar en el combo
-                            $combo[0][0] = '1';
-                            $combo[0][1] = 'No registra en la base de datos';
-                            foreach ($mun as $cmb => $values) {
-                                $combo[$cmb][0] = isset($mun[$cmb]['municipio']) ? $mun[$cmb]['municipio'] : 0;
-                                $combo[$cmb][1] = isset($mun[$cmb]['municipio']) ? $mun[$cmb]['municipio'] : '';
-                            }
-
-                            // echo$combo;
-                            if (isset($_REQUEST['departamento'])) {
-                                $lista_combo = $this->html->cuadro_lista($combo, 'municipio', $this->configuracion, $_REQUEST['municipio'], 0, FALSE, 0, 'municipio');
-                            } else {
-                                $lista_combo = $this->html->cuadro_lista($combo, 'municipio', $this->configuracion, 0, 0, FALSE, 0, 'municipio');
-                            }
-                            echo $lista_combo;
-                            ?> 
-
+                            <select id="municipios" name="municipios">
+                                <option value ="0">Seleccione un departamento</option>
+                            </select>
                         </div>
                         <div class="null"></div>
                     </div>
@@ -512,7 +493,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="telefono" class="fieldcontent" onKeyPress='return acceptNum3(event)' maxlength='50' onpaste="return false">
+                            <input type="text" id="p1f7c" name="telefono" class="fieldcontent" placeholder="7777777 - (057) 7777777 Ext.000/001" onKeyPress='return acceptNum3(event)' maxlength='50' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -520,8 +501,6 @@ class html_formPrevisora {
                 </div>
                 <div class="null"></div>
             </div>
-
-
             <div class="formrow f1">
                 <div id="p1f5" class="field n1">
                     <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DATOS DE CONTACTO<span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
@@ -533,7 +512,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Responsable</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Responsable</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -550,7 +529,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cargo</span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Cargo</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -567,7 +546,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f12" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Otro Contacto</span></span></span></label>
+                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Otro Contacto</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -585,7 +564,7 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cargo</span></span></span></label>
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">   Cargo</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -602,29 +581,12 @@ class html_formPrevisora {
             <div class="formrow f1">
                 <div id="p1f12" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Correo 1</span></span></span></label>
+                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Correo Electrónico</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
                         <div>
                             <input type="text" id="email" name="txtEmail" class="fieldcontent" maxlength='50' placeholder="correo@dominio.com" onKeyPress='return acceptNumLetter(event)' onpaste="return false">
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f12" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Correo 2</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="email" name="txtEmail2" class="fieldcontent" placeholder="correo@dominio.com" maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>

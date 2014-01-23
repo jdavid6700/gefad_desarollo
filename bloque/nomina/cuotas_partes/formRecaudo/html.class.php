@@ -262,8 +262,9 @@ class html_formRecaudo {
                     if (is_array($cobros)) {
 
                         foreach ($cobros as $key => $value) {
-                            $saldo = $saldo_cuenta;
-                            /* foreach ($historial as $cont => $value) {
+                            $saldo = $cobros[$key]['cob_saldo']; /*
+                              $deuda =
+                              $pagos = /* foreach ($historial as $cont => $value) {
                               $a = 0;
                               $b = 1;
                               if ($historial[$cont][1] == $historial[$b][1]) {
@@ -290,7 +291,7 @@ class html_formRecaudo {
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_ts_interes']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_interes']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_tc_interes']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($saldo) . "</td>"; //SALDO * * * * * *
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_saldo']) . "</td>"; //SALDO * * * * * *
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_ie_correspondencia'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>
                                      
@@ -561,19 +562,20 @@ class html_formRecaudo {
                     var total = parseInt(num<?php echo $key ?>) + total;
         <? } ?>
 
-                document.getElementById('total_recaudo').value = total;
-
                 //VALOR COBRADO
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
-                    var num_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
+                    var numc_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
         <? } ?>
 
                 var total_cobro = 0;
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
-                    var total_cobro = parseInt(num_<?php echo $key ?>) + total_cobro;
+                    var total_cobro = parseInt(numc_<?php echo $key ?>) + total_cobro;
         <? } ?>
+                document.getElementById('total_recaudo').value = total;
+                document.getElementById('valor_pagado_capital').value = total;
+                document.getElementById('valor_pagado_interes').value = 0;
 
                 // COMPARACIÓN VALORES COBRADOS
                 if (total_cobro < total) {
@@ -774,7 +776,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text"  onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{1,2}" name="valor_pagado_capital" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)' maxlength='10'>
+                                    <input type="text"  id="valor_pagado_capital" onpaste='return false' title="*Campo Obligatorio" placeholder="00000000.00" pattern="\d{4,8}\.?\d{1,2}" name="valor_pagado_capital" class="fieldcontent" maxlength="11" required='required' onKeyPress='return acceptNum2(event)' >Mínimo 4 caracteres
                                 </div>
                             </div>
                         </div>       
@@ -785,7 +787,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="p1f12cc" onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{1,2}" name="valor_pagado_interes" class="fieldcontent" maxlength="12" required='required' onKeyPress='return acceptNum2(event)'>
+                                    <input type="text" id="valor_pagado_interes" onpaste='return false' title="*Campo Obligatorio" placeholder="00000000.00" pattern="\d{0,8}\.?\d{1,2}" name="valor_pagado_interes" class="fieldcontent" maxlength="11" required='required' onKeyPress='return acceptNum2(event)'>
                                 </div>
                             </div>
                         </div>
@@ -798,7 +800,7 @@ class html_formRecaudo {
                             </div>
                             <div class="control capleft">
                                 <div>
-                                    <input type="text" id="total_recaudo" onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{1,2}" name="total_recaudo" class="fieldcontent" required='required' maxlength="12" onKeyPress='return acceptNum2(event)'>
+                                    <input type="text" id="total_recaudo" onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{1,2}" placeholder="00000000.00" name="total_recaudo" class="fieldcontent" required='required' maxlength="11" onKeyPress='return acceptNum2(event)'>
                                     <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
                                 </div>                       
                             </div>      

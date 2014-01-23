@@ -159,25 +159,19 @@ class html_formConcurrencia {
             </div>
 
             <div class="control capleft">
-                <div class="dropdown">
 
-                    <?
-                    unset($combo);
-                    //prepara los datos como se deben mostrar en el combo
-                    $combo[0][0] = '0';
-                    $combo[0][1] = ' ';
-                    foreach ($datos_en as $cmb => $values) {
-                        $combo[$cmb][0] = isset($datos_en[$cmb]['hlab_nitprev']) ? $datos_en[$cmb]['hlab_nitprev'] : 0;
-                        $combo[$cmb][1] = isset($datos_en[$cmb]['prev_nombre']) ? $datos_en[$cmb]['prev_nombre'] : '';
-                    }
-                    // echo$combo;
-                    if (isset($_REQUEST['hlab_nitprev'])) {
-                        $lista_combo = $this->html->cuadro_lista($combo, 'hlab_nitprev', $this->configuracion, $_REQUEST['hlab_nitprev'], 0, FALSE, 0, 'hlab_nitprev');
-                    } else {
-                        $lista_combo = $this->html->cuadro_lista($combo, 'hlab_nitprev', $this->configuracion, 0, 0, FALSE, 0, 'hlab_nitprev');
-                    }
-                    echo $lista_combo;
-                    ?> 
+                <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
+
+                    <select name='prev_nit' required>
+
+                        <?
+                        foreach ($datos_en as $key => $value) {
+                            ?>
+                            <option id='prev_nit' name='prev_nit' value ="<?php echo $datos_en[$key]['prev_nit']; ?>"><?php echo$datos_en[$key]['prev_nombre'];?></option>
+                            <?
+                        }
+                        ?>
+                    </select>
                 </div>
             </div>
             <div>
@@ -218,23 +212,23 @@ class html_formConcurrencia {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <script>
-            function acceptNum(e) {
-                key = e.keyCode || e.which;
-                tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890-";
-                especiales = [8, 9];
-                tecla_especial = false
-                for (var i in especiales) {
-                    if (key == especiales[i]) {
-                        tecla_especial = true;
-                        break;
-                    }
-                }
+                                function acceptNum(e) {
+                                    key = e.keyCode || e.which;
+                                    tecla = String.fromCharCode(key).toLowerCase();
+                                    letras = "01234567890-";
+                                    especiales = [8, 9];
+                                    tecla_especial = false
+                                    for (var i in especiales) {
+                                        if (key == especiales[i]) {
+                                            tecla_especial = true;
+                                            break;
+                                        }
+                                    }
 
-                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                    return false;
-                }
-            }
+                                    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                                        return false;
+                                    }
+                                }
         </script>
 
         <script>
@@ -561,7 +555,7 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_con"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha I.Concurrencia</span></span></span></label>
+                        <label class="fieldlabel" for="fecha_con"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Inicio <br>  Concurrencia</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -578,7 +572,7 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="resolucion_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Res. Pensión</span></span></span></label>
+                        <label class="fieldlabel" for="resolucion_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Resolución Pensión</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -612,7 +606,7 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_res_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Res. Pensión</span></span></span></label>
+                        <label class="fieldlabel" for="fecha_res_pension"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Resolución<br>   Pensión</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -634,7 +628,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="mesada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" pattern="^[0-9]\d{0,9}(\.\d{1,2})?%?$" onpaste="return false">
+                            <input type="text" id="p1f12c" name="mesada"  title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" placeholder="00000000.00" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false">Mínimo 4 caracteres
 
                         </div>
                         <div class="null"></div>
@@ -652,7 +646,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="cp_aceptada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="7"  onpaste="return false">
+                            <input type="text" id="p1f6c" name="cp_aceptada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" maxlength="11"  onpaste="return false">Mínimo 4 caracteres
                         </div>
                         <div class="null"></div>
                     </div>
@@ -669,7 +663,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="porc_aceptado" title="*Campo Obligatorio" placeholder="0.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="[0-1]+([\.][0-9]+[0-9]+[0-9]+[0-9])?" step="0.00" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
+                            <input type="text" id="p1f6c" name="porc_aceptado" title="*Campo Obligatorio" placeholder="0.0000" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="^[0]{1}(\.[0-9]{2,4})?$" step="0.00" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
                         </div>
                         <div class="null"></div>
                     </div>
@@ -681,7 +675,7 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Tipo Acto Adm.</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Tipo Acto <br>   Administrativo</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -718,7 +712,7 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_acto_adm"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Acto Admin.</span></span></span></label>
+                        <label class="fieldlabel" for="fecha_acto_adm"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Acto<br>  Administrativo</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">

@@ -107,9 +107,7 @@ class html_formSalario {
     }
 
     function formularioSalario($rango) {
-        
-        var_dump($rango);
-       
+          
         $this->formulario = "formSalario";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -242,7 +240,7 @@ class html_formSalario {
                 if (cadena1.getTime() > cadena2.getTime()) {
                     document.getElementById("fecvig_desde").focus();
                     document.getElementById("fecvig_hasta").focus();
-                    alert("La fecha de RETIRO es anterior a la fecha de INGRESO");
+                    alert("El intervalo de fecha de vigencia no es válido.");
                     return false
                 }
 
@@ -364,12 +362,12 @@ class html_formSalario {
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Número</span></span></span></label>
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Número Norma</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="indice_Ipc" onpaste='return false' title="*Campo Obligatorio" name="numero"  maxlength="7" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
+                                <input type="text" id="numero" onpaste='return false' title="*Campo Obligatorio" name="numero"  maxlength="7" class="fieldcontent" required='required' autocomplete="off" onKeyPress='return acceptNum(event)'>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -412,7 +410,7 @@ class html_formSalario {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Desde</span></span></span></label>
+                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Vigencia<br>  Desde</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -430,7 +428,7 @@ class html_formSalario {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecvig_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Hasta</span></span></span></label>
+                            <label class="fieldlabel" for="fecvig_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Vigencia<br>  Hasta</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -453,7 +451,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" pattern="\d\.?\d{1,2}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >
+                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" placeholder="00000000.00" pattern="\d{3,8}\.?\d{1,2}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >** Mínimo 3 cifras
                             </div>
                             <div class="null"></div>
                         </div>

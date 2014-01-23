@@ -43,7 +43,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
 
         //Conexión a Oracle SUDD
-        $this->acceso_sudd = $this->conectarDB($configuracion, "cuotasP");
+        /*   $this->acceso_sudd = $this->conectarDB($configuracion, "cuotasP"); */
 
         //Datos de sesion
 
@@ -87,6 +87,12 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         return $datos_previsora;
     }
 
+    function consultarHistoria($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarHistoria", $parametro);
+        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_historia;
+    }
+
     function consultaPManual($cedula) {
 
         $datos_previsora = $this->consultarPrevisoraUnica($cedula);
@@ -116,8 +122,25 @@ class funciones_adminCuentaCobro extends funcionGeneral {
 
         $datos_entidad = $this->consultarEmpleadorUnico($parametros);
         $datos_previsora = $this->consultarPrevForm($parametros);
-        
-        $this->htmlCuentaCobro->formRegistroManual($datos_entidad, $datos_previsora, $form_manual);
+
+        $datos_historia = $this->consultarHistoria($parametros);
+
+        /* Para determinar los limites del registro de la historia laboral */
+
+        if ($datos_historia == true) {
+            foreach ($datos_historia as $key => $value) {
+                $rango[$key] = array(
+                    'inicio' => date('d/m/Y', strtotime($value['hlab_fingreso'])),
+                    'fin' => date('d/m/Y', strtotime($value['hlab_fretiro'])));
+            }
+        } else {
+            $rango = array(
+                'inicio' => date('d/m/Y', strtotime('01/01/1940')),
+                'fin' => date('d/m/Y', strtotime('01/01/2000')));
+        }
+
+      
+        $this->htmlCuentaCobro->formRegistroManual($datos_entidad, $datos_previsora, $form_manual, $rango);
     }
 
     function registrarManual($datos) {
@@ -369,10 +392,10 @@ class funciones_adminCuentaCobro extends funcionGeneral {
 
         if ($antes > $despues) {
             echo "<script type=\"text/javascript\">" .
-            "alert('Fecha Final no coincide con Fecha Inicial');" .
+            "alert('Intervalo de fechas de cobro no válido');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formCManual';
+            $variable = 'pagina=formularioCManual';
             $variable.='&opcion=manual';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
@@ -387,7 +410,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             "alert('Fecha Final no coincide con Fecha Generación Cuenta de Cobro');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formCManual';
+            $variable = 'pagina=formularioCManual';
             $variable.='&opcion=manual';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
@@ -449,7 +472,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('Datos de Interrupción NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "alert('Datos NO Registrados Correctamente. ERROR en el REGISTRO');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formularioCManual";
@@ -543,7 +566,7 @@ class funciones_adminCuentaCobro extends funcionGeneral {
 
     /*                   LIQUIDADOR                          */
 
-    function consultarHistoria() {
+    function consultarHistoria3() {
         $parametros = array(
             'cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''),
             'fecha_in' => (isset($_REQUEST['fecha_inicial1']) ? $this->cambiafecha_format($_REQUEST['fecha_inicial1']) : ''),
@@ -626,11 +649,11 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         return $datos;
     }
 
-    function datosPensionado($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_sudd, "registro_empleados", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_sudd, $cadena_sql, "busqueda");
-        return $datos;
-    }
+    /* function datosPensionado($parametros) {
+      $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_sudd, "registro_empleados", $parametros);
+      $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_sudd, $cadena_sql, "busqueda");
+      return $datos;
+      } */
 
     function consecutivo($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consecutivo", $parametros);

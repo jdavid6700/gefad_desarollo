@@ -186,6 +186,26 @@ class html_formDTF {
                 }
             }
         </script>
+        
+             <script>
+            function acceptNum2(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
 
         <script>
             function acceptNumLetter(e) {
@@ -341,7 +361,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="n_resolucion" name="n_resolucion" title="*Campo Obligatorio" class="fieldcontent" required='required'  maxLength="7" pattern=".{2,7}"  autocomplete="off" onKeyPress='return acceptNumLetter(event)' onpaste="return false">
+                                <input type="text" id="n_resolucion" name="n_resolucion" title="*Campo Obligatorio" placeholder="0000" class="fieldcontent" required='required'  maxLength="7" pattern=".{2,7}"  autocomplete="off" onKeyPress='return acceptNum2(event)' onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>

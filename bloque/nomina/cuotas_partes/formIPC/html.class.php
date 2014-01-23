@@ -277,7 +277,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste="return false" title="*Campo Obligatorio en el caso correspondiente" name="sum_fj" pattern="\d{4,8}\.?\d{1,2}" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Solo se debe diligenciar entre los años 1976 y 1988
+                                <input type="text" id="sum_fj" onpaste="return false" title="*Campo Obligatorio en el caso correspondiente." placeholder="00000000.00" name="sum_fj" pattern="\d{3,8}\.?\d{1,2}" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Diligenciar entre los años 1976 y 1988 <br> **Mínimo 3 cifras decimales
                             </div>
                             <div class="null"></div>
                         </div>

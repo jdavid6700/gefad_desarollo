@@ -68,7 +68,6 @@ class bloque_formPrevisora extends bloque {
 
         switch ($_REQUEST['opcion']) {
             case "registrarPrevisora":
-          
                 $registro_previsora = array();
 
                 foreach ($_REQUEST as $key => $value) {
@@ -76,7 +75,7 @@ class bloque_formPrevisora extends bloque {
                         $registro_previsora[$key] = $_REQUEST[$key];
                     }
                 }
-                
+
                 $this->funcion->procesarFormulario($registro_previsora);
                 break;
 

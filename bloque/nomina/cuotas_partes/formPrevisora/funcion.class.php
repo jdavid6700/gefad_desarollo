@@ -107,18 +107,22 @@ class funciones_formPrevisora extends funcionGeneral {
 
         $parametros = array();
 
-        $geogr = $this->consultarGeografia($parametros);
+        $deptoC = $this->consultarDepartamento($parametros);
+        $munC = $this->consultarMunicipio($parametros);
 
-        var_dump($geogr);
-        exit;
-
-        if ($geogr == true) {
-            foreach ($geogr as $key => $value) {
+        if ($deptoC == true) {
+            foreach ($deptoC as $key => $value) {
                 $depto[$key] = array('departamento' => $value['DEP_NOMBRE']);
-                $mun[$key] = array('municipio' => $value['MUN_NOMBRE']);
             }
         }
 
+        if ($munC == true) {
+            foreach ($munC as $key => $value) {
+                $mun[$key] = array(
+                    'departamento' => $value['DEP_NOMBRE'],
+                    'municipio' => $value['MUN_NOMBRE']);
+            }
+        }
         $this->html_formPrevisora->formularioPrevisora($depto, $mun);
     }
 
@@ -126,20 +130,6 @@ class funciones_formPrevisora extends funcionGeneral {
 
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
-
-        foreach ($datos as $key => $value) {
-            if ($datos[$key] == "") {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=reportesCuotas';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
-        }
 
         $verificacion_nit = $this->consultarNITS();
         $nit_registro = $datos['nit_previsora'];
@@ -169,8 +159,8 @@ class funciones_formPrevisora extends funcionGeneral {
             'estado' => (isset($datos['estado']) ? $datos['estado'] : ''),
             'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
             'direccion' => (isset($datos['direccion']) ? $datos['direccion'] : ''),
-            'ciudad' => (isset($datos['ciudad']) ? $datos['ciudad'] : ''),
-            'departamento' => (isset($datos['departamento']) ? $datos['departamento'] : ''),
+            'ciudad' => (isset($datos['municipios']) ? $datos['municipios'] : ''),
+            'departamento' => (isset($datos['departamentos']) ? $datos['departamentos'] : ''),
             'telefono' => (isset($datos['telefono']) ? $datos['telefono'] : ''),
             'responsable' => (isset($datos['responsable']) ? $datos['responsable'] : ''),
             'cargo' => (isset($datos['cargo']) ? $datos['cargo'] : ''),

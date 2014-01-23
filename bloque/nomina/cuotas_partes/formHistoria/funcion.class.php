@@ -54,6 +54,9 @@ class funciones_formHistoria extends funcionGeneral {
 
         //Conexión a Postgres 
         $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
+        
+            //Conexión a Oracle
+        $this->acceso_oracle = $this->conectarDB($configuracion, "cuotasP");
 
         $this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
         $this->identificacion = $this->rescatarValorSesion($configuracion, $this->acceso_db, "identificacion");
@@ -86,6 +89,12 @@ class funciones_formHistoria extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarConsecutivoI", $parametros);
         $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_historia;
+    }
+
+    function consultarDatoBasicoPen($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarDatosBasicos", $parametro);
+        $datos_basicos= $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
+        return $datos_basicos;
     }
 
     function dbasicoHistoria() {
@@ -125,11 +134,20 @@ class funciones_formHistoria extends funcionGeneral {
         $consulta_historia = $this->reporteHistoria($parametro);
         $consulta_interrupcion = $this->reporteInterrupcion($parametro);
         $consulta_descripcion = $this->reporteDescripcion($parametro);
+        $consulta_basicopen=  $this->consultarDatoBasicoPen($parametro);
         // $consulta_geo = $this->consultarGeografia($parametro);
 
-
+        if (is_array($consulta_basicopen)) {
+            $consulta_basico=$consulta_basicopen;
+        } else{
+            $consulta_basico[0]=array(
+                0=> $parametro,
+                1=>'No registra en la base de datos.',
+            );
+        }
+   
         if (is_array($consulta_historia)) {
-            $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion);
+            $this->html_formHistoria->datosReporte($consulta_historia, $consulta_interrupcion, $consulta_descripcion,$consulta_basico);
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existen historias laborales registradas para la cédula " . $parametro . ". Por favor, diligencie el Formulario de Registro de Historia Laboral');" .
@@ -180,6 +198,20 @@ class funciones_formHistoria extends funcionGeneral {
 
     function procesarFormulario($datos) {
 
+        foreach ($datos as $key => $value) {
+            if ($datos[$key] == "") {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Formulario NO diligenciado correctamente');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
         $parametros = array(
             'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
             'nit_entidad' => (isset($datos['empleador_nit']) ? $datos['empleador_nit'] : ''),
@@ -216,21 +248,6 @@ class funciones_formHistoria extends funcionGeneral {
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
-        }
-
-
-        foreach ($datos as $key => $value) {
-            if ($datos[$key] == "") {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formHistoria';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
         }
 
         foreach ($datos as $key => $value) {

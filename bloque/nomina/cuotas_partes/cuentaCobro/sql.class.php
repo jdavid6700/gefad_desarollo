@@ -186,6 +186,7 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable . "' ";
+                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
                 break;
 
             case "consultarPrevFormulario":
@@ -193,6 +194,7 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
+                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
                 $cadena_sql.=" GROUP BY prev_nombre, hlab_nitprev, prev_nit ";
                 break;
 
@@ -204,7 +206,7 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
                 break;
 
-            case "consultarHistoria":
+            case "consultarHistoria2":
                 $cadena_sql = " SELECT DISTINCT hlab_nro_identificacion, hlab_nitenti, hlab_nitprev, hlab_fingreso, hlab_fretiro  ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
@@ -212,6 +214,22 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.= "ORDER BY hlab_fretiro DESC ";
                 break;
 
+            case "consultarHistoria":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" hlab_nro_ingreso, ";
+                $cadena_sql.=" hlab_nro_identificacion, ";
+                $cadena_sql.=" hlab_nitenti, ";
+                $cadena_sql.=" hlab_nitprev, ";
+                $cadena_sql.=" hlab_fingreso, ";
+                $cadena_sql.=" hlab_fretiro, ";
+                $cadena_sql.=" hlab_horas, ";
+                $cadena_sql.=" hlab_periodicidad, ";
+                $cadena_sql.=" hlab_estado, ";
+                $cadena_sql.=" hlab_registro ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" WHERE hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" ORDER BY hlab_fingreso DESC ";
+                break;
 
             case "insertarCManual":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_cobros (";
@@ -257,10 +275,12 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.= " '" . $variable['fecha_registro'] . "'); ";
                 break;
 
+
             case "consultarPrevisoraUnica":
                 $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit  ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral  ";
                 $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable . "' ";
+                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
                 $cadena_sql.=" GROUP BY prev_nombre, hlab_nitprev, prev_nit ";
                 break;
 

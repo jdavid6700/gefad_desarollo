@@ -71,20 +71,42 @@ class funciones_formConcurrencia extends funcionGeneral {
     function mostrarPrevisoras($cedula) {
         $parametros = array('cedula' => $cedula);
         $datos_previsora = $this->consultarPrevisora($parametros);
+        $datos_aceptada = $this->consultarConcurrencias($parametros);
+        $pos = 0;
 
-        if (is_array($datos_previsora)) {
-            $this->html_formConcurrencia->datosPrevisora($cedula, $datos_previsora);
+        if (is_array($datos_aceptada)) {
+            foreach ($datos_previsora as $key => $value) {
+                $nit_prev = $datos_previsora[$key]['prev_nit'];
+                foreach ($datos_aceptada as $cont => $value) {
+                    if ($datos_aceptada[$cont]['dcp_nitprev'] !== $nit_prev) {
+                        $datos_entidad[$pos] = array(
+                            'prev_nit' => $datos_previsora[$key]['prev_nit'],
+                            'prev_nombre' => $datos_previsora[$key]['prev_nombre']
+                        );
+                        $pos++;
+                    }
+                }
+            }
+
+            $datos_eunicos = array_unique($datos_entidad, SORT_REGULAR);
+
+            $this->html_formConcurrencia->datosPrevisora($cedula, $datos_eunicos);
         } else {
 
-            echo "<script type=\"text/javascript\">" .
-            "alert('No existen historias laborales registradas para la cédula " . $parametros['cedula'] . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formHistoria';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
+            if (is_array($datos_previsora)) {
+                $this->html_formConcurrencia->datosPrevisora($cedula, $datos_previsora);
+            } else {
+
+                echo "<script type=\"text/javascript\">" .
+                "alert('No existen historias laborales registradas para la cédula " . $parametros['cedula'] . ". Por favor, diligencie el Fomulario de Registro de Historia Laboral');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
         }
     }
 
@@ -92,7 +114,7 @@ class funciones_formConcurrencia extends funcionGeneral {
 
         $parametros = array(
             'cedula' => $_REQUEST['cedula_emp'],
-            'previsor' => $_REQUEST['hlab_nitprev']);
+            'previsor' => $_REQUEST['prev_nit']);
 
         $datos_laboral = $this->consultarHistoria($parametros);
         $datos_entidad = $this->consultarEmpleador($parametros);
@@ -105,6 +127,12 @@ class funciones_formConcurrencia extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
         $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
         return $datos_DescripcionCP;
+    }
+
+    function consultarConcurrencias($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteDescripcion", $parametros);
+        $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_registro;
     }
 
     function consultarHistoria($parametros) {

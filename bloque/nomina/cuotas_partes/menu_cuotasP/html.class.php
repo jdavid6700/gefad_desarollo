@@ -140,7 +140,7 @@
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Registrar y Consultar Indice Precios Consumidor (IPC)</a></li>
+                                        ?>">Registrar y Consultar Índice Precios Consumidor (IPC)</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioDTF';

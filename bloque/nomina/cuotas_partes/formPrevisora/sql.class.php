@@ -60,8 +60,15 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" ORDER BY prev_fecha_registro DESC ";
                 break;
 
+             case "consultarGeografia":
+                $cadena_sql = " SELECT dep_nombre, mun_nombre ";
+                $cadena_sql.=" FROM MNTGE.gemunicipio, MNTGE.gedepartamento ";
+                $cadena_sql.=" WHERE mun_dep_cod = dep_cod";
+                $cadena_sql.=" ORDER BY mun_nombre";
+                break;
+            
             case "consultarGeografiaDEP":
-                $cadena_sql = " SELECT dep_nombre";
+                $cadena_sql = "SELECT dep_nombre";
                 $cadena_sql.=" FROM MNTGE.gedepartamento ";
                 $cadena_sql.=" ORDER BY dep_nombre";
                 break;
