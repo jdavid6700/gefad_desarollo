@@ -186,8 +186,8 @@ class html_formDTF {
                 }
             }
         </script>
-        
-             <script>
+
+        <script>
             function acceptNum2(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
@@ -280,10 +280,48 @@ class html_formDTF {
                 }
             }
         </script>
-
-
+        
         <script language = "Javascript">
-            //Éste script valida si la fecha inicial de vigencia es minimo la vigencia final anterior
+            //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
+            function trascheck(str) {
+
+        <?
+        foreach ($rango as $key => $values) {
+            /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+              echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
+
+            $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']) . "+ 1 day")));
+
+            $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']) . "+ 1 day")));
+
+            echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+            echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
+
+            echo "var y1 = str.substring(6);\n\n";
+            echo "var m13 = str . substring(3, 5);\n\n";
+            echo "var m12 = m13 - 1;\n\n";
+            echo "var m1 = '0' + m12;\n\n";
+            echo "var d1 = str.substring(0, 2);\n\n";
+            echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+            echo "var ming = min.getTime();\n\n";
+            echo "var maxg = max.getTime();\n\n";
+            echo "var cadenag = cadena.getTime();\n\n";
+
+            echo "if (cadenag > ming && cadenag < maxg) {\n";
+// echo "alert(min  cadena  max)\n\n";
+            echo "alert('Ya existen registros para este periodo.')\n";
+            echo " return false\n";
+            echo "    }\n\n";
+        }
+        ?>
+                return true
+            }
+
             function echeck(str) {
 
                 var min = new Date('<? echo $fecha_anio ?>,<? echo $fecha_mes ?>,<? echo $fecha_dia ?>');
@@ -296,7 +334,33 @@ class html_formDTF {
                         return true
                     }
 
-                    function minDate() {
+                    function traslape() {
+
+                        var fechaID = document.formDTF.fecvig_desde;
+                        if ((fechaID.value == null) || (fechaID.value == "")) {
+                            alert("Ingrese una fecha válida!")
+                            fechaID.focus()
+                            return false
+                        }
+
+                        if (trascheck(fechaID.value) == false) {
+                            fechaID.value = ""
+                            fechaID.focus()
+                            return false
+                        }
+
+                        var fechaID = document.formDTF.fecvig_hasta;
+                        if ((fechaID.value == null) || (fechaID.value == "")) {
+                            alert("Ingrese una fecha válida!")
+                            fechaID.focus()
+                            return false
+                        }
+
+                        if (trascheck(fechaID.value) == false) {
+                            fechaID.value = ""
+                            fechaID.focus()
+                            return false
+                        }
 
                         var fechaID = document.formDTF.fecvig_desde
                         if ((fechaID.value == null) || (fechaID.value == "")) {
@@ -314,7 +378,36 @@ class html_formDTF {
 
         </script>
 
-        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
+
+        <script>
+            function  validarFecha() {
+                var desde = (document.getElementById("fecvig_desde").value);
+                var hasta = (document.getElementById("fecvig_hasta").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
+
+                if (cadena1.getTime() > cadena2.getTime()) {
+                    document.getElementById("fecvig_desde").focus();
+                    document.getElementById("fecvig_hasta").focus();
+                    alert("El intervalo de fecha de vigencia no es válido.");
+                    return false
+                }
+
+                return true
+            }
+        </script>
+
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' autocomplete='Off' onSubmit="return traslape();">
             <h1>Tasa de Interés DTF</h1> 
             <div class="formrow f1">
                 <div class="formrow f1">
@@ -391,7 +484,7 @@ class html_formDTF {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Inicio</span></span></span></label>
+                            <label class="fieldlabel" for="fecvig_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Fecha Vigencia<br>   Desde</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -414,7 +507,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_hasta" name="fecvig_hasta"  title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                                <input type="text" id="fecvig_hasta" name="fecvig_hasta" onchange="validarFecha()" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                             </div>
                             <div class="null"></div>
                         </div>

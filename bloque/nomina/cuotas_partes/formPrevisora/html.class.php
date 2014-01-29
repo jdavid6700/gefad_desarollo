@@ -74,23 +74,23 @@ class html_formPrevisora {
 
         <table class = 'bordered' width = "100%" >
             <tr>
-                <th colspan = "14" class = 'encabezado_registro'>ENTIDADES PREVISORAS Y EMPLEADORAS</th>
+                <th colspan = "10" class = 'encabezado_registro'>ENTIDADES PREVISORAS Y EMPLEADORAS</th>
                 <td class = 'texto_elegante<? echo '' ?> estilo_td' ></td>
             </tr>
             <tr>
                 <td class = 'texto_elegante2 estilo_td' align = center>NIT</td>
                 <td class = 'texto_elegante2 estilo_td' align = center>NOMBRE</td>
                 <td class = 'texto_elegante2 estilo_td' align = center>ESTADO</td>
-                <td class = 'texto_elegante2 estilo_td' align = center>OBSERVACION</td>
+                <td class = 'texto_elegante2 estilo_td' align = center>OBSERV.</td>
                 <!--td class = 'texto_elegante2 estilo_td' align = center>DIRECCION<!--/td-->
-                <!--td class = 'texto_elegante2 estilo_td' align = center>DEPARTAMENTO<!--/td-->
+                <td class = 'texto_elegante2 estilo_td' align = center>DEPARTAMENTO</td>
                 <td class = 'texto_elegante2 estilo_td' align = center>CIUDAD</td>
                 <td class = 'texto_elegante2 estilo_td' align = center>TELEFONO</td>
                 <td class = 'texto_elegante2 estilo_td' align = center>RESPONSABLE</td>
                 <td class = 'texto_elegante2 estilo_td' align = center>CARGO</td>
                 <!--td class = 'texto_elegante2 estilo_td' align = center>OTRO CONTACTO<!--/td-->
                 <!--td class = 'texto_elegante2 estilo_td' align = center>CARGO<!--/td-->
-                <td class = 'texto_elegante2 estilo_td' align = center>CORREO 1</td>
+                <td class = 'texto_elegante2 estilo_td' align = center>CORREO</td>
                 <!--td class = 'texto_elegante2 estilo_td' align = center>CORREO 2<!--/td-->
             </tr>
             <tbody id="itemContainer">
@@ -104,7 +104,7 @@ class html_formPrevisora {
                             echo "<td class='texto_elegante estilo_td' >" . $registros[$key][2] . "</td>";
                             echo "<td class='texto_elegante estilo_td' >" . $registros[$key][3] . "</td>";
                             //echo "<td class='texto_elegante estilo_td' >" . $registros[$key][4] . "</td>";
-                            //echo "<td class='texto_elegante estilo_td' >" . $registros[$key][5] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' >" . $registros[$key][5] . "</td>";
                             echo "<td class='texto_elegante estilo_td' >" . $registros[$key][6] . "</td>";
                             echo "<td class='texto_elegante estilo_td' >" . $registros[$key][7] . "</td>";
                             echo "<td class='texto_elegante estilo_td' >" . $registros[$key][8] . "</td>";
@@ -170,7 +170,7 @@ class html_formPrevisora {
         </script>
 
         <script language = "Javascript">
-     
+
             function echeck(str) {
 
                 var at = "@"
@@ -217,6 +217,10 @@ class html_formPrevisora {
             }
 
             function ValidateForm() {
+                
+                
+                
+                
                 var emailID = document.formPrevisora.txtEmail
 
                 if ((emailID.value == null) || (emailID.value == "")) {
@@ -319,6 +323,7 @@ class html_formPrevisora {
             function SeleccionarEmpleados(depto) {
                 var o;
                 document.formPrevisora.municipios.disabled = true;
+            
         <?php
         foreach ($mun as $key => $value) {
             ?>
@@ -328,7 +333,15 @@ class html_formPrevisora {
                         o.value = "<?php echo $mun[$key]['municipio'] ?>";
                         document.formPrevisora.municipios.options.add(o);
                     }
+
         <?php } ?>
+                if (depto === "") {
+                    o = document.createElement("OPTION");
+                    o.text = "Seleccione un Municipio";
+                    o.value = "0";
+                    document.formPrevisora.municipios.options.add(o);
+                }
+
                 document.formPrevisora.municipios.disabled = false;
             }
         </script>
@@ -443,21 +456,18 @@ class html_formPrevisora {
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
-
-                        <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
-
-                            <select name='departamentos' onChange='ComponerLista(this.value)'>
-
-                                <?
+                        <div>
+                            <select name='departamentos' onChange='ComponerLista(this.value)' title="*Campo Obligatorio" autocomplete="off" required='required'>
+                                <?php
+                                $var = "<option selected value=''>" . "Seleccione un Departamento" . "</option>";
                                 foreach ($depto as $key => $value) {
-                                    ?>
-                                    <option value ="<?php echo $depto[$key]['departamento']; ?>"><?php echo$depto[$key]['departamento']; ?></option>
-                                    <?
+                                    $var.= "<option value='" . $depto[$key]['departamento'] . "'>" . $depto[$key]['departamento'] . "</option>";
                                 }
-                                ?>
+                                echo $var;
+                                ?>   
+
                             </select>
                         </div>
-
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
@@ -472,12 +482,11 @@ class html_formPrevisora {
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
-                        <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
-                            <select id="municipios" name="municipios">
-                                <option value ="0">Seleccione un departamento</option>
-                            </select>
-                        </div>
+                        <select id="municipios" name="municipios" required='required' autocomplete="off" title="*Campo Obligatorio">
+                            <option value='' >Seleccione un Municipio</option>
+                        </select>
+
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>

@@ -20,14 +20,18 @@ class sql_formIPC extends sql {
             case "insertarIPC":
                 if ($variable['Suma_fijas'] != "") {
 
-                    $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc, ipc_sumas_Fijas) VALUES ( ";
+                    $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc, ipc_sumas_Fijas,  ipc_estado_registro , ipc_fecha_registro) VALUES ( ";
                     $cadena_sql.=" '" . $variable['Fecha'] . "' ,";
                     $cadena_sql.=" '" . $variable['Indice_IPC'] . "',  ";
-                    $cadena_sql.=" '" . $variable['Suma_fijas'] . "' );";
+                    $cadena_sql.=" '" . $variable['Suma_Fijas'] . "',  ";
+                    $cadena_sql.=" '" . $variable['estado_registro'] . "',  ";
+                    $cadena_sql.=" '" . $variable['fecha_registro'] . "' );";
                 } else {
-                    $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc) VALUES ( ";
+                    $cadena_sql = " INSERT INTO cuotas_partes.cuotas_indc_ipc(ipc_fecha, ipc_indiceipc, ipc_estado_registro , ipc_fecha_registro) VALUES ( ";
                     $cadena_sql.=" '" . $variable['Fecha'] . "' ,";
-                    $cadena_sql.=" '" . $variable['Indice_IPC'] . "' );";
+                    $cadena_sql.=" '" . $variable['Indice_IPC'] . "' ,";
+                    $cadena_sql.=" '" . $variable['estado_registro'] . "' ,";
+                    $cadena_sql.=" '" . $variable['fecha_registro'] . "' );";
                 }
                 break;
 
@@ -37,9 +41,9 @@ class sql_formIPC extends sql {
                 break;
 
             case "Consultar":
-                $cadena_sql = "SELECT ipc_fecha, to_char(ipc_indiceipc,'0.99999'), ipc_sumas_fijas as ipc_indiceipc  ";
+                $cadena_sql = "SELECT ipc_fecha, to_char(ipc_indiceipc,'0.99999999'), ipc_sumas_fijas as ipc_indiceipc  ";
                 $cadena_sql.="FROM cuotas_partes.cuotas_indc_ipc ";
-                $cadena_sql.="ORDER BY ipc_fecha ASC;  ";
+                $cadena_sql.="ORDER BY ipc_fecha DESC;  ";
                 break;
 
             default:

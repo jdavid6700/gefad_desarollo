@@ -69,7 +69,22 @@ class funciones_formIPC extends funcionGeneral {
 
     function mostrarFormulario() {
 
-        $this->html_formIPC->formularioIPC();
+        $datos_ipc = $this->ConsultarHistorico();
+
+        if (is_array($datos_ipc)) {
+            $anio_fin = $datos_ipc[0]['ipc_fecha'];
+        } else {
+            $anio_fin = 1970;
+        }
+
+        $this->html_formIPC->formularioIPC($anio_fin);
+    }
+
+    function ConsultarHistorico() {
+        $parametros = "";
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "Consultar", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
+        return $datos;
     }
 
     function ConsultarIndice() {

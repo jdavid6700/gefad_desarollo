@@ -40,12 +40,33 @@ class html_adminCuentaCobro {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
         $this->formulario = "cuentaCobro";
         ?>
+
+    <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890.";
+                especiales = [8, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+        
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>'>
 
             <h2>Ingrese la cédula a registrar<br> la Cuenta de Cobro Manualmente: </h2>
             <br>
-            <input type="text" name="cedula_emp" required='required'>
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" title="*Campo Obligatorio"></center>
             <input type='hidden' name='pagina' value='cuentaCobro'>
@@ -362,9 +383,9 @@ class html_adminCuentaCobro {
                 return true
             }
         </script>
-        
-        
-        
+
+
+
         <script language = "Javascript">
             //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
             function echeck(str) {
@@ -375,11 +396,11 @@ class html_adminCuentaCobro {
 
             $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
             $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
-            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']) . "+ 1 day")));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']))));
 
             $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
             $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
-            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']) . "+ 1 day")));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']))));
 
             echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
             echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
@@ -395,7 +416,7 @@ class html_adminCuentaCobro {
             echo "var maxg = max.getTime();\n\n";
             echo "var cadenag = cadena.getTime();\n\n";
 
-            echo "if (cadenag < ming || cadenag < maxg) {\n";
+            echo "if (cadenag < ming) {\n";
             // echo "alert(min  cadena  max)\n\n";
             echo "alert('Intervalo de fechas de cobro no válido')\n";
             echo " return false\n";
@@ -404,6 +425,47 @@ class html_adminCuentaCobro {
         ?>
                 return true
             }
+
+
+            function echeck2(str) {
+        <?
+        foreach ($rango as $key => $values) {
+            /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+              echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
+
+            $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']))));
+
+            $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']))));
+
+            echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+            echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
+
+            echo "var y1 = str.substring(6);\n\n";
+            echo "var m13 = str . substring(3, 5);\n\n";
+            echo "var m12 = m13 - 1;\n\n";
+            echo "var m1 = '0' + m12;\n\n";
+            echo "var d1 = str.substring(0, 2);\n\n";
+            echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+            echo "var ming = min.getTime();\n\n";
+            echo "var maxg = max.getTime();\n\n";
+            echo "var cadenag = cadena.getTime();\n\n";
+
+            echo "if (cadenag < maxg) {\n";
+            // echo "alert(min  cadena  max)\n\n";
+            echo "alert('Intervalo de fechas de cobro no válido')\n";
+            echo " return false\n";
+            echo "    }\n\n";
+        }
+        ?>
+                return true
+            }
+
+
 
             function minDate() {
 
@@ -427,7 +489,7 @@ class html_adminCuentaCobro {
                     return false
                 }
 
-                if (echeck(fechaID.value) == false) {
+                if (echeck2(fechaID.value) == false) {
                     fechaID.value = ""
                     fechaID.focus()
                     return false
@@ -435,8 +497,8 @@ class html_adminCuentaCobro {
             }
 
         </script>
-        
-        
+
+
 
         <script>
             function  validarFechaGen() {

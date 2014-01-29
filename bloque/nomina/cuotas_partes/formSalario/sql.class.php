@@ -47,7 +47,7 @@ class sql_formSalario extends sql {
             case "Consultar":
                 $cadena_sql = "SELECT *  ";
                 $cadena_sql.="FROM cuotas_partes.cuotas_salario ";
-                $cadena_sql.="ORDER BY salario_anio ASC;  ";
+                $cadena_sql.="ORDER BY salario_anio DESC;  ";
                 break;
 
             default:

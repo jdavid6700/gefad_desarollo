@@ -182,6 +182,22 @@ class funciones_formDTF extends funcionGeneral {
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
+
+        $antes = (strtotime(str_replace('/', '-', $datos['fecvig_desde'])));
+        $despues = (strtotime(str_replace('/', '-', $datos['fecvig_hasta'])));
+
+
+        if ($antes > $despues) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('El rango de fechas no es válido.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioDTF';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
         /* verificar si es menor a 2006 para asignar 0.12 OJO con el segundo semestre */
 
         if ($anio_fin < 2006) {

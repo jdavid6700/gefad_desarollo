@@ -197,20 +197,28 @@ class html_formRecaudo {
         $variable = 'pagina=formularioRecaudo';
         $variable.='&opcion=interrupcion';
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+        $a = 0;
+
+        foreach ($cobros as $key => $values) {
+            $a++;
+        }
         ?>
 
         <script>
             function validate() {
-                a = document.formRecaudo.cuenta.length;
+                a = <?php echo $a ?>;
+
 
                 count = 0;
-                for (x = 0; x < document.formRecaudo.cuenta.length; x++) {
-                    if (document.formRecaudo.cuenta[x].checked == true) {
-                        count++
-                    }
+                for (x = 0; x < a; x++) {
+        <?php foreach ($cobros as $key => $values) { ?>
+                        if (document.formRecaudo.cuenta_pagar<?php echo $key ?>.checked === true) {
+                            count++;
+                        }
+        <?php } ?>
                 }
 
-                if (count == 0) {
+                if (count === 0) {
                     alert("¡Debe elegir al menos una cuenta de cobro!");
                     return false
                 }
@@ -305,7 +313,7 @@ class html_formRecaudo {
                                   <input type='hidden' name='saldo[" . $key . "]' value='" . $saldo . "'>
                                   <input type='hidden' name='identificacion[" . $key . "]' value='" . $cobros[$key]['cob_cedula'] . "'>
                                   
-                                  <input type='checkbox' id='cuenta' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>  
+                                  <input type='checkbox' id='cuenta_pagar" . $key . "' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>  
                                       
                                   </td>";
                             echo "</tr>";

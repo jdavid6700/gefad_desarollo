@@ -106,8 +106,8 @@ class html_formSalario {
         <?php
     }
 
-    function formularioSalario($rango) {
-          
+    function formularioSalario($rango, $salarios) {
+
         $this->formulario = "formSalario";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -388,12 +388,15 @@ class html_formSalario {
 
                                     <?php
                                     $var = "<option selected value=''>" . "Seleccione Año" . "</option>";
-                                    $i = 1920;
-                                    $año = date("Y");
-                                    for ($i = 1980; $i <= $año; $i++) {
 
-                                        $var.= "<option>" . $i . "</option>";
-                                    }
+                                    $anio = date("Y");
+                                    $anio_inicial = 1950;
+
+                                    do {
+                                        $var.= "<option>" . $anio_inicial . "</option>";
+                                        $anio_inicial = $anio_inicial + 1;
+                                    } while ($anio_inicial <= $anio);
+
                                     echo $var;
                                     ?>   
 
@@ -451,7 +454,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" placeholder="00000000.00" pattern="\d{3,8}\.?\d{1,2}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >** Mínimo 3 cifras
+                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" placeholder="00000000.00" pattern="\d{3,8}\.?\d{0,2}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >** Mínimo 3 cifras
                             </div>
                             <div class="null"></div>
                         </div>

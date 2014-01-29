@@ -99,7 +99,7 @@ class html_formIPC {
         <?php
     }
 
-    function formularioIPC() {
+    function formularioIPC($anio_fin) {
 
         $mes = date('m');
         $anio = date('Y');
@@ -172,7 +172,8 @@ class html_formIPC {
                 }
             }
         </script>
-
+        
+ 
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>'  autocomplete='Off'>
 
             <h1>Índice de Precios al Consumidor (IPC)</h1> 
@@ -206,9 +207,9 @@ class html_formIPC {
                                 <select id="año_registrar" name="año_registrar" autocomplete="off" onchange="validaranio()" required='required'>
                                     <?php
                                     $var = "<option selected value=''>" . "Seleccione Año" . "</option>";
-                                    $i = 1920;
+                                   
                                     $año = date("Y");
-                                    for ($i = 1940; $i <= $año; $i++) {
+                                    for ($i = 1950; $i <= $año; $i++) {
                                         switch ($i) {
                                             case "1984":
                                                 $var.= "<option>" . $i . "-1</option>";
@@ -277,7 +278,7 @@ class html_formIPC {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste="return false" title="*Campo Obligatorio en el caso correspondiente." placeholder="00000000.00" name="sum_fj" pattern="\d{3,8}\.?\d{1,2}" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Diligenciar entre los años 1976 y 1988 <br> **Mínimo 3 cifras decimales
+                                <input type="text" id="sum_fj" onpaste="return false" title="*Campo Obligatorio en el caso correspondiente." placeholder="00000000.00" name="sum_fj" pattern="\d{3,8}\.?\d{0,2}" class="fieldcontent" maxlength='11' required='required'  onKeyPress='return acceptNum(event)' onpaste="return false" > **Diligenciar entre los años 1976 y 1988 <br> **Mínimo 3 cifras decimales
                             </div>
                             <div class="null"></div>
                         </div>

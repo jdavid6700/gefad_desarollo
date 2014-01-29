@@ -695,12 +695,12 @@ class html_formConcurrencia {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Acto Administrativo</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Número/Referencia<br>   Acto Administrativo</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="acto_adm" title="*Campo Obligatorio" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Oficio/Resolución/Silencio Administrativo" onpaste="return false">
+                            <input type="text" id="p1f7c" name="acto_adm" title="*Campo Obligatorio" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Número o Referencia de Acto Administrativo" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
