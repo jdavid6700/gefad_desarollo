@@ -21,14 +21,14 @@ class sql_adminGeneral extends sql
 			case "busqueda_usuario_xnombre":
 								
 				$cadena_sql= "SELECT ";
-				$cadena_sql.= "id_usuario, ";
-				$cadena_sql.= "nombre, ";
-				$cadena_sql.= "apellido, ";
-				$cadena_sql.= "correo, ";
-				$cadena_sql.= "telefono, ";
-				$cadena_sql.= "usuario, ";
-				$cadena_sql.= "celular, ";
-				$cadena_sql.= "identificacion ";
+				$cadena_sql.= "id_usuario ID_US, ";
+				$cadena_sql.= "nombre  NOMBRE, ";
+				$cadena_sql.= "apellido APELLIDO, ";
+				$cadena_sql.= "correo MAIL, ";
+				$cadena_sql.= "telefono TEL, ";
+				$cadena_sql.= "usuario NICK, ";
+				$cadena_sql.= "celular CEL, ";
+				$cadena_sql.= "identificacion IDENT ";
 				$cadena_sql.= "FROM ";
 				$cadena_sql.= $configuracion["prefijo"]."registrado ";
 				$cadena_sql.= "WHERE usuario = '".$variable."'";
