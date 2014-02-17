@@ -292,6 +292,18 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
                 $cadena_sql.=" GROUP BY prev_nombre, hlab_nitenti";
                 break;
+
+            case "consultarCobros":
+                $cadena_sql = "  SELECT cob_fgenerado, cob_nitemp, cob_nitprev, cob_consecu_cta, cob_finicial, cob_ffinal, ";
+                $cadena_sql.=" cob_ts_interes, cob_interes, cob_tc_interes, cob_ie_correspondencia, cob_cedula, cob_saldo";
+                $cadena_sql.=" from cuotas_partes.cuotas_cobros ";
+                $cadena_sql.=" where cob_cedula = '" . $variable['cedula'] . "' ";
+                // $cadena_sql.=" and cob_estado_cuenta = 'ACTIVA' ";
+                $cadena_sql.=" and cob_nitprev='" . $variable['previsor'] . "' ";
+                $cadena_sql.=" order by cob_fgenerado ASC ";
+                break;
+
+
             default:
                 $cadena_sql = "";
                 break;

@@ -218,6 +218,14 @@ class html_formSalario {
                     dateFormat: 'dd/mm/yy',
                     maxDate: "+1M"
                 });
+
+                $("#fec_reso").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:c',
+                    dateFormat: 'dd/mm/yy',
+                    maxDate: "+0D"
+                });
             });</script>
 
         <script>
@@ -237,21 +245,27 @@ class html_formSalario {
                 var cadena1 = new Date(y1, m1, d1);
                 var cadena2 = new Date(y2, m2, d2);
 
+
                 if (cadena1.getTime() > cadena2.getTime()) {
                     document.getElementById("fecvig_desde").focus();
                     document.getElementById("fecvig_hasta").focus();
                     alert("El intervalo de fecha de vigencia no es válido.");
-                    return false
+                    return false;
                 }
 
-                return true
+                if (parseInt(y1) !== parseInt(y2)) {
+                    document.getElementById("fecvig_desde").focus();
+                    document.getElementById("fecvig_hasta").focus();
+                    alert("Los Años de Fecha de Vigencia no pertenecen al mismo año.");
+                    return false;
+                }
+                return true;
             }
         </script>
 
         <script language = "Javascript">
             //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
             function echeck(str) {
-
         <?
         foreach ($rango as $key => $values) {
             /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
@@ -259,11 +273,11 @@ class html_formSalario {
 
             $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
             $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['inicio']))));
-            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']) . "+ 1 day")));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['inicio']))));
 
             $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
             $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $rango[$key]['fin']))));
-            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']) . "+ 1 day")));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $rango[$key]['fin']))));
 
             echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
             echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
@@ -376,7 +390,7 @@ class html_formSalario {
                     <div class="null"></div>
                 </div>
 
-                <div class="formrow f1 ">
+                   <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Año a Registrar</span></span></span></label>
@@ -454,7 +468,7 @@ class html_formSalario {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" placeholder="00000000.00" pattern="\d{3,8}\.?\d{0,2}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >** Mínimo 3 cifras
+                                <input type="text" id="sum_fj" onpaste='return false' title="*Campo Obligatorio" name="monto_mensual" class="fieldcontent" placeholder="00000000.00" pattern="\d{3,11}\.?\d{0,2}" maxlength='11' required='required'  onKeyPress='return acceptNum2(event)' >** Mínimo 3 cifras
                             </div>
                             <div class="null"></div>
                         </div>

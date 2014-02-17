@@ -55,6 +55,14 @@ class bloque_formRecaudo extends bloque {
                     $this->funcion->mostrarRecaudos();
                     break;
 
+                case "historiaRecaudo_cobropago":
+                    $this->funcion->mostrarRecaudos_cp();
+                    break;
+
+                case "consulta_cp":
+                    $this->funcion->inicio_cp();
+                    break;
+
                 case "consultar":
                     $consultar_recaudos = array();
                     $saldo_cuenta = 0;
@@ -64,11 +72,22 @@ class bloque_formRecaudo extends bloque {
                         }
                     }
 
-                    $this->funcion->historiaRecaudos($consultar_recaudos,$saldo_cuenta);
+                    $this->funcion->historiaRecaudos($consultar_recaudos, $saldo_cuenta);
+                    break;
+
+                case "consultar_cp":
+                    $consultar_recaudos = array();
+                    $saldo_cuenta = 0;
+                    foreach ($_REQUEST as $key => $value) {
+                        if ($key != 'action' && $key != 'opcion') {
+                            $consultar_recaudos[$key] = $_REQUEST[$key];
+                        }
+                    }
+
+                    $this->funcion->historiaRecaudos_cp($consultar_recaudos, $saldo_cuenta);
                     break;
 
                 case "registro_pago":
-
                     $cuentas_pago = array();
                     $cont = 0;
 

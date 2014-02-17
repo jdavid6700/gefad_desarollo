@@ -56,6 +56,7 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
+                $cadena_sql.=" ORDER BY prev_nit DESC ";
                 break;
 
             case "consultarPrevisoraU":
@@ -90,7 +91,7 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.= "ORDER BY hlab_fretiro DESC ";
                 break;
 
-                case "reporteDescripcion":
+            case "reporteDescripcion":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.= " dcp_nitprev, ";
                 $cadena_sql.= " dcp_resol_pension_fecha, ";
@@ -104,8 +105,9 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.= " dcp_valor_cuota ";
                 $cadena_sql.= " from cuotas_partes.cuotas_descripcion_cuotaparte ";
                 $cadena_sql.= " where dcp_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.= " ORDER BY dcp_nitprev DESC ";
                 break;
-            
+
             default:
                 $cadena_sql = "";
                 break;

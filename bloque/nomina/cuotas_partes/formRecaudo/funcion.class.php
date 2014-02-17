@@ -66,6 +66,10 @@ class funciones_formRecaudo extends funcionGeneral {
         $this->html_formRecaudo->form_valor();
     }
 
+    function inicio_cp() {
+        $this->html_formRecaudo->form_valor_cp();
+    }
+
     function mostrarRecaudos() {
         $cedula = array('cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''));
 
@@ -100,15 +104,71 @@ class funciones_formRecaudo extends funcionGeneral {
         }
     }
 
-    function historiaRecaudos($datos_consulta,$saldo_cuenta) {
+    function mostrarRecaudos_cp() {
+          $cedula = array('cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''));
+
+        if (!preg_match("^\d+$^", $cedula['cedula'])) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('La cédula posee un formato inválido');" .
+            "</script> ";
+            error_log('\n');
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        } else {
+
+            $datos_entidad = $this->consultarEntidadesRecaudo($cedula);
+
+            if (is_array($datos_entidad)) {
+                $this->html_formRecaudo->datosRecaudos_cp($cedula, $datos_entidad);
+            } else {
+                echo "<script type=\"text/javascript\">" .
+                "alert('No existen Cuentas de Cobro registradas con cédula " . $cedula['cedula'] . ". Por lo tanto, no hay datos a consultar.');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=cuentaCobro';
+                $variable.='&opcion=manual';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+    }
+
+    function historiaRecaudos($datos_consulta, $saldo_cuenta) {
         $parametros = array('cedula' => $datos_consulta['cedula_emp'], 'entidad' => $datos_consulta['hlab_nitprev']);
 
-        $saldo_cc=$saldo_cuenta;
+        $saldo_cc = $saldo_cuenta;
         $datos_recaudos = $this->consultarRecaudos($parametros);
         $datos_cobros = $this->consultarCobros($parametros);
 
         if (is_array($datos_cobros)) {
-            $this->html_formRecaudo->historiaRecaudos($datos_recaudos, $datos_cobros,$saldo_cc);
+            $this->html_formRecaudo->historiaRecaudos($datos_recaudos, $datos_cobros, $saldo_cc);
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No existen Cuentas de Cobro registradas con cédula " . $parametros['cedula'] . " para la Entidad " . $parametros['entidad'] . ". Por lo tanto, no hay pagos a registrar.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=reportesCuotas';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+    }
+    
+    function historiaRecaudos_cp($datos_consulta, $saldo_cuenta) {
+        $parametros = array('cedula' => $datos_consulta['cedula_emp'], 'entidad' => $datos_consulta['hlab_nitprev']);
+
+        $saldo_cc = $saldo_cuenta;
+        $datos_recaudos = $this->consultarRecaudos($parametros);
+        $datos_cobros = $this->consultarCobros($parametros);
+
+        if (is_array($datos_cobros)) {
+            $this->html_formRecaudo->reporteCobrosPagos($datos_recaudos, $datos_cobros, $saldo_cc);
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existen Cuentas de Cobro registradas con cédula " . $parametros['cedula'] . " para la Entidad " . $parametros['entidad'] . ". Por lo tanto, no hay pagos a registrar.');" .
@@ -251,7 +311,6 @@ class funciones_formRecaudo extends funcionGeneral {
         }
 
         $datos_recaudo = $this->registrarPago($datos);
-
 
         if ($datos_recaudo == true) {
 

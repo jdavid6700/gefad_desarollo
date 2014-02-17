@@ -41,7 +41,7 @@ class html_adminCuentaCobro {
         $this->formulario = "cuentaCobro";
         ?>
 
-    <script>
+        <script>
             function acceptNum(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
@@ -60,13 +60,13 @@ class html_adminCuentaCobro {
                 }
             }
         </script>
-        
+
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>'>
 
             <h2>Ingrese la cédula a registrar<br> la Cuenta de Cobro Manualmente: </h2>
             <br>
-            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)'>
+            <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' maxlength="10">
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" title="*Campo Obligatorio"></center>
             <input type='hidden' name='pagina' value='cuentaCobro'>
@@ -182,7 +182,8 @@ class html_adminCuentaCobro {
         <?
     }
 
-    function formRegistroManual($datos_empleador, $datos_previsora, $basicos, $rango) {
+    function formRegistroManual($datos_empleador, $datos_previsora, $basicos, $rango, $r_cuenta) {
+
 
         $this->formulario = "cuentaCobro";
 
@@ -464,8 +465,45 @@ class html_adminCuentaCobro {
         ?>
                 return true
             }
+            
+            
+            function echeck2(str) {
+        <?
+        foreach ($r_cuenta as $key => $values) {
+            /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+              echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
 
+            $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $r_cuenta[$key]['inicio']))));
+            $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $r_cuenta[$key]['inicio']))));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $r_cuenta[$key]['inicio']))));
 
+            $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $r_cuenta[$key]['fin']))));
+            $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $r_cuenta[$key]['fin']))));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $r_cuenta[$key]['fin']))));
+
+            echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+            echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
+
+            echo "var y1 = str.substring(6);\n\n";
+            echo "var m13 = str . substring(3, 5);\n\n";
+            echo "var m12 = m13 - 1;\n\n";
+            echo "var m1 = '0' + m12;\n\n";
+            echo "var d1 = str.substring(0, 2);\n\n";
+            echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+            echo "var ming = min.getTime();\n\n";
+            echo "var maxg = max.getTime();\n\n";
+            echo "var cadenag = cadena.getTime();\n\n";
+
+            echo "if (cadenag < maxg) {\n";
+            // echo "alert(min  cadena  max)\n\n";
+            echo "alert('Intervalo de fechas de cobro no válido')\n";
+            echo " return false\n";
+            echo "    }\n\n";
+        }
+        ?>
+                return true
+            }
 
             function minDate() {
 
@@ -494,11 +532,36 @@ class html_adminCuentaCobro {
                     fechaID.focus()
                     return false
                 }
+
+                var fechaID = document.cuentaCobro.fecha_inicial;
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck3(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+                var fechaID = document.cuentaCobro.fecha_final
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck3(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
             }
 
         </script>
-
-
 
         <script>
             function  validarFechaGen() {
@@ -549,6 +612,14 @@ class html_adminCuentaCobro {
                 return true
             }
         </script>
+
+        <script>
+            function alerta() {
+                alert("entro a otra funcion");
+                return false
+            }
+        </script>
+
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onsubmit="return minDate()">
             <h1>Cuenta de Cobro Manual</h1>
@@ -751,7 +822,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="mesada" name="mesada" placeholder="00000000.00" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
+                            <input type="text" id="mesada" name="mesada" placeholder="00000000.00" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,12}(\.\d{0,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
 
                         </div>
                         <div class="null"></div>
@@ -769,7 +840,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="mesada_adc" name="mesada_adc"  placeholder="00000000.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
+                            <input type="text" id="mesada_adc" name="mesada_adc"  placeholder="00000000.00" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,12}(\.\d{0,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
 
                         </div>
                         <div class="null"></div>
@@ -787,7 +858,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="subtotal" name="subtotal" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" title="Campo Obligatorio. Mínimo 5 caracteres." maxlength="12" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" >
+                            <input type="text" id="subtotal" name="subtotal" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" title="Campo Obligatorio. Mínimo 5 caracteres." maxlength="12" pattern="^[0-9]\d{4,12}(\.\d{0,2})?%?$" onpaste="return false" >
                             <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
                         </div>
                         <div class="null"></div>
@@ -805,7 +876,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="incremento" name="incremento" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" title="Campo Obligatorio. Mínimo 5 caracteres."  maxlength="12" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" >
+                            <input type="text" id="incremento" name="incremento" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" title="Campo Obligatorio. Mínimo 5 caracteres."  maxlength="12" pattern="^[0-9]\d{4,12}(\.\d{0,2})?%?$" onpaste="return false" >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -822,7 +893,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="t_sin_interes" name="t_sin_interes" class="fieldcontent" placeholder="00000000.00" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
+                            <input type="text" id="t_sin_interes" name="t_sin_interes" class="fieldcontent" placeholder="00000000.00" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,12}(\.\d{0,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
                             <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor2()" />
                         </div>
                         <div class="null"></div>
@@ -840,7 +911,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="interes" name="interes"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" placeholder="00000000.00" pattern="^[0-9]\d{1,9}(\.\d{1,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
+                            <input type="text" id="interes" name="interes"  class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="12" placeholder="00000000.00" pattern="^[0-9]\d{1,12}(\.\d{0,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -857,7 +928,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="t_con_interes" name="t_con_interes" class="fieldcontent" required='required' placeholder="00000000.00" onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
+                            <input type="text" id="t_con_interes" name="t_con_interes" class="fieldcontent" required='required' placeholder="00000000.00" onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{4,12}(\.\d{0,2})?%?$" onpaste="return false" title="Campo Obligatorio. Mínimo 5 caracteres.">
                             <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor3()" />
                         </div>
                         <div class="null"></div>
@@ -875,7 +946,7 @@ class html_adminCuentaCobro {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c"  name="saldo_fecha" class="fieldcontent" required='required' placeholder="00000000.00" onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{1,9}(\.\d{1,2})?%?$" onpaste="return false" title="Campo Obligatorio.">
+                            <input type="text" id="p1f12c"  name="saldo_fecha" class="fieldcontent" required='required' placeholder="00000000.00" onKeyPress='return acceptNum2(event)' maxlength="12" pattern="^[0-9]\d{1,12}(\.\d{0,2})?%?$" onpaste="return false" title="Campo Obligatorio.">
                         </div>
                         <div class="null"></div>
                     </div>

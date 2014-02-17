@@ -93,6 +93,12 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         return $datos_historia;
     }
 
+    function consultarCobros($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarCobros", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
     function consultaPManual($cedula) {
 
         $datos_previsora = $this->consultarPrevisoraUnica($cedula);
@@ -124,6 +130,21 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         $datos_previsora = $this->consultarPrevForm($parametros);
 
         $datos_historia = $this->consultarHistoria($parametros);
+        $datos_cuentas = $this->consultarCobros($parametros);
+
+        /* Para determinar los limites de las cuentas de cobro */
+
+        if ($datos_cuentas == true) {
+            foreach ($datos_cuentas as $key => $value) {
+                $rango_cobro[$key] = array(
+                    'inicio' => date('d/m/Y', strtotime($value['cob_finicial'])),
+                    'fin' => date('d/m/Y', strtotime($value['cob_ffinal'])));
+            }
+        } else {
+            $rango_cobro[0] = array(
+                'inicio' => date('d/m/Y', strtotime('01/01/1900')),
+                'fin' => date('d/m/Y', strtotime('01/02/1900')));
+        }
 
         /* Para determinar los limites del registro de la historia laboral */
 
@@ -134,13 +155,13 @@ class funciones_adminCuentaCobro extends funcionGeneral {
                     'fin' => date('d/m/Y', strtotime($value['hlab_fretiro'])));
             }
         } else {
-            $rango = array(
+            $rango[0] = array(
                 'inicio' => date('d/m/Y', strtotime('01/01/1940')),
                 'fin' => date('d/m/Y', strtotime('01/01/2000')));
         }
 
-      
-        $this->htmlCuentaCobro->formRegistroManual($datos_entidad, $datos_previsora, $form_manual, $rango);
+
+        $this->htmlCuentaCobro->formRegistroManual($datos_entidad, $datos_previsora, $form_manual, $rango, $rango_cobro);
     }
 
     function registrarManual($datos) {
@@ -402,10 +423,10 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         }
 
-        $antes = strtotime(str_replace('/', '-', $datos['fecha_final']));
-        $despues = strtotime(str_replace('/', '-', $datos['fecha_generacion']));
+        $antes_2 = strtotime(str_replace('/', '-', $datos['fecha_final']));
+        $despues_2 = strtotime(str_replace('/', '-', $datos['fecha_generacion']));
 
-        if ($antes > $despues) {
+        if ($antes_2 > $despues_2) {
             echo "<script type=\"text/javascript\">" .
             "alert('Fecha Final no coincide con Fecha Generación Cuenta de Cobro');" .
             "</script> ";
@@ -417,8 +438,113 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             exit;
         }
 
-        /* validación formato de campos fecha */
+        /* validación de las fechas de cobro con la historia laboral */
 
+        $parametros = array(
+            'cedula' => $datos['cedula']
+        );
+
+        $datos_historia = $this->consultarHistoria($parametros);
+
+        /* Para determinar los limites del registro de la historia laboral */
+
+        if ($datos_historia == true) {
+            foreach ($datos_historia as $key => $value) {
+                $rango_h[$key] = array(
+                    'inicio' => date('d/m/Y', strtotime($value['hlab_fingreso'])),
+                    'fin' => date('d/m/Y', strtotime($value['hlab_fretiro'])));
+            }
+        } else {
+            $rango_h[$key] = array(
+                'inicio' => date('d/m/Y', strtotime('01/01/1940')),
+                'fin' => date('d/m/Y', strtotime('01/01/2000')));
+        }
+
+        foreach ($rango_h as $key => $values) {
+
+            $inicio = strtotime(str_replace('/', '-', $rango_h[$key]['inicio']));
+            $fin = strtotime(str_replace('/', '-', $rango_h[$key]['fin']));
+
+            if ($antes < $inicio) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('El intervalo de fechas de cobro no es válido');" .
+                "</script> ";
+                error_log('\n');
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioCManual';
+                $variable.='&opcion=manual';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+
+            if ($despues < $fin) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('El intervalo de fechas de cobro laborado no es válido');" .
+                "</script> ";
+                error_log('\n');
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioCManual';
+                $variable.='&opcion=manual';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
+        /* para revisar que las cuentas de cobro no se traslapen entre ellas mismas */
+
+        $parametros = array(
+            'cedula' => $datos['cedula'],
+            'previsor' => $datos['entidad_previsora']);
+
+        $datos_cuentas = $this->consultarCobros($parametros);
+
+        if (is_array($datos_cuentas)) {
+            if ($datos_cuentas == true) {
+                foreach ($datos_cuentas as $key => $value) {
+                    $rango_cobro[$key] = array(
+                        'inicio' => date('d/m/Y', strtotime($value['cob_finicial'])),
+                        'fin' => date('d/m/Y', strtotime($value['cob_ffinal'])));
+                }
+            } else {
+                $rango_cobro[$key] = array(
+                    'inicio' => date('d/m/Y', strtotime('01/01/1900')),
+                    'fin' => date('d/m/Y', strtotime('01/02/1900')));
+            }
+
+            foreach ($rango_cobro as $key => $values) {
+
+                $inicio = strtotime(str_replace('/', '-', $rango_cobro[$key]['inicio']));
+                $fin = strtotime(str_replace('/', '-', $rango_cobro[$key]['fin']));
+
+                if ($antes > $inicio && $antes < $fin) {
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('El intervalo de cobro no es válido');" .
+                    "</script> ";
+                    error_log('\n');
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = 'pagina=formularioCManual';
+                    $variable.='&opcion=manual';
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    exit;
+                }
+
+                if ($despues > $inicio && $despues < $fin) {
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('El intervalo de cobro no es válido');" .
+                    "</script> ";
+                    error_log('\n');
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = 'pagina=formularioCManual';
+                    $variable.='&opcion=manual';
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    exit;
+                }
+            }
+        }
         /* Proceder a registrar después de procesar los datos */
 
         $estado = 1;

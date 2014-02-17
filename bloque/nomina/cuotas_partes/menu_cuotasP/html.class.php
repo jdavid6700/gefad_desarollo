@@ -95,16 +95,23 @@
                                         ?>'>Consultar Historia Laboral</a></li>
 
                                     <li><a href=
-                                            "<?
-                                    $variable = "pagina=liquidadorCP";
-                                    $variable.="&opcion=";
-                                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                    echo $this->indice . $variable;
-                                    ?>">Consultar Detalle Liquidación Cuota Parte</a></li>
+                                           "<?
+                                           $variable = "pagina=liquidadorCP";
+                                           $variable.="&opcion=";
+                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                           echo $this->indice . $variable;
+                                           ?>">Consultar Detalle Liquidación Cuota Parte</a></li>
+
+                                    <li><a href="<?
+                                        $variable = 'pagina=formularioRecaudo';
+                                        $variable.='&opcion=consulta_cp';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Consultar Cobros y Recaudos</a></li>
                                 </ul>
                             </li>
 
-                            <li><a href="#">Gestión</a>
+                            <li><a href="#">Gestión Datos Pensionado</a>
                                 <ul>
                                     <li><a href=
                                            "<?
@@ -115,11 +122,18 @@
                                            ?>">Registrar Historia Laboral</a></li>
 
                                     <li><a href="<?
+                                        $variable = 'pagina=formularioConcurrencia';
+                                        $variable.='&opcion=';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Registrar Concurrencia Aceptada</a></li>
+
+                                    <li><a href="<?
                                         $variable = 'pagina=formularioRecaudo';
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Registrar y Consultar Recaudos</a></li>
+                                        ?>">Registrar Recaudos (Pagos)</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioCManual';
@@ -128,6 +142,12 @@
                                         echo $this->indice . $variable;
                                         ?>">Registrar Cuenta Cobro Manual</a></li>
 
+
+                                </ul>
+                            </li>
+
+                            <li><a href="#">Gestión Datos Básicos</a>
+                                <ul>
                                     <li><a href="<?
                                         $variable = 'pagina=formularioPrevisora';
                                         $variable.='&opcion=';
@@ -156,17 +176,11 @@
                                         echo $this->indice . $variable;
                                         ?>">Registrar y Consultar Salarios Mínimos Legales</a></li>
 
-                                    <li><a href="<?
-                                        $variable = 'pagina=formularioConcurrencia';
-                                        $variable.='&opcion=';
-                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                        echo $this->indice . $variable;
-                                        ?>">Registrar Concurrencia Aceptada</a></li>
                                 </ul>
                             </li>
 
 
-                            <li><a href="#">Cuenta de Cobro</a>
+                            <!--li><a href="#">Cuenta de Cobro</a>
                                 <ul>
                                     <li><a href="<?
                             $variable = 'pagina=cuentaCobro';
@@ -174,15 +188,15 @@
                             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                             echo $this->indice . $variable;
                             ?>">Generar Cuenta de Cobro</a></li>
+                                </ul>
+                            </li-->
                         </ul>
                     </li>
+
+
+
                 </ul>
-            </li>
-
-
-
-        </ul>
-        </div>
+            </div>
         </body>
 
 

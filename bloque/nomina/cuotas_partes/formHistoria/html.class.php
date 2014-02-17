@@ -41,19 +41,19 @@ class html_formHistoria {
         $this->html = new html();
     }
 
-    function formularioInterrupcion($datos_prev, $datos_interrupcion) {
+    function formularioInterrupcion($datos_prev, $datos_interrupcion, $datos_historia) {
 
-        $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['fecha_ingreso']) . "+1 month")));
-        $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida'])));
+        $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']) . "+1 month")));
+        $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida'])));
 
 
-        $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_ingreso']))));
-        $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_ingreso']))));
-        $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_interrupcion['fecha_ingreso']) . "+1 month")));
+        $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
+        $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
+        $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']) . "+1 month")));
 
-        $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida']))));
-        $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida']))));
-        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['fecha_salida']))));
+        $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida']))));
+        $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida']))));
+        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida']))));
 
         $this->formulario = "formHistoria";
 
@@ -240,11 +240,123 @@ class html_formHistoria {
                 }
 
             }
-
         </script>
+
+        <script>
+            function  validarFecha() {
+                var desde = (document.getElementById("dias_nor_desde").value);
+                var hasta = (document.getElementById("dias_nor_hasta").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
+
+                if (cadena1.getTime() > cadena2.getTime()) {
+                    document.getElementById("dias_nor_desde").focus();
+                    document.getElementById("dias_nor_hasta").focus();
+                    alert("Fecha Final no válida");
+                    return false
+                }
+
+                return true
+            }
+        </script>
+
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
             <h1>Registro Interrupción Laboral</h1>
+
+
+            <center>     
+                <h2>Historia Laboral Registrada<br><br></h2>
+
+                <table width="100%" class='bordered' >
+                    <tr>
+                        <th colspan="4" class='encabezado_registro'>PERIODO A REGISTRAR</th>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                    </tr>
+                    <tr>
+                        <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
+                        <th class='encabezado_registro' style="text-align:center">Nit Previsora</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Ingreso</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Salida</th>
+                    </tr>
+                    <tbody id="itemContainer">
+                        <tr>
+                            <?php
+                            if (is_array($datos_interrupcion)) {
+
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_interrupcion['nit_entidad'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_interrupcion['nit_previsora'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_interrupcion['h_fecha_ingreso'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_interrupcion['h_fecha_salida'] . "</td>";
+                                echo "</tr>";
+                            } else {
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                </table>
+
+                <center><div class="holder" style="-moz-user-select: none;"></div></center>
+            </center>
+
+            <br><br>
+            <center>     
+                <table width="100%" class='bordered' >
+                    <tr>
+                        <th colspan="4" class='encabezado_registro'>HISTORIAS LABORALES PREVIAMENTE REGISTRADAS</th>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                    </tr>
+                    <tr>
+                        <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
+                        <th class='encabezado_registro' style="text-align:center">Nit Previsora</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Ingreso</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Salida</th>
+                    </tr>
+                    <tbody id="itemContainer">
+                        <tr>
+                            <?php
+                            if (is_array($datos_historia)) {
+                                foreach ($datos_historia as $key => $values) {
+                                    echo "<tr>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_nitenti'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_nitprev'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_fingreso'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_fretiro'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                </table>
+                <center><div class="holder" style="-moz-user-select: none;"></div></center>
+            </center>
+
+            <br><br>
+            <a STYLE="color: red" >* Tenga en cuenta que una vez registrada la historia laboral en el sistema, no puede asociar nuevos periodos de interrupción</a>
+            <br><br>
+
+            <h2><br>Formulario Registro de Interrupción<br><br></h2>
 
             <div class="formrow f1">
                 <div id="p1f1" class="field n1">
@@ -363,7 +475,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="dias_nor_hasta" title="*Campo Obligatorio" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                                <input type="text" id="dias_nor_hasta" title="*Campo Obligatorio" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onchange="validarFecha()">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -431,14 +543,21 @@ class html_formHistoria {
 
 
                 <center> 
-                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Guardar y Registrar Otra Interrupción" onClick='return confirmarEnvio();'>
                     <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Guardar Interrupción" onClick='return confirmarEnvio();'>
+                    <a href=
+                       '<?
+                       $variable = 'pagina=formHistoria';
+                       $variable.='&opcion=';
+                       $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                       echo $this->indice . $variable;
+                       ?>'><button name='registro' id="registrarBoton" type="submit" class="navbtn" value="Cancelar">Cancelar</button></a>
                 </center>
 
                 <input type='hidden' name='opcion' value='registrarInterrupcion'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
-                <input type='hidden' name='fecha_ingreso' value='<? echo $datos_interrupcion['fecha_ingreso'] ?>'>
-                <input type='hidden' name='fecha_salida' value='<? echo $datos_interrupcion['fecha_salida'] ?>'>
+                <input type='hidden' name='h_fecha_ingreso' value='<? echo $datos_interrupcion['h_fecha_ingreso'] ?>'>
+                <input type='hidden' name='h_fecha_salida' value='<? echo $datos_interrupcion['h_fecha_salida'] ?>'>
+                <br><br>           <br><br>
             </div>
 
         </form>
@@ -454,7 +573,7 @@ class html_formHistoria {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
         ?>
 
-        <style>                    h3{text-align: left}                </style>
+        <style> h3{text-align: left} </style>
 
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
@@ -962,7 +1081,7 @@ class html_formHistoria {
         <?
     }
 
-    function datosReporte($historia, $interrupcion, $descripcion,$basico) {
+    function datosReporte($historia, $empleador, $interrupcion, $descripcion, $basico) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -1006,10 +1125,11 @@ class html_formHistoria {
                 </tr>
                 <tr>
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
+                    <td class='texto_elegante2 estilo_td' colspan="1" align=center>&nbsp;NIT EMPLEADOR&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan="3" align=center>&nbsp;EMPLEADOR&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan="2" align=center>FECHA INGRESO</td>
                     <td class='texto_elegante2 estilo_td' colspan="2" align=center>FECHA RETIRO</td>
-                    <td class='texto_elegante2 estilo_td' colspan='2' align=center>JORNADA</td>
+                    <td class='texto_elegante2 estilo_td' colspan='1' align=center>JORNADA</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>HORAS LABORADAS</td>
                 </tr>
 
@@ -1020,20 +1140,22 @@ class html_formHistoria {
 
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historia[$key]['hlab_nro_ingreso'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $historia[$key]['hlab_nitenti'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='1' style='text-align:center;'>" . $historia[$key]['hlab_nitenti'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $empleador[$key]['empleador'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historia[$key]['hlab_fingreso'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historia[$key]['hlab_fretiro'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historia[$key]['hlab_periodicidad'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='1' style='text-align:center;'>" . $historia[$key]['hlab_periodicidad'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historia[$key]['hlab_horas'] . "</td>";
                             echo "</tr>";
                         }
                     } else {
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }

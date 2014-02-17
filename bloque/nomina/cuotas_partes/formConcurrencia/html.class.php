@@ -73,14 +73,16 @@ class html_formConcurrencia {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
 
-            <h2>Ingrese la cédula para realizar <br> Registro de Concurrencia Aceptada: </h2>
-            <br>
+            <h2>Ingrese la cédula para realizar <br> Registro de Concurrencia Aceptada: </h2><br><br>
+
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' title="*Campo Obligatorio">
             <br><br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Consultar" ></center>
 
             <input type='hidden' name='pagina' value='formularioConcurrencia'>
             <input type='hidden' name='opcion' value='historiaConcurrencia'>
+            <br><br><br>
+            <h3><a STYLE="color: red" >* ¡Atención! La CONCURRENCIA registrada para una Entidad sólo puede ser diligenciada UNA VEZ</a></h3>
             <br>
         </form>
         <?
@@ -167,7 +169,7 @@ class html_formConcurrencia {
                         <?
                         foreach ($datos_en as $key => $value) {
                             ?>
-                            <option id='prev_nit' name='prev_nit' value ="<?php echo $datos_en[$key]['prev_nit']; ?>"><?php echo$datos_en[$key]['prev_nombre'];?></option>
+                            <option id='prev_nit' name='prev_nit' value ="<?php echo $datos_en[$key]['prev_nit']; ?>"><?php echo$datos_en[$key]['prev_nombre']; ?></option>
                             <?
                         }
                         ?>
@@ -186,7 +188,7 @@ class html_formConcurrencia {
         <?
     }
 
-    function formularioConcurrencia($datos_historia, $datos_empleador, $datos_previsora) {
+    function formularioConcurrencia($datos_historia, $datos_empleador, $datos_previsora, $datos_concurrencia) {
 
         $minDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fingreso'] . "+1 month"));
         $maxDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro'] . " + 1 month"));
@@ -194,6 +196,22 @@ class html_formConcurrencia {
         $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
         $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
         $f_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_historia[0]['hlab_fretiro']) . "+1 month")));
+
+        if ($datos_concurrencia !== 0) {
+            $valor_mesada = $datos_concurrencia[0]['dcp_valor_mesada'];
+            $resol_pension = $datos_concurrencia[0]['dcp_resol_pension'];
+            $resol_pension_fecha = date('d/m/Y', strtotime("" . $datos_concurrencia[0]['dcp_resol_pension_fecha']));
+            $fecha_pension = $datos_concurrencia[0]['dcp_fecha_pension'];
+            $fecha_concurrencia = $datos_concurrencia[0]['dcp_fecha_concurrencia'];
+            $lectura = "readonly";
+        } else {
+            $valor_mesada = "";
+            $resol_pension = "";
+            $resol_pension_fecha = "";
+            $fecha_pension = "";
+            $fecha_concurrencia = "";
+            $lectura = " ";
+        }
 
         $this->formulario = "formConcurrencia";
 
@@ -212,23 +230,23 @@ class html_formConcurrencia {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <script>
-                                function acceptNum(e) {
-                                    key = e.keyCode || e.which;
-                                    tecla = String.fromCharCode(key).toLowerCase();
-                                    letras = "01234567890-";
-                                    especiales = [8, 9];
-                                    tecla_especial = false
-                                    for (var i in especiales) {
-                                        if (key == especiales[i]) {
-                                            tecla_especial = true;
-                                            break;
-                                        }
-                                    }
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890-";
+                especiales = [8, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
 
-                                    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-                                        return false;
-                                    }
-                                }
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
         </script>
 
         <script>
@@ -277,18 +295,20 @@ class html_formConcurrencia {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    maxDate: "+0D",
-                    dateFormat: 'dd/mm/yy'
+                    maxDate: "+2M",
+                    dateFormat: 'dd/mm/yy',
+                    defaultDate: '20/12/2013'
                 });
-                $("#fecha_con").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
+                $("#fecha_con").datepicker('setDate', '<? echo $fecha_concurrencia ?>');
+
             });
 
             $(document).ready(function() {
                 $("#fecha_acto_adm").datepicker({
                     changeMonth: true,
                     changeYear: true,
-                    yearRange: '1940:c',
-                    maxDate: "+0D",
+                    yearRange: '1980:c',
+                    maxDate: "+2M",
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
@@ -299,10 +319,10 @@ class html_formConcurrencia {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    maxDate: "+0D",
+                    maxDate: "+2M",
                     dateFormat: 'dd/mm/yy'
                 });
-                $("#fecha_res_pension").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
+                $("#fecha_res_pension").datepicker('setDate', '<? echo $resol_pension_fecha ?>');
             });
 
             $(document).ready(function() {
@@ -310,10 +330,10 @@ class html_formConcurrencia {
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    maxDate: "+0D",
+                    maxDate: "+2M",
                     dateFormat: 'dd/mm/yy',
                 });
-                $("#fecha_pension").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
+                $("#fecha_pension").datepicker('setDate', '<? echo $fecha_pension ?>');
             });
         </script>
 
@@ -403,7 +423,6 @@ class html_formConcurrencia {
 
         </script>
 
-
         <script>
             function acceptNumLetter(e) {
                 key = e.keyCode || e.which;
@@ -424,7 +443,6 @@ class html_formConcurrencia {
                 }
             }
         </script>
-
 
         <script>
             function confirmarEnvio()
@@ -475,7 +493,6 @@ class html_formConcurrencia {
                 </div>
                 <div class="null"></div>
             </div>
-
 
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
@@ -560,7 +577,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_con" title="*Campo Obligatorio" name="fecha_concurrencia" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_con" title="*Campo Obligatorio" <? echo " " . $lectura . " " ?> name="fecha_concurrencia" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -577,7 +594,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="res_pensión" title="*Campo Obligatorio" name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false">
+                            <input type="text" id="res_pensión" title="*Campo Obligatorio" <? echo " " . $lectura . " " ?>  name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false" value="<? echo $resol_pension ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -594,7 +611,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_pension" title="*Campo Obligatorio" name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_pension" title="*Campo Obligatorio" <? echo " " . $lectura . " " ?>  name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<? echo $fecha_pension ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -611,7 +628,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_res_pension" title="*Campo Obligatorio" name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_res_pension" title="*Campo Obligatorio" <? echo " " . $lectura . " " ?>  name="fecha_res_pension" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<? echo $resol_pension_fecha ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -628,8 +645,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="mesada"  title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" placeholder="00000000.00" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false">Mínimo 4 caracteres
-
+                            <input type="text" id="p1f12c" name="mesada" <? echo " " . $lectura . " " ?>  title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" placeholder="00000000.00" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" value="<? echo $valor_mesada ?>">Mínimo 4 caracteres
                         </div>
                         <div class="null"></div>
                     </div>

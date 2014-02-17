@@ -124,6 +124,28 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" AND prev_nit=hlab_nitprev ";
                 break;
 
+            case "reporteHistoria2":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" hlab_nro_ingreso, ";
+                $cadena_sql.=" hlab_nro_identificacion, ";
+                $cadena_sql.=" hlab_nitenti,  ";
+                $cadena_sql.=" hlab_nitprev, ";
+                $cadena_sql.=" prev_nombre as empleador, ";
+                $cadena_sql.=" hlab_fingreso,  ";
+                $cadena_sql.=" hlab_fretiro,  ";
+                $cadena_sql.=" hlab_horas,  ";
+                $cadena_sql.=" hlab_periodicidad ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora,cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable . "' ";
+                $cadena_sql.=" AND prev_nit=hlab_nitenti";
+                break;
+
+            case "nombre_empleador":
+                $cadena_sql.=" SELECT prev_nombre ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
+                $cadena_sql.=" WHERE prev_nit = '" . $variable . "' ";
+                break;
+
             case "reporteInterrupcion":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" int_nro_ingreso, ";
@@ -184,7 +206,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" emp_nro_iden, emp_nombre AS NOMBRE ";
                 $cadena_sql.=" FROM peemp ";
-                $cadena_sql.=" WHERE emp_nro_iden=".$variable." ";
+                $cadena_sql.=" WHERE emp_nro_iden=" . $variable . " ";
                 $cadena_sql.=" AND emp_estado='A' ";
                 $cadena_sql.=" ORDER BY emp_nro_iden ASC ";
                 break;

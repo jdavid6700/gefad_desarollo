@@ -72,13 +72,13 @@ class funciones_formConcurrencia extends funcionGeneral {
         $parametros = array('cedula' => $cedula);
         $datos_previsora = $this->consultarPrevisora($parametros);
         $datos_aceptada = $this->consultarConcurrencias($parametros);
+        $datos_entidad = array();
         $pos = 0;
 
         if (is_array($datos_aceptada)) {
             foreach ($datos_previsora as $key => $value) {
-                $nit_prev = $datos_previsora[$key]['prev_nit'];
                 foreach ($datos_aceptada as $cont => $value) {
-                    if ($datos_aceptada[$cont]['dcp_nitprev'] !== $nit_prev) {
+                    if ($datos_previsora[$key]['prev_nit'] !== $datos_aceptada[$cont]['dcp_nitprev']) {
                         $datos_entidad[$pos] = array(
                             'prev_nit' => $datos_previsora[$key]['prev_nit'],
                             'prev_nombre' => $datos_previsora[$key]['prev_nombre']
@@ -88,11 +88,21 @@ class funciones_formConcurrencia extends funcionGeneral {
                 }
             }
 
-            $datos_eunicos = array_unique($datos_entidad, SORT_REGULAR);
-
-            $this->html_formConcurrencia->datosPrevisora($cedula, $datos_eunicos);
+            if ($datos_entidad) {
+                $datos_eunicos = array_unique($datos_entidad, SORT_REGULAR);
+                $this->html_formConcurrencia->datosPrevisora($cedula, $datos_eunicos);
+            } else {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Las concurrencias para la cédula " . $parametros['cedula'] . " están diligenciadas. No existen entidades sin concurrencia registrada.');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
         } else {
-
             if (is_array($datos_previsora)) {
                 $this->html_formConcurrencia->datosPrevisora($cedula, $datos_previsora);
             } else {
@@ -116,11 +126,22 @@ class funciones_formConcurrencia extends funcionGeneral {
             'cedula' => $_REQUEST['cedula_emp'],
             'previsor' => $_REQUEST['prev_nit']);
 
-        $datos_laboral = $this->consultarHistoria($parametros);
-        $datos_entidad = $this->consultarEmpleador($parametros);
-        $datos_previsora = $this->consultarPrevForm($parametros);
+        $datos_concurrencia = $this->consultarConcurrencias($parametros);
 
-        $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora);
+        if (is_array($datos_concurrencia)) {
+            $datos_laboral = $this->consultarHistoria($parametros);
+            $datos_entidad = $this->consultarEmpleador($parametros);
+            $datos_previsora = $this->consultarPrevForm($parametros);
+
+            $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
+        } else {
+            $datos_vacio = 0;
+            $datos_laboral = $this->consultarHistoria($parametros);
+            $datos_entidad = $this->consultarEmpleador($parametros);
+            $datos_previsora = $this->consultarPrevForm($parametros);
+
+            $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora, $datos_vacio);
+        }
     }
 
     function registrarDescripcionCP($parametros) {

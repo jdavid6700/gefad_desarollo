@@ -99,6 +99,7 @@ class bloqueAdminCuentaCobro extends bloque {
                 break;
 
             case "cuentaManual":
+           
                 $cuentaManual_datos = array();
 
                 foreach ($_REQUEST as $key => $value) {
