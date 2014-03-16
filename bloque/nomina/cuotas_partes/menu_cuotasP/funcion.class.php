@@ -7,7 +7,7 @@
 ----------------------------------------------------------------------------------------
 | fecha      |        Autor            | version     |              Detalle            |
 ----------------------------------------------------------------------------------------
-| 14/02/2013 | Maritza Callejas C.  	| 0.0.0.1     |                                 |
+| 14/02/2013 | Vi.  	| 0.0.0.1     |                                 |
 ----------------------------------------------------------------------------------------
 */
 
@@ -21,7 +21,7 @@ if(!isset($GLOBALS["autorizado"]))
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/funcionGeneral.class.php");
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/navegacion.class.php");
 include_once("html.class.php");
-class funciones_menuReporteFin extends funcionGeneral
+class funciones_menu_cuotasP extends funcionGeneral
 {
 
 	function __construct($configuracion, $sql)
@@ -50,7 +50,7 @@ class funciones_menuReporteFin extends funcionGeneral
 
 		$this->configuracion = $configuracion;
 
-		$this->htmlMenuReporte = new html_menuReporteFin($configuracion);
+		$this->htmlMenuReporte = new html_menu_cuotasP($configuracion);
 
 	}
 

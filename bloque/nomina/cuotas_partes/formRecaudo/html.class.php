@@ -17,6 +17,8 @@
   ----------------------------------------------------------------------------------------
   | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
+  | 01/03/2014 | Violet Sosa             | 0.0.0.3     |                                 |
+  ----------------------------------------------------------------------------------------
  */
 if (!isset($GLOBALS["autorizado"])) {
     //include("../index.php");
@@ -562,25 +564,7 @@ class html_formRecaudo {
                         if (is_array($cobros)) {
 
                             foreach ($cobros as $key => $value) {
-                                $saldo = $cobros[$key]['cob_saldo']; /*
-                                  $deuda =
-                                  $pagos = /* foreach ($historial as $cont => $value) {
-                                  $a = 0;
-                                  $b = 1;
-                                  if ($historial[$cont][1] == $historial[$b][1]) {
-                                  //    echo $abono = $historial[$a][6] + $abono . '<br>';
-                                  }
-                                  /*
-                                  if ($cobros[$key][3] == $historial[$cont][1]) {
-                                  // echo $key . '===>' . $cobros[$key][3] . '=>' . $historial[$cont][1] . '=>' . $cont . '<br>';
-                                  ///  echo $key . '===>' . $cobros[$key][8] . '=>' . $historial[$cont][6] . '=>' . $cont . '<br><br>';
-
-                                  echo $deuda = $cobros[$key][8] . '<br>';
-                                  echo $abono = $historial[$cont][6] + $abono . '<br>';
-                                  echo $saldo = $deuda - $abono . '<br>';
-                                  }
-                                  }
-                                 */
+                                $saldo = $cobros[$key]['cob_saldo'];
                                 echo "<tr id='yesOptions'>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_fgenerado'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitemp'] . "</td>";
@@ -697,12 +681,20 @@ class html_formRecaudo {
 
         $this->formulario = "formRecaudo";
 
-        $cont = 0;
+
         $identificacion = $cuentas_pago[0]['identificacion'];
         $nit_previsora = $cuentas_pago[0]['previsor'];
         $nit_empleador = $cuentas_pago[0]['empleador'];
 
         $maxDate = $fecha_minima_datepicker;
+
+        foreach ($cuentas_pago as $key => $values) {
+            $fecha_cobro[$key] = array(
+                'inicio' => $cuentas_pago[$key]['fechai_pago'],
+                'fin' => $cuentas_pago[$key]['fechaf_pago']
+            );
+        }
+
 
         $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $fecha_minima_datepicker))));
         $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $fecha_minima_datepicker))));
@@ -723,22 +715,54 @@ class html_formRecaudo {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <script>
+
             $(document).ready(function() {
                 $("#fecha_resolucion").datepicker({
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    maxDate: "+0D",
+                    maxDate: "+1m",
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_resolucion").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
+
+        <? foreach ($fecha_cobro as $key => $values) { ?>
+
+                $(document).ready(function() {
+                    $("#fecha_pago_inicio<? echo $key ?>").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        yearRange: '1940:c',
+                        maxDate: "+0D",
+                        dateFormat: 'dd/mm/yy'
+                    });
+                    $("#fecha_pago_inicio<? echo $key ?>").datepicker('option', 'minDate', '<?php echo $minPago = date('d/m/Y', strtotime(str_replace('/', '-', $fecha_cobro[$key]['inicio']))) ?>');
+                    $("#fecha_pago_inicio<? echo $key ?>").datepicker('option', 'maxDate', '<?php echo $maxPago = date('d/m/Y', strtotime(str_replace('/', '-', $fecha_cobro[$key]['fin']))) ?>');
+                    $("#fecha_pago_inicio<? echo $key ?>").datepicker('setDate', '<? echo $minPago = date('d/m/Y', strtotime(str_replace('/', '-', $fecha_cobro[$key]['inicio']))) ?>');
+                });
+
+                $(document).ready(function() {
+                    $("#fecha_pago_fin<? echo $key ?>").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        yearRange: '1940:c',
+                        maxDate: "+0D",
+                        dateFormat: 'dd/mm/yy'
+                    });
+                    $("#fecha_pago_fin<? echo $key ?>").datepicker('option', 'minDate', '<?php echo $minPago = date('d/m/Y', strtotime(str_replace('/', '-', $fecha_cobro[$key]['inicio']))) ?>');
+                    $("#fecha_pago_fin<? echo $key ?>").datepicker('option', 'maxDate', '<?php echo $maxPago = date('d/m/Y', strtotime(str_replace('/', '-', $fecha_cobro[$key]['fin']))) ?>');
+                    $("#fecha_pago_fin<? echo $key ?>").datepicker('setDate', '<? echo $maxPago = date('d/m/Y', strtotime(str_replace('/', '-', $fecha_cobro[$key]['fin']))) ?>');
+                });
+
+        <? } ?>
+
             $(document).ready(function() {
                 $("#fecha_pago_cuenta").datepicker({
                     changeMonth: true,
                     changeYear: true,
                     yearRange: '1940:c',
-                    maxDate: "+0D",
+                    maxDate: "+1m",
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_pago_cuenta").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
@@ -760,6 +784,43 @@ class html_formRecaudo {
                     return false
                 }
 
+                return true
+            }
+
+            function echeck2(str) {
+
+        <?
+        foreach ($fecha_cobro as $key => $values) {
+
+            $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $fecha_cobro[$key]['inicio']))));
+            $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $fecha_cobro[$key]['inicio']))));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $fecha_cobro[$key]['inicio']))));
+
+            $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $fecha_cobro[$key]['fin']))));
+            $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $fecha_cobro[$key]['fin']))));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $fecha_cobro[$key]['fin']))));
+
+            echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+            echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
+
+            echo "var y1 = str.substring(6);\n\n";
+            echo "var m13 = str . substring(3, 5);\n\n";
+            echo "var m12 = m13 - 1;\n\n";
+            echo "var m1 = '0' + m12;\n\n";
+            echo "var d1 = str.substring(0, 2);\n\n";
+            echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+            echo "var ming = min.getTime();\n\n";
+            echo "var maxg = max.getTime();\n\n";
+            echo "var cadenag = cadena.getTime();\n\n";
+
+            echo "if (cadenag > ming && cadenag < maxg) {\n";
+            // echo "alert(min  cadena  max)\n\n";
+            echo "alert('Periodo pago inválido. Fuera del periodo de cobro.')\n";
+            echo " return false\n";
+            echo "    }\n\n";
+        }
+        ?>
                 return true
             }
 
@@ -786,6 +847,32 @@ class html_formRecaudo {
                 }
 
                 if (echeck(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+                var fechaID = document.formRecaudo.fecha_pago_inicio
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck2(fechaID.value) == false) {
+                    fechaID.value = ""
+                    fechaID.focus()
+                    return false
+                }
+
+                var fechaID = document.formRecaudo.fecha_pago_fin
+                if ((fechaID.value == null) || (fechaID.value == "")) {
+                    alert("Ingrese una fecha válida!")
+                    fechaID.focus()
+                    return false
+                }
+
+                if (echeck2(fechaID.value) == false) {
                     fechaID.value = ""
                     fechaID.focus()
                     return false
@@ -850,9 +937,8 @@ class html_formRecaudo {
 
         <script  type="text/javascript">
 
-            function valor()
+            function valor3()
             {
-
                 //VALOR PAGADO
         <? foreach ($cuentas_pago as $key => $values) { ?>
                     var num<?php echo $key ?> = document.formRecaudo.valor_pago_<?php echo $key ?>.value;
@@ -874,31 +960,76 @@ class html_formRecaudo {
         <? foreach ($cuentas_pago as $key => $values) { ?>
                     var total_cobro = parseInt(numc_<?php echo $key ?>) + total_cobro;
         <? } ?>
-                
-
                 // COMPARACIÓN VALORES COBRADOS
-                if (total_cobro < total) {
-                    alert("¡Cuidado! Suma de Valor Pago es MAYOR a la Suma de Valor Cobrado")
-                    return false
-                }
-
-                if (total_cobro > total) {
-                    alert("¡Cuidado! Suma de Valor Pago es MENOR a la Suma de Valor Cobrado")
-                    return false
-                }
 
                 var capital = document.getElementById('valor_pagado_capital').value;
                 var interes = document.getElementById('valor_pagado_interes').value;
 
-                var total_cuenta = parseInt(capital)+ parseInt(interes);
-                
-                document.getElementById('total_recaudo').value = total_cuenta;
+                var total_cuenta = parseInt(capital) + parseInt(interes);
+
+                if (total_cuenta > 0) {
+                    document.getElementById('total_recaudo').value = total_cuenta;
+                } else {
+                    document.getElementById('total_recaudo').value = 0;
+                }
 
                 if (total_cuenta !== total_cobro) {
                     alert("¡Cuidado! El Valor Total a Pagar es diferente al Valor Capital+Valor Interés")
                     return false
                 }
 
+            }
+
+            function valor()
+            {
+                var total_capital = 0;
+                var total_interes = 0;
+                var total_capint = 0;
+                var total_cobro = 0;
+                document.getElementById('total_recaudo').value = null;
+                //VALOR PAGADO CAPITAL
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var num<?php echo $key ?> = document.formRecaudo.valor_pagado_capital<?php echo $key ?>.value;
+        <? } ?>
+
+
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var total_capital = parseInt(num<?php echo $key ?>) + total_capital;
+        <? } ?>
+                //VALOR PAGADO INTERES
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var num<?php echo $key ?> = document.formRecaudo.valor_pagado_interes<?php echo $key ?>.value;
+        <? } ?>
+
+
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var total_interes = parseInt(num<?php echo $key ?>) + total_interes;
+        <? } ?>
+
+                total_capint = total_interes + total_capital;
+                //VALOR COBRADO
+
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var numc_<?php echo $key ?> = document.formRecaudo.valor_cobro_<?php echo $key ?>.value;
+        <? } ?>
+
+        <? foreach ($cuentas_pago as $key => $values) { ?>
+                    var total_cobro = parseInt(numc_<?php echo $key ?>) + total_cobro;
+        <? } ?>
+                // COMPARACIÓN VALORES COBRADOS
+                if (total_cobro < total_capint) {
+                    alert("¡Cuidado! Suma de Valor Pago es MAYOR a la Suma de Valor Cobrado")
+                    document.getElementById('total_recaudo').value = total_capint;
+                    return false
+                }
+
+                if (total_cobro > total_capint) {
+                    alert("¡Cuidado! Suma de Valor Pago es MENOR a la Suma de Valor Cobrado")
+                    document.getElementById('total_recaudo').value = total_capint;
+                    return false
+                }
+
+                document.getElementById('total_recaudo').value = total_capint;
             }
         </script>
 
@@ -930,8 +1061,7 @@ class html_formRecaudo {
                 </div>
                 <div class="formrow f1">
                     <div id="p1f5" class="field n1">
-                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DATOS DEL RECAUDO</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
-
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">DATOS DEL PAGO</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
                     </div>
                 </div>
 
@@ -961,7 +1091,7 @@ class html_formRecaudo {
                     </div>
                 </div>
 
-                <div class="formrow f1">
+                <div class="formrow f1 ">
                     <div id="p1f7" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Resolución</span></span></span></label>
@@ -972,6 +1102,30 @@ class html_formRecaudo {
                             </div> 
                         </div> 
                     </div>
+                </div> 
+
+                <div class="formrow f1 f2">
+                    <div id="p1f12" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Resolución<BR>  Orden Pago</span></span></span></label>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="resolucion" onpaste="return false" name="resolucion_OP" title="Si no aplica, escriba 0" class="fieldcontent" required='required' maxlength='8' onKeyPress='return acceptNumLetter(event)' >
+                            </div> 
+                        </div> 
+                    </div>
+
+                    <div id="p1f12" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Fecha<BR>  Resolución</span></span></span></label>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="fecha_resolucion"  name="fecha_resolucion" title="Si no aplica, escriba 0" class="fieldcontent" required='required' placeholder="dd/mm/aaaa" maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            </div>
+                        </div>
+                    </div> 
                 </div>
 
                 <div class="formrow f1 f2">
@@ -1008,8 +1162,8 @@ class html_formRecaudo {
                     </div>
                 </div>
 
-                <div class="formrow f1 f2">
-                    <div id="p1f12" class="field n1">
+                <div class="formrow f1">
+                    <div id="p1f7" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">  Saldo Actual</span></span></span></label>
                         </div>
@@ -1024,120 +1178,133 @@ class html_formRecaudo {
                                 ?>
                             </div> 
                         </div> 
-                    </div>
+                    </div></div>
 
+                <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Valor a Pagar</span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Valor Pagado <BR>  Capital</span></span></span></label>
                         </div>
                         <div class="control capleft">
-                            <?
-                            foreach ($cuentas_pago as $key => $value) {
-                                $valor = $key;
-                                $cobro = $cuentas_pago[$key]['valor_pago'];
-                                echo "<input type='text' onpaste='return false' pattern='\d{4,8}\.?\d{0,2}' name='valor_pago_" . $valor . "' class='fieldcontent' required='required' maxlength='12' onKeyPress='return acceptNum2(event)' value='" . $cobro . "'> <br>";
-                            }
-                            ?>
+                            <div>
+                                <?
+                                foreach ($cuentas_pago as $key => $value) {
+                                    $valor = $key;
+                                    $cobro = $cuentas_pago[$key]['saldo'];
+                                    echo "<input type='text'  id='valor_pagado_capital" . $valor . "' onpaste='return false' value='" . $cobro . "'title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{4,8}\.?\d{0,2}' name='valor_pagado_capital" . $valor . "' class='fieldcontent' maxlength='11' required='required' onKeyPress='return acceptNum2(event)' ><br>";
+                                }
+                                ?>
 
-                        </div> 
+                            </div>
+                        </div>
                     </div>
+                    <div id="p1f12" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f12"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >   Valor Pagado <BR>   Interes</span></span></span></label>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <?
+                                foreach ($cuentas_pago as $key => $value) {
+                                    $valor = $key;
+                                    echo "<input type='text' id='valor_pagado_interes" . $valor . "' value='0' onpaste='return false' title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{0,8}\.?\d{0,2}' name='valor_pagado_interes" . $valor . "' class='fieldcontent' maxlength='11' required='required' onKeyPress='return acceptNum2(event)'><br>";
+                                }
+                                ?>
+
+                            </div>
+                        </div>
+                    </div>    
+                </div> 
+
+                <div class="formrow f1">
+                    <div id="p1f7" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Total Pagado</span></span></span></label>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="total_recaudo" readonly onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{0,2}" placeholder="00000000.00" name="total_recaudo" class="fieldcontent" required='required' maxlength="11" onKeyPress='return acceptNum2(event)'>
+                                <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
+                            </div>                       
+                        </div>      
+                    </div>
+                </div>
+                <div class="formrow f1">
+                    <div id="p1f7" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Fecha Pago</span></span></span></label>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="fecha_pago_cuenta"  name="fecha_pago_cuenta" title="Campo obligatorio" class="fieldcontent" required='required' placeholder="dd/mm/aaaa" maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                            </div>
+                        </div>
+                    </div> 
                 </div>
 
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Resolución<BR>  Orden Pago</span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Desde<br>  Pago</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="resolucion" onpaste="return false" name="resolucion_OP" title="Si no aplica, escriba 0" class="fieldcontent" required='required' maxlength='8' onKeyPress='return acceptNumLetter(event)' >
-                            </div> 
-                        </div> 
-                    </div>
+                                <?
+                                foreach ($cuentas_pago as $key => $value) {
+                                    $valor = $key;
+                                    echo "<input type='text' id='fecha_pago_inicio" . $valor . "' title='*Campo Obligatorio' onpaste='return false' name='fecha_pinicio" . $valor . "' class='fieldcontent' placeholder='dd/mm/aaaa' required='required' maxlength='10' pattern='(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d' >";
+                                }
+                                ?>
 
-                    <div id="p1f12" class="field n1">
+                            </div>
+                        </div>
+                    </div>  <div id="p1f12" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Fecha<BR>  Resolución</span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Fecha Hasta<BR>  Pago</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_resolucion"  name="fecha_resolucion" title="Si no aplica, escriba 0" class="fieldcontent" required='required' placeholder="dd/mm/aaaa" maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                                <?
+                                foreach ($cuentas_pago as $key => $value) {
+                                    $valor = $key;
+                                    echo "<input type='text' id='fecha_pago_fin" . $valor . "' title='*Campo Obligatorio' onpaste='return false' name='fecha_pfin" . $valor . "' class='fieldcontent' placeholder='dd/mm/aaaa' required='required' maxlength='10' pattern='(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d' >";
+                                }
+                                ?>
                             </div>
                         </div>
                     </div> 
                 </div>
 
                 <div class="formrow f1">
-
-                    <div id="p1f7" class="field n1">
+                    <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="fecha_pago"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha de Pago:</span></span></span></label>
+                            <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Observación<br>  de Pago</span></span></span></label>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecha_pago_cuenta" title="*Campo Obligatorio" onpaste='return false' name="fecha_pago_cuenta" class="fieldcontent" placeholder="dd/mm/aaaa" required='required' maxlength="10" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" >
+                                <input type="text" id="p1f7c" onpaste='return false' title="*Campo Obligatorio" name="medio_pago" maxlength="50" placeholder="Medio de pago/Prescripción Cuota" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' >
                             </div>
-                        </div>
+                            <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
+                        </div>      
                     </div>
-
-                    <div class="formrow f1 f2">
-                        <div id="p1f12" class="field n1">
-                            <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Valor Pagado <BR>  Capital</span></span></span></label>
-                            </div>
-                            <div class="control capleft">
-                                <div>
-                                    <input type="text"  id="valor_pagado_capital" onpaste='return false' title="*Campo Obligatorio" placeholder="00000000.00" pattern="\d{4,8}\.?\d{0,2}" name="valor_pagado_capital" class="fieldcontent" maxlength="11" required='required' onKeyPress='return acceptNum2(event)' >Mínimo 4 caracteres
-                                </div>
-                            </div>
-                        </div>       
-
-                        <div id="p1f12" class="field n1">
-                            <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f12"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >   Valor Pagado <BR>   Interes</span></span></span></label>
-                            </div>
-                            <div class="control capleft">
-                                <div>
-                                    <input type="text" id="valor_pagado_interes" onpaste='return false' title="*Campo Obligatorio" placeholder="00000000.00" pattern="\d{0,8}\.?\d{0,2}" name="valor_pagado_interes" class="fieldcontent" maxlength="11" required='required' onKeyPress='return acceptNum2(event)'>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="formrow f1">
-                        <div id="p1f7" class="field n1">
-                            <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Total Pagado</span></span></span></label>
-                            </div>
-                            <div class="control capleft">
-                                <div>
-                                    <input type="text" id="total_recaudo" onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{0,2}" placeholder="00000000.00" name="total_recaudo" class="fieldcontent" required='required' maxlength="11" onKeyPress='return acceptNum2(event)'>
-                                    <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
-                                </div>                       
-                            </div>      
-                        </div>
-                    </div>
-
-                    <div class="formrow f1">
-                        <div id="p1f6" class="field n1">
-                            <div class="caption capleft alignleft">
-                                <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Medio de Pago</span></span></span></label>
-                            </div>
-                            <div class="control capleft">
-                                <div>
-                                    <input type="text" id="p1f7c" onpaste='return false' title="*Campo Obligatorio" name="medio_pago" maxlength="50" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' >
-                                </div>
-                                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
-                            </div>      
-                        </div>
-                    </div>
-
-
-                    <div class="null"></div
-                    <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Guardar" onClick='return confirmarEnvio();'></center>
-                    <input type='hidden' name='opcion' value='guardarRecaudo'>
-                    <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
                 </div>
+
+
+
+
+
+
+                <div class="null"></div
+                <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Guardar" onClick='return confirmarEnvio();'></center>
+                <input type='hidden' name='opcion' value='guardarRecaudo'>
+                <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+                <?
+                foreach ($fecha_cobro as $key => $values) {
+                    echo "<input type='hidden' name='fecha_cinicio" . $key . "' value='" . $fecha_cobro[$key]['inicio'] . "'>";
+                    echo "<input type='hidden' name='fecha_cfin" . $key . "' value='" . $fecha_cobro[$key]['fin'] . "'>";
+                }
+                ?>
+            </div>
         </form>
 
         <?

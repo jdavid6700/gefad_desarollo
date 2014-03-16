@@ -207,8 +207,8 @@ class html_formConcurrencia {
         } else {
             $valor_mesada = "";
             $resol_pension = "";
-            $resol_pension_fecha = "";
-            $fecha_pension = "";
+            $resol_pension_fecha = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro']));
+            $fecha_pension = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro']));
             $fecha_concurrencia = "";
             $lectura = " ";
         }
@@ -504,24 +504,16 @@ class html_formConcurrencia {
                         <div class="control capleft">
                             <div class="dropdown" required='required' title="*Campo Obligatorio">
 
-                                <?
-                                unset($combo);
-                                //prepara los datos como se deben mostrar en el combo
-                                $combo[0][0] = '1';
-                                $combo[0][1] = 'No registra en la base de datos';
-                                foreach ($datos_empleador as $cmb => $values) {
-                                    $combo[$cmb][0] = isset($datos_empleador[$cmb]['hlab_nitenti']) ? $datos_empleador[$cmb]['hlab_nitenti'] : 0;
-                                    $combo[$cmb][1] = isset($datos_empleador[$cmb]['prev_nombre']) ? $datos_empleador[$cmb]['prev_nombre'] : '';
-                                }
+                                <select name='entidad_empleadora' required>
 
-                                // echo$combo;
-                                if (isset($_REQUEST['entidad2'])) {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, $_REQUEST['hlab_nitenti'], 0, FALSE, 0, 'entidad_empleadora');
-                                } else {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, 0, 0, FALSE, 0, 'entidad_empleadora');
-                                }
-                                echo $lista_combo;
-                                ?> 
+                                    <?
+                                    foreach ($datos_empleador as $key => $value) {
+                                        ?>
+                                        <option id='prev_nit' name='entidad_empleadora' value ="<?php echo $datos_empleador[$key]['prev_nit']; ?>"><?php echo $datos_empleador[$key]['prev_nombre']; ?></option>
+                                        <?
+                                    }
+                                    ?>
+                                </select>
 
                             </div>
                         </div>
@@ -542,23 +534,16 @@ class html_formConcurrencia {
                     <div class="control capleft">
                         <div class="control capleft">
                             <div class="dropdown" required='required' title="*Campo Obligatorio" >
-                                <?
-                                unset($combo);
-                                //prepara los datos como se deben mostrar en el combo
-                                $combo[0][0] = '0';
-                                $combo[0][1] = 'Empleador';
-                                foreach ($datos_previsora as $cmb => $values) {
-                                    $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
-                                    $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
-                                }
-                                // echo$combo;
-                                if (isset($_REQUEST['entidad2'])) {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_previsora', $this->configuracion, $_REQUEST['prev_nit'], 0, FALSE, 0, 'entidad_previsora');
-                                } else {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_previsora', $this->configuracion, 0, 0, FALSE, 0, 'entidad_previsora');
-                                }
-                                echo $lista_combo;
-                                ?> 
+                                       <select name='entidad_previsora' required>
+
+                                    <?
+                                    foreach ($datos_previsora as $key => $value) {
+                                        ?>
+                                        <option id='prev_nit' name='entidad_previsora' value ="<?php echo $datos_previsora[$key]['prev_nit']; ?>"><?php echo $datos_previsora[$key]['prev_nombre']; ?></option>
+                                        <?
+                                    }
+                                    ?>
+                                </select>
                             </div>
                         </div>
 

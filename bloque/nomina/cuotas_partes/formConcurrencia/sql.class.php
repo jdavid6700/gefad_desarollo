@@ -75,12 +75,15 @@ class sql_formConcurrencia extends sql {
                 break;
 
             case "consultarEmpleador":
-                $cadena_sql = " SELECT prev_nombre, hlab_nro_identificacion, hlab_nitprev,hlab_nitenti, hlab_fingreso, hlab_fretiro ";
+                $cadena_sql= "SELECT prev_nombre, prev_nit ";
+                $cadena_sql.= " FROM cuotas_partes.cuotas_previsora ";
+                $cadena_sql.= " WHERE prev_nit= ";
+                $cadena_sql.= " (SELECT distinct hlab_nitenti ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral, cuotas_partes.cuotas_previsora ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
-                $cadena_sql.=" AND prev_nit=hlab_nitenti ";
+                $cadena_sql.=" AND prev_nit=hlab_nitprev ";
                 $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
-                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
+                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA')";
                 break;
 
             case "consultarHistoria":

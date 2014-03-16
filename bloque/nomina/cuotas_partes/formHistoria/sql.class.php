@@ -151,6 +151,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" int_nro_ingreso, ";
                 $cadena_sql.=" int_nro_interrupcion, ";
                 $cadena_sql.=" int_nitent, ";
+                $cadena_sql.=" int_nitprev, ";
                 $cadena_sql.=" int_fdesde, ";
                 $cadena_sql.=" int_fhasta, ";
                 $cadena_sql.=" int_dias, ";

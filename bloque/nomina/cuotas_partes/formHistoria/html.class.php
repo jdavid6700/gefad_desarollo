@@ -41,7 +41,7 @@ class html_formHistoria {
         $this->html = new html();
     }
 
-    function formularioInterrupcion($datos_prev, $datos_interrupcion, $datos_historia) {
+    function formularioInterrupcion($datos_prev, $datos_interrupcion, $datos_historia, $datos_regint) {
 
         $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']) . "+1 month")));
         $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida'])));
@@ -177,6 +177,45 @@ class html_formHistoria {
                                 return true
                             }
 
+                            function echeck2(str) {
+
+        <?
+        foreach ($datos_regint as $key => $values) {
+            /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+              echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
+
+            $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fdesde']))));
+            $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fdesde']))));
+            $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $datos_regint[$key]['int_fdesde']))));
+
+            $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fhasta']))));
+            $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fhasta']))));
+            $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $datos_regint[$key]['int_fhasta']))));
+
+            echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+            echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
+
+            echo "var y1 = str.substring(6);\n\n";
+            echo "var m13 = str . substring(3, 5);\n\n";
+            echo "var m12 = m13 - 1;\n\n";
+            echo "var m1 = '0' + m12;\n\n";
+            echo "var d1 = str.substring(0, 2);\n\n";
+            echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+            echo "var ming = min.getTime();\n\n";
+            echo "var maxg = max.getTime();\n\n";
+            echo "var cadenag = cadena.getTime();\n\n";
+
+            echo "if (cadenag >= ming && cadenag <= maxg) {\n";
+            // echo "alert(min  cadena  max)\n\n";
+            echo "alert('Ya existen interrupciones registradas para este periodo.')\n";
+            echo " return false\n";
+            echo "    }\n\n";
+        }
+        ?>
+                                return true
+                            }
+
                             function minDate() {
 
                                 var fechaID = document.formHistoria.dias_nor_desde
@@ -200,6 +239,34 @@ class html_formHistoria {
                                 }
 
                                 if (echeck(fechaID.value) == false) {
+                                    fechaID.value = ""
+                                    fechaID.focus()
+                                    return false
+                                }
+
+
+                                //Segundo check
+                                var fechaID = document.formHistoria.dias_nor_desde
+                                if ((fechaID.value == null) || (fechaID.value == "")) {
+                                    alert("Ingrese una fecha válida!")
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                if (echeck2(fechaID.value) == false) {
+                                    fechaID.value = ""
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                var fechaID = document.formHistoria.dias_nor_hasta
+                                if ((fechaID.value == null) || (fechaID.value == "")) {
+                                    alert("Ingrese una fecha válida!")
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                if (echeck2(fechaID.value) == false) {
                                     fechaID.value = ""
                                     fechaID.focus()
                                     return false
@@ -318,25 +385,25 @@ class html_formHistoria {
             <center>     
                 <table width="100%" class='bordered' >
                     <tr>
-                        <th colspan="4" class='encabezado_registro'>HISTORIAS LABORALES PREVIAMENTE REGISTRADAS</th>
+                        <th colspan="4" class='encabezado_registro'>INTERRUPCIONES PREVIAMENTE REGISTRADAS</th>
                         <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                     </tr>
                     <tr>
                         <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
                         <th class='encabezado_registro' style="text-align:center">Nit Previsora</th>
-                        <th class='encabezado_registro' style="text-align:center">Fecha Ingreso</th>
-                        <th class='encabezado_registro' style="text-align:center">Fecha Salida</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Inicial</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Final</th>
                     </tr>
                     <tbody id="itemContainer">
                         <tr>
                             <?php
-                            if (is_array($datos_historia)) {
-                                foreach ($datos_historia as $key => $values) {
+                            if (is_array($datos_regint)) {
+                                foreach ($datos_regint as $key => $values) {
                                     echo "<tr>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_nitenti'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_nitprev'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_fingreso'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_historia[$key]['hlab_fretiro'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_nitent'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_nitprev'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_fdesde'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_fhasta'] . "</td>";
                                     echo "</tr>";
                                 }
                             } else {
@@ -538,7 +605,6 @@ class html_formHistoria {
 
                 <div class="null"></div>
 
-
                 <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
 
 
@@ -555,6 +621,11 @@ class html_formHistoria {
 
                 <input type='hidden' name='opcion' value='registrarInterrupcion'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+                <input type='hidden' name='h_nro_ingreso' value='<? echo $datos_interrupcion['h_nro_ingreso'] ?>'>
+                <input type='hidden' name='h_horas_labor' value='<? echo $datos_interrupcion['h_horas_labor'] ?>'>
+                <input type='hidden' name='h_periodo_labor' value='<? echo $datos_interrupcion['h_periodo_labor'] ?>'>
+                <input type='hidden' name='h_estado' value='<? echo $datos_interrupcion['h_estado'] ?>'>
+                <input type='hidden' name='h_registro' value='<? echo $datos_interrupcion['h_registro'] ?>'>
                 <input type='hidden' name='h_fecha_ingreso' value='<? echo $datos_interrupcion['h_fecha_ingreso'] ?>'>
                 <input type='hidden' name='h_fecha_salida' value='<? echo $datos_interrupcion['h_fecha_salida'] ?>'>
                 <br><br>           <br><br>

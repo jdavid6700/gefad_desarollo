@@ -12,7 +12,7 @@
         exit;
     }
 
-    class html_menuReporteFin {
+    class html_menu_cuotasP {
 
         public $configuracion;
         public $cripto;
@@ -42,31 +42,6 @@
             $repCPPensionados.="&reporte=CPPensionados";
             $repCPPensionados.="&Violeta=true";
             $repCPPensionados = $this->cripto->codificar_url($repCPPensionados, $this->configuracion);
-
-            //enlace para reporte de información pensionados cuotas partes salarios
-            $repvaloresPensionados = $variable;
-            $repvaloresPensionados.="&reporte=valoresPensionados";
-            $repvaloresPensionados = $this->cripto->codificar_url($repvaloresPensionados, $this->configuracion);
-
-            //enlace para reporte de información pensionados cuotas partes historia laboral
-            $repcpHistoria = $variable;
-            $repcpHistoria.="&reporte=cpHistoria";
-            $repcpHistoria = $this->cripto->codificar_url($repcpHistoria, $this->configuracion);
-
-            //enlace para reporte de información pensionados cuotas partes valores pagados
-            $repvaloresPensionados = $variable;
-            $repvaloresPensionados.="&reporte=valoresPensionados";
-            $repvaloresPensionados = $this->cripto->codificar_url($repvaloresPensionados, $this->configuracion);
-
-            //enlace para reporte de informacion pensionados cuotas partes valores calculados pro entidad
-            $repcpPagos = $variable;
-            $repcpPagos.="&reporte=cpPagos";
-            $repcpPagos = $this->cripto->codificar_url($repcpPagos, $this->configuracion);
-
-            //enlace para reporte de informacion pensionados cuotas partes valores calculados pro entidad
-            $repRecaudos = $variable;
-            $repRecaudos.="&reporte=cpRecaudos";
-            $repRecaudos = $this->cripto->codificar_url($repRecaudos, $this->configuracion);
             ?>    
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
             <meta charset="utf-8" />
@@ -82,10 +57,9 @@
                         <span id="s1"></span>
                         <ul class="subs">
 
-                            <li><a href="#">Consulta</a>
+                            <li><a href="#">Consulta Datos Básicos</a>
                                 <ul>
                                     <li><a href='<? echo $this->indice . $repCPPensionados; ?>'>Información Básica Pensionados</a></li>
-
 
                                     <li><a href='<?
                                         $variable = 'pagina=formHistoria';
@@ -93,14 +67,6 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>'>Consultar Historia Laboral</a></li>
-
-                                    <li><a href=
-                                           "<?
-                                           $variable = "pagina=liquidadorCP";
-                                           $variable.="&opcion=";
-                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                           echo $this->indice . $variable;
-                                           ?>">Consultar Detalle Liquidación Cuota Parte</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioRecaudo';
@@ -176,6 +142,26 @@
                                         echo $this->indice . $variable;
                                         ?>">Registrar y Consultar Salarios Mínimos Legales</a></li>
 
+                                </ul>
+                            </li>
+
+                            <li><a href="#">Gestión Liquidación</a>
+                                <ul>                               
+                                    <li><a href=
+                                           "<?
+                                           $variable = "pagina=liquidadorCP";
+                                           $variable.="&opcion=";
+                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                           echo $this->indice . $variable;
+                                           ?>">Generar Liquidación para Cuota Parte</a></li>
+
+                                    <li><a href=
+                                           "<?
+                                           $variable = "pagina=liquidadorCP";
+                                           $variable.="&opcion=reportes";
+                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                           echo $this->indice . $variable;
+                                           ?>">Generar Formatos de Cuenta de Cobro</a></li>
                                 </ul>
                             </li>
 

@@ -17,17 +17,10 @@ class sql_formRecaudo extends sql {
 
         switch ($opcion) {
 
-            case "insertarHistoria":
-                $cadena_sql = " INSERT INTO cuotas_partes.recaudos_cp VALUES (";
-                $cadena_sql.=" '" . $variable['cedula'] . "' ,";
-                $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
-                $cadena_sql.=" '" . $variable['resolucion'] . "' ,";
-                $cadena_sql.=" '" . $variable['fecha_resolucion'] . "' ,";
-                $cadena_sql.=" '" . $variable['fecha_desde'] . "' ,";
-                $cadena_sql.=" '" . $variable['fecha_hasta'] . "' ,";
-                $cadena_sql.=" '" . $variable['fecha_pago'] . "' ,";
-                $cadena_sql.="  " . $variable['valor_pagado'] . " ,";
-                $cadena_sql.=" '" . $variable['medio_pago'] . "' )";
+            case "actualizarCobro":
+                $cadena_sql = " UPDATE cuotas_partes.cuotas_cobros ";
+                $cadena_sql.= " SET cob_estado_cuenta='INACTIVA' ";
+                $cadena_sql.= " WHERE cob_consecu_cta='" . $variable . "' ";
                 break;
 
             case "consultarEntidades":
@@ -43,16 +36,18 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 $cadena_sql.=" GROUP BY prev_nombre, hlab_nitprev, prev_nit ";
                 break;
-            
+
             case "consultarRecaudos":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" recta_nitprev, ";
                 $cadena_sql.=" prev_nombre, ";
-                $cadena_sql.=" recta_consecu_cta, ";
+                $cadena_sql.=" recta_consecu_cta, recta_consecu_rec, ";
                 $cadena_sql.=" cob_ie_correspondencia, ";
                 $cadena_sql.=" rec_resolucionop, ";
                 $cadena_sql.=" rec_fecha_resolucion, ";
                 $cadena_sql.=" recta_fechapago, ";
+                $cadena_sql.=" recta_fechadesde, ";
+                $cadena_sql.=" recta_fechahasta, ";
                 $cadena_sql.=" rec_pago_capital, ";
                 $cadena_sql.=" rec_pago_interes, ";
                 $cadena_sql.=" rec_medio_pago ";
@@ -72,20 +67,30 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" cob_ts_interes, cob_interes, cob_tc_interes, cob_ie_correspondencia, cob_cedula, cob_saldo";
                 $cadena_sql.=" from cuotas_partes.cuotas_cobros ";
                 $cadena_sql.=" where cob_cedula = '" . $variable['cedula'] . "' ";
-               // $cadena_sql.=" and cob_estado_cuenta = 'ACTIVA' ";
+                $cadena_sql.=" and cob_estado_cuenta = 'ACTIVA' ";
                 $cadena_sql.=" and cob_nitprev='" . $variable['entidad'] . "' ";
                 $cadena_sql.=" order by cob_fgenerado ASC ";
                 break;
 
-            case "actualizarCobro":
-                $cadena_sql = " UPDATE cuotas_partes.cuotas_cobros ";
-                $cadena_sql.= " SET cob_estado_cuenta='INACTIVA' ";
-                $cadena_sql.= " where cob_consecu_cta='" . $variable . "' ";
+            case "consultaPagoConsecutivo":
+                $cadena_sql = " SELECT rec_id ";
+                $cadena_sql.= " FROM cuotas_partes.cuotas_recaudos ";
+                $cadena_sql.= " ORDER BY rec_id DESC ";
+                $cadena_sql.= " LIMIT 1 ";
+                break;
+
+            case "consultar_cc":
+                $cadena_sql = " SELECT cob_fgenerado, cob_nitemp, cob_nitprev, cob_consecu_cta, cob_finicial, cob_ffinal, ";
+                $cadena_sql.=" cob_ts_interes, cob_interes, cob_tc_interes, cob_ie_correspondencia, cob_cedula, cob_saldo, ";
+                $cadena_sql.=" cob_estado_cuenta, cob_total, cob_mesada, cob_mesada_ad, cob_subtotal, cob_incremento, cob_estado, cob_fecha_registro ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_cobros ";
+                $cadena_sql.=" WHERE cob_consecu_cta = '" . $variable['consecutivo_cc'] . "' ";
                 break;
 
             case "registrarPago":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_recaudos ";
-                $cadena_sql.=" (rec_consecu_rec,  ";
+                $cadena_sql.=" (rec_id,  ";
+                $cadena_sql.=" rec_consecu_rec,  ";
                 $cadena_sql.=" rec_nitemp,  ";
                 $cadena_sql.=" rec_nitprev,  ";
                 $cadena_sql.=" rec_identificacion,  ";
@@ -98,7 +103,8 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" rec_total_recaudo,  ";
                 $cadena_sql.=" rec_estado,  ";
                 $cadena_sql.=" rec_fecha_registro) VALUES ( ";
-                $cadena_sql.=" 'RC-0001-2013', ";
+                $cadena_sql.=" '" . $variable['rec_id'] . "', ";
+                $cadena_sql.=" '" . $variable['consecutivo_rec'] . "', ";
                 $cadena_sql.=" '" . $variable['nit_empleador'] . "', ";
                 $cadena_sql.=" '" . $variable['nit_previsional'] . "', ";
                 $cadena_sql.=" '" . $variable['cedula_emp'] . "', ";
@@ -122,17 +128,65 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" recta_nitprev, ";
                 $cadena_sql.=" recta_valor_recaudo, ";
                 $cadena_sql.=" recta_fechapago, ";
+                $cadena_sql.=" recta_fechadesde, ";
+                $cadena_sql.=" recta_fechahasta, ";
                 $cadena_sql.=" recta_estado, ";
                 $cadena_sql.=" recta_fecha_registro) VALUES (";
-                $cadena_sql.=" '" . $variable['consecutivo'] . "', ";
-                $cadena_sql.=" 'RC-0001-2013', ";
+                $cadena_sql.=" '" . $variable['consecutivo_cc'] . "', ";
+                $cadena_sql.=" '" . $variable['consecutivo_rec'] . "', ";
                 $cadena_sql.=" '" . $variable['cedula_emp'] . "', ";
                 $cadena_sql.=" '" . $variable['nit_empleador'] . "', ";
                 $cadena_sql.=" '" . $variable['nit_previsional'] . "', ";
                 $cadena_sql.=" '" . $variable['total_recaudo'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_pago'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_pdesde'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_phasta'] . "', ";
                 $cadena_sql.=" 'ACTIVO', ";
                 $cadena_sql.=" '" . date("d/m/Y") . "' ) ; ";
+                break;
+
+            case "registrarSaldo":
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_cobros (";
+                $cadena_sql.= " cob_fgenerado, ";
+                $cadena_sql.= " cob_cedula, ";
+                $cadena_sql.= " cob_nitemp, ";
+                $cadena_sql.= " cob_nitprev, ";
+                $cadena_sql.= " cob_consecu_cta, ";
+                $cadena_sql.= " cob_saldo, ";
+                $cadena_sql.= " cob_finicial, ";
+                $cadena_sql.= " cob_ffinal, ";
+                $cadena_sql.= " cob_mesada, ";
+                $cadena_sql.= " cob_mesada_ad, ";
+                $cadena_sql.= " cob_subtotal, ";
+                $cadena_sql.= " cob_incremento, ";
+                $cadena_sql.= " cob_ts_interes, ";
+                $cadena_sql.= " cob_interes, ";
+                $cadena_sql.= " cob_tc_interes, ";
+                $cadena_sql.= " cob_total, ";
+                $cadena_sql.= " cob_ie_correspondencia, ";
+                $cadena_sql.= " cob_estado_cuenta, ";
+                $cadena_sql.= " cob_estado, ";
+                $cadena_sql.= " cob_fecha_registro ) VALUES ( ";
+                $cadena_sql.= " '" . $variable['cob_fgenerado'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_cedula'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_nitemp'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_nitprev'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_consecu_cta'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_saldo'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_finicial'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_ffinal'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_mesada'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_mesada_ad'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_subtotal'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_incremento'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_ts_interes'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_interes'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_tc_interes'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_total'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_ie_correspondencia'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_estado_cuenta'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_estado'] . "', ";
+                $cadena_sql.= " '" . $variable['cob_fecha_registro'] . "'); ";
                 break;
 
             default:

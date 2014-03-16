@@ -45,18 +45,59 @@ class bloqueLiquidador extends bloque {
             case "recuperar":
                 $this->funcion->datosEntidad();
                 break;
-            
-            case "liquidar":
-                $datos_liquidacion = array();
 
+            case "liquidarfechas":
+                $periodo_liquidar = array();
+                foreach ($_REQUEST as $key => $values) {
+                    $periodo_liquidar[$key] = $_REQUEST[$key];
+                }
+
+                $this->funcion->periodoLiquidar($periodo_liquidar);
+                exit;
+                break;
+
+            case "liquidar":
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
                         $datos_liquidacion[$key] = $_REQUEST[$key];
                     }
                 }
-                
-                $this->funcion->liquidacion($datos_liquidacion);
+
+                $this->funcion->mostrarLiquidacion($datos_liquidacion);
                 break;
+
+            case "cuentacobro":
+                $consecutivo = $_REQUEST['consecutivo_liq'];
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $this->funcion->reporteCuenta($datos_basicos);
+                break;
+
+            case "resumencuenta":
+                $consecutivo = $_REQUEST['consecutivo_liq'];
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $this->funcion->reporteResumen($datos_basicos);
+                break;
+
+            case "detallecuenta":
+                $consecutivo = $_REQUEST['consecutivo_liq'];
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $liquidacion = array();
+                $this->funcion->reportesDetalle($datos_basicos, $liquidacion, $consecutivo);
+                break;
+
+            case "formatos":
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $liquidacion = unserialize($_REQUEST['liquidacion']);
+                $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
+
+                $this->funcion->guardarLiquidacion($datos_basicos, $totales_liquidacion);
+
+                if ($_REQUEST['reportes_formato'] == 'Generar Reportes') {
+                    $this->funcion->reportes($datos_basicos, $liquidacion);
+                }
+
+                break;
+
 
             default:
                 $this->funcion->datosIniciales();

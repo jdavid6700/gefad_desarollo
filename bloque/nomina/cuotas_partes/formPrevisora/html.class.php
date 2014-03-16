@@ -216,10 +216,7 @@ class html_formPrevisora {
                 return true
             }
 
-            function ValidateForm() {
-                
-                
-                
+            function ValidateForm() {             
                 
                 var emailID = document.formPrevisora.txtEmail
 

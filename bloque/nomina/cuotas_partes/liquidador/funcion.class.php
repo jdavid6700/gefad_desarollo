@@ -10,6 +10,8 @@
   ----------------------------------------------------------------------------------------
   | 09/07/2013 | Violeta Sosa            | 0.0.0.1     |                                 |
   ----------------------------------------------------------------------------------------
+  | 00/03/2014 | Violeta Sosa            | 0.0.0.2     |                                 |
+  ----------------------------------------------------------------------------------------
  */
 
 
@@ -51,22 +53,6 @@ class funciones_liquidador extends funcionGeneral {
         $this->html_liquidador = new html_liquidador($configuracion);
     }
 
-    function nuevoRegistro($configuracion, $acceso_db) {
-        $registro = (isset($registro) ? $registro : '');
-        $this->form_usuario($configuracion, $registro, $this->tema, "");
-    }
-
-    function editarRegistro($configuracion, $tema, $id, $acceso_db, $formulario) {
-        $this->cadena_sql = $this->sql->cadena_sql($configuracion, $this->acceso_db, "usuario", $id);
-
-        $registro = $this->acceso_db->ejecutarAcceso($this->cadena_sql, "editar");
-        if ($_REQUEST['opcion'] == 'cambiar_clave') {
-            $this->formContrasena($configuracion, $registro, $this->tema, '');
-        } else {
-            $this->form_usuario($configuracion, $registro, $this->tema, '');
-        }
-    }
-
     /* __________________________________________________________________________________________________
 
       Metodos específicos
@@ -80,89 +66,75 @@ class funciones_liquidador extends funcionGeneral {
 //recuperar entidad a liquidar
     function datosEntidad() {
         $parametros = array(
-            'cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''),
-            'fecha_in' => (isset($_REQUEST['fecha_inicial1']) ? $_REQUEST['fecha_inicial1'] : ''),
-            'entidad' => (isset($_REQUEST['entidad2']) ? $_REQUEST['entidad2'] : ''),
-            'fecha_fin' => (isset($_REQUEST['fecha_final1']) ? $_REQUEST['fecha_final1'] : ''));
+            'cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''));
 
         $cedula = $_REQUEST['cedula_emp'];
         $datos_entidad = $this->consultarEntidades($parametros);
-        $this->html_liquidador->formularioEntidad($cedula, $datos_entidad);
+
+        $datos_eunicos = array_unique($datos_entidad, SORT_REGULAR);
+
+        $this->html_liquidador->formularioEntidad($cedula, $datos_eunicos);
     }
 
-//liquidacion
-    function liquidacion($datos_liquidar) {
-        $parametros = array(
-            'cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''),
-            'fecha_in' => (isset($_REQUEST['fecha_inicial1']) ? $_REQUEST['fecha_inicial1'] : ''),
-            'entidad' => (isset($_REQUEST['entidad2']) ? $_REQUEST['entidad2'] : ''),
-            'fecha_fin' => (isset($_REQUEST['fecha_final1']) ? $_REQUEST['fecha_final1'] : ''));
+    //NUEVAS FUNCIONALIDADES A MARZO 2014
+    function cadenaLiquidacion() {
+        $periodos_liquidacion = array();
 
-        $datos_liquidar = $this->consultarParametrosEntidad($parametros);
-        $datos_pensionado = $this->datosPensionado($parametros);
-        $datos_mesada = $this->mesadaInicial($parametros);
-
-        $f_pension = date("Y-m-d", strtotime($datos_pensionado[0]['FECHA_PENSION']));
-        $f_actual = date("Y-m-d");
-        $porcentaje_cuota = ($datos_liquidar[0]['porcentaje_cuota']) / 100;
-
-
-        $mesada = $datos_mesada[0]['mesada'];
-
-        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_actual);
-        $TOTAL = 0;
-
-
-        foreach ($FECHAS as $key => $value) {
-            $annio = substr($FECHAS[$key], 0, 4);
-            $mes = substr($FECHAS[$key], 6, 1);
-
-            $datos_recaudos = $this->consultarRecaudos($parametros);
-
-            $fecha_desde_liquidación = $datos_recaudos[0][5];
-
-            $sumafija = $this->obtenerSumafija($annio);
-
-            $INDICE = $this->obtenerIPC($annio);
-            $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija);
-
-            $AJUSTEPENSIONAL = $this->AjustePensional(($FECHAS[$key]), $sumafija);
-
-            $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
-            $MESADAADICIONAL = $this->MesadaAdicional(($FECHAS[$key]), $CUOTAPARTE);
-            $INCREMENTOSALUD = $this->IncrementoSalud(($FECHAS[$key]), $CUOTAPARTE);
-
-            $INTERESES = $this->Intereses($FECHAS[$key], $CUOTAPARTE, $MESADAADICIONAL, $fecha_desde_liquidación);
-
-            $TOTAL = $AJUSTEPENSIONAL + $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
-            $TOTAL = round($TOTAL, 0);
-
-            //**************SALIDA FINAL****************
-
-            $SALIDACP[$key][0] = $FECHAS[$key];
-            $SALIDACP[$key][1] = $INDICE;
-            $SALIDACP[$key][2] = $MESADA;
-            $SALIDACP[$key][3] = $AJUSTEPENSIONAL;
-            $SALIDACP[$key][4] = $MESADAADICIONAL;
-            $SALIDACP[$key][5] = $INCREMENTOSALUD;
-            $SALIDACP[$key][6] = $CUOTAPARTE;
-            $SALIDACP[$key][7] = $INTERESES;
-            $SALIDACP[$key][8] = $TOTAL;
-            $mesada = $MESADA;
+        for ($i = 1; $i < 12; $i++) {
+            $periodos_liquidacion[$i]['tipo_mesada_1'] = 'mesada_ordinaria';
         }
 
-        $this->html_liquidador->liquidador($SALIDACP, $datos_liquidar);
+        $periodos_liquidacion[5]['tipo_mesada_2'] = 'mesada_adicionaljun';
+        $periodos_liquidacion[12]['tipo_mesada_2'] = 'mesada_adicionaldic';
+
+        return $periodos_liquidacion;
+    }
+
+    function periodoLiquidar($datos_liquidar) {
+
+        $parametros = array(
+            'cedula' => $datos_liquidar['cedula_emp'],
+            'entidad' => $datos_liquidar['entidad']);
+
+        $consultar_fechas = $this->consultarRecaudos($parametros);
+        $consultar_pension = $this->datosConcurrencia($parametros);
+
+
+        if (is_array($consultar_pension)) {
+            if (is_array($consultar_fechas)) {
+                $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_fechas[0]['recta_fechahasta'])));
+            }
+            $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
+            "</script> ";
+            error_log('\n');
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+        $this->html_liquidador->formularioPeriodo($parametros, $fecha_inicial);
     }
 
 //consultar
     function consultarEntidades($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registro_entidades", $parametros);
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
 
-    function consultarParametrosEntidad($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "datos_entidad_liquidar", $parametros);
+    function nombreEntidad($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "nombreEntidad", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarDatosHistoria($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "datosHistoria", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
@@ -173,6 +145,13 @@ class funciones_liquidador extends funcionGeneral {
         return $datos;
     }
 
+    function datosConcurrencia($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "datos_concurrencia", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    //--
     function consultarRecaudos($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "recaudos", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -203,16 +182,300 @@ class funciones_liquidador extends funcionGeneral {
         return $datos;
     }
 
+    function consecutivo($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consecutivo", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function guardarLiqui($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "guardarLiquidacion", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registro");
+        return $datos;
+    }
+
+    function consultarLiqui($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarLiquidacion", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarLiquiFija($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarLiquidacionConsecutivo", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    // Reportes Liquidación
+    function reportes($datos_basicos, $liquidacion) {
+
+        $parametros = array(
+            'cedula_emp' => (isset($datos_basicos['cedula_emp']) ? $datos_basicos['cedula_emp'] : ''),
+            'entidad_nit' => (isset($datos_basicos['entidad_nit']) ? $datos_basicos['entidad_nit'] : ''),
+        );
+
+        $totales_liq = $this->consultarLiqui($parametros);
+        $this->html_liquidador->generarReportes($datos_basicos, $liquidacion, $totales_liq);
+    }
+
+    function reporteCuenta($datos_basicos) {
+        //definir consecutivo cuenta de cobro
+        //recuperar información del sustituto
+        //recuperar nombre jefe recursos humanos y tesorero
+        $total_liquidacion = $this->consultarLiqui($datos_basicos);
+        $this->html_liquidador->reporteCuenta($datos_basicos, $total_liquidacion);
+    }
+
+    function reporteResumen($datos_basicos) {
+        //definir consecutivo cuenta de cobro
+        //recuperar datos de la concurrencia
+        //recuperar y organizar año a año liquidación detallada
+        //recuperar información del sustituto
+        //recuperar nombre jefe recursos humanos
+        $total_liquidacion = $this->consultarLiqui($datos_basicos);
+        $this->html_liquidador->reporteResumen($datos_basicos, $total_liquidacion);
+    }
+
+    function reportesDetalle($datos_basicos, $liquidacion, $consecutivo) {
+        //definir consecutivo cuenta de cobro
+        //recuperar datos de la concurrencia
+        //recuperar y organizar año a año liquidación detallada
+        //recuperar información del sustituto
+        //recuperar nombre jefe recursos humanos
+
+        $parametros = array(
+            'cedula_emp' => $datos_basicos['cedula_emp'],
+            'entidad_nit' => $datos_basicos['entidad_nit'],
+            'liq_consecutivo' => $consecutivo
+        );
+
+
+        $total_liquidacion = $this->consultarLiquiFija($parametros);
+   
+        $datos_liquidacion = array(
+            'cedula_emp' => $total_liquidacion[0]['liq_cedula'],
+            'entidad' => $total_liquidacion[0]['liq_nitprev'],
+            'liquidar_desde' => $total_liquidacion[0]['liq_fdesde'],
+            'liquidar_hasta' => $total_liquidacion[0]['liq_fhasta']
+        );
+
+        $liquidacion=$this->liquidacion($datos_liquidacion);
+         $this->html_liquidador->reporteDetalle($datos_basicos, $liquidacion, $total_liquidacion);
+    }
+
+//liquidacion
+
+    function calculoTotales($liquidacion_periodo) {
+
+        $calculo_totales = array(
+            'mesada' => 0,
+            'ajuste_pension' => 0,
+            'mesada_adc' => 0,
+            'incremento' => 0,
+            'cuota_parte' => 0,
+            'interes' => 0,
+            'total' => 0,
+        );
+
+        foreach ($liquidacion_periodo as $key => $value) {
+            $calculo_totales['mesada'] = $liquidacion_periodo[$key]['mesada'] + $calculo_totales['mesada'];
+            $calculo_totales['ajuste_pension'] = $liquidacion_periodo[$key]['ajuste_pension'] + $calculo_totales['ajuste_pension'];
+            $calculo_totales['mesada_adc'] = $liquidacion_periodo[$key]['mesada_adc'] + $calculo_totales['mesada_adc'];
+            $calculo_totales['incremento'] = $liquidacion_periodo[$key]['incremento'] + $calculo_totales['incremento'];
+            $calculo_totales['cuota_parte'] = $liquidacion_periodo[$key]['cuota_parte'] + $calculo_totales['cuota_parte'];
+            $calculo_totales['interes'] = $liquidacion_periodo[$key]['interes'] + $calculo_totales['interes'];
+            $calculo_totales['total'] = $liquidacion_periodo[$key]['total'] + $calculo_totales['total'];
+        }
+
+        return $calculo_totales;
+    }
+
+    function liquidacion($datos_liquidar) {
+
+        $periodo_liquidar = $this->cadenaLiquidacion();
+
+        $parametros = array(
+            'cedula' => (isset($datos_liquidar['cedula_emp']) ? $datos_liquidar['cedula_emp'] : ''),
+            'entidad' => (isset($datos_liquidar['entidad']) ? $datos_liquidar['entidad'] : ''));
+
+        $datos_concurrencia = $this->datosConcurrencia($parametros);
+
+        $f_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension'])));
+        $f_actual = date('d/m/Y');
+        $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
+        $mesada = $datos_concurrencia[0]['dcp_valor_mesada'];
+
+        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_actual);
+        $TOTAL = 0;
+
+        $liquidacion_cp = array();
+
+        foreach ($FECHAS as $key => $value) {
+
+            //Cadena del periodo liquidar
+            $annio = substr($FECHAS[$key], 0, 4);
+
+            //Valor Indices Básicos
+            $sumafija = $this->obtenerSumafija($annio);
+            $INDICE = $this->obtenerIPC($annio);
+            $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija);
+
+            //Determinar Cuota Parte
+            $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
+
+            //Valor Ajustes Adicionales
+            $AJUSTEPENSIONAL = $this->AjustePensional(($FECHAS[$key]), $sumafija);
+            $MESADAADICIONAL = $this->MesadaAdicional(($FECHAS[$key]), $CUOTAPARTE);
+            $INCREMENTOSALUD = $this->IncrementoSalud(($FECHAS[$key]), $CUOTAPARTE);
+            //$INTERESES = $this->Intereses($FECHAS[$key], $CUOTAPARTE, $MESADAADICIONAL, $fecha_desde_liquidación);
+            $INTERESES = 0;
+            //Valor Total Mes liquidado
+            $TOTAL = $AJUSTEPENSIONAL + $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
+            $TOTAL = round($TOTAL, 0);
+
+            //**************SALIDA FINAL****************//
+
+            $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
+            $liquidacion_cp[$key]['ipc'] = $INDICE;
+            $liquidacion_cp[$key]['mesada'] = $MESADA;
+            $liquidacion_cp[$key]['ajuste_pension'] = $AJUSTEPENSIONAL;
+            $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
+            $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
+            $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
+            $liquidacion_cp[$key]['interes'] = $INTERESES;
+            $liquidacion_cp[$key]['total'] = $TOTAL;
+            $mesada = $MESADA;
+        }
+
+        return $liquidacion_cp;
+    }
+
+    function calcularPeriodoLiq($datos_liquidar) {
+        //Datos del Periodo a Liquidar
+        $fecha_inicial = date('m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'])));
+        $fecha_final = date('m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_hasta'])));
+
+        $liquidacion = $this->liquidacion($datos_liquidar);
+
+        //Generación Arreglo para el periodo especificado
+        if (is_array($liquidacion)) {
+            $inicio = 0;
+            $fin = 0;
+
+            foreach ($liquidacion as $key => $values) {
+                $fecha_liq = date('m/Y', strtotime(str_replace('/', '-', $liquidacion[$key]['fecha'])));
+
+                if ($fecha_inicial == $fecha_liq) {
+                    $inicio = $key;
+                }
+
+                if ($fecha_final == $fecha_liq) {
+                    $fin = $key;
+                }
+            }
+
+            $periodo_calculado = array();
+
+            for ($i = $inicio; $i <= $fin; $i++) {
+                $periodo_calculado[$i] = $liquidacion[$i];
+            }
+
+            return $periodo_calculado;
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Error recuperando la liquidación. Reinicie el proceso.');" .
+            "</script> ";
+            error_log('\n');
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=liquidadorCP';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+    }
+
+    function mostrarLiquidacion($datos_liquidar) {
+//recuperar periodo calculado
+        //Datos Básicos del Detalle de Liquidación
+        $nombre_entidad = $this->nombreEntidad($datos_liquidar);
+        $nombre_empleado = $this->datosPensionado($datos_liquidar);
+
+        $datos_basicos = array(
+            'cedula_emp' => $datos_liquidar['cedula_emp'],
+            'nombre_emp' => $nombre_empleado[0]['NOMBRE'],
+            'entidad_nombre' => $nombre_entidad[0]['prev_nombre'],
+            'entidad_nit' => $datos_liquidar['entidad'],
+            'liquidar_desde' => $datos_liquidar['liquidar_desde'],
+            'liquidar_hasta' => $datos_liquidar['liquidar_hasta']);
+
+        $periodo_calculado = $this->calcularPeriodoLiq($datos_liquidar);
+        // Calculo de Totales
+        $total_calculado = $this->calculoTotales($periodo_calculado);
+        $this->html_liquidador->liquidador($periodo_calculado, $datos_basicos, $total_calculado);
+    }
+
+    function guardarLiquidacion($datos_basicos, $totales_liquidacion) {
+        //Generar consecutivo liquidación
+        $parametro = array();
+        $consecutivo = $this->consecutivo($parametro);
+        $consecutivo_real = intval($consecutivo) + 1;
+
+        //Guardar datos Liquidación
+
+        $parametros = array(
+            'liq_consecutivo' => (isset($consecutivo_real) ? $consecutivo_real : ''),
+            'liq_fgenerado' => date('Y-m-d'),
+            'liq_cedula' => (isset($datos_basicos['cedula_emp']) ? $datos_basicos['cedula_emp'] : ''),
+            'liq_nitprev' => (isset($datos_basicos['entidad_nit']) ? $datos_basicos['entidad_nit'] : ''),
+            'liq_fdesde' => (isset($datos_basicos['liquidar_desde']) ? $datos_basicos['liquidar_desde'] : ''),
+            'liq_fhasta' => (isset($datos_basicos['liquidar_hasta']) ? $datos_basicos['liquidar_hasta'] : ''),
+            'liq_mesada' => (isset($totales_liquidacion['mesada']) ? $totales_liquidacion['mesada'] : ''),
+            'liq_ajustepen' => (isset($totales_liquidacion['ajuste_pension']) ? $totales_liquidacion['ajuste_pension'] : ''),
+            'liq_mesada_ad' => (isset($totales_liquidacion['mesada_adc']) ? $totales_liquidacion['mesada_adc'] : ''),
+            'liq_incremento' => (isset($totales_liquidacion['incremento']) ? $totales_liquidacion['incremento'] : ''),
+            'liq_interes' => (isset($totales_liquidacion['interes']) ? $totales_liquidacion['interes'] : ''),
+            'liq_cuotap' => (isset($totales_liquidacion['cuota_parte']) ? $totales_liquidacion['cuota_parte'] : ''),
+            'liq_total' => (isset($totales_liquidacion['total']) ? $totales_liquidacion['total'] : ''),
+            'liq_estado_cc' => 'ACTIVO',
+            'liq_fecha_estado_cc' => null,
+            'liq_estado_ccdetalle' => 'ACTIVO',
+            'liq_fecha_estado_ccdetalle' => null,
+            'liq_estado_ccresumen' => 'ACTIVO',
+            'liq_fecha_estado_ccresumen' => null,
+            'liq_estado' => 'ACTIVO',
+            'liq_fecha_registro' => date('Y-m-d')
+        );
+
+        $datos_registrados = $this->guardarLiqui($parametros);
+
+        if ($datos_registrados == true) {
+            $registro[0] = "GUARDAR";
+            $registro[1] = $parametros['liq_cedula'] . '|' . $parametros['liq_nitprev']; //
+            $registro[2] = "CUOTAS_PARTES-LiquidacionGenerada";
+            $registro[3] = $parametros['liq_consecutivo'] . '|' . $parametros['liq_fdesde'] . '|' . $parametros['liq_fhasta'] . '|' . $parametros['liq_mesada']
+                    . '|' . $parametros['liq_total'] . '|' . $parametros['liq_estado'] . '|' . $parametros['liq_fecha_registro'];
+            $registro[4] = time();
+            $registro[5] = "Registra datos liquidacion generada para el pensionado con ";
+            $registro[5] .= " identificacion =" . $parametros['liq_cedula'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('Liquidación Guardada con éxito');" .
+            "</script> ";
+        }
+    }
+
 // operar
 
     function GenerarFechas($Fecha_pension, $Fecha_actual) {
-        $Anio_p = date("Y", strtotime($Fecha_pension));
-        $Mes_p = date("m", strtotime($Fecha_pension));
-        $Dia_p = date("d", strtotime($Fecha_pension));
+        $Anio_p = date('Y', strtotime(str_replace('/', '-', $Fecha_pension)));
+        $Mes_p = date("m", strtotime(str_replace('/', '-', $Fecha_pension)));
+        $Dia_p = date("d", strtotime(str_replace('/', '-', $Fecha_pension)));
 
-        $Anio_a = date("Y", strtotime($Fecha_actual));
-        $Mes_a = date("m", strtotime($Fecha_actual));
-        $Dia_a = date("d", strtotime($Fecha_actual));
+        $Anio_a = date("Y", strtotime(str_replace('/', '-', $Fecha_actual)));
+        $Mes_a = date("m", strtotime(str_replace('/', '-', $Fecha_actual)));
+        $Dia_a = date("d", strtotime(str_replace('/', '-', $Fecha_actual)));
 
         settype($Anio_p, "integer");
         settype($Mes_p, "integer");
@@ -227,13 +490,13 @@ class funciones_liquidador extends funcionGeneral {
             for ($Mes_p; $Mes_p <= 12; $Mes_p++) {
                 //echo $Mes_p;
                 if ($Anio_p != $Anio_a) {
-                    $fecha[] = $Anio_p . "-" . $Mes_p . "-" . $Dia;
+                    $fecha[] = $Dia . "/" . $Mes_p . "/" . $Anio_p;
                     $Dia = mktime(0, 0, 0, $Mes_p + 2, 0, $Anio_p);
                     $Dia = date("d", $Dia);
                     settype($Dia, "integer");
                     settype($Dia, "integer");
                 } elseif ($Mes_p <= $Mes_a) {
-                    $fecha[] = $Anio_p . "-" . $Mes_p . "-" . $Dia;
+                    $fecha[] = $Dia . "/" . $Mes_p . "/" . $Anio_p;
                     $Dia = mktime(0, 0, 0, $Mes_p + 2, 0, $Anio_p);
                     $Dia = date("d", $Dia);
                     settype($Dia, "integer");
@@ -249,9 +512,9 @@ class funciones_liquidador extends funcionGeneral {
 
     function AjustePensional($FECHA, $sumafija) {
 
-        $Anio = substr(date("Y", strtotime($FECHA)), 0, 4);
-        $Mes = substr(date("m", strtotime($FECHA)), 0, 2);
-        $Dia = substr(date("d", strtotime($FECHA)), 0, 2);
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
+        $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
+        $Dia = substr(date("d", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
         settype($Anio, "integer");
         settype($Mes, "integer");
@@ -272,7 +535,7 @@ class funciones_liquidador extends funcionGeneral {
 
     function CuotaParte($Mesada, $porcentaje) {
         $Mesadacp = round($Mesada);
-        $porcentajecp = round($porcentaje, 4);
+        $porcentajecp = round($porcentaje, 6);
 
         //Cuota Parte	
         $Cuotaparte = $porcentajecp * $Mesadacp;
@@ -293,8 +556,8 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function MesadaFecha($FECHA, $Mesada, $sumafija) {
-        $Anio = substr(date("Y", strtotime($FECHA)), 0, 4);
-        $Mes = substr(date("m", strtotime($FECHA)), 0, 2);
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
+        $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
         settype($Anio, "integer");
         settype($Mes, "integer");
@@ -306,7 +569,7 @@ class funciones_liquidador extends funcionGeneral {
         $AJUSTEPENSIONAL = $this->AjustePensional($FECHA, $sumafija);
 
         if ($Mes == 1) {
-            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada + $AJUSTEPENSIONAL . '<br>';
+            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada + $AJUSTEPENSIONAL;
         } else {
             $Mesada_Fecha = ($Mesada);
         }
@@ -319,8 +582,8 @@ class funciones_liquidador extends funcionGeneral {
     //$cuota_calculada Cuota Parte Calculada
     function MesadaAdicional($FECHA, $cuota_calculada) {
         //Rescatando Año , Mes y Dia
-        $Anio = substr(date("Y", strtotime($FECHA)), 0, 4);
-        $Mes = substr(date("m", strtotime($FECHA)), 0, 2);
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
+        $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
         settype($Anio, "integer");
         settype($Mes, "integer");
@@ -345,8 +608,8 @@ class funciones_liquidador extends funcionGeneral {
 
     //Rescatando DTF
     function RescatarDTF($FECHA, $fecha_liquidacion) {
-        $Anio = substr(date("Y", strtotime($FECHA)), 0, 4);
-        $Mes = substr(date("m", strtotime($FECHA)), 0, 2);
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
+        $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
         settype($Anio, "integer");
         settype($Mes, "integer");
@@ -384,8 +647,8 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function Intereses($FECHA, $cuota_parte, $mesada_ad, $fecha_liquidacion) {
-        $Anio = substr(date("Y", strtotime($FECHA)), 0, 4);
-        $Mes = substr(date("m", strtotime($FECHA)), 0, 2);
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
+        $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
         settype($Anio, "integer");
         settype($Mes, "integer");
@@ -394,7 +657,7 @@ class funciones_liquidador extends funcionGeneral {
         // var_dump($dtf);
 
         $var2 = 1;
-  
+
         if ($FECHA < (strtotime(date("Y-m")))) {
 
             foreach ($dtf as $key => $value) {

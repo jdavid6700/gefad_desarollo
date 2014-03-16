@@ -32,13 +32,13 @@ include_once("sql.class.php");
 
 
 //Clase
-class bloquemenuReporteFin extends bloque
+class bloquemenu_cuotasP extends bloque
 {
 
 	public function __construct($configuracion)
 	{
-		$this->sql = new sql_menuReporteFin();
-		$this->funcion = new funciones_menuReporteFin($configuracion, $this->sql);
+		$this->sql = new sql_menu_cuotasP();
+		$this->funcion = new funciones_menu_cuotasP($configuracion, $this->sql);
 			
 	}
 
@@ -84,7 +84,7 @@ class bloquemenuReporteFin extends bloque
 
 // @ Crear un objeto bloque especifico
 
-$esteBloque = new bloquemenuReporteFin($configuracion);
+$esteBloque = new bloquemenu_cuotasP($configuracion);
 //var_dump($_REQUEST);//exit;
 
 if(isset($_REQUEST['cancelar']))

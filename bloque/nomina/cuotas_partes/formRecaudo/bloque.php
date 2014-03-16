@@ -90,9 +90,8 @@ class bloque_formRecaudo extends bloque {
                 case "registro_pago":
                     $cuentas_pago = array();
                     $cont = 0;
-
+                                       
                     foreach ($_REQUEST["cuenta_pagar"] as $key => $value) {
-
                         $cuentas_pago[$cont] = array(
                             'fecha_cuenta' => $_REQUEST["fecha_cuenta"][$key],
                             'consecutivo_cuenta' => $_REQUEST["consecutivo_pagar"][$key],
@@ -127,7 +126,7 @@ class bloque_formRecaudo extends bloque {
 
             case"guardarRecaudo":
                 $parametros_recaudo = array();
-
+              
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
                         $parametros_recaudo[$key] = $_REQUEST[$key];

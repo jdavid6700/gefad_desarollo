@@ -53,7 +53,7 @@ class bloque_formHistoria extends bloque {
             switch ($accion) {
 
                 case "interrupcion":
-             
+
                     $datos_interrupcion = array();
                     foreach ($_REQUEST as $key => $value) {
                         $datos_interrupcion[$key] = $_REQUEST[$key];
@@ -130,6 +130,7 @@ class bloque_formHistoria extends bloque {
                 break;
 
             case "registrarInterrupcion":
+
                 $registro_interrupcion = array();
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
