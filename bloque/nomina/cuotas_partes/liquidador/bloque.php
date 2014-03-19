@@ -46,6 +46,7 @@ class bloqueLiquidador extends bloque {
                 $this->funcion->datosEntidad();
                 break;
 
+
             case "liquidarfechas":
                 $periodo_liquidar = array();
                 foreach ($_REQUEST as $key => $values) {
@@ -69,20 +70,19 @@ class bloqueLiquidador extends bloque {
             case "cuentacobro":
                 $consecutivo = $_REQUEST['consecutivo_liq'];
                 $datos_basicos = unserialize($_REQUEST['datos_basicos']);
-                $this->funcion->reporteCuenta($datos_basicos);
+                $this->funcion->reporteCuenta($datos_basicos, $consecutivo);
                 break;
 
             case "resumencuenta":
                 $consecutivo = $_REQUEST['consecutivo_liq'];
                 $datos_basicos = unserialize($_REQUEST['datos_basicos']);
-                $this->funcion->reporteResumen($datos_basicos);
+                $this->funcion->reporteResumen($datos_basicos, $consecutivo);
                 break;
 
             case "detallecuenta":
                 $consecutivo = $_REQUEST['consecutivo_liq'];
                 $datos_basicos = unserialize($_REQUEST['datos_basicos']);
-                $liquidacion = array();
-                $this->funcion->reportesDetalle($datos_basicos, $liquidacion, $consecutivo);
+                $this->funcion->reportesDetalle($datos_basicos, $consecutivo);
                 break;
 
             case "formatos":
@@ -93,14 +93,40 @@ class bloqueLiquidador extends bloque {
                 $this->funcion->guardarLiquidacion($datos_basicos, $totales_liquidacion);
 
                 if ($_REQUEST['reportes_formato'] == 'Generar Reportes') {
-                    $this->funcion->reportes($datos_basicos, $liquidacion);
+                    $this->funcion->reportes($datos_basicos);
                 }
-
                 break;
 
+            case "reporte_inicio":
+
+                $this->funcion->datosInicialesReporte();
+                break;
+
+            case "recuperar_reporte":
+
+                $this->funcion->datosEntidadReporte();
+                break;
+
+            case "recuperar_formato":
+
+                $datos_basicos = array(
+                    'cedula' => (isset($_REQUEST['cedula']) ? $_REQUEST['cedula'] : ''),
+                    'entidad' => (isset($_REQUEST['prev_nit']) ? $_REQUEST['prev_nit'] : ''),
+                );
+                $this->funcion->reportes($datos_basicos);
+                break;
+
+            case "pdf_cuenta":
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $consecutivo = $_REQUEST['consecutivo'];
+                $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
+
+                $this->funcion->generar_pdfcuenta($datos_basicos, $consecutivo, $totales_liquidacion);
+                break;
 
             default:
                 $this->funcion->datosIniciales();
+                break;
         }
     }
 

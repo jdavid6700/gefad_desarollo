@@ -39,15 +39,75 @@ class html_liquidador {
 
 //Datos traídos desde la tabla datos básicos
         ?>
+        <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 39, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>'>
             <h2>Ingrese la cédula a liquidar:</h2>
             <br>
-            <input type="text" name="cedula_emp" required='required'>
+            <input type="text" name="cedula" required='required' onKeyPress='return acceptNum(event)'>
             <br>  <br>
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Enviar" ></center>
             <input type='hidden' name='pagina' value='liquidadorCP'>
             <input type='hidden' name='opcion' value='recuperar'>
+            <br>
+        </form>
+        <?
+    }
+
+    function formularioDatosReporte() {
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+        $this->formulario = "liquidador";
+
+//Datos traídos desde la tabla datos básicos
+        ?>
+        <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890";
+                especiales = [8, 39, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+        <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
+        <form method='POST' action='index.php' name='<? echo $this->formulario; ?>'>
+            <h2>Ingrese la cédula a generar reportes de liquidación:</h2>
+            <br>
+            <input type="text" name="cedula" required='required' onKeyPress='return acceptNum(event)'>
+            <br>  <br>
+            <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Enviar" ></center>
+            <input type='hidden' name='pagina' value='liquidadorCP'>
+            <input type='hidden' name='opcion' value='recuperar_reporte'>
             <br>
         </form>
         <?
@@ -85,7 +145,7 @@ class html_liquidador {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" readonly name="cedula_emp" class="fieldcontent" value="<?php echo $cedula_em ?>">
+                            <input type="text" id="p1f7c" readonly name="cedula" class="fieldcontent" value="<?php echo $cedula_em ?>">
                         </div>
                     </div>
                 </div>
@@ -119,6 +179,72 @@ class html_liquidador {
         <?
     }
 
+    function formularioEntidadReporte($cedula_em, $datos_en) {
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+
+        $this->formulario = "liquidador";
+        ?>
+        <!referencias a estilos y plugins>
+        <script type = "text/javascript" src = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
+        <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
+        <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel = "stylesheet" type = "text/css"/>
+        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+        <form id="form" method="post" action='index.php' name='<? echo $this->formulario; ?>'>
+            <h2>Seleccione la entidad a generar reportes:</h2>
+            <div class="formrow f1">
+                <div class="formrow f1">
+                    <div id="p1f4" class="field n1">
+                        <div class="staticcontrol">
+                            <div class="hrcenter px1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="formrow f1">
+                <div id="p1f7" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="p1f7c" readonly name="cedula" class="fieldcontent" value="<?php echo $cedula_em ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="p1f103" class="field n1">
+                <div class="caption capleft alignleft">
+                    <label class="fieldlabel" for="entidades"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Entidad a cobrar:</span></span></span></label>
+                    <div class="null"></div>
+                </div>
+            </div>
+            <div class="control capleft">
+                <div class="dropdown">
+                    <select name='prev_nit' required>
+                        <?
+                        foreach ($datos_en as $key => $value) {
+                            ?>
+                            <option id='prev_nit' name='prev_nit' value ="<?php echo $datos_en[$key]['prev_nit']; ?>"><?php echo $datos_en[$key]['prev_nombre']; ?></option>
+                            <?
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div class="null"></div>
+                <input id="generarBoton" type="submit" class="navbtn"  value="Procesar">
+                <input type='hidden' name='pagina' value='liquidadorCP'>
+                <input type='hidden' name='opcion' value='recuperar_formato'>
+            </div>
+        </form>
+        <?
+    }
+
     function formularioPeriodo($parametros, $fecha_inicial) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -129,27 +255,28 @@ class html_liquidador {
         ?>
         <!referencias a estilos y plugins>
         <script>
-            $(document).ready(function() {
-                $("#liquidar_desde").datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '<?php echo $annio ?>:c',
-                    dateFormat: 'dd/mm/yy',
-                    maxDate: "+1Y",
-                    onSelect: function(dateValue, inst) {
-                        $("#liquidar_hasta").datepicker("option", "minDate", dateValue)
-                    }
+                $(document).ready(function() {
+                    $("#liquidar_desde").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        yearRange: '<?php echo $annio ?>:c',
+                        dateFormat: 'dd/mm/yy',
+                        maxDate: "+1Y",
+                        onSelect: function(dateValue, inst) {
+                            $("#liquidar_hasta").datepicker("option", "minDate", dateValue)
+                        }
+                    });
+                    $("#liquidar_desde").datepicker('option', 'minDate', '<?php echo $fecha_inicial ?>');
                 });
-                $("#liquidar_desde").datepicker('option', 'minDate', '<?php echo $fecha_inicial ?>');
-            });
-            $(document).ready(function() {
-                $("#liquidar_hasta").datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '<?php echo $annio ?>:c',
-                    dateFormat: 'dd/mm/yy'
+                $(document).ready(function() {
+                    $("#liquidar_hasta").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        yearRange: '<?php echo $annio ?>:c',
+                        dateFormat: 'dd/mm/yy',
+                        maxDate: "+0D",
+                    });
                 });
-            });
 
         </script>
         <script>
@@ -206,7 +333,7 @@ class html_liquidador {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" readonly name="cedula_emp" class="fieldcontent" value="<?php echo $parametros['cedula'] ?>">
+                            <input type="text" id="p1f7c" readonly name="cedula" class="fieldcontent" value="<?php echo $parametros['cedula'] ?>">
                         </div>
                     </div>
                 </div>
@@ -317,7 +444,7 @@ class html_liquidador {
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >NIT:</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad_nit'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad'] ?></td>
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >Fecha Corte Cuenta:</td>
@@ -331,7 +458,7 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' >Nombre Pensionado:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
                         <td class='texto_elegante estilo_td' >Documento Pensionado:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula_emp'] ?></td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
@@ -457,7 +584,7 @@ class html_liquidador {
         <?
     }
 
-    function generarReportes($datos_basicos, $liquidacion, $totales_liquidacion) {
+    function generarReportes($datos_basicos, $totales_liquidacion) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -513,7 +640,7 @@ class html_liquidador {
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >NIT:</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad_nit'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad'] ?></td>
                     </tr>
                 </table> </center>
             <br>
@@ -523,7 +650,7 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' >Nombre Pensionado:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
                         <td class='texto_elegante estilo_td' >Documento Pensionado:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula_emp'] ?></td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
@@ -636,7 +763,7 @@ class html_liquidador {
         <?
     }
 
-    function reporteDetalle($datos_basicos, $liquidacion, $totales_liquidacion) {
+    function reporteDetalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -658,6 +785,15 @@ class html_liquidador {
                                         delay: 20
                                     });
                                 });
+                                $(function() {
+                                    $("div.holder2").jPages({
+                                        containerID: "itemContainer2",
+                                        previous: "←",
+                                        next: "→",
+                                        perPage: 3,
+                                        delay: 20
+                                    });
+                                });
         </script>
         <form method="post" action='index.php' name='<? echo $this->formulario; ?>' >
             <h1>Liquidación Cuota Parte para la Entidad <? echo $datos_basicos['entidad_nombre'] ?> </h1>
@@ -673,7 +809,7 @@ class html_liquidador {
                                 <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                                 <br> NIT 899999230-7<br><br>
                                 Detalle Cuenta de Cobro 
-                                <br>CPP-0000-2014<br><br>
+                                <br><? echo $consecu_cc ?><br><br>
                             </th>
                         </tr>
                         <tr>
@@ -694,11 +830,11 @@ class html_liquidador {
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >NIT:</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad_nit'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad'] ?></td>
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >Fecha Corte Cuenta:</td>
-                        <td class='texto_elegante estilo_td' colspan="2"><? echo '&nbsp;&nbsp;' . $datos_basicos['liquidar_hasta'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan="2"><? echo '&nbsp;&nbsp' . $fecha_cobro ?></td>
                     </tr>
                 </table> </center>
             <br>
@@ -708,7 +844,7 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' >Nombre Pensionado:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
                         <td class='texto_elegante estilo_td' >Documento Pensionado:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula_emp'] ?></td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
@@ -819,45 +955,39 @@ class html_liquidador {
 
             <br><br>
             <center>
-                <table class='bordered'  width ="68%" >
+                <table class='bordered'  width ="20%" >
                     <tr>
-                        <th colspan="5" class="subtitulo_th" style="font-size:12px;">AJUSTES ANUALES PENSIÓN APLICADOS (Ley 4a/76, Ley 71/88 y Ley 100 de 1993)</th>
+                        <th colspan="3" class="subtitulo_th" style="font-size:12px;">AJUSTES ANUALES PENSIÓN APLICADOS (Ley 4a/76, Ley 71/88 y Ley 100 de 1993)</th>
                     </tr>
                     <tr>
-                        <th class='subtitulo_th centrar' coslpan='1'>VIGENCIA</th>
-                        <td class='texto_elegante estilo_td'coslpan='1' style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' coslpan='1'style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' coslpan='1'style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' coslpan='1'style='text-align:center;'>valor valor</td>
+                        <th class='subtitulo_th centrar'>VIGENCIA</th>
+                        <th class = 'subtitulo_th centrar'>PORCENTAJE (IPC)</th>
+                        <th class = 'subtitulo_th centrar'>SUMAFIJA</th>
                     </tr>
-                    <tr>
-                        <th class='subtitulo_th centrar'>PORCENTAJE (IPC)</th>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                    </tr>
-                    <tr>
-                        <th class='subtitulo_th centrar'>SUMAFIJA</th>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                        <td class='texto_elegante estilo_td' style='text-align:center;'>valor valor</td>
-                    </tr>
+                    <tbody id="itemContainer2">
+                        <?
+                        foreach ($detalle_indice as $key => $values) {
+                            echo "<tr>";
+                            echo " <td class='texto_elegante estilo_td' style='text-align:center;'>" . $detalle_indice[$key]['vigencia'] . "</td> ";
+                            echo " <td class='texto_elegante estilo_td' style='text-align:center;'>" . $detalle_indice[$key]['ipc'] . "</td> ";
+                            echo " <td class='texto_elegante estilo_td' style='text-align:center;'>" . $detalle_indice[$key]['suma_fija'] . "</td> ";
+                            echo "</tr>";
+                        }
+                        ?>
                 </table>
+                <center><div class="holder2" style="-moz-user-select: none;"></div></center>
             </center>
             <br><br>
             <center>
-                <table class='bordered'  width ="60%">
-
+                <table class = 'bordered' width = "60%">
                     <tr>
-                        <td class='estilo_td' align=justify style="font-size:12px" colspan="9">
+                        <td class = 'estilo_td' align = justify style = "font-size:12px" colspan = "9">
                             <br><br><br><br>
                         </td>
                     </tr>
                     <tr>
-                        <td class='estilo_td' align=center style="font-size:12px" colspan="9">
-        <? echo "AQUI NOMBRE ENCARGADO" ?>
+                        <td class = 'estilo_td' align = center style = "font-size:12px" colspan = "9">
+                            <? echo $jefeRecursos[0][0]?>
                             <br>Jefe(a) División de Recursos Humanos
                         </td>
                     </tr>
@@ -885,7 +1015,7 @@ class html_liquidador {
         <?
     }
 
-    function reporteCuenta($datos_basicos, $totales_liquidacion) {
+    function reporteCuenta($datos_basicos, $totales_liquidacion, $enletras, $consecutivo, $jefeRecursos, $jefeTesoreria) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -914,7 +1044,7 @@ class html_liquidador {
                             </th>
                             <th  colspan="1" style="font-size:14px;" class='subtitulo_th centrar'>
                                 <br>CUENTA DE COBRO No.
-                                <br> CCP-0000-2014<br>
+                                <br> <? echo $consecutivo; ?><br>
                                 <br> <?
                                 $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
                                 $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
@@ -931,11 +1061,11 @@ class html_liquidador {
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >NIT:</td>
-                        <td class='texto_elegante estilo_td' colspan='2'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad_nit'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='2'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad'] ?></td>
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >Fecha Vencimiento Cuenta:</td>
-                        <td class='texto_elegante estilo_td' colspan="2"><? echo '&nbsp;&nbsp;' . $datos_basicos['liquidar_hasta'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan="2"><? echo '&nbsp;&nbsp; 30 días calendario a partir de la fecha de recibido' ?></td>
                     </tr>
                 </table> </center>
             <br>
@@ -945,7 +1075,7 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' >Nombre Pensionado:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
                         <td class='texto_elegante estilo_td' >Documento Pensionado:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula_emp'] ?></td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
@@ -971,7 +1101,7 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td'>Cuotas Partes Pensionales (mesadas ordinarias y adicionales)</td>
                         <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fdesde'] ?></td>
                         <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fhasta'] ?></td>
-                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_cuotap']) ?></td>
+                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_cuotap'] + $totales_liquidacion[0]['liq_mesada_ad']) ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td'>2</td>
@@ -996,17 +1126,24 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td'>5</td>
+                        <td class='texto_elegante estilo_td'>Ajuste Pensión</td>
+                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fdesde'] ?></td>
+                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fhasta'] ?></td>
+                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_ajustepen']) ?></td>
+                    </tr>
+                    <!--tr>
+                        <td class='texto_elegante estilo_td'>5</td>
                         <td class='texto_elegante estilo_td'>Otros</td>
                         <td class='texto_elegante estilo_td'>dd/mm/YYYY</td>
                         <td class='texto_elegante estilo_td'>dd/mm/YYYY</td>
                         <td class='texto_elegante estilo_td'>$___________</td>
-                    </tr>
+                    </tr--->
                     <tr>
                         <th class='subtitulo_th2' colspan="4">TOTAL&nbsp;&nbsp;</th>
-                        <td class='texto_elegante estilo_td3'>$______________</td>
+                        <td class='texto_elegante estilo_td3'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_total']) ?></td>
                     </tr>
                     <tr>
-                        <td class='estilo_td' align="center"  colspan="45">SON $______________</td>
+                        <td class='estilo_td' align="center"  colspan="45">SON&nbsp;<? echo $enletras ?></td>
                     </tr>
                 </table>
             </center>
@@ -1037,11 +1174,11 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='estilo_td' align=center style="font-size:12px">
-        <? echo "AQUI NOMBRE ENCARGADO" ?>
+                            <? echo $jefeTesoreria[0][0] ?>
                             <br>Tesorero(a)
                         </td>
                         <td class='estilo_td' align=center style="font-size:12px">
-        <? echo "AQUI NOMBRE ENCARGADO" ?>
+                            <? echo $jefeRecursos[0][0] ?>
                             <br>Jefe(a) División de Recursos Humanos
                         </td>
                     </tr>
@@ -1057,9 +1194,12 @@ class html_liquidador {
 
             <div>
                 <div class="null"></div>
-                <input id="generarBoton" type="submit" class="navbtn" name="reportes_formato" value="Generar PDF">
+                <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
                 <input type='hidden' name='pagina' value='liquidadorCP'>
-                <input type='hidden' name='opcion' value='formatos'>
+                <input type='hidden' name='opcion' value='pdf_cuenta'>
+                <input type="hidden" name='datos_basicos' value='<?php echo serialize($datos_basicos) ?>'>
+                <input type="hidden" name='totales_liquidacion' value='<?php echo serialize($totales_liquidacion) ?>'>
+                <input type="hidden" name='consecutivo' value='<?php echo $consecutivo ?>'>
 
             </div>
         </form>
@@ -1067,7 +1207,7 @@ class html_liquidador {
         <?
     }
 
-    function reporteResumen($datos_basicos, $totales_liquidacion) {
+    function reporteResumen($datos_basicos, $totales_liquidacion, $consecu_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -1096,7 +1236,7 @@ class html_liquidador {
                             </th>
                             <th  colspan="1" style="font-size:14px;" class='subtitulo_th centrar'>
                                 <br>RESUMEN CUENTA DE COBRO
-                                <br> No.CCP-0000-2014<br>
+                                <br> No.<? echo $consecu_cc ?><br>
                                 <br> <?
                                 $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
                                 $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
@@ -1113,126 +1253,133 @@ class html_liquidador {
                     </tr>
                     <tr> 
                         <td class='texto_elegante estilo_td' >NIT:</td>
-                        <td class='texto_elegante estilo_td' colspan='2'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad_nit'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='2'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad'] ?></td>
                     </tr>
                 </table> </center>
             <br>
             <center>
                 <table class='bordered'  width ="60%">
                     <tr>
-                        <th class='subtitulo_th centrar' colspan="6">DATOS PENSIONADO - PENSIÓN</th>
+                        <th class='subtitulo_th centrar' colspan="8">DATOS PENSIONADO - PENSIÓN</th>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Nombres y Apellidos del Titular:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Nombres y Apellidos del Titular:</td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Documento:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula_emp'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Documento:</td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Fecha de Nacimiento:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Fecha de Nacimiento:</td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_pensionado[0]['FECHA_NAC']; ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Resolución Reconocimiento Concurrencia:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Resolución Reconocimiento Concurrencia:</td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_concurrencia[0]['dcp_actoadmin'] ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Fecha de Efectividad:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Fecha de Efectividad:</td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))); ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Fecha Inicio de Concurrencia:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Fecha Inicio de Concurrencia:</td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']))); ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='1'>Días a Cargo:</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . $dias_cargo[$datos_basicos['entidad']]['total_dia'] ?></td>
                         <td class='texto_elegante estilo_td' colspan='1'>Total Días</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
-                        <td class='texto_elegante estilo_td' colspan='1'>Porcentaje Cuota:</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . $dias_cargo['Total'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='1'>Porcentaje Ingresado:</td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='1'>Porcentaje Calculado:</td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . round(((($dias_cargo[$datos_basicos['entidad']]['total_dia']) / ($dias_cargo['Total'])) * 100), 3) . '&nbsp;%' ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='1'>Mesada Inicial:</td>
-                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;&nbsp;' ?></td>
-                        <td class='texto_elegante estilo_td' colspan='1'>Cuota Parte:</td>
-                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='2'>Mesada Inicial:</td>
+                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_mesada']) ?></td>
+                        <td class='texto_elegante estilo_td' colspan='2'>Cuota Parte:</td>
+                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_cuota']) ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Resolución que modifica o reliquida:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Resolución que modifica o reliquida:</td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' ?></td>
                     </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Fecha Inicio de Concurrencia:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
-                    </tr>
-                    <tr>
-                        <th class='subtitulo_th centrar' colspan="6">DATOS PENSIONADO - SUSTITUTO</th>
-                    </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Fecha Defunción Titular:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
-                    </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Resolución de Sustitución:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
-                    </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Nombre Sustituto:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
-                    </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Documento Sustituto:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
-                    </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td' colspan='2'>Fecha Nacimiento Sustituto:</td>
-                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;&nbsp;' ?></td>
-                    </tr>
+                    <?
+                    if ($datos_pensionado[0]['FALLECIDO'] !== 'N') {
+                        echo " <tr> ";
+                        echo "      <th class='subtitulo_th centrar' colspan='6'>DATOS PENSIONADO - SUSTITUTO</th> ";
+                        echo " </tr> ";
+                        echo " <tr> ";
+                        echo "      <td class = 'texto_elegante estilo_td' colspan = '2'>Fecha Defunción Titular:</td > ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
+                        echo " </tr> ";
+                        echo " <tr> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Resolución de Sustitución:</td> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
+                        echo " </tr> ";
+                        echo " <tr> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Nombre Sustituto:</td> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
+                        echo " </tr> ";
+                        echo " <tr> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Documento Sustituto:</td> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
+                        echo " </tr> ";
+                        echo " <tr> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Fecha Nacimiento Sustituto:</td> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
+                        echo " </tr> ";
+                    }
+                    ?>
                 </table>
             </center>
             <br>
             <center>
                 <table class='bordered'  width ="60%" >
-
                     <tr>
-                        <th class='subtitulo_th centrar' colspan="2">PERIODO</th>
-                        <th class='subtitulo_th centrar' rowspan="2">MONTO DE MESADA</th>
-                        <th class='subtitulo_th centrar' rowspan="2">CUOTA MENSUAL</th>
-                        <th class='subtitulo_th centrar' rowspan="2">MESADA DE JUNIO</th>
-                        <th class='subtitulo_th centrar' rowspan="2">INCREMENTO SALUD (7%)</th>
-                        <th class='subtitulo_th centrar' rowspan="2">INTERÉS LEY 68/1923</th>
-                        <th class='subtitulo_th centrar' rowspan="2">INTERÉS LEY 1066/2006</th>
-                        <th class='subtitulo_th centrar' rowspan="2">TOTAL AÑO</th>
+                        <th class = 'subtitulo_th centrar' colspan = '2'>PERIODO</th>
+                        <th class = 'subtitulo_th centrar' rowspan = '2'>MONTO DE MESADA</th>
+                        <th class = 'subtitulo_th centrar' rowspan = '2'>CUOTA MENSUAL</th>
+                        <th class = 'subtitulo_th centrar' rowspan = '2'>MESADA ADICIONAL</th>
+                        <th class = 'subtitulo_th centrar' rowspan = '2'>INCREMENTO SALUD (7%)</th>
+                        <th class = 'subtitulo_th centrar' rowspan = '2'>INTERÉS LEY 68/1923</th>
+                        <th class = 'subtitulo_th centrar' rowspan = '2'>INTERÉS LEY 1066/2006</th>
+                        <th class = 'subtitulo_th centrar' rowspan = '2'>TOTAL AÑO</th>
                     </tr>
                     <tr>
-                        <th class='subtitulo_th centrar'>AÑO</th>
-                        <th class='subtitulo_th centrar'>MESES</th>
+                        <th class = 'subtitulo_th centrar' colspan="2">AÑO</th>
+                        <!--th class = 'subtitulo_th centrar'>MESES</th-->
                     </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td'>YYYY</td>
-                        <td class='texto_elegante estilo_td'>MM/MM</td>
-                        <td class='texto_elegante estilo_td'></td>
-                        <td class='texto_elegante estilo_td'></td>
-                        <td class='texto_elegante estilo_td'></td>
-                        <td class='texto_elegante estilo_td'></td>
-                        <td class='texto_elegante estilo_td'></td>
-                        <td class='texto_elegante estilo_td'></td>
-                        <td class='texto_elegante estilo_td'></td>
-                    </tr>
+                    <?
+                    $total = 0;
+                    foreach ($liquidacion_anual as $key => $values) {
+                        echo " <tr> ";
+                        echo " <td class = 'texto_elegante estilo_td' colspan='2'>" . $liquidacion_anual[$key]['vigencia'] . "</td> ";
+                        //echo " <td class = 'texto_elegante estilo_td'>MM/MM</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['cuota_parte']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada_adc']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['incremento']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['total']) . "</td> ";
+                        echo " </tr> ";
+                        $total = $liquidacion_anual[$key]['total'] + $total;
+                    }
+                    ?>
                     <tr>
                         <th class='subtitulo_th2' colspan="6">Valor liquidado a la fecha de corte&nbsp;&nbsp;</th>
-                        <td class='texto_elegante estilo_td3' colspan="3">$______________</td>
+                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total) ?></td>
                     </tr>
                     <tr>
                         <th class='subtitulo_th2' colspan="6">Ajuste al peso&nbsp;&nbsp;</th>
-                        <td class='texto_elegante estilo_td3' colspan="3">$______________</td>
+                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total) ?></td>
                     </tr>
                     <tr>
                         <th class='subtitulo_th2' colspan="6">VALOR A COBRAR&nbsp;&nbsp;</th>
-                        <td class='texto_elegante estilo_td3' colspan="3">$______________</td>
+                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total) ?></td>
                     </tr>
                     </tr>
 
@@ -1250,7 +1397,7 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='estilo_td' align=center style="font-size:12px" colspan="9">
-        <? echo "AQUI NOMBRE ENCARGADO" ?>
+                            <? echo $jefeRecursos[0][0] ?>
                             <br>Jefe(a) División de Recursos Humanos
                         </td>
                     </tr>
