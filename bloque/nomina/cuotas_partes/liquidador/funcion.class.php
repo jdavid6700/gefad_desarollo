@@ -1,5 +1,4 @@
 <?php
-
 /* --------------------------------------------------------------------------------------------------------------------------
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
   --------------------------------------------------------------------------------------------------------------------------- */
@@ -32,6 +31,7 @@ class funciones_liquidador extends funcionGeneral {
         include ($configuracion["raiz_documento"] . $configuracion["estilo"] . "/basico/tema.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/log.class.php");
+        include_once($configuracion["raiz_documento"] . $configuracion["plugins"] . "/html2pdf/html2pdf.class.php");
 
 
         $this->cripto = new encriptar();
@@ -63,6 +63,700 @@ class funciones_liquidador extends funcionGeneral {
         $this->html_liquidador->formularioDatos();
     }
 
+    function generarPDF_Cuenta($datos_basicos, $totales_liquidacion, $enletras, $consecutivo, $jefeRecursos, $jefeTesoreria) {
+
+        ob_start();
+        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+
+        $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
+        $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+        $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' del ' . date('Y');
+
+
+        $ContenidoPdf = "
+<style type=\"text/css\">
+    table { 
+        color:#333; /* Lighten up font color */
+        font-family:Helvetica, Arial, sans-serif; /* Nicer font */
+
+        border-collapse:collapse; border-spacing: 3px; 
+    }
+
+    table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+    table.page_footer {width: 100%; border: none; background-color: #DDDDFF; border-top: solid 1mm #AAAADD; padding: 2mm}
+
+    td, th { 
+        border: 1px solid #CCC; 
+        height: 13px;
+    } /* Make cells a bit taller */
+
+    th {
+        background: #F3F3F3; /* Light grey background */
+        font-weight: bold; /* Make sure they're bold */
+        text-align: center;
+        font-size:10px
+    }
+
+    td {
+        background: #FAFAFA; /* Lighter grey background */
+        text-align: left;
+        font-size:10px
+    }
+</style>
+
+<page_header>
+    <table align='center'>
+        <thead>
+            <tr>
+                <th style=\"width:10px;\" colspan=\"1\">
+                    <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
+                </th>
+                <th style=\"width:520px;font-size:13px;\" colspan=\"1\">
+                    <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
+                    <br> NIT 899999230-7<br>
+                    <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
+                </th>
+                <th style=\"width:130px;font-size:10px;\" colspan=\"1\">
+                    <br>CUENTA DE COBRO
+                    <br>No." . $consecutivo . "<br>
+                    <br>" . $fecha_cc . "<br><br>
+                </th>
+            </tr>
+        </thead>               <tr>
+                        <td>Entidad Concurrente:</td>
+                        <td colspan='2'>" . '&nbsp;&nbsp;' . $datos_basicos['entidad_nombre'] . "</td>
+                    </tr>
+                    <tr> 
+                        <td>NIT:</td>
+                        <td   colspan='2'>" . '&nbsp;&nbsp;' . $datos_basicos['entidad'] . "</td>
+                    </tr>
+                    <tr> 
+                        <td>Fecha Vencimiento Cuenta:</td>
+                        <td   colspan=\"2\">&nbsp;&nbsp; 30 días calendario a partir de la fecha de recibido</td>
+                    </tr>
+    </table>  
+</page_header>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+                <table>
+                    <tr>
+                        <td>Nombre Pensionado:</td>
+                        <td style=\"width:280px;\">" . '&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] . "</td>
+                        <td>Documento Pensionado:</td>
+                        <td style=\"width:280px;\">" . '&nbsp;&nbsp;' . $datos_basicos['cedula'] . "</td>
+                    </tr>
+                    <tr>
+                        <td>Nombre Sustituto:</td>
+                        <td style=\"width:280px;\"></td>
+                        <td>Documento Sustituto:</td>
+                        <td style=\"width:280px;\" ></td>
+                    </tr>
+                </table>
+                <br>
+                   <table>
+
+                    <tr>
+                        <th>Item</th>
+                        <th>Descripción</th>
+                        <th>DESDE</th>
+                        <th>HASTA</th>
+                        <th>Valor</th>
+                    </tr>
+                    <tr>
+                        <td style=\"text-align:center;\">1</td>
+                        <td>Cuotas Partes Pensionales (mesadas ordinarias y adicionales)</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
+                        <td>" . '&nbsp;&nbsp;' . number_format($totales_liquidacion[0]['liq_cuotap'] + $totales_liquidacion[0]['liq_mesada_ad']) . "</td>
+                    </tr>
+                    <tr>
+                        <td style=\"text-align:center;\">2</td>
+                        <td>Incremento en Cotización Salud</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
+                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_incremento']) . "</td>
+                    </tr>
+                    <tr>
+                        <td style=\"text-align:center;\">3</td>
+                        <td>Valor Intereses 12% Ley 68 de 1923</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
+                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_interes']) . "</td>
+                    </tr>
+                    <tr>
+                        <td style=\"text-align:center;\">4</td>
+                        <td>Valor Intereses Ley 1066 de 2006</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
+                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_interes']) . "</td>
+                    </tr>
+                    <tr>
+                        <td style=\"text-align:center;\">5</td>
+                        <td>Ajuste Pensión</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
+                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
+                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_ajustepen']) . "</td>
+                    </tr>
+                    <tr>
+                        <th   style=\"text-align:right;\" colspan=\"4\">TOTAL&nbsp;&nbsp;</th>
+                        <td >" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_total']) . "</td>
+            </tr>
+            <tr>
+            <td align = \"center\" style=\"width:775px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
+            </tr>
+            </table><br>             
+            <table   width = \"60%\">
+                    <tr>
+                        <td   align:justify style=\"font-size:12px;width:700px;\" colspan=\"2\">
+                            El (La) Jefe de la División de Recursos Humanos y la (el) Tesorero (a) de 
+                            la UNIVERSIDAD DISTRITAL FRANCISCO JOSE DE CALDAS, certifican que  la persona 
+                            por quien se realiza este cobro se encuentra incluida en nomina  de pensionados y se le ha pagado las mesadas cobradas.
+                            La supervivencia fue verificada de conformidad con el articulo 21 del Decreto 19 de 2012.</td>
+                    </tr>
+                    <tr>
+                        <td   align=justify style=\"font-size:12px;width:700px;text-align:justify;\" colspan=\"2\">
+                            La suma adeudada debe ser consignada (en efectivo, cheque de gerencia o transferencia electronica) en la Cuenta 
+                            de Ahorros No 251–80660–0 del Banco de Occcidente, a nombre del FONDO DE PENSIONES UNIVERSIDAD DISTRITAL y remitir 
+                            copia de la misma a la carrera 7 Nº 40-53, piso 6, Division de Recursos Humanos y al correo electronico rechumanos@udistrital.edu.co.
+                            <br><br>
+                            En caso de haber pagado parcial o totalmente esta cuenta, favor descontar el valor de dicho abono (s) del presente 
+                            cobro y remitir el (los) comprobante (s) del (los) pago (s) realizado (s).</td>
+                    </tr>
+                    <tr>
+                        <td   align=justify style=\"font-size:12px;\" >
+                            <br><br><br><br>
+                        </td>
+                        <td   align=justify style=\"font-size:12px;\">
+                            <br><br><br><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td   align=center style=\"width:384px;text-align:center;\">
+        " . $jefeTesoreria . "
+                            <br>Tesorero(a)
+                        </td>
+                        <td   align=center style=\"width:384px;text-align:center;\">
+        " . $jefeRecursos . "
+                            <br>Jefe(a) División de Recursos Humanos
+                        </td>
+                    </tr>
+                </table>
+         
+<br><br>
+
+<page_footer>
+    <table align='center' width='100%'>
+        <tr>
+            <td align='center' style=\"width: 750px;\">
+                Universidad Distrital Francisco José de Caldas
+                <br>
+                Todos los derechos reservados.
+                <br>
+                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+                <br>
+
+            </td>
+        </tr>
+    </table>
+    <p style=\"font-size:8px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+</page_footer> 
+              
+
+";
+        $PDF = new HTML2PDF('P', 'LETTER', 'es');
+        $PDF->writeHTML($ContenidoPdf);
+        $PDF->Output("FormatoCuentaCobro.pdf", "D");
+
+
+        $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion);
+    }
+
+    function generarPDF_Resumen($datos_basicos, $consecutivo, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos, $total_dias) {
+
+        ob_start();
+        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+
+        $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
+        $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+        $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' del ' . date('Y');
+
+        $total = 0;
+        $contenido = '';
+        foreach ($liquidacion_anual as $key => $values) {
+            $contenido.= " <tr> ";
+            $contenido.= "<td   colspan='1'>" . $liquidacion_anual[$key]['vigencia'] . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['cuota_parte']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada_adc']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['incremento']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['total']) . "</td> ";
+            $contenido.= "</tr> ";
+            $total = $liquidacion_anual[$key]['total'] + $total;
+        }
+
+
+
+        $ContenidoPdf = "
+<style type=\"text/css\">
+    table { 
+        color:#333; /* Lighten up font color */
+        font-family:Helvetica, Arial, sans-serif; /* Nicer font */
+
+        border-collapse:collapse; border-spacing: 3px; 
+    }
+
+    table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+    table.page_footer {width: 100%; border: none; background-color: #DDDDFF; border-top: solid 1mm #AAAADD; padding: 2mm}
+
+    td, th { 
+        border: 1px solid #CCC; 
+        height: 13px;
+    } /* Make cells a bit taller */
+
+    th {
+        background: #F3F3F3; /* Light grey background */
+        font-weight: bold; /* Make sure they're bold */
+        text-align: center;
+        font-size:10px
+    }
+
+    td {
+        background: #FAFAFA; /* Lighter grey background */
+        text-align: left;
+        font-size:10px
+    }
+</style>
+<page_header>
+    <table align='center'>
+        <thead>
+            <tr>
+                <th style=\"width:60px;\" colspan=\"1\">
+                    <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
+                </th>
+                <th style=\"width:490px;font-size:13px;\" colspan=\"1\">
+                    <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
+                    <br> NIT 899999230-7<br>
+                    <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
+                </th>
+                <th style=\"width:160px;font-size:10px;\" colspan=\"1\">
+                    <br>RESUMEN CUENTA DE COBRO
+                    <br>No." . $consecutivo . "<br>
+                    <br>" . $fecha_cc . "<br><br>
+                </th>
+            </tr>
+        </thead>      
+        <tr>
+            <td >Entidad Concurrente:</td>
+            <td colspan='2'>" . $datos_basicos['entidad_nombre'] . "</td>
+        </tr>
+        <tr> 
+            <td >NIT:</td>
+            <td colspan='2'>" . $datos_basicos['entidad'] . "</td>
+        </tr>
+    </table>  
+</page_header>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<table align='center' style=\"width: 750px;\">
+    <tr>
+        <th colspan=\"8\" style=\"width: 750px;\">DATOS PENSIONADO - PENSIÓN</th>
+    </tr>
+    <tr>
+        <td colspan='3'>Nombres y Apellidos del Titular:</td>
+        <td colspan='5'>" . $datos_basicos['nombre_emp'] . "</td>
+    </tr>
+    <tr>
+        <td colspan='3'>Documento:</td>
+        <td colspan='5'>" . $datos_basicos['cedula'] . "</td>
+    </tr>
+    <tr>
+        <td colspan='3'>Fecha de Nacimiento:</td>
+        <td colspan='5'>" . $datos_pensionado[0]['FECHA_NAC'] . "</td>
+    </tr>
+    <tr>
+        <td colspan='3'>Resolución Reconocimiento Concurrencia:</td>
+        <td colspan='5'>" . $datos_concurrencia[0]['dcp_actoadmin'] . "</td>
+    </tr>
+    <tr>
+        <td colspan='3'>Fecha de Efectividad:</td>
+        <td colspan='5'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))) . "</td>
+    </tr>
+    <tr>
+        <td colspan='3'>Fecha Inicio de Concurrencia:</td>
+        <td colspan='5'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']))) . "</td>
+    </tr>
+    <tr>
+        <td colspan='1'>Días a Cargo:</td>
+        <td colspan='1'>" . $dias_cargo . "</td>
+        <td colspan='1'>Total Días</td>
+        <td colspan='1'>" . $total_dias . "</td>
+        <td colspan='1'>Porcentaje Ingresado:</td>
+        <td colspan='1'>" . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' . "</td>
+        <td colspan='1'>Porcentaje Calculado:</td>
+        <td colspan='1'>" . \round(((($dias_cargo / $total_dias)) * 100), 3) . '&nbsp;%' . "</td>
+    </tr>
+    <tr>
+        <td colspan='2'>Mesada Inicial:</td>
+        <td colspan='2'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada']) . "</td>
+        <td colspan='2'>Cuota Parte:</td>
+        <td colspan='2'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota']) . "</td>
+    </tr>
+    <tr>
+        <td colspan='3'>Resolución que modifica o reliquida:</td>
+        <td colspan='5'></td>
+    </tr>
+</table>
+<br>
+<table align='center' >
+    <tr>
+        <th colspan=\"1\" width=\"5%\">PERIODO</th>
+        <th rowspan=\"2\" width=\"13.5%\">MONTO DE MESADA</th>
+        <th rowspan='2' width=\"13.5%\">CUOTA MENSUAL</th>
+        <th rowspan='2' width=\"13.5%\">MESADA ADICIONAL</th>
+        <th rowspan='2' width=\"13.5%\">INCREMENTO SALUD (7%)</th>
+        <th rowspan='2' width=\"13.5%\">INTERÉS LEY 68/1923</th>
+        <th rowspan='2' width=\"13.5%\">INTERÉS LEY 1066/2006</th>
+        <th rowspan='2' width=\"13.5%\">TOTAL AÑO</th>
+    </tr>
+    <tr>
+        <th colspan=\"1\">AÑO</th>
+    </tr>
+    " . $contenido . "
+    <tr>
+        <th  style=\"text-align:right;\" colspan=\"6\">Valor liquidado a la fecha de corte&nbsp;&nbsp;</th>
+        <td colspan=\"3\">&nbsp;$&nbsp;" . number_format($total) . "</td>
+    </tr>
+    <tr>
+        <th  style=\"text-align:right;\" colspan=\"6\">Ajuste al peso&nbsp;&nbsp;</th>
+        <td colspan=\"3\">&nbsp;$&nbsp;" . number_format($total) . "</td>
+    </tr>
+    <tr>
+        <th  style=\"text-align:right;\" colspan=\"6\">VALOR A COBRAR&nbsp;&nbsp;</th>
+        <td colspan=\"3\">&nbsp;$&nbsp;" . number_format($total) . "</td>
+    </tr>
+</table>
+<br>
+<table align='center'>
+    <tr>
+        <td style=\"text-align:center; width: 750px;\"><br><br><br><br>
+        </td>
+    </tr>
+    <tr>  
+        <td align='center' style=\"text-align:center; width: 750px;\" >
+            " . $jefeRecursos . "
+            <br>
+            Jefe(a) División de Recursos Humanos
+            <br>
+
+        </td>
+    </tr>
+</table>
+<br><br>
+<page_footer>
+    <table align='center' width='100%'>
+        <tr>
+            <td align='center' style=\"width: 750px;\">
+                Universidad Distrital Francisco José de Caldas
+                <br>
+                Todos los derechos reservados.
+                <br>
+                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+                <br>
+            </td>
+        </tr>
+    </table>
+    <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+</page_footer> ";
+
+        $PDF = new HTML2PDF('P', 'LETTER', 'es');
+        $PDF->writeHTML($ContenidoPdf);
+        $PDF->Output("FormatoCuentaResumen.pdf", "D");
+    }
+
+    function generarPDF_Detalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos) {
+
+        ob_start();
+        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+
+        $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
+        $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+        $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' del ' . date('Y');
+
+        $total = 0;
+        $contenido = '';
+        if (is_array($liquidacion)) {
+            foreach ($liquidacion as $key => $value) {
+                $contenido.="<tr>";
+                $contenido.="<td style='text-align:center;'>". date('Y-m', strtotime(str_replace('/', '-', $liquidacion[$key]['fecha'])))."</td>";
+                $contenido.="<td style='text-align:center;'>$". number_format($liquidacion[$key]['mesada'])."</td>";
+                $contenido.="<td style='text-align:center;' > ".$liquidacion[$key]['ajuste_pension']."</td>";
+                $contenido.="<td style='text-align:center;'>". number_format($liquidacion[$key]['mesada_adc'])."</td>";
+                $contenido.="<td style='text-align:center;'>".number_format($liquidacion[$key]['incremento'])."</td>";
+                $contenido.="<td style='text-align:center;'>$". number_format($liquidacion[$key]['interes'])."</td>";
+                $contenido.="<td style='text-align:center;'>$".number_format($liquidacion[$key]['cuota_parte'])."</td>";
+                $contenido.="<td style='text-align:center;'>$". number_format($liquidacion[$key]['total'])."</td>";
+                $contenido.="</tr>";
+            }
+        } else {
+            $contenido.="<tr>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="<td style='text-align:center;'></td>";
+            $contenido.="</tr>";
+        }
+
+        $total2=0;
+        $contenido2 = '';
+        if (is_array($totales_liquidacion)) {
+
+            foreach ($totales_liquidacion as $key => $values) {
+                $contenido2.="<tr>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_ajustepen']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_mesada_ad']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_incremento']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_cuotap']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_total']) . "</td>";
+                $contenido2.="</tr>";
+                $total2[$key] = $totales_liquidacion[$key][12];
+            }
+        } else {
+            $contenido2.="<tr>";
+            $contenido2.="<td style='text-align:center;'></td>";
+            $contenido2.="<td style='text-align:center;'></td>";
+            $contenido2.="<td style='text-align:center;'></td>";
+            $contenido2.="<td style='text-align:center;'></td>";
+            $contenido2.="<td style='text-align:center;'></td>";
+            $contenido2.="<td style='text-align:center;'></td>";
+            $contenido2.="<td style='text-align:center;'></td>";
+            $contenido2.="</tr>";
+        }
+        
+        $contenido3='';
+          foreach ($detalle_indice as $key => $values) {
+                $contenido3.="<tr>";
+                $contenido3.="<td style='text-align:center;'>" . $detalle_indice[$key]['vigencia'] . "</td> ";
+                $contenido3.="<td style='text-align:center;'>" . $detalle_indice[$key]['ipc'] . "</td> ";
+                $contenido3.="<td style='text-align:center;'>" . $detalle_indice[$key]['suma_fija'] . "</td> ";
+                $contenido3.="</tr>";
+            }
+
+        $ContenidoPdf = "
+ <style type=\"text/css\">
+        table { 
+            color:#333; /* Lighten up font color */
+            font-family:Helvetica, Arial, sans-serif; /* Nicer font */
+
+            border-collapse:collapse; border-spacing: 3px; 
+        }
+
+        table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+        table.page_footer {width: 100%; border: none; background-color: #DDDDFF; border-top: solid 1mm #AAAADD; padding: 2mm}
+
+        td, th { 
+            border: 1px solid #CCC; 
+            height: 13px;
+        } /* Make cells a bit taller */
+
+        th {
+            background: #F3F3F3; /* Light grey background */
+            font-weight: bold; /* Make sure they're bold */
+            text-align: center;
+            font-size:10px
+        }
+
+        td {
+            background: #FAFAFA; /* Lighter grey background */
+            text-align: left;
+            font-size:10px
+        }
+    </style>
+<page_header>
+    <table align='center'>
+        <thead>
+            <tr>
+                <th style=\"width:10px;\" rowspan=\"2\">
+                    <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
+                </th>
+                <th style=\"width:668px;font-size:12px;\" colspan=\"1\">
+                    <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
+                    <br> NIT 899999230-7<br>
+                    <br> DIVISIÓN DE RECURSOS HUMANOS<br>
+                    <br> Detalle Cuenta de Cobro 
+                <br>".$consecu_cc ."<br><br>
+            </th>
+        </tr>
+        <tr>
+            <th colspan=\"1\" style=\"font-size:10px; width:668px;\">".$fecha_cc."
+            </th>
+        </tr>
+    </thead>      
+
+    <tr>
+        <td>Entidad Concurrente:</td>
+        <td colspan='1'>".$datos_basicos['entidad_nombre'] ."</td>
+    </tr>
+    <tr> 
+        <td>NIT:</td>
+        <td colspan='1'>".$datos_basicos['entidad'] ."</td>
+    </tr>
+    <tr> 
+        <td>Fecha Corte Cuenta:</td>
+        <td colspan=\"2\">".$fecha_cobro ."</td>
+    </tr>
+</table>
+</page_header>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+  <table align='center'>
+        <tr>
+            <td>Nombre Pensionado:</td>
+            <td style=\"width:273px;\" colspan='1'>".$datos_basicos['nombre_emp'] ."</td>
+            <td>Documento Pensionado:</td>
+            <td style=\"width:273px;\" colspan='1'>".$datos_basicos['cedula'] ."</td>
+        </tr>
+        <tr>
+            <td>Nombre Sustituto:</td>
+            <td style=\"width:273px;\" colspan='1'></td>
+            <td>Documento Sustituto:</td>
+            <td style=\"width:273px;\" colspan='1'></td>
+        </tr>
+    </table>
+<br>
+  <table align='center'>
+        <tr>
+            <th colspan=\"8\" style=\"width:767px; font-size:12px;\">DETALLE DE LA LIQUIDACIÓN</th>
+        </tr>
+        <tr>
+            <th>CICLO</th>
+            <th>MESADA</th>
+            <th>AJUSTE PENSION</th>
+            <th>MESADA AD.</th>
+            <th>INCREMENTO SALUD</th>
+            <th>INTERESES</th>
+            <th>VALOR CUOTA</th>
+            <th>TOTAL MES</th>
+        </tr>
+            ".$contenido."
+    </table>
+<br>
+<page>
+<page_header>
+    <table align='center'>
+        <thead>
+            <tr>
+                <th style=\"width:10px;\" rowspan=\"2\">
+                    <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
+                </th>
+                <th style=\"width:668px;font-size:12px;\" colspan=\"1\">
+                    <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
+                    <br> NIT 899999230-7<br>
+                    <br> DIVISIÓN DE RECURSOS HUMANOS<br>
+                    <br> Detalle Cuenta de Cobro 
+                <br>".$consecu_cc ."<br><br>
+            </th>
+        </tr>
+        <tr>
+            <th colspan=\"1\" style=\"font-size:10px; width:668px;\">".$fecha_cc."
+            </th>
+        </tr>
+    </thead>      
+
+    <tr>
+        <td>Entidad Concurrente:</td>
+        <td colspan='1'>".$datos_basicos['entidad_nombre'] ."</td>
+    </tr>
+    <tr> 
+        <td>NIT:</td>
+        <td colspan='1'>".$datos_basicos['entidad'] ."</td>
+    </tr>
+    <tr> 
+        <td>Fecha Corte Cuenta:</td>
+        <td colspan=\"2\">".$fecha_cobro ."</td>
+    </tr>
+</table>
+</page_header>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <table align='center'>
+        <tr>
+            <th colspan=\"9\" style=\"width:767px; font-size:12px;\">PARCIALES LIQUIDACIÓN</th>
+        </tr>
+        <tr>
+            <th rowspan=\"2\">TOTAL</th>
+            <th>AJUSTE PENSION</th>
+            <th>MESADA AD.</th>
+            <th>INCREMENTO SALUD</th>
+            <th>INTERES LEY 68/1923</th>
+            <th>INTERES LEY 1066/2006</th>
+            <th>VALOR CUOTA</th>
+            <th>ACUMULADO</th>
+        </tr>".$contenido2."
+        <tr>
+        <th colspan = \"1\">TOTAL&nbsp;&nbsp;</th>
+            <td  colspan=\"8\" style='text-align:center'>$\"" . number_format($total2) ."</td>
+        </tr>
+        </table>
+        <br>
+    <table align='center'>
+        <tr>
+        <th colspan=\"3\" style=\"width:320px; font-size:12px;\">AJUSTES ANUALES PENSIÓN APLICADOS (Ley 4a/76, Ley 71/88 y Ley 100 de 1993)</th>
+        </tr>
+        <tr>
+            <th>VIGENCIA</th>
+            <th>PORCENTAJE (IPC)</th>
+            <th>SUMAFIJA</th>
+        </tr>
+       ".$contenido3."
+        </table>
+        <br>
+<table align='center'>
+    <tr>
+        <td style=\"text-align:center; width: 740px;\"><br><br><br><br>
+        </td>
+    </tr>
+    <tr>  
+        <td align='center' style=\"text-align:center; width: 750px;\" >
+            " . $jefeRecursos . "
+            <br>
+            Jefe(a) División de Recursos Humanos
+            <br>
+
+        </td>
+    </tr>
+</table>
+</page>
+<br><br>
+        <page_footer>
+        <table align='center'>
+        <tr>
+        <td align = 'center' style=\"width: 750px; text-align:center\">
+        Universidad Distrital Francisco José de Caldas
+        <br>
+        Todos los derechos reservados.
+        <br>
+        Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+        <br>
+        </td>
+        </tr>
+        </table>
+        <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+        </page_footer>
+        ";
+
+        $PDF = new HTML2PDF('P', 'LETTER', 'es');
+        $PDF->writeHTML($ContenidoPdf);
+        $PDF->Output("FormatoCuentaResumen.pdf", "D");
+    }
+
     function datosEntidad() {
         $parametros = array(
             'cedula' => (isset($_REQUEST['cedula']) ? $_REQUEST['cedula'] : ''));
@@ -71,16 +765,16 @@ class funciones_liquidador extends funcionGeneral {
         $datos_entidad = $this->consultarEntidades($parametros);
 
         if (!is_array($datos_entidad)) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
-            "</script> ";
-            error_log('\n');
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
+            echo "<script type = \"text/javascript\">" .
+                "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
+                "</script> ";
+        error_log('\n');
+        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+        $variable = 'pagina=formularioConcurrencia';
+        $variable.='&opcion=';
+        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        exit;
         }
 
         $temp_array = array();
@@ -415,7 +1109,7 @@ class funciones_liquidador extends funcionGeneral {
         $jefe_recursos = $this->consultarJefeRecursos($a);
 
 
-        $this->html_liquidador->reporteResumen($datos_basicos, $total_liquidacion, $conse_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefe_recursos);
+        $this->html_liquidador->reporteResumen($datos_basicos, $conse_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefe_recursos);
     }
 
     function reportesDetalle($datos_basicos, $consecutivo) {
@@ -549,33 +1243,32 @@ class funciones_liquidador extends funcionGeneral {
         return $año_liquidacion;
     }
 
-    function generar_pdfcuenta($datos_basicos, $consecutivocc, $totales_liq) {
+    function guardar_cuenta($datos_basicos, $consecutivocc, $totales_liq) {
 
         $parametros_x = array();
         $consecutivo = $this->consecutivoCC($parametros_x);
-
-        $consecutivo_cc = $this->generarConsecutivo($parametros);
+        $consecutivo_cc = $this->generarConsecutivo($parametros_x);
 
         $cons = intval($consecutivo[0][0]) + 1;
 
-        $subtotal = $totales_liq[0]['liq_mesada'] + $totales_liq[0]['liq_mesada_ad'];
-        $t_s_interes = $subtotal + $totales_liq[0]['liq_incremento'];
+        $subtotal = $totales_liq[0]['liq_cuotap'] + $totales_liq[0]['liq_mesada_ad'];
+        $t_s_interes = $subtotal + $totales_liq[0]['liq_incremento'] + $totales_liq[0]['liq_ajustepen'];
 
         $parametros = array(
             'id_liq' => $totales_liq[0]['liq_consecutivo'],
             'id_cuentac' => $cons,
             'fecha_generacion' => $totales_liq[0]['liq_fgenerado'],
             'cedula' => $totales_liq[0]['liq_cedula'],
-            'empleador' => null,
             'previsor' => $totales_liq[0]['liq_nitprev'],
             'consecutivo_cc' => $consecutivo_cc,
             'saldo_fecha' => $totales_liq[0]['liq_total'],
             'fecha_inicial' => $totales_liq[0]['liq_fdesde'],
             'fecha_final' => $totales_liq[0]['liq_fhasta'],
-            'mesada' => $totales_liq[0]['liq_mesada'],
+            'mesada_ordinaria' => $totales_liq[0]['liq_cuotap'],
             'mesada_adc' => $totales_liq[0]['liq_mesada_ad'],
             'subtotal' => $subtotal,
             'incremento' => $totales_liq[0]['liq_incremento'],
+            'ajuste_pension' => $totales_liq[0]['liq_ajustepen'],
             't_sin_interes' => $t_s_interes,
             'interes' => $totales_liq[0]['liq_interes'],
             't_con_interes' => $totales_liq[0]['liq_total'],
@@ -591,9 +1284,9 @@ class funciones_liquidador extends funcionGeneral {
 
         if ($datos_registrados == true) {
             $registro[0] = "GUARDAR";
-            $registro[1] = $parametros['cedula'] . '|' . $parametros['empleador'] . '|' . $parametros['previsor']; //
+            $registro[1] = $parametros['cedula'] . '|' . $parametros['previsor']; //
             $registro[2] = "CUOTAS_PARTES-CuentaCobroSistema";
-            $registro[3] = $parametros['consecutivo_cc'] . '|' . $parametros['fecha_inicial'] . '|' . $parametros['fecha_final'] . '|' . $parametros['mesada']
+            $registro[3] = $parametros['consecutivo_cc'] . '|' . $parametros['fecha_inicial'] . '|' . $parametros['fecha_final'] . '|' . $parametros['mesada_ordinaria']
                     . '|' . $parametros['mesada_adc'] . '|' . $parametros['subtotal'] . '|' . $parametros['incremento'] . '|' . $parametros['t_sin_interes'] . '|' . $parametros['interes']
                     . '|' . $parametros['t_con_interes'] . '|' . $parametros['saldo_fecha'] . '|' . $parametros['fecha_recibido']; //
             $registro[4] = time();
@@ -605,8 +1298,8 @@ class funciones_liquidador extends funcionGeneral {
             "alert('Datos Registrados');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = "pagina=reportesCuotas";
-            $variable .= "&opcion=";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=consulta_cp';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
@@ -614,12 +1307,6 @@ class funciones_liquidador extends funcionGeneral {
             echo "<script type=\"text/javascript\">" .
             "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
             "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = "pagina=liquidadorCP";
-            $variable .= "&opcion=reporte_inicio";
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
         }
     }
 
@@ -655,7 +1342,7 @@ class funciones_liquidador extends funcionGeneral {
             'interes' => 0,
             'total' => 0,
         );
-        
+
         foreach ($liquidacion_periodo as $key => $value) {
             $calculo_totales['mesada'] = $liquidacion_periodo[$key]['mesada'] + $calculo_totales['mesada'];
             $calculo_totales['ajuste_pension'] = $liquidacion_periodo[$key]['ajuste_pension'] + $calculo_totales['ajuste_pension'];
@@ -709,7 +1396,7 @@ class funciones_liquidador extends funcionGeneral {
             //$INTERESES = $this->Intereses($FECHAS[$key], $CUOTAPARTE, $MESADAADICIONAL, $fecha_desde_liquidación);
             $INTERESES = 0;
             //Valor Total Mes liquidado
-            $TOTAL = $AJUSTEPENSIONAL + $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES + $MESADA;
+            $TOTAL = $AJUSTEPENSIONAL + $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
             $TOTAL = round($TOTAL, 0);
 
             //**************SALIDA FINAL****************//
@@ -1297,6 +1984,8 @@ class funciones_liquidador extends funcionGeneral {
     }
 
 }
+
+
 
 // fin de la clase
 ?>

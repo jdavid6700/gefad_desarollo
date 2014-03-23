@@ -607,6 +607,8 @@ class html_liquidador {
                                     });
                                 });
         </script>
+
+
         <form method="post" action='index.php' name='<? echo $this->formulario; ?>' >
             <h1>Reportes Cuota Parte para la Entidad <? echo $datos_basicos['entidad_nombre'] ?> </h1>
 
@@ -662,7 +664,7 @@ class html_liquidador {
             </center>
             <br>
             <center>
-                <table class='bordered'  width ="95%" >
+                <table class='bordered'  width ="90%" >
                     <tr>
                         <th colspan="14" class="subtitulo_th" style="font-size:12px;">DETALLE DE LA LIQUIDACIÓN</th>
                     </tr>
@@ -763,6 +765,8 @@ class html_liquidador {
         <?
     }
 
+    //PDF
+
     function reporteDetalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -799,6 +803,16 @@ class html_liquidador {
             <h1>Liquidación Cuota Parte para la Entidad <? echo $datos_basicos['entidad_nombre'] ?> </h1>
 
             <center>
+                <a href=
+                   "<?
+                   $variable = "pagina=liquidadorCP";
+                   $variable.="&opcion=recuperar_formato";
+                   $variable.="&cedula=" . $datos_basicos['cedula'];
+                   $variable.="&prev_nit=" . $datos_basicos['entidad'];
+                   $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                   echo $this->indice . $variable;
+                   ?>"><p style="font-size:12px; color: red; text-align: left"> <<< Volver a Reportes</p></a>
+                <br><br><br>
                 <table class='bordered'  width ="68%">
                     <thead>
                         <tr>
@@ -987,7 +1001,7 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class = 'estilo_td' align = center style = "font-size:12px" colspan = "9">
-                            <? echo $jefeRecursos[0][0]?>
+                            <? echo $jefeRecursos[0][0] ?>
                             <br>Jefe(a) División de Recursos Humanos
                         </td>
                     </tr>
@@ -1000,17 +1014,32 @@ class html_liquidador {
             </center>
 
             <br><br><br>
-
             <div>
                 <div class="null"></div>
-                <input id="generarBoton" type="submit" class="navbtn" name="reportes_formato" value="Generar PDF">
-                <input type='hidden' name='pagina' value='liquidadorCP'>
-                <input type='hidden' name='opcion' value='formatos'>
+                <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
+                <input type='hidden' name='no_pagina' value="liquidadorCP">
+                <input type='hidden' name='opcion' value='pdf_detalle'>
                 <input type="hidden" name='datos_basicos' value='<?php echo serialize($datos_basicos) ?>'>
                 <input type="hidden" name='totales_liquidacion' value='<?php echo serialize($totales_liquidacion) ?>'>
+                <input type="hidden" name='detalle_indice' value='<?php echo serialize($detalle_indice) ?>'>
                 <input type="hidden" name='liquidacion' value='<?php echo serialize($liquidacion) ?>'>
+                <input type="hidden" name='consecutivo' value='<?php echo $consecu_cc ?>'>
+                <input type="hidden" name='fecha_cobro' value='<?php echo $fecha_cobro?>'>
+                <input type="hidden" name='jRecursos' value='<?php echo $jefeRecursos[0][0] ?>'>
             </div>
         </form>
+
+        <a href=
+           "<?
+           $variable = "pagina=liquidadorCP";
+           $variable.="&opcion=recuperar_formato";
+           $variable.="&cedula=" . $datos_basicos['cedula'];
+           $variable.="&prev_nit=" . $datos_basicos['entidad'];
+           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+           echo $this->indice . $variable;
+           ?>"><p style="font-size:12px; color: red; text-align: left"> <<< Volver a Reportes</p></a>
+        <br><br><br>
+
 
         <?
     }
@@ -1022,6 +1051,7 @@ class html_liquidador {
 
         $this->formulario = "liquidador";
         ?>
+
         <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/liquidador/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
         <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
@@ -1031,6 +1061,17 @@ class html_liquidador {
             <h1>Cuenta Cobro para la Entidad <? echo $datos_basicos['entidad_nombre'] ?> </h1>
 
             <center>
+                <a href=
+                   "<?
+                   $variable = "pagina=liquidadorCP";
+                   $variable.="&opcion=recuperar_formato";
+                   $variable.="&cedula=" . $datos_basicos['cedula'];
+                   $variable.="&prev_nit=" . $datos_basicos['entidad'];
+                   $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                   echo $this->indice . $variable;
+                   ?>"><p style="font-size:12px; color: red; text-align: left"> <<< Volver a Reportes</p></a>
+
+                <br><br>
                 <table class='bordered'  width ="68%">
                     <thead>
                         <tr>
@@ -1127,17 +1168,10 @@ class html_liquidador {
                     <tr>
                         <td class='texto_elegante estilo_td'>5</td>
                         <td class='texto_elegante estilo_td'>Ajuste Pensión</td>
-                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fdesde'] ?></td>
-                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fhasta'] ?></td>
-                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_ajustepen']) ?></td>
+                        <td class='texto_elegante estilo_td'><? echo '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] ?></td>
+                        <td class='texto_elegante estilo_td'><? echo '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] ?></td>
+                        <td class='texto_elegante estilo_td'><? echo '&nbsp;&nbsp;$' . number_format($totales_liquidacion[0]['liq_ajustepen']) ?></td>
                     </tr>
-                    <!--tr>
-                        <td class='texto_elegante estilo_td'>5</td>
-                        <td class='texto_elegante estilo_td'>Otros</td>
-                        <td class='texto_elegante estilo_td'>dd/mm/YYYY</td>
-                        <td class='texto_elegante estilo_td'>dd/mm/YYYY</td>
-                        <td class='texto_elegante estilo_td'>$___________</td>
-                    </tr--->
                     <tr>
                         <th class='subtitulo_th2' colspan="4">TOTAL&nbsp;&nbsp;</th>
                         <td class='texto_elegante estilo_td3'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_total']) ?></td>
@@ -1147,7 +1181,6 @@ class html_liquidador {
                     </tr>
                 </table>
             </center>
-
             <br>
             <center>
                 <table class='bordered'  width ="60%">
@@ -1189,25 +1222,35 @@ class html_liquidador {
                 <p style="font-size:12px">UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                 <p style="font-size:12px">Carrera 7 40-53 PBX: 323 93 00, Ext. 1618 - 1603.
             </center>
-
             <br>
-
             <div>
                 <div class="null"></div>
                 <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
-                <input type='hidden' name='pagina' value='liquidadorCP'>
+                <input type='hidden' name='no_pagina' value="liquidadorCP">
                 <input type='hidden' name='opcion' value='pdf_cuenta'>
                 <input type="hidden" name='datos_basicos' value='<?php echo serialize($datos_basicos) ?>'>
                 <input type="hidden" name='totales_liquidacion' value='<?php echo serialize($totales_liquidacion) ?>'>
                 <input type="hidden" name='consecutivo' value='<?php echo $consecutivo ?>'>
-
+                <input type="hidden" name='letras' value='<?php echo $enletras ?>'>
+                <input type="hidden" name='jRecursos' value='<?php echo $jefeRecursos[0][0] ?>'>
+                <input type="hidden" name='jTesoreria' value='<?php echo $jefeTesoreria[0][0] ?>'>
             </div>
         </form>
 
+        <a href=
+           "<?
+           $variable = "pagina=liquidadorCP";
+           $variable.="&opcion=recuperar_formato";
+           $variable.="&cedula=" . $datos_basicos['cedula'];
+           $variable.="&prev_nit=" . $datos_basicos['entidad'];
+           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+           echo $this->indice . $variable;
+           ?>"><p style="font-size:12px; color: red; text-align: left"> <<< Volver a Reportes</p></a>
+        <br><br><br>
         <?
     }
 
-    function reporteResumen($datos_basicos, $totales_liquidacion, $consecu_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos) {
+    function reporteResumen($datos_basicos, $consecu_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -1223,6 +1266,16 @@ class html_liquidador {
             <h2>Resumen Cuenta Cobro para la Entidad <? echo $datos_basicos['entidad_nombre'] ?> </h2><br><br>
 
             <center>
+                <a href=
+                   "<?
+                   $variable = "pagina=liquidadorCP";
+                   $variable.="&opcion=recuperar_formato";
+                   $variable.="&cedula=" . $datos_basicos['cedula'];
+                   $variable.="&prev_nit=" . $datos_basicos['entidad'];
+                   $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                   echo $this->indice . $variable;
+                   ?>"><p style="font-size:12px; color: red; text-align: left"> <<< Volver a Reportes</p></a>
+                <br><br><br>
                 <table class='bordered'  width ="60%">
                     <thead>
                         <tr>
@@ -1272,7 +1325,7 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Fecha de Nacimiento:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_pensionado[0]['FECHA_NAC']; ?></td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_pensionado[0]['FECHA_NAC'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Resolución Reconocimiento Concurrencia:</td>
@@ -1408,17 +1461,34 @@ class html_liquidador {
                 <p style="font-size:12px">UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                 <p style="font-size:12px">Carrera 7 40-53 PBX: 323 93 00, Ext. 1618 - 1603.
             </center>
-
-            <br>
+            <br><br>
 
             <div>
                 <div class="null"></div>
-                <input id="generarBoton" type="submit" class="navbtn" name="reportes_formato" value="Generar PDF">
-                <input type='hidden' name='pagina' value='liquidadorCP'>
-                <input type='hidden' name='opcion' value='formatos'>
-
+                <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
+                <input type='hidden' name='no_pagina' value="liquidadorCP">
+                <input type='hidden' name='opcion' value='pdf_resumen'>
+                <input type="hidden" name='datos_basicos' value='<?php echo serialize($datos_basicos) ?>'>
+                <input type="hidden" name='datos_concurrencia' value='<?php echo serialize($datos_concurrencia) ?>'>
+                <input type="hidden" name='datos_pensionado' value='<?php echo serialize($datos_pensionado) ?>'>
+                <input type="hidden" name='liquidacion_anual' value='<?php echo serialize($liquidacion_anual) ?>'>
+                <input type="hidden" name='consecutivo' value='<?php echo $consecu_cc ?>'>
+                <input type="hidden" name='dias_cargo' value='<?php echo $dias_cargo[$datos_basicos['entidad']]['total_dia'] ?>'>
+                <input type="hidden" name='total_dias' value='<?php echo $dias_cargo['Total'] ?>'>
+                <input type="hidden" name='jRecursos' value='<?php echo $jefeRecursos[0][0] ?>'>
             </div>
         </form>
+
+        <a href=
+           "<?
+           $variable = "pagina=liquidadorCP";
+           $variable.="&opcion=recuperar_formato";
+           $variable.="&cedula=" . $datos_basicos['cedula'];
+           $variable.="&prev_nit=" . $datos_basicos['entidad'];
+           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+           echo $this->indice . $variable;
+           ?>"><p style="font-size:12px; color: red; text-align: left"> <<< Volver a Reportes</p></a>
+        <br><br><br>
 
         <?
     }

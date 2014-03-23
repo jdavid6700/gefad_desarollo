@@ -46,7 +46,6 @@ class bloqueLiquidador extends bloque {
                 $this->funcion->datosEntidad();
                 break;
 
-
             case "liquidarfechas":
                 $periodo_liquidar = array();
                 foreach ($_REQUEST as $key => $values) {
@@ -98,17 +97,14 @@ class bloqueLiquidador extends bloque {
                 break;
 
             case "reporte_inicio":
-
                 $this->funcion->datosInicialesReporte();
                 break;
 
             case "recuperar_reporte":
-
                 $this->funcion->datosEntidadReporte();
                 break;
 
             case "recuperar_formato":
-
                 $datos_basicos = array(
                     'cedula' => (isset($_REQUEST['cedula']) ? $_REQUEST['cedula'] : ''),
                     'entidad' => (isset($_REQUEST['prev_nit']) ? $_REQUEST['prev_nit'] : ''),
@@ -120,8 +116,39 @@ class bloqueLiquidador extends bloque {
                 $datos_basicos = unserialize($_REQUEST['datos_basicos']);
                 $consecutivo = $_REQUEST['consecutivo'];
                 $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
+                $enletras = $_REQUEST['letras'];
+                $jefeRecursos = $_REQUEST['jRecursos'];
+                $jefeTesoreria = $_REQUEST['jTesoreria'];
 
-                $this->funcion->generar_pdfcuenta($datos_basicos, $consecutivo, $totales_liquidacion);
+                $this->funcion->generarPDF_Cuenta($datos_basicos, $totales_liquidacion, $enletras, $consecutivo, $jefeRecursos, $jefeTesoreria);
+
+                break;
+
+            case "pdf_resumen":
+
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $datos_pensionado = unserialize($_REQUEST['datos_pensionado']);
+                $datos_concurrencia = unserialize($_REQUEST['datos_concurrencia']);
+                $liquidacion_anual = unserialize($_REQUEST['liquidacion_anual']);
+                $consecutivo = $_REQUEST['consecutivo'];
+                $dias_cargo = $_REQUEST['dias_cargo'];
+                $total_dias = $_REQUEST['total_dias'];
+                $jefeRecursos = $_REQUEST['jRecursos'];
+
+                $this->funcion->generarPDF_Resumen($datos_basicos, $consecutivo, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos, $total_dias);
+                break;
+                
+            case "pdf_detalle":
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $detalle_indice = unserialize($_REQUEST['detalle_indice']);
+                $datos_concurrencia = unserialize($_REQUEST['datos_concurrencia']);
+                $liquidacion= unserialize($_REQUEST['liquidacion']);
+                $totales_liquidacion= unserialize($_REQUEST['totales_liquidacion']);
+                $consecu_cc=$_REQUEST['consecutivo'];
+                $fecha_cobro=$_REQUEST['fecha_cobro'];
+                $jefeRecursos=$_REQUEST['jRecursos'];
+
+                $this->funcion->generarPDF_Detalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos);
                 break;
 
             default:

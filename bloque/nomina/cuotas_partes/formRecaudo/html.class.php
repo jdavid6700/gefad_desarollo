@@ -115,7 +115,7 @@ class html_formRecaudo {
         <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
         <form method='POST' action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
 
-            <h2>Ingrese la cédula a consultar <br>Historial de Recaudos: </h2>
+            <h2>Ingrese la cédula a consultar <br>Estado de Cuenta: </h2>
             <br>
             <input type="text" name="cedula_emp" required='required' onKeyPress='return acceptNum(event)' title="*Campo Obligatorio">
             <br><br>
@@ -265,7 +265,7 @@ class html_formRecaudo {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <form id="form" method="post" action='index.php' name='<? echo $this->formulario; ?>' autocomplete='off'>
-            <h2>Ingrese los parámetros para consultar <br>Recaudos registrados:</h2>
+            <h2>Ingrese los parámetros para consultar <br>Estado de Cuenta:</h2>
             <div class="formrow f1">
                 <div class="formrow f1">
                     <div id="p1f4" class="field n1">
@@ -334,7 +334,7 @@ class html_formRecaudo {
         <?
     }
 
-    function reporteCobrosPagos($historial, $cobros, $saldo_cuenta) {
+    function estadoCuenta($datos_basicos, $datos_recaudos, $cobros, $saldo_cc, $datos_concurrencia) {
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -359,31 +359,109 @@ class html_formRecaudo {
         <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
-        <h2>Reporte de Cobros y Recaudos</h2>
-
-        <h1>Cuentas de Cobro Registradas</h1>
-
+        <h1>Reporte Estado de Cuenta</h1>
+        <br>
         <form id="<? echo $this->formulario; ?>" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
-            <center> <table class='bordered'  width ="75%" align="center">
+            <center>
+                <table class='bordered'  width ="77%">
+                    <thead>
+                        <tr>
+                            <th  class='encabezado_registro' width="15%" colspan="1" rowspan="2">
+                                <img alt="Imagen" width="40%" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/Images/escudo1.png" />
+                            </th>
+                            <th  colspan="3" style="font-size:14px;" class='subtitulo_th centrar'>
+                                <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
+                                <br> NIT 899999230-7<br><br>
+                                Detalle Estado de Cuenta<br><br>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="font-size:12px;" class='subtitulo_th2'>
+                                <?
+                                $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
+                                $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+                                echo "Bogotá D.C, " . $fecha_cc = $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
+                                ?>
+
+                            </th>
+                        </tr>
+                    </thead>  
+                </table>
+            </center>
+            <br>
+            <center>
+                <table class='bordered'  width ="77%">
+
                     <tr>
-                        <th colspan="11" class='encabezado_registro'>CUENTAS COBRO REGISTRADAS</th>
-                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                        <th colspan="4" style="font-size:12px;" class='subtitulo_th'>
+                            DATOS BÁSICOS
+                        </th>
                     </tr>
                     <tr>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;FECHA GENERACIÓN&nbsp;</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;ENTIDAD EMPLEADOR&nbsp;</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>NIT ENTIDAD PREVISORA</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>CONSECUTIVO CUENTA COBRO</td>
-                        <td colspan="2" class='texto_elegante2 estilo_td' align=center>PERIODO DE COBRO</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;VALOR SIN INTERÉS&nbsp;</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;INTERÉS&nbsp;</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;TOTAL CON INTERÉS&nbsp;</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;SALDO&nbsp;</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;IE_CORRESPONDENCIA&nbsp;</td>
+                        <td class='texto_elegante estilo_td' >Nombre Pensionado:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
+                        <td class='texto_elegante estilo_td' >Documento del Pensionado:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante2 estilo_td' style="text-align:center" >INICIO</td>
-                        <td class='texto_elegante2 estilo_td' style="text-align:center" >FIN</td>
+                        <td class='texto_elegante estilo_td' >Entidad Concurrente:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['entidad_nombre'] ?></td>
+                        <td class='texto_elegante estilo_td' >NIT:</td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . $datos_basicos['entidad'] ?></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" style="font-size:12px;" class='subtitulo_th'>
+                            DATOS DE LA CONCURRENCIA
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class='texto_elegante estilo_td' >Fecha Pensión:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension']))); ?></td>
+                        <td class='texto_elegante estilo_td' >Fecha Inicio Concurrencia:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']))); ?></td>
+                    </tr>
+                    <tr>
+                        <td class='texto_elegante estilo_td' >Acto Administrativo:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_concurrencia[0]['dcp_actoadmin'] ?></td>
+                        <td class='texto_elegante estilo_td' >Fecha Acto Adminsitrativo:</td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))); ?></td>
+                    </tr>
+                    <tr>
+                        <td class='texto_elegante estilo_td' >Mesada Inicial:</td>
+                        <td class='texto_elegante estilo_td ' colspan='3'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_mesada']) ?></td>
+                    </tr>
+                    <tr>
+                        <td class='texto_elegante estilo_td' >Porcentaje Cuota Aceptada:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . "%" ?></td>
+                        <td class='texto_elegante estilo_td' >Valor de la Cuota Aceptada:</td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_cuota']) ?></td>
+                    </tr>
+                    <tr>
+                        <td class='texto_elegante estilo_td' >Mesada a la Fecha:</td>
+                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_mesada']) ?></td>
+                        <td class='texto_elegante estilo_td' >Valor de la Cuota a la Fecha:</td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo '&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_mesada']) ?></td>
+                    </tr>
+                </table>
+            </center>
+            <br>
+            <center>
+                <table class='bordered'  width ="77%" align="center">
+                    <tr>
+                        <th colspan="8"  style="font-size:12px;" class='subtitulo_th'>CUENTAS COBRO REGISTRADAS</th>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;" align=center>CONSECUTIVO CUENTA COBRO</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;" align=center>IE_CORRESPONDENCIA</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;" align=center>FECHA GENERACIÓN</td>
+                        <td colspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;" align=center>PERIODO DE COBRO</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;" align=center>VALOR SIN INTERÉS</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;" align=center>INTERÉS</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;" align=center>TOTAL</td>
+                    </tr>
+                    <tr>
+                        <td class='texto_elegante2 estilo_td4' style="text-align:center ;font-size:10px;" >INICIO</td>
+                        <td class='texto_elegante2 estilo_td4' style="text-align:center;font-size:10px;">FIN</td>
                     </tr>
                     <tr>
                         <?
@@ -391,23 +469,68 @@ class html_formRecaudo {
 
                             foreach ($cobros as $key => $value) {
                                 echo "<tr id='yesOptions'>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_fgenerado'] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitemp'] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitprev'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_consecu_cta'] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_finicial'] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_ffinal'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_ie_correspondencia'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . date('d/m/Y', strtotime(str_replace('/', '-', $cobros[$key]['cob_fgenerado']))) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . date('d/m/Y', strtotime(str_replace('/', '-', $cobros[$key]['cob_finicial']))) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . date('d/m/Y', strtotime(str_replace('/', '-', $cobros[$key]['cob_ffinal']))) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_ts_interes']) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_interes']) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_tc_interes']) . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$&nbsp" . number_format($cobros[$key]['cob_saldo']) . "</td>"; //SALDO * * * * * *
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_ie_correspondencia'] . "</td>";
                                 echo "</tr>";
                             }
                         } else {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                </table >
+            </center>     <br>
+            <center>
+                <table class='bordered'  width ="77%" align="center">
+                    <tr>
+                        <th colspan="10"  style="font-size:12px;" class='subtitulo_th'>RECAUDOS REGISTRADOS</th>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>CONSECUTIVO RECAUDO</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>RES. OP</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>FECHA RES. OP</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>FECHA PAGO</td>
+                        <td colspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>PERIODO PAGO</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>VALOR A CAPITAL</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>VALOR A INTERESES</td>
+                        <td rowspan="2" class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>TOTAL</td>
+                    </tr>
+                    <tr>
+                        <td class='texto_elegante2 estilo_td4' style="text-align:center ;font-size:10px;" >INICIO</td>
+                        <td class='texto_elegante2 estilo_td4' style="text-align:center;font-size:10px;">FIN</td>
+                    </tr>
+                    <tr>
+                        <?
+                        if (is_array($datos_recaudos)) {
+                            foreach ($datos_recaudos as $key => $value) {
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['recta_consecu_rec'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['rec_resolucionop'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['rec_fecha_resolucion'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['recta_fechapago'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['recta_fechadesde'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['recta_fechahasta'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($datos_recaudos[$key]['rec_pago_capital']) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($datos_recaudos[$key]['rec_pago_interes']) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($datos_recaudos[$key]['rec_total_recaudo']) . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -422,61 +545,52 @@ class html_formRecaudo {
                         ?>
                 </table >
             </center>
-        </form>
-
-        <br><br>
-
-        <h1>Recaudos Registrados</h1>
-
-        <center><table class='bordered'  width ="75%" align="center">
-                <tr>
-                    <th colspan="11" class='encabezado_registro'>RECAUDOS REGISTRADOS</th>
-                    <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
-                </tr>
-                <tr>
-                    <td  class='texto_elegante2 estilo_td' align=center>&nbsp;ENTIDAD PREVISIN&nbsp;</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>&nbsp;CONSECUTIVO CUENTA COBRO&nbsp;</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>IE_CORRESPONDENCIA</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>RES. ORDEN DE PAGO</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>FECHA RES. ORDEN DE PAGO</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>FECHA PAGO</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>&nbsp;VALOR A CAPITAL&nbsp;</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>&nbsp;VALOR A INTERESES&nbsp;</td>
-                    <td  class='texto_elegante2 estilo_td' align=center>&nbsp;MEDIO DE PAGO&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <?
-                    if (is_array($historial)) {
-                        foreach ($historial as $key => $value) {
+            <br>
+            <center>
+                <table class='bordered'  width ="77%" align="center">
+                    <tr>
+                        <th colspan="11"  style="font-size:12px;" class='subtitulo_th'>RELACIÓN DE SALDOS</th>
+                    </tr>
+                    <tr>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>CONSECUTIVO CUENTA COBRO</td>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>&nbsp;CONSECUTIVO RECAUDO&nbsp;</td>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>VALOR TOTAL COBRO</td>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>VALOR TOTAL RECAUDO</td>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>SALDO</td>
+                    </tr>
+                    <tr>
+                        <?
+                        if (is_array($datos_recaudos)) {
+                            foreach ($datos_recaudos as $key => $value) {
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['recta_consecu_rec'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['recta_consecu_rec'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['rec_resolucionop'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['rec_fecha_resolucion'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_recaudos[$key]['recta_fechapago'] . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['prev_nombre'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['recta_consecu_cta'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['cob_ie_correspondencia'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['rec_resolucionop'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['rec_fecha_resolucion'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['recta_fechapago'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($historial[$key]['rec_pago_capital']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$" . number_format($historial[$key]['rec_pago_interes']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historial[$key]['rec_medio_pago'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                             echo "</tr>";
                         }
-                    } else {
-                        echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-            </table >
-        </center>
+                        ?>
+                </table >
+            </center>
+                <br><br><br>
+
+            <div>
+                <div class="null"></div>
+                <input id="generarBoton" type="submit" class="navbtn" name="reportes_formato" value="Generar PDF">
+                <input type='hidden' name='pagina' value='liquidadorCP'>
+                <input type='hidden' name='opcion' value=''>
+            </div>
+        </form>
         <?
     }
 
@@ -544,7 +658,7 @@ class html_formRecaudo {
                     </tr>
                     <tr>
                         <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;FECHA GENERACIÓN&nbsp;</td>
-                        <td rowspan="2" class='texto_elegante2 estilo_td' align=center>&nbsp;ENTIDAD EMPLEADOR&nbsp;</td>
+            
                         <td rowspan="2" class='texto_elegante2 estilo_td' align=center>NIT ENTIDAD PREVISORA</td>
                         <td rowspan="2" class='texto_elegante2 estilo_td' align=center>CONSECUTIVO CUENTA COBRO</td>
                         <td colspan="2" class='texto_elegante2 estilo_td' align=center>PERIODO DE COBRO</td>
@@ -567,7 +681,7 @@ class html_formRecaudo {
                                 $saldo = $cobros[$key]['cob_saldo'];
                                 echo "<tr id='yesOptions'>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_fgenerado'] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitemp'] . "</td>";
+                       
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitprev'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_consecu_cta'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_finicial'] . "</td>";
@@ -581,7 +695,7 @@ class html_formRecaudo {
                                      
                                   <input type='hidden' name='consecutivo_pagar[" . $key . "]' value='" . $cobros[$key]['cob_consecu_cta'] . "'>
                                   <input type='hidden' name='fecha_cuenta[" . $key . "]' value='" . $cobros[$key]['cob_fgenerado'] . "'>
-                                  <input type='hidden' name='entidad_empleador[" . $key . "]' value='" . $cobros[$key]['cob_nitemp'] . "'>
+                                
                                   <input type='hidden' name='entidad_previsora[" . $key . "]' value='" . $cobros[$key]['cob_nitprev'] . "'>
                                   <input type='hidden' name='fechai_pago[" . $key . "]' value='" . $cobros[$key]['cob_finicial'] . "'>
                                   <input type='hidden' name='fechaf_pago[" . $key . "]' value='" . $cobros[$key]['cob_ffinal'] . "'>
@@ -684,7 +798,7 @@ class html_formRecaudo {
 
         $identificacion = $cuentas_pago[0]['identificacion'];
         $nit_previsora = $cuentas_pago[0]['previsor'];
-        $nit_empleador = $cuentas_pago[0]['empleador'];
+      
 
         $maxDate = $fecha_minima_datepicker;
 
@@ -725,6 +839,17 @@ class html_formRecaudo {
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_resolucion").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
+            });
+
+            $(document).ready(function() {
+                $("#fecha_acto_adm").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1980:c',
+                    maxDate: "+2M",
+                    dateFormat: 'dd/mm/yy'
+                });
+                $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
 
         <? foreach ($fecha_cobro as $key => $values) { ?>
@@ -815,7 +940,7 @@ class html_formRecaudo {
             echo "var cadenag = cadena.getTime();\n\n";
 
             echo "if (cadenag > ming && cadenag < maxg) {\n";
-            // echo "alert(min  cadena  max)\n\n";
+// echo "alert(min  cadena  max)\n\n";
             echo "alert('Periodo pago inválido. Fuera del periodo de cobro.')\n";
             echo " return false\n";
             echo "    }\n\n";
@@ -1066,19 +1191,6 @@ class html_formRecaudo {
                 </div>
 
                 <div class="formrow f1">
-                    <div id="p1f7" class="field n1">
-                        <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit. Entidad<BR>  Empleadora</span></span></span></label>
-                        </div>
-                        <div class="control capleft">
-                            <div>
-                                <input type="text" title="*Campo Obligatorio" id="resolucion" onpaste="return false" name="nit_empleador" class="fieldcontent" readonly required='required' onKeyPress='return acceptNum(event)' value='<? echo $nit_empleador ?>'>
-                            </div> 
-                        </div> 
-                    </div>
-                </div>
-
-                <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit Entidad<BR>  Previsora</span></span></span></label>
@@ -1087,22 +1199,46 @@ class html_formRecaudo {
                             <div>
                                 <input type="text" id="p1f2cc" title="*Campo Obligatorio" onpaste="return false" name="nit_previsional" class="fieldcontent" readonly required='required'  onKeyPress='return acceptNum(event)' value='<? echo $nit_previsora ?>'>
                             </div>
+                            <div class="null"></div>
                         </div>
+                        <div class="null"></div>
                     </div>
+                    <div class="null"></div>
                 </div>
 
-                <div class="formrow f1 ">
-                    <div id="p1f7" class="field n1">
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Resolución</span></span></span></label>
+                            <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Número/Referencia<br>   Acto Administrativo</span></span></span></label>
+                            <div class="null"></div>
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="resolucion" title="*Campo Obligatorio" onpaste="return false" name="resolucion" class="fieldcontent" required='required' maxlength='10' onKeyPress='return acceptNumLetter(event)'>
-                            </div> 
-                        </div> 
+                                <input type="text" id="p1f7c" name="acto_adm" title="*Campo Obligatorio" class="fieldcontent" onKeyPress='return acceptNumLetter(event)' maxlength="15" placeholder="Número o Referencia de Acto Administrativo" onpaste="return false">
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
                     </div>
-                </div> 
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="fecha_acto_adm"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Acto<br>  Administrativo</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="fecha_acto_adm" title="*Campo Obligatorio" name="fecha_acto_adm"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
 
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">

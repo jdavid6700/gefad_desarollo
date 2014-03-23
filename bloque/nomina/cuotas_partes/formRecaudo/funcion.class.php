@@ -54,6 +54,8 @@ class funciones_formRecaudo extends funcionGeneral {
 
         //Conexión a Postgres 
         $this->acceso_pg = $this->conectarDB($configuracion, "cuotas_partes");
+        //Conexión Oracle        
+        $this->acceso_Oracle = $this->conectarDB($configuracion, "cuotasP");
 
         //Datos de sesion
         $this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
@@ -70,6 +72,116 @@ class funciones_formRecaudo extends funcionGeneral {
         $this->html_formRecaudo->form_valor_cp();
     }
 
+    //Consultas del Sistema
+    function actualizarEstadoCobro($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarCobro", $parametro);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "actualizar");
+        return $datos;
+    }
+
+    function consultarConsecPago() {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultaPagoConsecutivo", "");
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultar_cuentac($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultar_cc", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarEntidades($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarEntidadesRecaudo($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidadesRecaudo", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarCobroPago($parametros) {
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarCobrosPagos", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarRecaudos($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudos", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarRecaudoCompleto($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudoCompleto", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarRecaudoUnico($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudoUnico", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarConsecutivo($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarConsecutivo", $parametros);
+        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_historia;
+    }
+
+    function consultarCobros($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarCobros", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarCobrosEstado($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarCobrosEstado", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function datosConcurrencia($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "datos_concurrencia", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function datosPensionado($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_Oracle, "datos_pensionado", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_Oracle, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function nombreEntidad($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "nombreEntidad", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function registrarPago($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPago", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos;
+    }
+
+    function registrarPagoCobro($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPagoCobro", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos;
+    }
+
+    function registrarSaldo($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarSaldo", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos;
+    }
+
+//Movimiento a Formularios
     function mostrarRecaudos() {
         $cedula = array('cedula' => (isset($_REQUEST['cedula_emp']) ? $_REQUEST['cedula_emp'] : ''));
 
@@ -139,7 +251,9 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
     function historiaRecaudos($datos_consulta, $saldo_cuenta) {
-        $parametros = array('cedula' => $datos_consulta['cedula_emp'], 'entidad' => $datos_consulta['hlab_nitprev']);
+        $parametros = array(
+            'cedula_emp' => $datos_consulta['cedula_emp'],
+            'nit_previsional' => $datos_consulta['hlab_nitprev']);
 
         $saldo_cc = $saldo_cuenta;
         $datos_recaudos = $this->consultarRecaudos($parametros);
@@ -162,13 +276,24 @@ class funciones_formRecaudo extends funcionGeneral {
 
     function historiaRecaudos_cp($datos_consulta, $saldo_cuenta) {
         $parametros = array('cedula' => $datos_consulta['cedula_emp'], 'entidad' => $datos_consulta['hlab_nitprev']);
+        $parametros2 = array('cedula_emp' => $datos_consulta['cedula_emp'], 'nit_previsional' => $datos_consulta['hlab_nitprev']);
 
         $saldo_cc = $saldo_cuenta;
-        $datos_recaudos = $this->consultarRecaudos($parametros);
-        $datos_cobros = $this->consultarCobros($parametros);
+        $datos_recaudos = $this->consultarRecaudoCompleto($parametros2);
+        $datos_cobros = $this->consultarCobrosEstado($parametros);
+        $datos_concurrencia = $this->datosConcurrencia($parametros);
+
+        $nombre_entidad = $this->nombreEntidad($parametros);
+        $nombre_empleado = $this->datosPensionado($parametros);
+
+        $datos_basicos = array(
+            'cedula' => $parametros['cedula'],
+            'nombre_emp' => $nombre_empleado[0]['NOMBRE'],
+            'entidad_nombre' => $nombre_entidad[0]['prev_nombre'],
+            'entidad' => $parametros['entidad']);
 
         if (is_array($datos_cobros)) {
-            $this->html_formRecaudo->reporteCobrosPagos($datos_recaudos, $datos_cobros, $saldo_cc);
+            $this->html_formRecaudo->estadoCuenta($datos_basicos, $datos_recaudos, $datos_cobros, $saldo_cc, $datos_concurrencia);
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existen Cuentas de Cobro registradas con cédula " . $parametros['cedula'] . " para la Entidad " . $parametros['entidad'] . ". Por lo tanto, no hay pagos a registrar.');" .
@@ -185,7 +310,7 @@ class funciones_formRecaudo extends funcionGeneral {
     function mostrarFormulario($cuentas_pago) {
 
         foreach ($cuentas_pago as $key => $value) {
-            $fecha_cuenta[$key] =date('d/m/Y', strtotime(str_replace('/', '-', $value['fecha_cuenta'])));
+            $fecha_cuenta[$key] = date('d/m/Y', strtotime(str_replace('/', '-', $value['fecha_cuenta'])));
         }
 
         rsort($fecha_cuenta);
@@ -195,75 +320,51 @@ class funciones_formRecaudo extends funcionGeneral {
         $this->html_formRecaudo->formularioRecaudos($cuentas_pago, $fecha_minima_datepicker);
     }
 
-    function consultarEntidades($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;
-    }
+    function actualizarSaldo($parametros) {
 
-    function consultarEntidadesRecaudo($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidadesRecaudo", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;
-    }
+        var_dump($parametros);
+        exit;
 
-    function consultarRecaudos($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudos", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;
-    }
-
-    function consultarConsecutivo($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarConsecutivo", $parametros);
-        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos_historia;
-    }
-
-    function consultarCobros($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarCobros", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;
-    }
-
-    function registrarPago($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPago", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-        return $datos;
-    }
-
-    function registrarPagoCobro($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarPagoCobro", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-        return $datos;
-    }
-
-    function registrarSaldo($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarSaldo", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-        return $datos;
-    }
-
-    function actualizarEstadoCobro($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarCobro", $parametro);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "actualizar");
-        return $datos;
-    }
-
-    function consultarConsecPago() {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultaPagoConsecutivo", "");
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;
-    }
-
-    function consultar_cuentac($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultar_cc", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;
-    }
-
-    function revisarSaldo($parametros) {
-
+        //Verificar la cuenta de cobro y recaudo
         $consultar_ccobro = $this->consultar_cuentac($parametros);
+        $consultar_recaudo = $this->consultarRecaudoUnico($parametros);
+
+        if ($consultar_ccobro == null) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No registra Cuenta de Cobro Válida');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if ($consultar_recaudo == null) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No registra Recaudo (Pago) Válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioRecaudo';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        $consultar_saldo_anterior->$this->consultarSaldoAnterior($parametros);
+
+        if ($consultar_saldo_anterior == null) {
+            //No existen pagos anteriores registrados
+        } else {
+            //Existen registros de pagos anteriores
+        }
+
+
+
+
+
 
         //Revisión Datos de la Cuenta de Cobro
         $deuda_capital = $consultar_ccobro[0]['cob_ts_interes'];
@@ -289,7 +390,6 @@ class funciones_formRecaudo extends funcionGeneral {
 
             $para_saldo = array(
                 'cob_fgenerado' => $consultar_ccobro[0]['cob_fgenerado'],
-                'cob_nitemp' => $consultar_ccobro[0]['cob_nitemp'],
                 'cob_nitprev' => $consultar_ccobro[0]['cob_nitprev'],
                 'cob_consecu_cta' => $consultar_ccobro[0]['cob_consecu_cta'],
                 'cob_finicial' => $consultar_ccobro[0]['cob_finicial'],
@@ -302,8 +402,8 @@ class funciones_formRecaudo extends funcionGeneral {
                 'cob_saldo' => $saldo_total,
                 'cob_estado_cuenta' => 'INACTIVA',
                 'cob_total' => $consultar_ccobro[0]['cob_total'],
-                'cob_fecha_registro' => date("Y-m-d"),
-                'cob_mesada' => $consultar_ccobro[0]['cob_mesada'],
+                'cob_fecha_registro' => date('Y-m-d'),
+                'cob_mesada_ordinaria' => $consultar_ccobro[0]['cob_mesada_ordinaria'],
                 'cob_mesada_ad' => $consultar_ccobro[0]['cob_mesada_ad'],
                 'cob_subtotal' => $consultar_ccobro[0]['cob_subtotal'],
                 'cob_incremento' => $consultar_ccobro[0]['cob_incremento'],
@@ -324,7 +424,7 @@ class funciones_formRecaudo extends funcionGeneral {
                 exit;
             } else {
                 echo "<script type=\"text/javascript\">" .
-                "alert('No se realizó el cambio de estado de la cuenta " . $parametros['consecutivo_cc'] . " con éxito.');" .
+                "alert('No se realizó el cambio de estado de la cuenta " . $parametros['consecutivo_cc'] . " con éxito3.');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                 $variable = 'pagina=formularioRecaudo';
@@ -339,7 +439,6 @@ class funciones_formRecaudo extends funcionGeneral {
 
             $para_saldo = array(
                 'cob_fgenerado' => $consultar_ccobro[0]['cob_fgenerado'],
-                'cob_nitemp' => $consultar_ccobro[0]['cob_nitemp'],
                 'cob_nitprev' => $consultar_ccobro[0]['cob_nitprev'],
                 'cob_consecu_cta' => $consultar_ccobro[0]['cob_consecu_cta'],
                 'cob_finicial' => $consultar_ccobro[0]['cob_finicial'],
@@ -352,8 +451,8 @@ class funciones_formRecaudo extends funcionGeneral {
                 'cob_saldo' => $saldo_total,
                 'cob_estado_cuenta' => 'ACTIVA',
                 'cob_total' => $consultar_ccobro[0]['cob_total'],
-                'cob_fecha_registro' => date("Y-m-d"),
-                'cob_mesada' => $consultar_ccobro[0]['cob_mesada'],
+                'cob_fecha_registro' => date('d-m-Y'),
+                'cob_mesada_ordinaria' => $consultar_ccobro[0]['cob_mesada_ordinaria'],
                 'cob_mesada_ad' => $consultar_ccobro[0]['cob_mesada_ad'],
                 'cob_subtotal' => $consultar_ccobro[0]['cob_subtotal'],
                 'cob_incremento' => $consultar_ccobro[0]['cob_incremento'],
@@ -476,8 +575,8 @@ class funciones_formRecaudo extends funcionGeneral {
 
         /** Validar el traslape de las fechas de cobro y pago* */
         $parametros_rec = array(
-            'cedula' => $datos['cedula_emp'],
-            'entidad' => $datos['nit_previsional']
+            'cedula_emp' => $datos['cedula_emp'],
+            'nit_previsional' => $datos['nit_previsional']
         );
 
 
@@ -598,52 +697,59 @@ class funciones_formRecaudo extends funcionGeneral {
         $parametros_recaudo = array(
             'rec_id' => $cons,
             'consecutivo_rec' => $cons_recaudo,
-            'nit_empleador' => (isset($datos['nit_empleador']) ? $datos['nit_empleador'] : ''),
             'nit_previsional' => (isset($datos['nit_previsional']) ? $datos['nit_previsional'] : ''),
             'cedula_emp' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
+            'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
+            'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
             'resolucion_OP' => (isset($datos['resolucion_OP']) ? $datos['resolucion_OP'] : ''),
             'fecha_resolucion' => (isset($datos['fecha_resolucion']) ? $datos['fecha_resolucion'] : ''),
             'fecha_pago_cuenta' => (isset($datos['fecha_pago_cuenta']) ? $datos['fecha_pago_cuenta'] : ''),
             'medio_pago' => (isset($datos['medio_pago']) ? $datos['medio_pago'] : ''),
             'valor_pagado_capital' => (isset($total_capital) ? $total_capital : ''),
             'valor_pagado_interes' => (isset($total_interes) ? $total_interes : ''),
+            'valor_pagado_interes' => (isset($total_interes) ? $total_interes : ''),
+            'fecha_registro' => date('Y-m-d'),
             'total_recaudo' => (isset($datos['total_recaudo']) ? $datos['total_recaudo'] : ''));
 
         $datos_recaudo = $this->registrarPago($parametros_recaudo);
 
-        if ($datos_recaudo == true) {
+        if ($datos_recaudo == 1) {
 
             foreach ($datos as $key => $value) {
 
-                if (strstr($key, 'valor_pagado_capital')) {
-                    $valor = substr($key, strlen('valor_pagado_capital'));
-                    $total_capital = intval($datos['valor_pagado_capital' . $valor]) + $total_capital;
-                }
-
-
-                if (strstr($key, 'consec_cc')) {
+                if (strstr($key, 'consec')) {
                     $valor = substr($key, strlen('consec_cc'));
 
                     $total_Recaudo = intval($datos['valor_pagado_interes' . $valor]) + intval($datos['valor_pagado_capital' . $valor]);
+
                     $parametros = array(
                         'consecutivo_cc' => $datos['consec_cc' . $valor],
                         'consecutivo_rec' => $cons_recaudo,
                         'cedula_emp' => $datos['cedula_emp'],
-                        'nit_empleador' => $datos['nit_empleador'],
                         'nit_previsional' => $datos['nit_previsional'],
                         'valor_pagado_capital' => $datos['valor_pagado_capital' . $valor],
                         'valor_pagado_interes' => $datos['valor_pagado_interes' . $valor],
                         'total_recaudo' => $total_Recaudo,
+                        'total_cobro' => $datos['valor_cobro_' . $valor],
                         'fecha_pago' => $datos['fecha_pago_cuenta'],
                         'fecha_pdesde' => $datos['fecha_pinicio' . $valor],
                         'fecha_phasta' => $datos['fecha_pfin' . $valor]);
 
-                    $revisar_saldo = $this->revisarSaldo($parametros);
-                    exit;
+                    $revisar_saldo = $this->actualizarSaldo($parametros);
 
+                    exit;
                     $datos_recaudo_cobro = $this->registrarPagoCobro($parametros);
 
-                    if ($datos_recaudo_cobro == false) {
+                    if ($datos_recaudo_cobro == 1) {
+                        $registroL[0] = "REGISTRAR";
+                        $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_previsional']; //
+                        $registroL[2] = "CUOTAS_PARTES";
+                        $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
+                        $registroL[4] = time();
+                        $registroL[5] = "Registra el pago_cobro para el pensionado con ";
+                        $registroL[5] .= " identificacion =" . $parametros['cedula_emp'];
+                        $this->log_us->log_usuario($registroL, $this->configuracion);
+                    } else {
                         echo "<script type=\"text/javascript\">" .
                         "alert('Datos de Recaudo-Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
                         "</script> ";
@@ -654,15 +760,6 @@ class funciones_formRecaudo extends funcionGeneral {
                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                         echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                         break;
-                    } else {
-                        $registroL[0] = "REGISTRAR";
-                        $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_empleador'] . '|' . $parametros['nit_previsional']; //
-                        $registroL[2] = "CUOTAS_PARTES";
-                        $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
-                        $registroL[4] = time();
-                        $registroL[5] = "Registra el pago_cobro para el pensionado con ";
-                        $registroL[5] .= " identificacion =" . $parametros['cedula_emp'];
-                        $this->log_us->log_usuario($registroL, $this->configuracion);
                     }
 
                     $actualizar_cobro = $this->actualizarEstadoCobro($parametros['consecutivo_cc']);
@@ -680,7 +777,7 @@ class funciones_formRecaudo extends funcionGeneral {
                         break;
                     } else {
                         $registroL[0] = "ACTUALIZAR";
-                        $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_empleador'] . '|' . $parametros['nit_previsional']; //
+                        $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_previsional']; //
                         $registroL[2] = "CUOTAS_PARTES";
                         $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
                         $registroL[4] = time();
@@ -692,7 +789,7 @@ class funciones_formRecaudo extends funcionGeneral {
             }
 
             $registroL[0] = "REGISTRAR";
-            $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_empleador'] . '|' . $parametros['nit_previsional']; //
+            $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_previsional']; //
             $registroL[2] = "CUOTAS_PARTES";
             $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
             $registroL[4] = time();

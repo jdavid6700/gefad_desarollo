@@ -182,7 +182,7 @@ class html_adminCuentaCobro {
         <?
     }
 
-    function formRegistroManual($datos_empleador, $datos_previsora, $basicos, $rango, $r_cuenta) {
+    function formRegistroManual($datos_previsora, $basicos, $rango, $r_cuenta) {
 
 
         $this->formulario = "cuentaCobro";
@@ -651,42 +651,6 @@ class html_adminCuentaCobro {
                     <div class="control capleft">
                         <div>
                             <input type="text" id="p1f12c" name="cedula" title="*Campo Obligatorio" class="fieldcontent" readonly required='required' value="<? echo $basicos['cedula_emp'] ?>" onpaste="return false">
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nombre Empleador</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div class="control capleft">
-                            <div class="dropdown" required='required' title="*Campo Obligatorio" >
-                                <?
-                                unset($combo);
-                                //prepara los datos como se deben mostrar en el combo
-                                $combo[0][0] = '1';
-                                $combo[0][1] = '';
-                                foreach ($datos_empleador as $cmb => $values) {
-                                    $combo[$cmb][0] = isset($datos_empleador[$cmb]['hlab_nitenti']) ? $datos_empleador[$cmb]['hlab_nitenti'] : 0;
-                                    $combo[$cmb][1] = isset($datos_empleador[$cmb]['prev_nombre']) ? $datos_empleador[$cmb]['prev_nombre'] : '';
-                                }
-
-                                // echo$combo;
-                                if (isset($_REQUEST['entidad2'])) {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, $_REQUEST['hlab_nitenti'], 0, FALSE, 0, 'entidad_empleadora');
-                                } else {
-                                    $lista_combo = $this->html->cuadro_lista($combo, 'entidad_empleadora', $this->configuracion, 0, 0, FALSE, 0, 'entidad_empleadora');
-                                }
-                                echo $lista_combo;
-                                ?> 
-                            </div>
                         </div>
                         <div class="null"></div>
                     </div>

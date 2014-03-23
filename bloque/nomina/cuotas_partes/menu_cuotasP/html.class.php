@@ -73,7 +73,7 @@
                                         $variable.='&opcion=consulta_cp';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Consultar Cobros y Recaudos</a></li>
+                                        ?>">Consultar Estado de Cuenta</a></li>
                                 </ul>
                             </li>
 
@@ -158,24 +158,13 @@
                                     <li><a href=
                                            "<?
                                            $variable = "pagina=liquidadorCP";
-                                           $variable.="&opcion=reportes";
+                                           $variable.="&opcion=reporte_inicio";
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Formatos de Cuenta de Cobro</a></li>
                                 </ul>
                             </li>
 
-
-                            <!--li><a href="#">Cuenta de Cobro</a>
-                                <ul>
-                                    <li><a href="<?
-                            $variable = 'pagina=cuentaCobro';
-                            $variable.='&opcion=';
-                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                            echo $this->indice . $variable;
-                            ?>">Generar Cuenta de Cobro</a></li>
-                                </ul>
-                            </li-->
                         </ul>
                     </li>
 

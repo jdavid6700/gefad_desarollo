@@ -43,17 +43,6 @@ class bloqueAdminCuentaCobro extends bloque {
     function html() {
         //Rescatar datos de sesion        
         switch ($_REQUEST['opcion']) {
-            case "verificar":
-                $this->funcion->generarCuenta();
-                break;
-
-            case "generar":
-                $this->funcion->consultarHistoria();
-                break;
-
-            case "guardarCC":
-                echo "estamos en html";
-                break;
 
             case "manual":
                 $this->funcion->registroManual();
@@ -87,17 +76,7 @@ class bloqueAdminCuentaCobro extends bloque {
 
     function action() {
         switch ($_REQUEST['opcion']) {
-            case "guardarCC":
-                $cuentaCobro_datos = array();
-
-                foreach ($_REQUEST as $key => $value) {
-                    if ($key != 'action' && $key != 'opcion') {
-                        $cuentaCobro_datos[$key] = $_REQUEST[$key];
-                    }
-                }
-                $this->funcion->guardarCC($cuentaCobro_datos);
-                break;
-
+ 
             case "cuentaManual":
            
                 $cuentaManual_datos = array();
