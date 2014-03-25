@@ -562,13 +562,8 @@ class funciones_adminCuentaCobro extends funcionGeneral {
         $estado = 1;
         $fecha_registro = date('d/m/Y');
 
-        $parametros_x = array();
-        $consecutivo = $this->consecutivoCC($parametros_x);
-
-        $cons = intval($consecutivo[0][0]) + 1;
-
         $parametros = array(
-            'id_cob' => $cons,
+            
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
             'previsor' => (isset($datos['entidad_previsora']) ? $datos['entidad_previsora'] : ''),
             'consecutivo_cc' => (isset($datos['consecutivo_cc']) ? $datos['consecutivo_cc'] : ''),
@@ -632,6 +627,8 @@ class funciones_adminCuentaCobro extends funcionGeneral {
             'consecutivo_cc' => (isset($datos['consecutivo_cc']) ? $datos['consecutivo_cc'] : ''),
             'recaudo' => 0,
             'consecu_rec' => '',
+            'capital'=>(isset($datos['t_sin_interes']) ? $datos['t_sin_interes'] : ''),
+            'interes' => (isset($datos['interes']) ? $datos['interes'] : ''),
             't_con_interes' => (isset($datos['t_con_interes']) ? $datos['t_con_interes'] : ''),
             'saldo_fecha' => (isset($datos['saldo_fecha']) ? $datos['saldo_fecha'] : '')
         );

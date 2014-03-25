@@ -87,6 +87,41 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" AND dcp_nitprev='" . $variable['entidad'] . "' ";
                 break;
 
+            case "consecutivoRecta":
+                $cadena_sql = " SELECT recta_id ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_recaudo_cuenta ";
+                $cadena_sql.=" ORDER BY recta_id DESC ";
+                $cadena_sql.=" LIMIT 1 ";
+                break;
+
+            case "insertarRecta":
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_recaudo_cuenta ";
+                $cadena_sql.=" (recta_consecu_cta, ";
+                $cadena_sql.=" recta_consecu_rec, ";
+                $cadena_sql.=" recta_id, ";
+                $cadena_sql.=" recta_cedula, ";
+                $cadena_sql.=" recta_nitprev, ";
+                $cadena_sql.=" recta_valor_recaudo, ";
+                $cadena_sql.=" recta_valor_cobro, ";
+                $cadena_sql.=" recta_saldocapital, ";
+                $cadena_sql.=" recta_saldointeres, ";
+                $cadena_sql.=" recta_saldototal, ";
+                $cadena_sql.=" recta_estado, ";
+                $cadena_sql.=" recta_fecha_registro) VALUES (";
+                $cadena_sql.=" '" . $variable['consecutivo_cc'] . "', ";
+                $cadena_sql.=" '" . $variable['consecu_rec'] . "', ";
+                $cadena_sql.=" '" . $variable['id_registro'] . "', ";
+                $cadena_sql.=" '" . $variable['cedula'] . "', ";
+                $cadena_sql.=" '" . $variable['previsor'] . "', ";
+                $cadena_sql.=" '" . $variable['recaudo'] . "', ";
+                $cadena_sql.=" '" . $variable['t_con_interes'] . "', ";
+                $cadena_sql.=" '" . $variable['capital'] . "', ";
+                $cadena_sql.=" '" . $variable['interes'] . "', ";
+                $cadena_sql.=" '" . $variable['saldo_fecha'] . "', ";
+                $cadena_sql.=" 'ACTIVO', ";
+                $cadena_sql.=" '" . date("d/m/Y") . "' ) ; ";
+                break;
+
             case "recaudos":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" recta_nitprev, ";
@@ -127,10 +162,10 @@ class sql_liquidador extends sql {
                 break;
 
             case "valor_dtf":
-                $cadena_sql = " SELECT ipc_indiceipc as valor_ipc ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_indc_ipc ";
-                $cadena_sql.=" WHERE ipc_fecha='" . $variable . "' ";
-                $cadena_sql.=" AND ipc_estado_registro='1' ";
+                $cadena_sql = " SELECT dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_indc_dtf ";
+                $cadena_sql.=" WHERE dtf_estado='1' ";
+                $cadena_sql.=" ORDER BY dtf_fe_desde ASC ";
                 break;
 
             case "consecutivo":
@@ -261,7 +296,7 @@ class sql_liquidador extends sql {
                 $cadena_sql.= " cob_idcob, ";
                 $cadena_sql.= " cob_fgenerado, ";
                 $cadena_sql.= " cob_cedula, ";
-                 $cadena_sql.= " cob_nitprev, ";
+                $cadena_sql.= " cob_nitprev, ";
                 $cadena_sql.= " cob_consecu_cta, ";
                 $cadena_sql.= " cob_saldo, ";
                 $cadena_sql.= " cob_finicial, ";
@@ -318,15 +353,15 @@ class sql_liquidador extends sql {
                 $cadena_sql.= " WHERE emp_cod=dep_emp_cod ";
                 $cadena_sql.= " AND dep_nombre='DIVISION DE RECURSOS HUMANOS' ";
                 break;
-            
+
             case "jefeTesoreria":
                 $cadena_sql = " SELECT emp_nombre ";
                 $cadena_sql.= " FROM gedep, peemp ";
                 $cadena_sql.= " WHERE emp_cod=dep_emp_cod ";
                 $cadena_sql.= " AND dep_nombre='TESORERIA' ";
                 break;
-            
-            
+
+
 
             default:
                 $cadena_sql = "";

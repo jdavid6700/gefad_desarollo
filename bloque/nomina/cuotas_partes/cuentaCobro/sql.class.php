@@ -25,7 +25,6 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.= " LIMIT 1 ";
                 break;
 
-
             case "consultarPrevisora":
                 $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
@@ -84,7 +83,6 @@ class sql_adminCuentaCobro extends sql {
 
             case "insertarCManual":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_cobros (";
-                $cadena_sql.= " cob_idcob, ";
                 $cadena_sql.= " cob_fgenerado, ";
                 $cadena_sql.= " cob_cedula, ";
                 $cadena_sql.= " cob_nitprev, ";
@@ -104,7 +102,6 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.= " cob_estado_cuenta, ";
                 $cadena_sql.= " cob_estado, ";
                 $cadena_sql.= " cob_fecha_registro ) VALUES ( ";
-                $cadena_sql.= " '" . $variable['id_cob'] . "', ";
                 $cadena_sql.= " '" . $variable['fecha_generacion'] . "', ";
                 $cadena_sql.= " '" . $variable['cedula'] . "', ";
                 $cadena_sql.= " '" . $variable['previsor'] . "', ";
@@ -135,7 +132,9 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.=" recta_nitprev, ";
                 $cadena_sql.=" recta_valor_recaudo, ";
                 $cadena_sql.=" recta_valor_cobro, ";
-                $cadena_sql.=" recta_saldo, ";
+                $cadena_sql.=" recta_saldocapital, ";
+                $cadena_sql.=" recta_saldointeres, ";
+                $cadena_sql.=" recta_saldototal, ";
                 $cadena_sql.=" recta_estado, ";
                 $cadena_sql.=" recta_fecha_registro) VALUES (";
                 $cadena_sql.=" '" . $variable['consecutivo_cc'] . "', ";
@@ -145,6 +144,8 @@ class sql_adminCuentaCobro extends sql {
                 $cadena_sql.=" '" . $variable['previsor'] . "', ";
                 $cadena_sql.=" '" . $variable['recaudo'] . "', ";
                 $cadena_sql.=" '" . $variable['t_con_interes'] . "', ";
+                $cadena_sql.=" '" . $variable['capital'] . "', ";
+                $cadena_sql.=" '" . $variable['interes'] . "', ";
                 $cadena_sql.=" '" . $variable['saldo_fecha'] . "', ";
                 $cadena_sql.=" 'ACTIVO', ";
                 $cadena_sql.=" '" . date("d/m/Y") . "' ) ; ";

@@ -137,16 +137,16 @@ class bloqueLiquidador extends bloque {
 
                 $this->funcion->generarPDF_Resumen($datos_basicos, $consecutivo, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos, $total_dias);
                 break;
-                
+
             case "pdf_detalle":
                 $datos_basicos = unserialize($_REQUEST['datos_basicos']);
                 $detalle_indice = unserialize($_REQUEST['detalle_indice']);
                 $datos_concurrencia = unserialize($_REQUEST['datos_concurrencia']);
-                $liquidacion= unserialize($_REQUEST['liquidacion']);
-                $totales_liquidacion= unserialize($_REQUEST['totales_liquidacion']);
-                $consecu_cc=$_REQUEST['consecutivo'];
-                $fecha_cobro=$_REQUEST['fecha_cobro'];
-                $jefeRecursos=$_REQUEST['jRecursos'];
+                $liquidacion = unserialize($_REQUEST['liquidacion']);
+                $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
+                $consecu_cc = $_REQUEST['consecutivo'];
+                $fecha_cobro = $_REQUEST['fecha_cobro'];
+                $jefeRecursos = $_REQUEST['jRecursos'];
 
                 $this->funcion->generarPDF_Detalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos);
                 break;
