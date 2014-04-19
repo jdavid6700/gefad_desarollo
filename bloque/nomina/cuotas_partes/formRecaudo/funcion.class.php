@@ -43,6 +43,7 @@ class funciones_formRecaudo extends funcionGeneral {
         include ($configuracion["raiz_documento"] . $configuracion["estilo"] . "/basico/tema.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/log.class.php");
+        include_once($configuracion["raiz_documento"] . $configuracion["plugins"] . "/html2pdf/html2pdf.class.php");
 
         $this->cripto = new encriptar();
         $this->log_us = new log();
@@ -180,7 +181,7 @@ class funciones_formRecaudo extends funcionGeneral {
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
-    
+
     function datosSaldosHistoria($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "datos_saldosHistoria", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -209,6 +210,272 @@ class funciones_formRecaudo extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "registrarSaldo", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
         return $datos;
+    }
+
+    function consultarJefeRecursos($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_Oracle, "jefeRecursosH", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_Oracle, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    //PDF
+
+    function generarPDF_Estado($datos_basicos, $datos_recaudos, $cobros, $datos_concurrencia, $datos_saldo) {
+
+        $a = array();
+        $jefeRecursos = $this->consultarJefeRecursos($a);
+
+        ob_start();
+        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+
+        $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
+        $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+        $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' del ' . date('Y');
+
+        $contenido_cobros = '';
+        foreach ($cobros as $key => $value) {
+            $contenido_cobros.= "<tr> <td  style='text-align:center;'>" . $cobros[$key]['cob_consecu_cta'] . "</td>";
+            $contenido_cobros.= "<td  style='text-align:center;'>" . $cobros[$key]['cob_ie_correspondencia'] . "</td>";
+            $contenido_cobros.= "<td style = 'text-align:center;'>" . date('d/m/Y', strtotime(str_replace('/', '-', $cobros[$key]['cob_fgenerado']))) . "</td>";
+            $contenido_cobros.= "<td style = 'text-align:center;'>" . date('d/m/Y', strtotime(str_replace('/', '-', $cobros[$key]['cob_finicial']))) . "</td>";
+            $contenido_cobros.= "<td style = 'text-align:center;'>" . date('d/m/Y', strtotime(str_replace('/', '-', $cobros[$key]['cob_ffinal']))) . "</td>";
+            $contenido_cobros.= "<td style = 'text-align:center;'>$&nbsp;" . number_format($cobros[$key]['cob_ts_interes']) . "</td>";
+            $contenido_cobros.= "<td style = 'text-align:center;'>$&nbsp;" . number_format($cobros[$key]['cob_interes']) . "</td>";
+            $contenido_cobros.= "<td style = 'text-align:center;'>$&nbsp;" . number_format($cobros[$key]['cob_tc_interes']) . "</td>";
+            $contenido_cobros.= "</tr>";
+        }
+
+        $contenido_recaudos = '';
+        foreach ($datos_recaudos as $key => $value) {
+            $contenido_recaudos.="<tr>";
+            $contenido_recaudos.="<td  style='text-align:center;'>" . $datos_recaudos[$key]['recta_consecu_rec'] . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>" . $datos_recaudos[$key]['rec_resolucionop'] . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>" . $datos_recaudos[$key]['rec_fecha_resolucion'] . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>" . $datos_recaudos[$key]['recta_fechapago'] . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>" . $datos_recaudos[$key]['recta_fechadesde'] . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>" . $datos_recaudos[$key]['recta_fechahasta'] . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>$" . number_format($datos_recaudos[$key]['rec_pago_capital']) . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>$" . number_format($datos_recaudos[$key]['rec_pago_interes']) . "</td>";
+            $contenido_recaudos.="<td  style='text-align:center;'>$" . number_format($datos_recaudos[$key]['rec_total_recaudo']) . "</td>";
+            $contenido_recaudos.="</tr>";
+        }
+
+        $contenido_saldo = '';
+        foreach ($datos_saldo as $key => $value) {
+            $contenido_saldo.="<tr>";
+            $contenido_saldo.="<td  style='text-align:center;'>" . $datos_saldo[$key]['recta_consecu_cta'] . "</td>";
+            $contenido_saldo.= "<td  style='text-align:center;'>" . $datos_saldo[$key]['recta_consecu_rec'] . "</td>";
+            $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_valor_cobro']) . "</td>";
+            $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_valor_recaudo']) . "</td>";
+            $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_saldototal']) . "</td>";
+            $contenido_saldo.= "</tr>";
+        }
+
+        $ContenidoPdf = "
+        <style type = \"text/css\">
+    table { 
+        color:#333; /* Lighten up font color */
+        font-family:Helvetica, Arial, sans-serif; /* Nicer font */
+
+        border-collapse:collapse; border-spacing: 3px; 
+    }
+
+    table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+    table.page_footer {width: 100%; border: none; background-color: #DDDDFF; border-top: solid 1mm #AAAADD; padding: 2mm}
+
+    td, th { 
+        border: 1px solid #CCC; 
+        height: 13px;
+    } /* Make cells a bit taller */
+
+    th {
+        background: #F3F3F3; /* Light grey background */
+        font-weight: bold; /* Make sure they're bold */
+        text-align: center;
+        font-size:10px
+    }
+
+    td {
+        background: #FAFAFA; /* Lighter grey background */
+        text-align: left;
+        font-size:10px
+    }
+</style>
+<page_header>
+    <table align='center'>
+        <thead>
+            <tr>
+                <th style=\"width:60px;\" colspan=\"1\">
+                    <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
+                </th>
+                <th style=\"width:490px;font-size:13px;\" colspan=\"1\">
+                    <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
+                    <br> NIT 899999230-7<br>
+                    <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
+                </th>
+                <th style=\"width:160px;font-size:10px;\" colspan=\"1\">
+                    <br>Reporte Estado de Cuenta<br><br>
+                    <br>" . $fecha_cc . "<br><br>
+                </th>
+            </tr>
+        </thead>      
+
+        <tr>
+        </tr>
+    </table>  
+</page_header>
+
+<br><br><br><br><br><br><br><br>
+
+<table align='center'>
+
+    <tr>
+        <th colspan=\"4\" style=\"font-size:12px;width:735px;\" >
+            DATOS BÁSICOS
+        </th>
+    </tr>
+    <tr>
+        <td  >Nombre Pensionado:</td>
+        <td  colspan='1'>" . $datos_basicos['nombre_emp'] . "</td>
+        <td  >Documento del Pensionado:</td>
+        <td  colspan='1'>" . $datos_basicos['cedula'] . "</td>
+    </tr>
+    <tr>
+        <td  >Entidad Concurrente:</td>
+        <td  colspan='1'>" . $datos_basicos['entidad_nombre'] . "</td>
+        <td  >NIT:</td>
+        <td  colspan='1'>" . $datos_basicos['entidad'] . "</td>
+    </tr>
+    <tr>
+        <th colspan=\"4\" style=\"font-size:12px;width:735px;\">
+            DATOS DE LA CONCURRENCIA
+        </th>
+    </tr>
+    <tr>
+        <td>Fecha Pensión:</td>
+        <td  colspan='1'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension']))) . "</td>
+        <td>Fecha Inicio Concurrencia:</td>
+        <td  colspan='1'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']))) . "</td>
+    </tr>
+    <tr>
+        <td>Acto Administrativo:</td>
+        <td  colspan='1'>" . $datos_concurrencia[0]['dcp_actoadmin'] . "</td>
+        <td>Fecha Acto Adminsitrativo:</td>
+        <td  colspan='1'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))) . "</td>
+    </tr>
+    <tr>
+        <td>Mesada Inicial:</td>
+        <td  colspan='3'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada']) . "</td>
+    </tr>
+    <tr>
+        <td>Porcentaje Cuota Aceptada:</td>
+        <td colspan='1'>" . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . "%" . "</td>
+        <td>Valor de la Cuota Aceptada:</td>
+        <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota']) . "</td>
+    </tr>
+    <tr>
+        <td>Mesada a la Fecha:</td>
+        <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada']) . "</td>
+        <td>Valor de la Cuota a la Fecha:</td>
+        <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada']) . "</td>
+    </tr>
+</table>
+<br>
+
+<table align=\"center\">
+    <tr>
+        <th colspan=\"8\"  style=\"font-size:12px;width:735px;\" >CUENTAS COBRO REGISTRADAS</th>
+    </tr>
+    <tr>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>CONSECUTIVO CUENTA COBRO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>IE_CORRESPONDENCIA</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>FECHA GENERACIÓN</td>
+        <td colspan=\"2\"  style=\"font-size:10px;\" align=center>PERIODO DE COBRO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR SIN INTERÉS</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>INTERÉS</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>TOTAL</td>
+    </tr>
+    <tr>
+        <td  style=\"text-align:center ;font-size:10px;\" >INICIO</td>
+        <td  style=\"text-align:center;font-size:10px;\">FIN</td>
+    </tr>
+          " . $contenido_cobros . "
+</table >
+<br>
+<table  align=\"center\">
+    <tr>
+        <th colspan=\"10\" style=\"font-size:12px;width:735px;\">RECAUDOS REGISTRADOS</th>
+    </tr>
+    <tr>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>CONSECUTIVO RECAUDO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>RES. OP</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>FECHA RES. OP</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>FECHA PAGO</td>
+        <td colspan=\"2\"  style=\"font-size:10px;\" align=center>PERIODO PAGO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR A CAPITAL</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR A INTERESES</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>TOTAL</td>
+    </tr>
+    <tr>
+        <td  style=\"text-align:center ;font-size:10px;\" >INICIO</td>
+        <td  style=\"text-align:center;font-size:10px;\">FIN</td>
+    </tr>
+        ." . $contenido_recaudos . "
+</table >
+
+<br>
+
+<table align=\"center\">
+    <tr>
+        <th colspan=\"11\" style=\"font-size:12px;width:735px;\">RELACIÓN DE SALDOS</th>
+    </tr>
+    <tr>
+        <td   style=\"font-size:10px;\" align=center>CONSECUTIVO CUENTA COBRO</td>
+        <td   style=\"font-size:10px;\" align=center>&nbsp;CONSECUTIVO RECAUDO&nbsp;</td>
+        <td   style=\"font-size:10px;\" align=center>VALOR TOTAL COBRO</td>
+        <td   style=\"font-size:10px;\" align=center>VALOR TOTAL RECAUDO</td>
+        <td   style=\"font-size:10px;\" align=center>SALDO</td>
+    </tr>
+        " . $contenido_saldo . "
+</table >
+<br>
+<table align='center'>
+    <tr>
+        <td style=\"text-align:center; width: 733px;\"><br><br><br><br>
+        </td>
+    </tr>
+    <tr>  
+        <td align='center' style=\"text-align:center; width: 733px;\" >
+            " . $jefeRecursos[0][0] . "
+            <br>
+            Jefe(a) División de Recursos Humanos
+            <br>
+
+        </td>
+    </tr>
+</table>
+<page_footer>
+    <table align=\"center\">
+        <tr>
+            <td align=\"center\" style = \"width: 750px;\">
+                Universidad Distrital Francisco José de Caldas
+                <br>
+                Todos los derechos reservados.
+                <br>
+                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+                <br>
+
+            </td>
+        </tr>
+    </table>
+    <p style=\"font-size:8px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+</page_footer> 
+
+
+";
+        $PDF = new HTML2PDF('P', 'LETTER', 'es');
+        $PDF->writeHTML($ContenidoPdf);
+        $PDF->Output("EstadoCuenta.pdf", "D");
     }
 
 //Movimiento a Formularios
@@ -283,7 +550,7 @@ class funciones_formRecaudo extends funcionGeneral {
         $parametros = array(
             'cedula_emp' => $datos_consulta['cedula_emp'],
             'nit_previsional' => $datos_consulta['hlab_nitprev']);
-        
+
         $parametros2 = array(
             'cedula' => $datos_consulta['cedula_emp'],
             'entidad' => $datos_consulta['hlab_nitprev']);
@@ -316,7 +583,7 @@ class funciones_formRecaudo extends funcionGeneral {
         $datos_cobros = $this->consultarCobrosEstado($parametros);
         $datos_concurrencia = $this->datosConcurrencia($parametros);
         $datos_saldo = $this->datosSaldosHistoria($parametros);
- 
+
         $nombre_entidad = $this->nombreEntidad($parametros);
         $nombre_empleado = $this->datosPensionado($parametros);
 
@@ -647,82 +914,82 @@ class funciones_formRecaudo extends funcionGeneral {
         }
 
 
-     /*  foreach ($rango as $key => $values) {
-            $antes = strtotime(str_replace('/', '-', $rango[$key]['desde']));
-            $despues = strtotime(str_replace('/', '-', $rango[$key]['hasta']));
+        /*  foreach ($rango as $key => $values) {
+          $antes = strtotime(str_replace('/', '-', $rango[$key]['desde']));
+          $despues = strtotime(str_replace('/', '-', $rango[$key]['hasta']));
 
-            foreach ($rango as $key => $values) {
-                $inicio = strtotime(str_replace('/', '-', $rango[$key]['inicio']));
-                $fin = strtotime(str_replace('/', '-', $rango[$key]['fin']));
+          foreach ($rango as $key => $values) {
+          $inicio = strtotime(str_replace('/', '-', $rango[$key]['inicio']));
+          $fin = strtotime(str_replace('/', '-', $rango[$key]['fin']));
 
-                if ($antes > $inicio && $antes < $fin) {
-                    echo "<script type=\"text/javascript\">" .
-                    "alert('El intervalo de pago no es válido');" .
-                    "</script> ";
-                    error_log('\n');
-                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                    $variable = 'pagina=formHistoria';
-                    $variable.='&opcion=';
-                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                    exit;
-                }
+          if ($antes > $inicio && $antes < $fin) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('El intervalo de pago no es válido');" .
+          "</script> ";
+          error_log('\n');
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-                if ($despues > $inicio && $despues < $fin) {
-                    echo "<script type=\"text/javascript\">" .
-                    "alert('El intervalo de pago no es válido');" .
-                    "</script> ";
-                    error_log('\n');
-                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                    $variable = 'pagina=formHistoria';
-                    $variable.='&opcion=';
-                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                    exit;
-                }
-            }
-        }
+          if ($despues > $inicio && $despues < $fin) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('El intervalo de pago no es válido');" .
+          "</script> ";
+          error_log('\n');
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
+          }
+          }
 
-        $recaudos = $this->consultarRecaudos($parametros_rec);
+          $recaudos = $this->consultarRecaudos($parametros_rec);
 
-        if (is_array($recaudos)) {
-            foreach ($rango as $key => $values) {
-                $antes = strtotime(str_replace('/', '-', $rango[$key]['desde']));
-                $despues = strtotime(str_replace('/', '-', $rango[$key]['hasta']));
+          if (is_array($recaudos)) {
+          foreach ($rango as $key => $values) {
+          $antes = strtotime(str_replace('/', '-', $rango[$key]['desde']));
+          $despues = strtotime(str_replace('/', '-', $rango[$key]['hasta']));
 
-                foreach ($recaudos as $key => $values) {
-                    $inicio = strtotime(str_replace('/', '-', $recaudos[$key]['recta_fechadesde']));
-                    $fin = strtotime(str_replace('/', '-', $recaudos[$key]['recta_fechahasta']));
+          foreach ($recaudos as $key => $values) {
+          $inicio = strtotime(str_replace('/', '-', $recaudos[$key]['recta_fechadesde']));
+          $fin = strtotime(str_replace('/', '-', $recaudos[$key]['recta_fechahasta']));
 
-                    if ($antes >= $inicio && $antes <= $fin) {
-                        echo "<script type=\"text/javascript\">" .
-                        "alert('El intervalo de pago no es válido');" .
-                        "</script> ";
-                        error_log('\n');
-                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                        $variable = 'pagina=formHistoria';
-                        $variable.='&opcion=';
-                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                        exit;
-                    }
+          if ($antes >= $inicio && $antes <= $fin) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('El intervalo de pago no es válido');" .
+          "</script> ";
+          error_log('\n');
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-                    if ($despues >= $inicio && $despues <= $fin) {
-                        echo "<script type=\"text/javascript\">" .
-                        "alert('El intervalo de pago no es válido');" .
-                        "</script> ";
-                        error_log('\n');
-                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                        $variable = 'pagina=formHistoria';
-                        $variable.='&opcion=';
-                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                        exit;
-                    }
-                }
-            }
-        }
-        /*         * Fin de las validaciones de los datos */
+          if ($despues >= $inicio && $despues <= $fin) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('El intervalo de pago no es válido');" .
+          "</script> ";
+          error_log('\n');
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
+          }
+          }
+          }
+          /*         * Fin de las validaciones de los datos */
 
         $consecutivo = $this->consultarConsecPago();
         $cons = $consecutivo[0]['rec_id'] + 1;

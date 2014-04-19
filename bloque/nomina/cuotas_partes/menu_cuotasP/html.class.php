@@ -57,7 +57,7 @@
                         <span id="s1"></span>
                         <ul class="subs">
 
-                            <li><a href="#">Consulta Datos Básicos</a>
+                            <li><a href="#">Módulo de Consulta </a>
                                 <ul>
                                     <li><a href='<? echo $this->indice . $repCPPensionados; ?>'>Información Básica Pensionados</a></li>
 
@@ -100,19 +100,10 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Registrar Recaudos (Pagos)</a></li>
-
-                                    <li><a href="<?
-                                        $variable = 'pagina=formularioCManual';
-                                        $variable.='&opcion=manual';
-                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                        echo $this->indice . $variable;
-                                        ?>">Registrar Cuenta Cobro Manual</a></li>
-
-
                                 </ul>
                             </li>
 
-                            <li><a href="#">Gestión Datos Básicos</a>
+                            <li><a href="#">Gestión Información del Sistema</a>
                                 <ul>
                                     <li><a href="<?
                                         $variable = 'pagina=formularioPrevisora';
@@ -162,6 +153,13 @@
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Formatos de Cuenta de Cobro</a></li>
+                                                                        
+                                    <li><a href="<?
+                                        $variable = 'pagina=formularioCManual';
+                                        $variable.='&opcion=manual';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Registrar Cuenta Cobro Manual</a></li>
                                 </ul>
                             </li>
 

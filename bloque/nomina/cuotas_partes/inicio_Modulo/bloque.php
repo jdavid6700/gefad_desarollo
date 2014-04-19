@@ -30,11 +30,11 @@ include_once("funcion.class.php");
 include_once("sql.class.php");
 
 //Clase
-class bloquemenu_cuotasP extends bloque {
+class bloqueinicio_Modulo extends bloque {
 
     public function __construct($configuracion) {
-        $this->sql = new sql_menu_cuotasP();
-        $this->funcion = new funciones_menu_cuotasP($configuracion, $this->sql);
+        $this->sql = new sql_inicio_Modulo();
+        $this->funcion = new funciones_inicio_Modulo($configuracion, $this->sql);
     }
 
     function html($configuracion) {
@@ -45,13 +45,10 @@ class bloquemenu_cuotasP extends bloque {
         $tema = (isset($tema) ? $tema : '');
 
         switch ($_REQUEST['opcion']) {
-            case 'inicio':
-
-                break;
-
+     
 
             default:
-                $this->funcion->htmlMenuReporte->menu();
+                $this->funcion->bienvenida();
                 break;
         }//fin switch
     }
@@ -68,7 +65,7 @@ class bloquemenu_cuotasP extends bloque {
 // fin clase bloquenom_adminNovedad
 // @ Crear un objeto bloque especifico
 
-$esteBloque = new bloquemenu_cuotasP($configuracion);
+$esteBloque = new bloqueinicio_Modulo($configuracion);
 //var_dump($_REQUEST);//exit;
 
 if (isset($_REQUEST['cancelar'])) {

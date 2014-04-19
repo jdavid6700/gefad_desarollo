@@ -103,9 +103,8 @@ class bloque_formHistoria extends bloque {
                         $this->funcion->mostrarFormulario($cedula);
                     }
                     break;
-
+                    
                 default :
-
                     $this->funcion->dbasicoHistoriaR();
                     break;
             }

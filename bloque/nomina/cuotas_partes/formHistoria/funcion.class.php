@@ -324,7 +324,10 @@ class funciones_formHistoria extends funcionGeneral {
             exit;
         }
 
-        if ($fecha_max > $fecha_registro) {
+        $fecha_registro2 = strtotime(date('d/m/Y'));
+        $fecha_max2 = strtotime(str_replace('/', '-', $datos['fecha_salida']));
+
+        if ($fecha_max2 > $fecha_registro2) {
             echo "<script type=\"text/javascript\">" .
             "alert('El intervalo de fechas no es válido');" .
             "</script> ";
@@ -594,7 +597,7 @@ class funciones_formHistoria extends funcionGeneral {
 
         //VALIDACIÓN DE TRASLAPE DE FECHAS
 
-        $parametro=$datos['cedula_emp'];
+        $parametro = $datos['cedula_emp'];
         $datos_regint = $this->reporteInterrupcion($parametro);
 
         /* Para determinar los limites del registro de la historia laboral */

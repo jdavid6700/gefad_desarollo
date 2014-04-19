@@ -1,3 +1,4 @@
+
 <?php
 /*
   ############################################################################
@@ -477,11 +478,12 @@ class html_liquidador {
                     <tr>
                         <th class='subtitulo_th centrar'>FECHA PAGO</th>
                         <th class='subtitulo_th centrar'>MESADA</th>
-                        <th class='subtitulo_th centrar'>AJUSTE PENSION</th>
+                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
+                        <!--th class='subtitulo_th centrar'>AJUSTE PENSION</th-->
                         <th class='subtitulo_th centrar'>MESADA AD.</th>
                         <th class='subtitulo_th centrar'>INCREMENTO SALUD</th>
-                        <th class='subtitulo_th centrar'>INTERESES</th>
-                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
+                        <th class='subtitulo_th centrar'>INTERÉS L_68/1923</th>
+                        <th class='subtitulo_th centrar'>INTERÉS L_1066/2006</th>
                         <th class='subtitulo_th centrar'>TOTAL MES</th>
                     </tr>
                     <tbody id="itemContainer">
@@ -492,18 +494,19 @@ class html_liquidador {
                                 echo "<tr>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . date('d/m/Y', strtotime(str_replace('/', '-', $liquidacion[$key]['fecha']))) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['mesada']) . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;' >" . $liquidacion[$key]['ajuste_pension'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['cuota_parte']) . "</td>";
+                                //echo "<td class='texto_elegante estilo_td' style='text-align:center;' >" . $liquidacion[$key]['ajuste_pension'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . number_format($liquidacion[$key]['mesada_adc']) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . number_format($liquidacion[$key]['incremento']) . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['interes']) . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['cuota_parte']) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['interes_a2006']) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['interes_d2006']) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['total']) . "</td>";
                                 echo "</tr>";
                             }
                         } else {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                            //echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
@@ -520,16 +523,18 @@ class html_liquidador {
             <center>
                 <table class='bordered'  width ="68%" >
                     <tr>
-                        <th colspan="8" class="subtitulo_th" style="font-size:12px;">TOTALES LIQUIDACIÓN</th>
+                        <th colspan="10" class="subtitulo_th" style="font-size:12px;">TOTALES LIQUIDACIÓN</th>
                     </tr>
                     <tr>
                         <th class='encabezado_registro' width="12%" rowspan="2">TOTAL</th>
                         <th class='subtitulo_th centrar'>MESADA</th>
-                        <th class='subtitulo_th centrar'>AJUSTE PENSION</th>
+                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
+                        <!--th class='subtitulo_th centrar'>AJUSTE PENSION</th-->
                         <th class='subtitulo_th centrar'>MESADA AD.</th>
                         <th class='subtitulo_th centrar'>INCREMENTO SALUD</th>
-                        <th class='subtitulo_th centrar'>INTERESES</th>
-                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
+                        <th class='subtitulo_th centrar'>INTERES ANTES 07/2006</th>
+                        <th class='subtitulo_th centrar'>INTERES DESPUÉS 07/2006</th>
+                        <th class='subtitulo_th centrar'>INTERESES CONSOLIDADO</th>
                         <th class='subtitulo_th centrar'>TOTAL LIQUIDADO</th>
                     </tr>
                     <?
@@ -537,15 +542,19 @@ class html_liquidador {
 
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['mesada']) . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['ajuste_pension']) . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['cuota_parte']) . "</td>";
+                        //echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['ajuste_pension']) . "</td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['mesada_adc']) . "</td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['incremento']) . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['interes_a2006']) . "</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['interes_d2006']) . "</td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['interes']) . "</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['cuota_parte']) . "</td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion['total']) . "</td>";
                         echo "</tr>";
                     } else {
                         echo "<tr>";
+                        //echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
@@ -666,18 +675,19 @@ class html_liquidador {
             <center>
                 <table class='bordered'  width ="90%" >
                     <tr>
-                        <th colspan="14" class="subtitulo_th" style="font-size:12px;">DETALLE DE LA LIQUIDACIÓN</th>
+                        <th colspan="13" class="subtitulo_th" style="font-size:12px;">DETALLE DE LA LIQUIDACIÓN</th>
                     </tr>
                     <tr>
                         <th class='subtitulo_th centrar' rowspan='2'>ID</th>
                         <th class='subtitulo_th centrar' rowspan='2'>FECHA GENERADO</th>
                         <th class='subtitulo_th centrar' colspan="2">LIQUIDACIÓN</th>
                         <th class='subtitulo_th centrar' rowspan='2'>MESADA</th>
-                        <th class='subtitulo_th centrar' rowspan='2'>AJUSTE PENSION</th>
+                        <th class='subtitulo_th centrar' rowspan='2'>VALOR CUOTA</th>
+                        <!--th class='subtitulo_th centrar' rowspan='2'>AJUSTE PENSION</th-->
                         <th class='subtitulo_th centrar' rowspan='2'>MESADA AD.</th>
                         <th class='subtitulo_th centrar' rowspan='2'>INCREMENTO SALUD</th>
                         <th class='subtitulo_th centrar' rowspan='2'>INTERESES</th>
-                        <th class='subtitulo_th centrar' rowspan='2'>VALOR CUOTA</th>
+
                         <th class='subtitulo_th centrar' rowspan='2'>TOTAL MES</th>
                         <th class='subtitulo_th centrar' colspan='3'>TIPO DE REPORTE</th>
                     </tr>
@@ -698,11 +708,12 @@ class html_liquidador {
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $totales_liquidacion[$key]['liq_fdesde'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $totales_liquidacion[$key]['liq_fhasta'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_mesada']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_ajustepen']) . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_cuotap']) . "</td>";
+                            //echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_ajustepen']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_mesada_ad']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_incremento']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_cuotap']) . "</td>";
+
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_total']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>"
                             . " <a href='";
@@ -745,7 +756,7 @@ class html_liquidador {
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
-                        echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
+                        //echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
@@ -877,11 +888,12 @@ class html_liquidador {
                     <tr>
                         <th class='subtitulo_th centrar'>CICLO</th>
                         <th class='subtitulo_th centrar'>MESADA</th>
-                        <th class='subtitulo_th centrar'>AJUSTE PENSION</th>
+                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
+                        <!--th class='subtitulo_th centrar'>AJUSTE PENSION</th-->
                         <th class='subtitulo_th centrar'>MESADA AD.</th>
                         <th class='subtitulo_th centrar'>INCREMENTO SALUD</th>
-                        <th class='subtitulo_th centrar'>INTERESES</th>
-                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
+                        <th class='subtitulo_th centrar'>INTERÉS L_68/1923</th>
+                       <th class='subtitulo_th centrar'>INTERÉS L_1066/2006</th>
                         <th class='subtitulo_th centrar'>TOTAL MES</th>
                     </tr>
                     <tbody id="itemContainer">
@@ -892,18 +904,19 @@ class html_liquidador {
                                 echo "<tr>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . date('Y-m', strtotime(str_replace('/', '-', $liquidacion[$key]['fecha']))) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['mesada']) . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;' >" . $liquidacion[$key]['ajuste_pension'] . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . number_format($liquidacion[$key]['mesada_adc']) . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . number_format($liquidacion[$key]['incremento']) . "</td>";
-                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['interes']) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['cuota_parte']) . "</td>";
+                                //echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;' >" . $liquidacion[$key]['ajuste_pension'] . "</td>";
+                                echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'>" . number_format($liquidacion[$key]['mesada_adc']) . "</td>";
+                                echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'>" . number_format($liquidacion[$key]['incremento']) . "</td>";
+                                echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'>$ " . number_format($liquidacion[$key]['interes_a2006']) . "</td>";
+                                echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'>$ " . number_format($liquidacion[$key]['interes_d2006']) . "</td > ";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($liquidacion[$key]['total']) . "</td>";
                                 echo "</tr>";
                             }
                         } else {
                             echo "<tr>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                            //echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
@@ -924,29 +937,29 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <th class='encabezado_registro' width="12%" rowspan="2">TOTAL</th>
-
-                        <th class='subtitulo_th centrar'>AJUSTE PENSION</th>
+                        <!--th class='subtitulo_th centrar'>AJUSTE PENSION</th-->
+                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
                         <th class='subtitulo_th centrar'>MESADA AD.</th>
                         <th class='subtitulo_th centrar'>INCREMENTO SALUD</th>
                         <th class='subtitulo_th centrar'>INTERES LEY 68/1923</th>
                         <th class='subtitulo_th centrar'>INTERES LEY 1066/2006</th>
-                        <th class='subtitulo_th centrar'>VALOR CUOTA</th>
-                        <th class='subtitulo_th centrar'>ACUMULADO</th>
+                        <th class='subtitulo_th centrar'>ACUMULADO INTERES</th>
                     </tr>
                     <?
                     if (is_array($totales_liquidacion)) {
 
                         foreach ($totales_liquidacion as $key => $values) {
+
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_ajustepen']) . "</td>";
+                            //echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_ajustepen']) . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_cuotap']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_mesada_ad']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_incremento']) . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes_a2006']) . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes_d2006']) . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_cuotap']) . "</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_total']) . "</td>";
                             echo "</tr>";
-                            $total[$key] = $totales_liquidacion[$key][12];
+                            $total[$key] = $totales_liquidacion[$key]['liq_total'];
                         }
                     } else {
                         echo "<tr>";
@@ -1024,7 +1037,7 @@ class html_liquidador {
                 <input type="hidden" name='detalle_indice' value='<?php echo serialize($detalle_indice) ?>'>
                 <input type="hidden" name='liquidacion' value='<?php echo serialize($liquidacion) ?>'>
                 <input type="hidden" name='consecutivo' value='<?php echo $consecu_cc ?>'>
-                <input type="hidden" name='fecha_cobro' value='<?php echo $fecha_cobro?>'>
+                <input type="hidden" name='fecha_cobro' value='<?php echo $fecha_cobro ?>'>
                 <input type="hidden" name='jRecursos' value='<?php echo $jefeRecursos[0][0] ?>'>
             </div>
         </form>
@@ -1153,25 +1166,19 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td'>3</td>
-                        <td class='texto_elegante estilo_td'>Valor Intereses 12% Ley 68 de 1923</td>
+                        <td class='texto_elegante estilo_td'>Valor Intereses Ley 68/1923</td>
                         <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fdesde'] ?></td>
                         <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fhasta'] ?></td>
-                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_interes']) ?></td>
+                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_interes_a2006']) ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td'>4</td>
-                        <td class='texto_elegante estilo_td'>Valor Intereses Ley 1066 de 2006</td>
+                        <td class='texto_elegante estilo_td'>Valor Intereses Ley 1066/2006</td>
                         <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fdesde'] ?></td>
                         <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;" . $totales_liquidacion[0]['liq_fhasta'] ?></td>
-                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_interes']) ?></td>
+                        <td class='texto_elegante estilo_td'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_interes_d2006']) ?></td>
                     </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td'>5</td>
-                        <td class='texto_elegante estilo_td'>Ajuste Pensión</td>
-                        <td class='texto_elegante estilo_td'><? echo '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] ?></td>
-                        <td class='texto_elegante estilo_td'><? echo '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] ?></td>
-                        <td class='texto_elegante estilo_td'><? echo '&nbsp;&nbsp;$' . number_format($totales_liquidacion[0]['liq_ajustepen']) ?></td>
-                    </tr>
+
                     <tr>
                         <th class='subtitulo_th2' colspan="4">TOTAL&nbsp;&nbsp;</th>
                         <td class='texto_elegante estilo_td3'><? echo "&nbsp;&nbsp;$ " . number_format($totales_liquidacion[0]['liq_total']) ?></td>
@@ -1345,9 +1352,9 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' colspan='1'>Total Días</td>
                         <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . $dias_cargo['Total'] ?></td>
                         <td class='texto_elegante estilo_td' colspan='1'>Porcentaje Ingresado:</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' ?></td>
-                        <td class='texto_elegante estilo_td' colspan='1'>Porcentaje Calculado:</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . round(((($dias_cargo[$datos_basicos['entidad']]['total_dia']) / ($dias_cargo['Total'])) * 100), 3) . '&nbsp;%' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;&nbsp;' . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' ?></td>
+                        <!--td class='texto_elegante estilo_td' colspan='1'>Porcentaje Calculado:</td>
+                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . round(((($dias_cargo[$datos_basicos['entidad']]['total_dia']) / ($dias_cargo['Total'])) * 100), 3) . '&nbsp;%' ?></td-->
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='2'>Mesada Inicial:</td>
@@ -1360,7 +1367,7 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' ?></td>
                     </tr>
                     <?
-                    if ($datos_pensionado[0]['FALLECIDO'] !== 'N') {
+                    if ($datos_pensionado[0]['FALLECIDO'] == 'S') {
                         echo " <tr> ";
                         echo "      <th class='subtitulo_th centrar' colspan='6'>DATOS PENSIONADO - SUSTITUTO</th> ";
                         echo " </tr> ";
@@ -1415,8 +1422,8 @@ class html_liquidador {
                         echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['cuota_parte']) . "</td> ";
                         echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada_adc']) . "</td> ";
                         echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['incremento']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_a2006']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_d2006']) . "</td> ";
                         echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['total']) . "</td> ";
                         echo " </tr> ";
                         $total = $liquidacion_anual[$key]['total'] + $total;

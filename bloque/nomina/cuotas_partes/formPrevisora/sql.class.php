@@ -55,9 +55,9 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" prev_cargooc, ";
                 $cadena_sql.=" prev_correo1, ";
                 $cadena_sql.=" prev_correo2, ";
-                $cadena_sql.=" prev_fecha_registrO ";
+                $cadena_sql.=" prev_fecha_registro ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
-                $cadena_sql.=" ORDER BY prev_fecha_registro DESC ";
+                $cadena_sql.=" ORDER BY prev_nombre ASC ";
                 break;
 
              case "consultarGeografia":

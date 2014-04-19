@@ -190,12 +190,12 @@ class html_formConcurrencia {
 
     function formularioConcurrencia($datos_historia, $datos_empleador, $datos_previsora, $datos_concurrencia) {
 
-        $minDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fingreso'] . "+1 month"));
-        $maxDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro'] . " + 1 month"));
+        $minDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fingreso'] . "+1 day"));
+        $maxDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro'] . " + 1 day"));
 
         $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
-        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
-        $f_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_historia[0]['hlab_fretiro']) . "+1 month")));
+        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']). "+1 day")));
+        $f_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_historia[0]['hlab_fretiro']) )));
 
         if ($datos_concurrencia !== 0) {
             $valor_mesada = $datos_concurrencia[0]['dcp_valor_mesada'];

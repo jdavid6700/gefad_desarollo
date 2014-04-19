@@ -77,14 +77,14 @@ class bloque_formRecaudo extends bloque {
 
                 case "consultar_cp":
                     $consultar_recaudos = array();
-                    $saldo_cuenta = 0;
+
                     foreach ($_REQUEST as $key => $value) {
                         if ($key != 'action' && $key != 'opcion') {
                             $consultar_recaudos[$key] = $_REQUEST[$key];
                         }
                     }
 
-                    $this->funcion->historiaRecaudos_cp($consultar_recaudos, $saldo_cuenta);
+                    $this->funcion->historiaRecaudos_cp($consultar_recaudos);
                     break;
 
                 case "registro_pago":
@@ -106,6 +106,16 @@ class bloque_formRecaudo extends bloque {
                     }
 
                     $this->funcion->mostrarFormulario($cuentas_pago);
+                    break;
+
+                case "pdf_estado":
+                    $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                    $datos_recaudos = unserialize($_REQUEST['datos_recaudos']);
+                    $datos_concurrencia = unserialize($_REQUEST['datos_concurrencia']);
+                    $cobros = unserialize($_REQUEST['cobros']);
+                    $datos_saldo = unserialize($_REQUEST['datos_saldo']);
+                    
+                    $this->funcion->generarPDF_Estado($datos_basicos, $datos_recaudos, $cobros, $datos_concurrencia, $datos_saldo);
                     break;
 
 

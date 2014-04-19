@@ -122,6 +122,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora,cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable . "' ";
                 $cadena_sql.=" AND prev_nit=hlab_nitprev ";
+                $cadena_sql.=" ORDER BY hlab_fingreso ASC ";
                 break;
 
             case "reporteHistoria2":
@@ -137,7 +138,8 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_periodicidad ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora,cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable . "' ";
-                $cadena_sql.=" AND prev_nit=hlab_nitenti";
+                $cadena_sql.=" AND prev_nit=hlab_nitenti ";
+                $cadena_sql.=" ORDER BY hlab_fingreso ASC ";
                 break;
 
             case "nombre_empleador":
@@ -159,6 +161,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" int_fecha_cert ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_interrupciones ";
                 $cadena_sql.=" WHERE int_nro_identificacion= '" . $variable . "' ";
+                $cadena_sql.=" ORDER BY int_fdesde ASC ";
                 break;
 
             case "reporteDescripcion":

@@ -582,14 +582,30 @@ class html_formRecaudo {
                         ?>
                 </table >
             </center>
-            <br><br><br>
-
-            <div>
+               <br><br><br>
+             <div>
                 <div class="null"></div>
-                <input id="generarBoton" type="submit" class="navbtn" name="reportes_formato" value="Generar PDF">
-                <input type='hidden' name='pagina' value='liquidadorCP'>
-                <input type='hidden' name='opcion' value=''>
+                <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
+                <input type='hidden' name='no_pagina' value="formularioRecaudo">
+                <input type='hidden' name='opcion' value='pdf_estado'>
+                <input type="hidden" name='datos_basicos' value='<?php echo serialize($datos_basicos) ?>'>
+                <input type="hidden" name='datos_recaudos' value='<?php echo serialize($datos_recaudos) ?>'>
+                <input type="hidden" name='cobros' value='<?php echo serialize($cobros) ?>'>
+                <input type="hidden" name='datos_concurrencia' value='<?php echo serialize($datos_concurrencia) ?>'>
+                <input type="hidden" name='datos_saldo' value='<?php echo serialize($datos_saldo) ?>'>            
             </div>
+        </form>
+
+        <a href=
+           "<?
+           $variable = "pagina=formularioRecaudo";
+           $variable.="&opcion=historiaRecaudo_cobropago";
+           $variable.="&cedula_emp=" . $datos_basicos['cedula'];
+           $variable.="&hlab_nitprev=" . $datos_basicos['entidad'];
+           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+           echo $this->indice . $variable;
+           ?>"><p style="font-size:12px; color: red; text-align: left"> <<< Volver</p></a>
+        <br><br><br>
         </form>
         <?
     }

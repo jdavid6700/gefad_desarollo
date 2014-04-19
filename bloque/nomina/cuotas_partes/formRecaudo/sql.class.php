@@ -214,6 +214,13 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" AND recta_nitprev='" . $variable['entidad'] . "'  ";
                 break;
 
+            case "jefeRecursosH":
+                $cadena_sql = " SELECT emp_nombre ";
+                $cadena_sql.= " FROM gedep, peemp ";
+                $cadena_sql.= " WHERE emp_cod=dep_emp_cod ";
+                $cadena_sql.= " AND dep_nombre='DIVISION DE RECURSOS HUMANOS' ";
+                break;
+
             case "nombreEntidad":
                 $cadena_sql = " SELECT prev_nombre";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora";

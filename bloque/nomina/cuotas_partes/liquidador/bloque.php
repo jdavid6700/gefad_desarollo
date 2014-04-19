@@ -90,7 +90,7 @@ class bloqueLiquidador extends bloque {
                 $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
 
                 $this->funcion->guardarLiquidacion($datos_basicos, $totales_liquidacion);
-
+     
                 if ($_REQUEST['reportes_formato'] == 'Generar Reportes') {
                     $this->funcion->reportes($datos_basicos);
                 }

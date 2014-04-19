@@ -1178,7 +1178,7 @@ class html_formHistoria {
 
             <table class='bordered'  width ="100%"  >
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>DATOS BÁSICOS DEL PENSIONADO</th>
+                    <th colspan="13" class='encabezado_registro'>DATOS BÁSICOS DEL PENSIONADO</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
@@ -1191,11 +1191,10 @@ class html_formHistoria {
                 </tr>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>HISTORIA LABORAL REGISTRADA</th>
+                    <th colspan="13" class='encabezado_registro'>HISTORIA LABORAL REGISTRADA</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan="1" align=center>&nbsp;NIT EMPLEADOR&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan="3" align=center>&nbsp;EMPLEADOR&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan="2" align=center>FECHA INGRESO</td>
@@ -1210,7 +1209,6 @@ class html_formHistoria {
                         foreach ($historia as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historia[$key]['hlab_nro_ingreso'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='1' style='text-align:center;'>" . $historia[$key]['hlab_nitenti'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $empleador[$key]['empleador'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historia[$key]['hlab_fingreso'] . "</td>";
@@ -1221,7 +1219,6 @@ class html_formHistoria {
                         }
                     } else {
                         echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -1233,11 +1230,11 @@ class html_formHistoria {
                     ?>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>ENTIDADES DE PREVISIÓN</th>
+                    <th colspan="13" class='encabezado_registro'>ENTIDADES DE PREVISIÓN</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
+
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;NIT&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='5' align=center>&nbsp;NOMBRE&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>FECHA INGRESO</td>
@@ -1250,7 +1247,7 @@ class html_formHistoria {
                         foreach ($historia as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $historia[$key]['hlab_nro_ingreso'] . "</td>";
+
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $historia[$key]['hlab_nitprev'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='5' style='text-align:center;'>" . $historia[$key]['prev_nombre'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2'style='text-align:center;'>" . $historia[$key]['hlab_fingreso'] . "</td>";
@@ -1260,7 +1257,7 @@ class html_formHistoria {
                         }
                     } else {
                         echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='5' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -1269,11 +1266,11 @@ class html_formHistoria {
                     }
                     ?>
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>PERIODOS DE INTERRUPCIÓN</th>
+                    <th colspan="13" class='encabezado_registro'>PERIODOS DE INTERRUPCIÓN</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' align=center>&nbsp;INGRESO&nbsp;</td>
+
                     <td class='texto_elegante2 estilo_td' align=center>&nbsp;INTERRUPCION&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='2' align=center>&nbsp;EMPLEADOR&nbsp;</td>
                     <td class='texto_elegante2 estilo_td' colspan='3' align=center>FECHA INICIO</td>
@@ -1287,7 +1284,7 @@ class html_formHistoria {
                         foreach ($interrupcion as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_ingreso'] . "</td>";
+
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_interrupcion'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='2' style='text-align:center;'>" . $interrupcion[$key]['int_nitent'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $interrupcion[$key]['int_fdesde'] . "</td>";
@@ -1297,7 +1294,7 @@ class html_formHistoria {
                         }
                     } else {
                         echo "<tr>";
-                        echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='2' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -1308,13 +1305,12 @@ class html_formHistoria {
                     ?>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>DATOS CERTIFICACIÓN INTERRUPCIÓN LABORAL</th>
+                    <th colspan="13" class='encabezado_registro'>DATOS CERTIFICACIÓN INTERRUPCIÓN LABORAL</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>
-                    <td class='texto_elegante2 estilo_td' align=center>INGRESO</td>
                     <td class='texto_elegante2 estilo_td' align=center>INTERRUPCION</td>
-                    <td class='texto_elegante2 estilo_td' colspan="3" align=center>NÚMERO CERTIFICACIÓN</td>
+                    <td class='texto_elegante2 estilo_td' colspan="4" align=center>NÚMERO CERTIFICACIÓN</td>
                     <td class='texto_elegante2 estilo_td' colspan="6" align=center>FECHA CERTIFICACIÓN</td>
 
                 </tr>
@@ -1325,9 +1321,8 @@ class html_formHistoria {
                         foreach ($interrupcion as $key => $value) {
 
                             echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_ingreso'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $interrupcion[$key]['int_nro_interrupcion'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='3' style='text-align:center;'>" . $interrupcion[$key]['int_num_certificado'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' colspan='4' style='text-align:center;'>" . $interrupcion[$key]['int_num_certificado'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' colspan='6' style='text-align:center;'>" . $interrupcion[$key]['int_fecha_cert'] . "</td>";
                             echo "</tr>";
                         }
@@ -1335,14 +1330,14 @@ class html_formHistoria {
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                        echo "<td class='texto_elegante estilo_td' colspan='3' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='4' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "<td class='texto_elegante estilo_td'  colspan='6'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                         echo "</tr>";
                     }
                     ?>
 
                 <tr>
-                    <th colspan="12" class='encabezado_registro'>INFORMACIÓN CONCURRENCIAS ACEPTADAS</th>
+                    <th colspan="13" class='encabezado_registro'>INFORMACIÓN CONCURRENCIAS ACEPTADAS</th>
                     <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                 </tr>
                 <tr>

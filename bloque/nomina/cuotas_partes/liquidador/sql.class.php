@@ -145,6 +145,30 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" rec_consecu_rec=recta_consecu_rec AND ";
                 $cadena_sql.=" prev_nit=recta_nitprev ";
                 $cadena_sql.=" ORDER BY recta_fechapago ASC ";
+
+            case "recaudos_fechaliq":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" recta_nitprev, ";
+                $cadena_sql.=" prev_nombre, ";
+                $cadena_sql.=" recta_consecu_cta, recta_consecu_rec, ";
+                $cadena_sql.=" cob_ie_correspondencia, ";
+                $cadena_sql.=" rec_resolucionop, ";
+                $cadena_sql.=" rec_fecha_resolucion, ";
+                $cadena_sql.=" recta_fechapago, ";
+                $cadena_sql.=" recta_fechadesde, ";
+                $cadena_sql.=" recta_fechahasta, ";
+                $cadena_sql.=" rec_pago_capital, ";
+                $cadena_sql.=" rec_pago_interes, ";
+                $cadena_sql.=" rec_medio_pago ";
+                $cadena_sql.=" FROM  ";
+                $cadena_sql.=" cuotas_partes.cuotas_recaudo_cuenta, cuotas_partes.cuotas_cobros, cuotas_partes.cuotas_recaudos, cuotas_partes.cuotas_previsora ";
+                $cadena_sql.=" WHERE ";
+                $cadena_sql.=" recta_cedula='" . $variable['cedula'] . "' AND ";
+                $cadena_sql.=" recta_nitprev='" . $variable['entidad'] . "' AND ";
+                $cadena_sql.=" cob_consecu_cta=recta_consecu_cta AND ";
+                $cadena_sql.=" rec_consecu_rec=recta_consecu_rec AND ";
+                $cadena_sql.=" prev_nit=recta_nitprev ";
+                $cadena_sql.=" ORDER BY recta_fechahasta DESC ";
                 break;
 
             case "valor_sumafija":
@@ -196,6 +220,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" liq_mesada_ad, ";
                 $cadena_sql.=" liq_incremento, ";
                 $cadena_sql.=" liq_interes, ";
+                $cadena_sql.=" liq_interes_a2006, ";
+                $cadena_sql.=" liq_interes_d2006, ";
                 $cadena_sql.=" liq_cuotap, ";
                 $cadena_sql.=" liq_total, ";
                 $cadena_sql.=" liq_estado_cc, ";
@@ -218,6 +244,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" '" . $variable['liq_mesada_ad'] . "', ";
                 $cadena_sql.=" '" . $variable['liq_incremento'] . "', ";
                 $cadena_sql.=" '" . $variable['liq_interes'] . "', ";
+                $cadena_sql.=" '" . $variable['liq_interes_a2006'] . "', ";
+                $cadena_sql.=" '" . $variable['liq_interes_d2006'] . "', ";
                 $cadena_sql.=" '" . $variable['liq_cuotap'] . "', ";
                 $cadena_sql.=" '" . $variable['liq_total'] . "', ";
                 $cadena_sql.=" '" . $variable['liq_estado_cc'] . "', ";
@@ -243,6 +271,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" liq_mesada_ad, ";
                 $cadena_sql.=" liq_incremento, ";
                 $cadena_sql.=" liq_interes, ";
+                $cadena_sql.=" liq_interes_a2006, ";
+                $cadena_sql.=" liq_interes_d2006, ";
                 $cadena_sql.=" liq_cuotap, ";
                 $cadena_sql.=" liq_total, ";
                 $cadena_sql.=" liq_estado_cc, ";
@@ -273,6 +303,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" liq_mesada_ad, ";
                 $cadena_sql.=" liq_incremento, ";
                 $cadena_sql.=" liq_interes, ";
+                $cadena_sql.=" liq_interes_a2006, ";
+                $cadena_sql.=" liq_interes_d2006, ";
                 $cadena_sql.=" liq_cuotap, ";
                 $cadena_sql.=" liq_total, ";
                 $cadena_sql.=" liq_estado_cc, ";
@@ -335,8 +367,7 @@ class sql_liquidador extends sql {
                 $cadena_sql.= " '" . $variable['fecha_recibido'] . "', ";
                 $cadena_sql.= " '" . $variable['estado_cuenta'] . "', ";
                 $cadena_sql.= " '" . $variable['estado'] . "', ";
-                $cadena_sql.= " '" . $variable['fecha_registro'] . "' );
-                        ";
+                $cadena_sql.= " '" . $variable['fecha_registro'] . "' ); ";
                 break;
 
             case "consultarCC":

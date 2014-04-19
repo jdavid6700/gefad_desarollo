@@ -168,7 +168,7 @@ class funciones_liquidador extends funcionGeneral {
                         <td>Cuotas Partes Pensionales (mesadas ordinarias y adicionales)</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
-                        <td>" . '&nbsp;&nbsp;' . number_format($totales_liquidacion[0]['liq_cuotap'] + $totales_liquidacion[0]['liq_mesada_ad']) . "</td>
+                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_cuotap'] + $totales_liquidacion[0]['liq_mesada_ad']) . "</td>
                     </tr>
                     <tr>
                         <td style=\"text-align:center;\">2</td>
@@ -179,26 +179,20 @@ class funciones_liquidador extends funcionGeneral {
                     </tr>
                     <tr>
                         <td style=\"text-align:center;\">3</td>
-                        <td>Valor Intereses 12% Ley 68 de 1923</td>
+                        <td>Valor Intereses Ley 68/1923</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
-                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_interes']) . "</td>
+                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_interes_a2006']) . "</td>
                     </tr>
-                    <tr>
+                     <tr>
                         <td style=\"text-align:center;\">4</td>
-                        <td>Valor Intereses Ley 1066 de 2006</td>
+                        <td>Valor Intereses Ley 1066/2006</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
-                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_interes']) . "</td>
+                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_interes_d2006']) . "</td>
                     </tr>
-                    <tr>
-                        <td style=\"text-align:center;\">5</td>
-                        <td>Ajuste Pensión</td>
-                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
-                        <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
-                        <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_ajustepen']) . "</td>
-                    </tr>
-                    <tr>
+          
+             <tr>
                         <th   style=\"text-align:right;\" colspan=\"4\">TOTAL&nbsp;&nbsp;</th>
                         <td >" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_total']) . "</td>
             </tr>
@@ -290,8 +284,8 @@ class funciones_liquidador extends funcionGeneral {
             $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['cuota_parte']) . "</td> ";
             $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada_adc']) . "</td> ";
             $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['incremento']) . "</td> ";
-            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
-            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_a2006']) . "</td> ";
+            $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_d2006']) . "</td> ";
             $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['total']) . "</td> ";
             $contenido.= "</tr> ";
             $total = $liquidacion_anual[$key]['total'] + $total;
@@ -391,19 +385,20 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>
         <td colspan='1'>Días a Cargo:</td>
-        <td colspan='1'>" . $dias_cargo . "</td>
+        <td colspan='2'>" . $dias_cargo . "</td>
         <td colspan='1'>Total Días</td>
-        <td colspan='1'>" . $total_dias . "</td>
+        <td colspan='2'>" . $total_dias . "</td>
         <td colspan='1'>Porcentaje Ingresado:</td>
         <td colspan='1'>" . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' . "</td>
-        <td colspan='1'>Porcentaje Calculado:</td>
-        <td colspan='1'>" . \round(((($dias_cargo / $total_dias)) * 100), 3) . '&nbsp;%' . "</td>
+        " . /* <td colspan='1'>Porcentaje Calculado:</td>
+                  <td colspan='1'>" . \round(((($dias_cargo / $total_dias)) * 100), 3) . '&nbsp;%' . "</td> */"
     </tr>
     <tr>
         <td colspan='2'>Mesada Inicial:</td>
-        <td colspan='2'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada']) . "</td>
+        <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada']) . "</td>
         <td colspan='2'>Cuota Parte:</td>
-        <td colspan='2'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota']) . "</td>
+        <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota']) . "</td>
+        <td colspan='2'></td>
     </tr>
     <tr>
         <td colspan='3'>Resolución que modifica o reliquida:</td>
@@ -493,18 +488,19 @@ class funciones_liquidador extends funcionGeneral {
                 $contenido.="<tr>";
                 $contenido.="<td style='text-align:center;'>" . date('Y-m', strtotime(str_replace('/', '-', $liquidacion[$key]['fecha']))) . "</td>";
                 $contenido.="<td style='text-align:center;'>$" . number_format($liquidacion[$key]['mesada']) . "</td>";
-                $contenido.="<td style='text-align:center;' > " . $liquidacion[$key]['ajuste_pension'] . "</td>";
+                $contenido.="<td style='text-align:center;'>$" . number_format($liquidacion[$key]['cuota_parte']) . "</td>";
+                //$contenido.="<td style='text-align:center;' > " . $liquidacion[$key]['ajuste_pension'] . "</td>";
                 $contenido.="<td style='text-align:center;'>" . number_format($liquidacion[$key]['mesada_adc']) . "</td>";
                 $contenido.="<td style='text-align:center;'>" . number_format($liquidacion[$key]['incremento']) . "</td>";
-                $contenido.="<td style='text-align:center;'>$" . number_format($liquidacion[$key]['interes']) . "</td>";
-                $contenido.="<td style='text-align:center;'>$" . number_format($liquidacion[$key]['cuota_parte']) . "</td>";
+                $contenido.="<td style='text-align:center;'>$" . number_format($liquidacion[$key]['interes_a2006']) . "</td>";
+                $contenido.="<td style='text-align:center;'>$" . number_format($liquidacion[$key]['interes_d2006']) . "</td>";
                 $contenido.="<td style='text-align:center;'>$" . number_format($liquidacion[$key]['total']) . "</td>";
                 $contenido.="</tr>";
             }
         } else {
             $contenido.="<tr>";
             $contenido.="<td style='text-align:center;'></td>";
-            $contenido.="<td style='text-align:center;'></td>";
+            //$contenido.="<td style='text-align:center;'></td>";
             $contenido.="<td style='text-align:center;'></td>";
             $contenido.="<td style='text-align:center;'></td>";
             $contenido.="<td style='text-align:center;'></td>";
@@ -520,12 +516,12 @@ class funciones_liquidador extends funcionGeneral {
 
             foreach ($totales_liquidacion as $key => $values) {
                 $contenido2.="<tr>";
-                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_ajustepen']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_cuotap']) . "</td>";
+                //$contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_ajustepen']) . "</td>";
                 $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_mesada_ad']) . "</td>";
                 $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_incremento']) . "</td>";
-                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes']) . "</td>";
-                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes']) . "</td>";
-                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_cuotap']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes_a2006']) . "</td>";
+                $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes_d2006']) . "</td>";
                 $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_total']) . "</td>";
                 $contenido2.="</tr>";
                 $total2[$key] = $totales_liquidacion[$key][12];
@@ -533,7 +529,7 @@ class funciones_liquidador extends funcionGeneral {
         } else {
             $contenido2.="<tr>";
             $contenido2.="<td style='text-align:center;'></td>";
-            $contenido2.="<td style='text-align:center;'></td>";
+            // $contenido2.="<td style='text-align:center;'></td>";
             $contenido2.="<td style='text-align:center;'></td>";
             $contenido2.="<td style='text-align:center;'></td>";
             $contenido2.="<td style='text-align:center;'></td>";
@@ -640,11 +636,11 @@ class funciones_liquidador extends funcionGeneral {
         <tr>
             <th>CICLO</th>
             <th>MESADA</th>
-            <th>AJUSTE PENSION</th>
+            <th>VALOR CUOTA</th>
             <th>MESADA AD.</th>
             <th>INCREMENTO SALUD</th>
-            <th>INTERESES</th>
-            <th>VALOR CUOTA</th>
+            <th>INTERÉS L_68/1923</th>
+            <th>INTERÉS L_1066/2006</th>
             <th>TOTAL MES</th>
         </tr>
             " . $contenido . "
@@ -693,12 +689,11 @@ class funciones_liquidador extends funcionGeneral {
         </tr>
         <tr>
             <th rowspan=\"2\">TOTAL</th>
-            <th>AJUSTE PENSION</th>
+            <th>VALOR CUOTA</th>
             <th>MESADA AD.</th>
             <th>INCREMENTO SALUD</th>
             <th>INTERES LEY 68/1923</th>
             <th>INTERES LEY 1066/2006</th>
-            <th>VALOR CUOTA</th>
             <th>ACUMULADO</th>
         </tr>" . $contenido2 . "
         <tr>
@@ -734,7 +729,7 @@ class funciones_liquidador extends funcionGeneral {
         </td>
     </tr>
 </table>
-</page>
+
 <br><br>
         <page_footer>
         <table align='center'>
@@ -751,11 +746,13 @@ class funciones_liquidador extends funcionGeneral {
         </table>
         <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
         </page_footer>
+        </page>
         ";
 
         $PDF = new HTML2PDF('P', 'LETTER', 'es');
         $PDF->writeHTML($ContenidoPdf);
-        $PDF->Output("FormatoCuentaResumen.pdf", "D");
+        $PDF->pdf->SetDisplayMode('fullpage');
+        $PDF->Output("FormatoCuentaDetalle.pdf", "D");
     }
 
     function datosEntidad() {
@@ -854,14 +851,16 @@ class funciones_liquidador extends funcionGeneral {
             'cedula' => $datos_liquidar['cedula'],
             'entidad' => $datos_liquidar['prev_nit']);
 
-        $consultar_fechas = $this->consultarRecaudos($parametros);
+        $consultar_fechas = $this->consultarRecaudosLiq($parametros);
         $consultar_pension = $this->datosConcurrencia($parametros);
+
 
         if (is_array($consultar_pension)) {
             if (is_array($consultar_fechas)) {
                 $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_fechas[0]['recta_fechahasta'])));
+            } else {
+                $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
             }
-            $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
@@ -874,6 +873,7 @@ class funciones_liquidador extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
+
         $this->html_liquidador->formularioPeriodo($parametros, $fecha_inicial);
     }
 
@@ -929,6 +929,12 @@ class funciones_liquidador extends funcionGeneral {
     //--
     function consultarRecaudos($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "recaudos", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarRecaudosLiq($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "recaudos_fechaliq", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
@@ -1216,7 +1222,10 @@ class funciones_liquidador extends funcionGeneral {
         foreach ($indice_k as $key => $values) {
             foreach ($liquidacion as $cont => $values) {
                 $año = date('Y', strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha'])));
+                $fecha_a2006 = strtotime(str_replace('/', '-', '29/07/2006'));
+                $fecha_li = strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha']));
                 $año_k = $indice_k[$key];
+
                 if ($año == $año_k) {
 
                     $mesada = $liquidacion[$cont]['mesada'] + $mesada;
@@ -1224,7 +1233,9 @@ class funciones_liquidador extends funcionGeneral {
                     $mesada_adc = $liquidacion[$cont]['mesada_adc'] + $mesada_adc;
                     $incremento = $liquidacion[$cont]['incremento'] + $incremento;
                     $cuota_parte = $liquidacion[$cont]['cuota_parte'] + $cuota_parte;
-                    $interes = $liquidacion[$cont]['interes'] + $interes;
+                    $interes_a2006 = $liquidacion[$cont]['interes_a2006'] + $interes_a2006;
+                    $interes_d2006 = $liquidacion[$cont]['interes_d2006'] + $interes_d2006;
+                    $interes = $liquidacion[$cont]['interes'] + $interes6;
                     $total = $liquidacion[$cont]['total'] + $total;
 
                     $año_liquidacion[$key]['vigencia'] = $año_k;
@@ -1233,7 +1244,9 @@ class funciones_liquidador extends funcionGeneral {
                     $año_liquidacion[$key]['mesada_adc'] = $mesada_adc;
                     $año_liquidacion[$key]['incremento'] = $incremento;
                     $año_liquidacion[$key]['cuota_parte'] = $cuota_parte;
-                    $año_liquidacion[$key]['interes'] = $interes;
+                    $año_liquidacion[$key]['interes'] = $interes_a2006;
+                    $año_liquidacion[$key]['interes_a2006'] = $interes_a2006;
+                    $año_liquidacion[$key]['interes_d2006'] = $interes_d2006;
                     $año_liquidacion[$key]['total'] = $total;
                 }
             }
@@ -1244,6 +1257,8 @@ class funciones_liquidador extends funcionGeneral {
             $incremento = 0;
             $cuota_parte = 0;
             $interes = 0;
+            $interes_a2006 = 0;
+            $interes_d2006 = 0;
             $total = 0;
         }
 
@@ -1396,15 +1411,19 @@ class funciones_liquidador extends funcionGeneral {
 
 //liquidacion
     function calculoTotales($liquidacion_periodo) {
+
         $calculo_totales = array(
             'mesada' => 0,
             'ajuste_pension' => 0,
             'mesada_adc' => 0,
             'incremento' => 0,
             'cuota_parte' => 0,
+            'interes_a2006' => 0,
+            'interes_d2006' => 0,
             'interes' => 0,
             'total' => 0,
         );
+
 
         foreach ($liquidacion_periodo as $key => $value) {
             $calculo_totales['mesada'] = $liquidacion_periodo[$key]['mesada'] + $calculo_totales['mesada'];
@@ -1412,6 +1431,8 @@ class funciones_liquidador extends funcionGeneral {
             $calculo_totales['mesada_adc'] = $liquidacion_periodo[$key]['mesada_adc'] + $calculo_totales['mesada_adc'];
             $calculo_totales['incremento'] = $liquidacion_periodo[$key]['incremento'] + $calculo_totales['incremento'];
             $calculo_totales['cuota_parte'] = $liquidacion_periodo[$key]['cuota_parte'] + $calculo_totales['cuota_parte'];
+            $calculo_totales['interes_a2006'] = $liquidacion_periodo[$key]['interes_a2006'] + $calculo_totales['interes_a2006'];
+            $calculo_totales['interes_d2006'] = $liquidacion_periodo[$key]['interes_d2006'] + $calculo_totales['interes_d2006'];
             $calculo_totales['interes'] = $liquidacion_periodo[$key]['interes'] + $calculo_totales['interes'];
             $calculo_totales['total'] = $liquidacion_periodo[$key]['total'] + $calculo_totales['total'];
         }
@@ -1430,7 +1451,7 @@ class funciones_liquidador extends funcionGeneral {
         $datos_concurrencia = $this->datosConcurrencia($parametros);
 
         $f_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension'])));
-        $f_actual = date('d/m/Y');
+        $f_actual = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_hasta'])));
         $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
         $mesada = $datos_concurrencia[0]['dcp_valor_mesada'];
 
@@ -1453,15 +1474,19 @@ class funciones_liquidador extends funcionGeneral {
             $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
 
             //Valor Ajustes Adicionales
-            $AJUSTEPENSIONAL = $this->AjustePensional(($FECHAS[$key]), $sumafija[0][0]);
+            //$AJUSTEPENSIONAL = $this->AjustePensional(($FECHAS[$key]), $sumafija[0][0]);
             $MESADAADICIONAL = $this->MesadaAdicional(($FECHAS[$key]), $CUOTAPARTE);
             $INCREMENTOSALUD = $this->IncrementoSalud(($FECHAS[$key]), $CUOTAPARTE);
 
             $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD;
+
+            $INTERESES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
+            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota);
             $INTERESES = $this->Intereses($FECHAS[$key], $valor_cuota);
+
             //$INTERESES = 0;
             //Valor Total Mes liquidado
-            $TOTAL = $AJUSTEPENSIONAL + $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
+            $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
             $TOTAL = round($TOTAL, 0);
 
             //**************SALIDA FINAL****************//
@@ -1469,10 +1494,12 @@ class funciones_liquidador extends funcionGeneral {
             $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
             $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
             $liquidacion_cp[$key]['mesada'] = $MESADA;
-            $liquidacion_cp[$key]['ajuste_pension'] = $AJUSTEPENSIONAL;
+            $liquidacion_cp[$key]['ajuste_pension'] = 0;
             $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
             $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
             $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
+            $liquidacion_cp[$key]['interes_a2006'] = $INTERESES_A2006;
+            $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
             $liquidacion_cp[$key]['interes'] = $INTERESES;
             $liquidacion_cp[$key]['total'] = $TOTAL;
             $mesada = $MESADA;
@@ -1512,6 +1539,7 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function calcularPeriodoLiq($datos_liquidar) {
+
         //Datos del Periodo a Liquidar
         $fecha_inicial = date('m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'])));
         $fecha_final = date('m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_hasta'])));
@@ -1573,6 +1601,7 @@ class funciones_liquidador extends funcionGeneral {
         $periodo_calculado = $this->calcularPeriodoLiq($datos_liquidar);
         // Calculo de Totales
         $total_calculado = $this->calculoTotales($periodo_calculado);
+
         $this->html_liquidador->liquidador($periodo_calculado, $datos_basicos, $total_calculado);
     }
 
@@ -1580,6 +1609,10 @@ class funciones_liquidador extends funcionGeneral {
         //Generar consecutivo liquidación
         $parametro = array();
         $consecutivo = $this->consecutivo($parametro);
+
+        if ($consecutivo == null) {
+            $consecutivo[0][0] = 0;
+        }
 
         $consecutivo_real = intval($consecutivo[0][0]) + 1;
 
@@ -1595,6 +1628,8 @@ class funciones_liquidador extends funcionGeneral {
             'liq_ajustepen' => (isset($totales_liquidacion['ajuste_pension']) ? $totales_liquidacion['ajuste_pension'] : ''),
             'liq_mesada_ad' => (isset($totales_liquidacion['mesada_adc']) ? $totales_liquidacion['mesada_adc'] : ''),
             'liq_incremento' => (isset($totales_liquidacion['incremento']) ? $totales_liquidacion['incremento'] : ''),
+            'liq_interes_a2006' => (isset($totales_liquidacion['interes_a2006']) ? $totales_liquidacion['interes_a2006'] : ''),
+            'liq_interes_d2006' => (isset($totales_liquidacion['interes_d2006']) ? $totales_liquidacion['interes_d2006'] : ''),
             'liq_interes' => (isset($totales_liquidacion['interes']) ? $totales_liquidacion['interes'] : ''),
             'liq_cuotap' => (isset($totales_liquidacion['cuota_parte']) ? $totales_liquidacion['cuota_parte'] : ''),
             'liq_total' => (isset($totales_liquidacion['total']) ? $totales_liquidacion['total'] : ''),
@@ -1706,7 +1741,10 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function IncrementoSalud($fecha, $cuota_calculada) {
-        if ($fecha < '1994-1-1') {
+
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $fecha))), 0, 4);
+
+        if ($Anio < '1994') {
             $Incr_Salud = $cuota_calculada * 0.07;
         } else {
             $Incr_Salud = 0;
@@ -1727,10 +1765,9 @@ class funciones_liquidador extends funcionGeneral {
 
         $INDICE = $this->obtenerIPC($Anio);
         //Ajuste Pensional
-        $AJUSTEPENSIONAL = $this->AjustePensional($FECHA, $sumafija);
-
+       
         if ($Mes == 1) {
-            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada + $AJUSTEPENSIONAL;
+            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
         } else {
             $Mesada_Fecha = ($Mesada);
         }
@@ -1769,12 +1806,12 @@ class funciones_liquidador extends funcionGeneral {
 
     //Rescatando DTF
     function Intereses($FECHA, $valor_cuota) {
-
         //Determinar el dtf para la fecha de liquidación
         $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
 
         $parametros = array();
         $historia_dtf = $this->RescatarDtf($parametros);
+        $dtf_periodo = '';
 
         foreach ($historia_dtf as $key => $values) {
 
@@ -1793,6 +1830,75 @@ class funciones_liquidador extends funcionGeneral {
             //Si es menor al 28/07/2006=> interes=(C*n*t)/365
             //C= cuota, n=numero dias, t=tasa mora
             $valor_interes = ((floatval($valor_cuota) * 30 * floatval($dtf_periodo)) / 365);
+        } else {
+            //Si es mayor al 28/07/2006
+            $valor_acumulado = 1;
+
+            foreach ($historia_dtf as $cont => $values) {
+                $valor_acumulado = (1 + (floatval($historia_dtf[$cont]['dtf_indi_ce'])) / 100) * $valor_acumulado;
+            }
+
+            $valor_interes = ($valor_cuota * $valor_acumulado) - $valor_cuota;
+        }
+
+        return $valor_interes;
+    }
+
+    function Intereses_a2006($FECHA, $valor_cuota) {
+        //Determinar el dtf para la fecha de liquidación
+        $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
+
+        $parametros = array();
+        $historia_dtf = $this->RescatarDtf($parametros);
+        $dtf_periodo = '';
+
+        foreach ($historia_dtf as $key => $values) {
+
+            $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
+            $fin = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
+
+            if ($Fecha_ >= $inicio && $$Fecha_ <= $fin) {
+                $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
+                $cont = $key;
+            }
+        }
+
+        $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
+
+        if ($Fecha_ < $ley_2006) {
+            //Si es menor al 28/07/2006=> interes=(C*n*t)/365
+            //C= cuota, n=numero dias, t=tasa mora
+            $valor_interes = ((floatval($valor_cuota) * 30 * floatval($dtf_periodo)) / 365);
+        } else {
+            $valor_interes = 0;
+        }
+
+        return $valor_interes;
+    }
+
+    function Intereses_d2006($FECHA, $valor_cuota) {
+        //Determinar el dtf para la fecha de liquidación
+        $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
+
+        $parametros = array();
+        $historia_dtf = $this->RescatarDtf($parametros);
+        $dtf_periodo = '';
+
+        foreach ($historia_dtf as $key => $values) {
+
+            $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
+            $fin = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
+
+            if ($Fecha_ >= $inicio && $$Fecha_ <= $fin) {
+                $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
+                $cont = $key;
+            }
+        }
+
+        $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
+
+        if ($Fecha_ < $ley_2006) {
+            $valor_interes = 0;
         } else {
             //Si es mayor al 28/07/2006
             $valor_acumulado = 1;
