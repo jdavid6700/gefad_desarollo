@@ -465,6 +465,7 @@ class funciones_liquidador extends funcionGeneral {
         </tr>
     </table>
     <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+     [[page_cu]]/[[page_nb]]
 </page_footer> ";
 
         $PDF = new HTML2PDF('P', 'LETTER', 'es');
