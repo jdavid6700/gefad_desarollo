@@ -176,6 +176,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" FROM cuotas_partes.cuotas_indc_ipc ";
                 $cadena_sql.=" WHERE ipc_fecha='" . $variable . "' ";
                 $cadena_sql.=" AND ipc_estado_registro='1' ";
+                $cadena_sql.=" ORDER BY ipc_indiceipc ASC ";
+                $cadena_sql.=" LIMIT 1";
                 break;
 
             case "valor_ipc":
@@ -183,6 +185,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" FROM cuotas_partes.cuotas_indc_ipc ";
                 $cadena_sql.=" WHERE ipc_fecha='" . $variable . "' ";
                 $cadena_sql.=" AND ipc_estado_registro='1' ";
+                $cadena_sql.=" ORDER BY valor_ipc ASC ";
+                $cadena_sql.=" LIMIT 1";
                 break;
 
             case "valor_dtf":
