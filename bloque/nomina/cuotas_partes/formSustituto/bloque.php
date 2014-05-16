@@ -6,19 +6,19 @@
 /* --------------------------------------------------------------------------------------------------------------------------
  * @name          bloque.php 
  * @author        Violeta Sosa
- * @revision      Última revisión 02 de agosto de 2013
+ * @revision      Última revisión 01 mayo 2014
   /*--------------------------------------------------------------------------------------------------------------------------
- * @subpackage		bloqueAdminVinculacion
+ * @subpackage		bloqueformSustituto
  * @package		bloques
  * @copyright    	Universidad Distrital Francisco Jose de Caldas
- * @version      	0.0.0.1 - Julio 30 de 2013
+ * @version      	0.0.0.1 - 1 de mayo de 2014
  * @author	
  * @author		Oficina Asesora de Sistemas
  * @link		N/D
  * @description  	Bloque para gestionar formularios de cuotas partes.
  *                      Implementa:
 
-  Despliegue formulario cuotas partes registro historia laboral
+                        Despliegue formulario cuotas partes registro sustitutos
  *                      Registro información de formularios
  */
 /* -------------------------------------------------------------------------------------------------------------------------- */
@@ -35,14 +35,14 @@ include_once("sql.class.php");
 include_once("funcion.class.php");
 
 //Clase
-class bloque_formConcurrencia extends bloque {
+class bloque_formSustituto extends bloque {
 
     private $configuracion;
 
     public function __construct($configuracion) {
         $this->configuracion = $configuracion;
-        $this->sql = new sql_formConcurrencia();
-        $this->funcion = new funciones_formConcurrencia($configuracion, $this->sql);
+        $this->sql = new sql_formSustituto();
+        $this->funcion = new funciones_formSustituto($configuracion, $this->sql);
         $this->cripto = new encriptar();
     }
 
@@ -52,7 +52,7 @@ class bloque_formConcurrencia extends bloque {
 
             switch ($accion) {
 
-                case "historiaConcurrencia":
+                case "historiaSustituto":
 
                     $cedula = $_REQUEST['cedula_emp'];
 
@@ -67,13 +67,8 @@ class bloque_formConcurrencia extends bloque {
                         echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                         exit;
                     } else {
-                        $this->funcion->mostrarPrevisoras($cedula);
+                        $this->funcion->mostrarFormulario($cedula);
                     }
-                    break;
-
-                case "formulario":
-
-                    $this->funcion->mostrarFormulario();
                     break;
 
                 default :
@@ -89,17 +84,16 @@ class bloque_formConcurrencia extends bloque {
 
         switch ($_REQUEST['opcion']) {
 
-
-            case "registrarConcurrencia":
-                $registro_previsora = array();
+            case "registrarSustituto":
+                $registro_sustituto = array();
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                        $registro_previsora[$key] = $_REQUEST[$key];
+                        $registro_sustituto[$key] = $_REQUEST[$key];
                     }
                 }
 
-                $this->funcion->procesarFormulario($registro_previsora);
+                $this->funcion->procesarFormulario($registro_sustituto);
                 break;
 
             default :
@@ -115,7 +109,7 @@ class bloque_formConcurrencia extends bloque {
 }
 
 // @ Crear un objeto bloque especifico
-$esteBloque = new bloque_formConcurrencia($configuracion);
+$esteBloque = new bloque_formSustituto($configuracion);
 //echo var_dump($_REQUEST);exit;
 //"blouqe ".$_REQUEST['action'];exit;
 

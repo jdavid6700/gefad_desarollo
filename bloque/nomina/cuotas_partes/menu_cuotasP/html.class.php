@@ -100,6 +100,13 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Registrar Recaudos (Pagos)</a></li>
+                                    
+                                     <li><a href="<?
+                                        $variable = 'pagina=formularioSustituto';
+                                        $variable.='&opcion=';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Registrar Sustitutos</a></li>
                                 </ul>
                             </li>
 

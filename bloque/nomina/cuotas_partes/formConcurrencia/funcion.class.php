@@ -312,7 +312,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('Datos de Interrupción No Registrados Correctamente. Puede deberse a que el registro ya existe');" .
+            "alert('Datos de Concurrencia No Registrados Correctamente. Puede deberse a que el registro ya existe');" .
             "</script> ";
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";

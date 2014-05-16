@@ -46,7 +46,6 @@ class html_formHistoria {
         $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']) . "+1 month")));
         $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida'])));
 
-
         $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
         $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
         $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']) . "+1 month")));

@@ -1728,7 +1728,7 @@ class funciones_liquidador extends funcionGeneral {
 
         $Anio = substr(date("Y", strtotime(str_replace('/', '-', $fecha))), 0, 4);
 
-        if ($Anio < '1994') {
+        if ($Anio > '1994') {
             $Incr_Salud = $cuota_calculada * 0.07;
         } else {
             $Incr_Salud = 0;

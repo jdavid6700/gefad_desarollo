@@ -11,105 +11,58 @@ if (!isset($GLOBALS["autorizado"])) {
 
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/sql.class.php");
 
-class sql_formConcurrencia extends sql {
+class sql_formSustituto extends sql {
 
     function cadena_sql($configuracion, $conexion, $opcion, $variable) {
 
         switch ($opcion) {
 
-            case "insertarDescripcionCP":
-                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_descripcion_cuotaparte ( ";
-                $cadena_sql.=" dcp_nro_identificacion, ";
-                $cadena_sql.=" dcp_nitent, ";
-                $cadena_sql.=" dcp_nitprev, ";
-                $cadena_sql.=" dcp_fecha_concurrencia, ";
-                $cadena_sql.=" dcp_resol_pension, ";
-                $cadena_sql.=" dcp_resol_pension_fecha, ";
-                $cadena_sql.=" dcp_fecha_pension, ";
-                $cadena_sql.=" dcp_valor_mesada, ";
-                $cadena_sql.=" dcp_valor_cuota, ";
-                $cadena_sql.=" dcp_porcen_cuota, ";
-                $cadena_sql.=" dcp_tipo_actoadmin, ";
-                $cadena_sql.=" dcp_actoadmin, ";
-                $cadena_sql.=" dcp_factoadmin, ";
-                $cadena_sql.=" dcp_estado, ";
-                $cadena_sql.=" dcp_registro) VALUES ( ";
-                $cadena_sql.=" '" . $variable['cedula'] . "' ,";
-                $cadena_sql.=" '" . $variable['nit_entidad'] . "' ,";
-                $cadena_sql.=" '" . $variable['nit_previsora'] . "' ,";
-                $cadena_sql.=" '" . $variable['fecha_concurrencia'] . "' ,";
-                $cadena_sql.=" '" . $variable['resolucion_pension'] . "', ";
-                $cadena_sql.=" '" . $variable['fecha_res_pension'] . "', ";
-                $cadena_sql.=" '" . $variable['fecha_pension'] . "', ";
-                $cadena_sql.=" '" . $variable['valor_mesada'] . "' ,";
-                $cadena_sql.=" '" . $variable['valor_cuota'] . "' ,";
-                $cadena_sql.=" '" . $variable['porcen_cuota'] . "' ,";
-                $cadena_sql.=" '" . $variable['tipo_actoadmin'] . "' ,";
-                $cadena_sql.=" '" . $variable['actoadmin'] . "' ,";
-                $cadena_sql.=" '" . $variable['factoadmin'] . "' ,";
-                $cadena_sql.=" '" . $variable['estado'] . "' ,";
-                $cadena_sql.=" '" . $variable['registro'] . "');";
+            case "insertarSustituto":
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_sustituto ";
+                $cadena_sql.=" (sus_cedulapen, ";
+                $cadena_sql.=" sus_cedulasus,  ";
+                $cadena_sql.=" sus_fdefuncion , ";
+                $cadena_sql.=" sus_fnac_sustituto, ";
+                $cadena_sql.=" sus_resol_sustitucion, ";
+                $cadena_sql.=" sus_fresol_sustitucion, ";
+                $cadena_sql.=" sus_estado, ";
+                $cadena_sql.=" sus_fecha_registro)  ";
+                $cadena_sql.=" VALUES ( ";
+                $cadena_sql.=" '" . $variable['cedula_pen'] . "', ";
+                $cadena_sql.=" '" . $variable['cedula_sustituto'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_muerte'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_nacsustituto'] . "', ";
+                $cadena_sql.=" '" . $variable['res_sustitucion'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_res_sustitucion'] . "', ";
+                $cadena_sql.=" '" . $variable['estado'] . "', ";
+                $cadena_sql.=" '" . $variable['registro'] . "') ";
                 break;
 
-            case "consultarPrevisora":
-                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
-                $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
-                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
-                $cadena_sql.=" ORDER BY prev_nit DESC ";
+            case "reporteSustituto":
+                $cadena_sql = " SELECT sus_cedulapen, sus_cedulasus, sus_fresol_sustitucion ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_sustituto ";
+                $cadena_sql.=" WHERE sus_cedulapen='" . $variable['cedula'] . "' ";
                 break;
 
-            case "consultarPrevisoraU":
-                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit  ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral  ";
-                $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
-                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
-                $cadena_sql.=" GROUP BY prev_nombre, hlab_nitprev, prev_nit ";
-                break;
-
-            case "consultarPrevFormulario":
-                $cadena_sql = " SELECT prev_nombre, hlab_nitprev, prev_nit ";
-                $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
-                $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
-                break;
-
-            case "consultarEmpleador":
-                $cadena_sql= "SELECT prev_nombre, prev_nit ";
-                $cadena_sql.= " FROM cuotas_partes.cuotas_previsora ";
-                $cadena_sql.= " WHERE prev_nit= ";
-                $cadena_sql.= " (SELECT distinct hlab_nitenti ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral, cuotas_partes.cuotas_previsora ";
-                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
-                $cadena_sql.=" AND prev_nit=hlab_nitprev ";
-                $cadena_sql.=" AND hlab_nitprev='" . $variable['previsor'] . "' ";
-                $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA')";
-                break;
-
-            case "consultarHistoria":
-                $cadena_sql = " SELECT DISTINCT hlab_nro_identificacion, hlab_nitenti, hlab_nitprev, hlab_fingreso, hlab_fretiro  ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" WHERE hlab_nro_identificacion='" . $variable['cedula'] . "' ";
-                $cadena_sql.=" and hlab_nitprev='" . $variable['previsor'] . "' ";
-                $cadena_sql.= "ORDER BY hlab_fretiro DESC ";
-                break;
-
-            case "reporteDescripcion":
+            case "datos_pensionado":
                 $cadena_sql = " SELECT ";
-                $cadena_sql.= " dcp_nitprev, ";
-                $cadena_sql.= " dcp_resol_pension_fecha, ";
-                $cadena_sql.= " dcp_resol_pension, ";
-                $cadena_sql.= " dcp_fecha_pension, ";
-                $cadena_sql.= " dcp_factoadmin, ";
-                $cadena_sql.= " dcp_actoadmin, ";
-                $cadena_sql.= " dcp_fecha_concurrencia, ";
-                $cadena_sql.= " dcp_valor_mesada, ";
-                $cadena_sql.= " dcp_porcen_cuota, ";
-                $cadena_sql.= " dcp_valor_cuota ";
-                $cadena_sql.= " from cuotas_partes.cuotas_descripcion_cuotaparte ";
-                $cadena_sql.= " where dcp_nro_identificacion = '" . $variable['cedula'] . "' ";
-                $cadena_sql.= " ORDER BY dcp_nitprev DESC ";
+                $cadena_sql.=" emp_nro_iden AS Cedula, ";
+                $cadena_sql.=" to_char(emp_fecha_pen,'DD/MM/YYYY') AS FECHA_PENSION,";
+                $cadena_sql.=" emp_nombre AS NOMBRE, ";
+                $cadena_sql.=" to_char(EMP_FECHA_NAC,'DD/MM/YYYY') as FECHA_NAC, ";
+                $cadena_sql.=" EMP_FALLECIDO as fallecido ";
+                $cadena_sql.=" from peemp ";
+                $cadena_sql.=" where emp_nro_iden='" . $variable['cedula'] . "' and emp_estado='A' ";
                 break;
+
+            case "datos_pensionado_pg":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" dcp_nro_identificacion, ";
+                $cadena_sql.=" dcp_fecha_pension as FECHA_PENSION";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_descripcion_cuotaparte ";
+                $cadena_sql.=" WHERE dcp_nro_identificacion='" . $variable['cedula'] . "' ";
+                break;
+
 
             default:
                 $cadena_sql = "";
