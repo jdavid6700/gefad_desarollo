@@ -176,7 +176,7 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" FROM cuotas_partes.cuotas_indc_ipc ";
                 $cadena_sql.=" WHERE ipc_fecha='" . $variable . "' ";
                 $cadena_sql.=" AND ipc_estado_registro='1' ";
-                $cadena_sql.=" ORDER BY ipc_indiceipc ASC ";
+                $cadena_sql.=" ORDER BY ipc_sumas_fijas DESC ";
                 $cadena_sql.=" LIMIT 1";
                 break;
 
@@ -185,14 +185,22 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" FROM cuotas_partes.cuotas_indc_ipc ";
                 $cadena_sql.=" WHERE ipc_fecha='" . $variable . "' ";
                 $cadena_sql.=" AND ipc_estado_registro='1' ";
-                $cadena_sql.=" ORDER BY valor_ipc ASC ";
-                $cadena_sql.=" LIMIT 1";
+                $cadena_sql.=" ORDER BY ipc_sumas_fijas ASC ";
+                break;
+            
+             case "detalle_indices":
+                $cadena_sql = " SELECT ipc_fecha, ipc_indiceipc, ipc_sumas_fijas ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_indc_ipc ";
+                $cadena_sql.=" WHERE ipc_fecha='" . $variable . "' ";
+                $cadena_sql.=" AND ipc_estado_registro='1' ";
+                $cadena_sql.=" ORDER BY ipc_fecha ASC ";
                 break;
 
             case "valor_dtf":
                 $cadena_sql = " SELECT dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_indc_dtf ";
                 $cadena_sql.=" WHERE dtf_estado='1' ";
+                $cadena_sql.=" AND dtf_fe_desde BETWEEN '2006-07-08' AND current_date  ";
                 $cadena_sql.=" ORDER BY dtf_fe_desde ASC ";
                 break;
 

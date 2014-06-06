@@ -104,7 +104,7 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
-
+<page backtop='60mm' backbottom='20mm' backleft='3mm' backright='3mm' pagegroup='new'>
 <page_header>
     <table align='center'>
         <thead>
@@ -136,10 +136,8 @@ class funciones_liquidador extends funcionGeneral {
                         <td   colspan=\"2\">&nbsp;&nbsp; 30 días calendario a partir de la fecha de recibido</td>
                     </tr>
     </table>  
-</page_header>
-
-<br><br><br><br><br><br><br><br><br><br><br><br>
-                <table>
+    <br>
+     <table align='center'>
                     <tr>
                         <td>Nombre Pensionado:</td>
                         <td style=\"width:280px;\">" . '&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] . "</td>
@@ -153,9 +151,26 @@ class funciones_liquidador extends funcionGeneral {
                         <td style=\"width:280px;\" ></td>
                     </tr>
                 </table>
-                <br>
-                   <table>
+</page_header>
 
+<page_footer>
+    <table align='center' width='100%'>
+        <tr>
+            <td align='center' style=\"width: 750px;\">
+                Universidad Distrital Francisco José de Caldas
+                <br>
+                Todos los derechos reservados.
+                <br>
+                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+                <br>
+
+            </td>
+        </tr>
+    </table>
+     <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+        <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
+</page_footer> 
+                   <table align='center'>
                     <tr>
                         <th>Item</th>
                         <th>Descripción</th>
@@ -197,19 +212,19 @@ class funciones_liquidador extends funcionGeneral {
                         <td >" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_total']) . "</td>
             </tr>
             <tr>
-            <td align = \"center\" style=\"width:775px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
+            <td style=\"width:750px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
             </tr>
             </table><br>             
-            <table   width = \"60%\">
+            <table align='center'>
                     <tr>
-                        <td   align:justify style=\"font-size:12px;width:700px;\" colspan=\"2\">
+                        <td   align:justify style=\"font-size:12px;width:650px;\" colspan=\"2\">
                             El (La) Jefe de la División de Recursos Humanos y la (el) Tesorero (a) de 
                             la UNIVERSIDAD DISTRITAL FRANCISCO JOSE DE CALDAS, certifican que  la persona 
                             por quien se realiza este cobro se encuentra incluida en nomina  de pensionados y se le ha pagado las mesadas cobradas.
                             La supervivencia fue verificada de conformidad con el articulo 21 del Decreto 19 de 2012.</td>
                     </tr>
                     <tr>
-                        <td   align=justify style=\"font-size:12px;width:700px;text-align:justify;\" colspan=\"2\">
+                        <td   align=justify style=\"font-size:12px;width:650px;text-align:justify;\" colspan=\"2\">
                             La suma adeudada debe ser consignada (en efectivo, cheque de gerencia o transferencia electronica) en la Cuenta 
                             de Ahorros No 251–80660–0 del Banco de Occcidente, a nombre del FONDO DE PENSIONES UNIVERSIDAD DISTRITAL y remitir 
                             copia de la misma a la carrera 7 Nº 40-53, piso 6, Division de Recursos Humanos y al correo electronico rechumanos@udistrital.edu.co.
@@ -226,41 +241,27 @@ class funciones_liquidador extends funcionGeneral {
                         </td>
                     </tr>
                     <tr>
-                        <td   align=center style=\"width:384px;text-align:center;\">
+                        <td   align=center style=\"width:375px;text-align:center;\">
         " . $jefeTesoreria . "
                             <br>Tesorero(a)
                         </td>
-                        <td   align=center style=\"width:384px;text-align:center;\">
+                        <td   align=center style=\"width:375px;text-align:center;\">
         " . $jefeRecursos . "
                             <br>Jefe(a) División de Recursos Humanos
                         </td>
                     </tr>
                 </table>
-         
-<br><br>
 
-<page_footer>
-    <table align='center' width='100%'>
-        <tr>
-            <td align='center' style=\"width: 750px;\">
-                Universidad Distrital Francisco José de Caldas
-                <br>
-                Todos los derechos reservados.
-                <br>
-                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
-                <br>
-
-            </td>
-        </tr>
-    </table>
-    <p style=\"font-size:8px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
-</page_footer> 
+</page>
               
 
 ";
-        $PDF = new HTML2PDF('P', 'LETTER', 'es');
+
+        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', 3);
+        $PDF->pdf->SetDisplayMode('fullpage');
         $PDF->writeHTML($ContenidoPdf);
-        $PDF->Output("FormatoCuentaCobro.pdf", "D");
+        clearstatcache();
+        $PDF->Output("CuentadeCobro_" . $datos_basicos['cedula'] . "_" . $datos_basicos['entidad_nombre'] . ".pdf", "D");
 
 
         $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion);
@@ -323,6 +324,7 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
+<page backtop='95mm' backbottom='20mm' backleft='3mm' backright='3mm' pagegroup='new'>
 <page_header>
     <table align='center'>
         <thead>
@@ -351,11 +353,8 @@ class funciones_liquidador extends funcionGeneral {
             <td colspan='2'>" . $datos_basicos['entidad'] . "</td>
         </tr>
     </table>  
-</page_header>
-
-<br><br><br><br><br><br><br><br><br><br>
-
-<table align='center' style=\"width: 750px;\">
+    <br>
+    <table align='center' style=\"width: 750px;\">
     <tr>
         <th colspan=\"8\" style=\"width: 750px;\">DATOS PENSIONADO - PENSIÓN</th>
     </tr>
@@ -405,6 +404,24 @@ class funciones_liquidador extends funcionGeneral {
         <td colspan='5'></td>
     </tr>
 </table>
+</page_header>
+<page_footer>
+    <table align='center' width='100%'>
+        <tr>
+            <td align='center' style=\"width: 750px;\">
+                Universidad Distrital Francisco José de Caldas
+                <br>
+                Todos los derechos reservados.
+                <br>
+                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+                <br>
+            </td>
+        </tr>
+    </table>
+     <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+        <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
+</page_footer>
+
 <br>
 <table align='center' >
     <tr>
@@ -451,26 +468,14 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
 </table>
 <br><br>
-<page_footer>
-    <table align='center' width='100%'>
-        <tr>
-            <td align='center' style=\"width: 750px;\">
-                Universidad Distrital Francisco José de Caldas
-                <br>
-                Todos los derechos reservados.
-                <br>
-                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
-                <br>
-            </td>
-        </tr>
-    </table>
-    <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
-     [[page_cu]]/[[page_nb]]
-</page_footer> ";
+</page>
+ ";
 
-        $PDF = new HTML2PDF('P', 'LETTER', 'es');
+        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', 3);
+        $PDF->pdf->SetDisplayMode('fullpage');
         $PDF->writeHTML($ContenidoPdf);
-        $PDF->Output("FormatoCuentaResumen.pdf", "D");
+        clearstatcache();
+        $PDF->Output("CuentaResumen_" . $datos_basicos['cedula'] . "_" . $datos_basicos['entidad_nombre'] . ".pdf", "D");
     }
 
     function generarPDF_Detalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos) {
@@ -512,7 +517,7 @@ class funciones_liquidador extends funcionGeneral {
         }
 
         $total2 = 0;
-        
+
         $contenido2 = '';
         if (is_array($totales_liquidacion)) {
 
@@ -726,9 +731,7 @@ class funciones_liquidador extends funcionGeneral {
         </td>
     </tr>
 </table>
-
 </page>
-
         ";
 
         //$ContenidoPdf = ob_get_clean();
@@ -736,7 +739,7 @@ class funciones_liquidador extends funcionGeneral {
         $PDF->pdf->SetDisplayMode('fullpage');
         $PDF->writeHTML($ContenidoPdf);
         clearstatcache();
-        $PDF->Output("FormatoCuentaDetalle.pdf", "D");
+        $PDF->Output("FormatoCuentaDetalle_" . $datos_basicos['cedula'] . "_" . $datos_basicos['entidad_nombre'] . ".pdf", "D");
     }
 
     function datosEntidad() {
@@ -931,6 +934,12 @@ class funciones_liquidador extends funcionGeneral {
 
     function obtenerSumafija($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "valor_sumafija", $parametro);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function obtenerIndices($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "detalle_indices", $parametro);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
@@ -1167,19 +1176,22 @@ class funciones_liquidador extends funcionGeneral {
 
         $indice = array();
         $indice_f = array();
+        $a = 0;
 
         foreach ($liquidacion as $key => $values) {
-            $indice['vigencia'][$key] = date('Y', strtotime(str_replace('/', '-', $liquidacion[$key]['fecha'])));
+            $indice['vigencia'][$key] = date('Y', strtotime(str_replace('/', '-', $liquidacion[$key]['fecha']))) + 1;
         }
 
         $indice_k = array_unique($indice['vigencia'], SORT_REGULAR);
 
         foreach ($indice_k as $key => $values) {
-            $indice_c = $this->obtenerIPC($indice_k[$key]);
-            $suma_c = $this->obtenerSumafija($indice_k[$key]);
-            $indice_f[$key]['vigencia'] = $indice_k[$key];
-            $indice_f[$key]['ipc'] = $indice_c[0][0];
-            $indice_f[$key]['suma_fija'] = $suma_c[0][0];
+            $detalle_indice = $this->obtenerIndices($indice_k[$key]);
+            foreach ($detalle_indice as $key => $values) {
+                $indice_f[$a]['vigencia'] = $detalle_indice[$key]['ipc_fecha'];
+                $indice_f[$a]['ipc'] = $detalle_indice[$key]['ipc_indiceipc'];
+                $indice_f[$a]['suma_fija'] = $detalle_indice[$key]['ipc_sumas_fijas'];
+                $a++;
+            }
         }
         return $indice_f;
     }
@@ -1408,7 +1420,6 @@ class funciones_liquidador extends funcionGeneral {
             'total' => 0,
         );
 
-
         foreach ($liquidacion_periodo as $key => $value) {
             $calculo_totales['mesada'] = $liquidacion_periodo[$key]['mesada'] + $calculo_totales['mesada'];
             $calculo_totales['ajuste_pension'] = $liquidacion_periodo[$key]['ajuste_pension'] + $calculo_totales['ajuste_pension'];
@@ -1434,7 +1445,7 @@ class funciones_liquidador extends funcionGeneral {
 
         $datos_concurrencia = $this->datosConcurrencia($parametros);
 
-        $f_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension'])));
+        $f_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'])));
         $f_actual = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_hasta'])));
         $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
         $mesada = $datos_concurrencia[0]['dcp_valor_mesada'];
@@ -1447,7 +1458,7 @@ class funciones_liquidador extends funcionGeneral {
         foreach ($FECHAS as $key => $value) {
 
 //Cadena del periodo liquidar
-            $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key])));
+            $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
 
 //Valor Indices Básicos
             $sumafija = $this->obtenerSumafija($annio);
@@ -1464,12 +1475,8 @@ class funciones_liquidador extends funcionGeneral {
 
             $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
 
-            $INTERESES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
-            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota, $f_actual);
-            $INTERESES = $this->Intereses($FECHAS[$key], $valor_cuota);
-
-//$INTERESES = 0;
-//Valor Total Mes liquidado
+            //$INTERESES = 0;
+            //Valor Total Mes liquidado
             $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
             $TOTAL = round($TOTAL, 0);
 
@@ -1482,12 +1489,22 @@ class funciones_liquidador extends funcionGeneral {
             $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
             $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
             $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
-            $liquidacion_cp[$key]['interes_a2006'] = $INTERESES_A2006;
-            $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
+            $liquidacion_cp[$key]['interes_a2006'] = 0;
+            $liquidacion_cp[$key]['interes_d2006'] =0;
             $liquidacion_cp[$key]['interes'] = $INTERESES;
             $liquidacion_cp[$key]['total'] = $TOTAL;
             $mesada = $MESADA;
         }
+
+              
+        
+        //CALCULANDO LOS INTERESES DE OTRA FORMA JUNIO 2014
+        $liquidacion_cp[0]['interes_a2006'] = $this->Intereses_a2006($liquidacion_cp, $f_pension, $f_actual);
+        
+        foreach ($FECHAS as $key => $value) {
+            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key],$liquidacion_cp, $f_pension, $f_actual);
+            $liquidacion_cp[$key]['interes_d2006'] =$INTERESES_D2006;
+         }
 
         return $liquidacion_cp;
     }
@@ -1728,7 +1745,7 @@ class funciones_liquidador extends funcionGeneral {
 
         $Anio = substr(date("Y", strtotime(str_replace('/', '-', $fecha))), 0, 4);
 
-        if ($Anio > '1994') {
+        if ($Anio >= '1994') {
             $Incr_Salud = $cuota_calculada * 0.07;
         } else {
             $Incr_Salud = 0;
@@ -1739,19 +1756,56 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function MesadaFecha($FECHA, $Mesada, $sumafija) {
-        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4) + 1;
         $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
         settype($Anio, "integer");
         settype($Mes, "integer");
 
         $Mesada = round($Mesada);
-
         $INDICE = $this->obtenerIPC($Anio);
+
 //Ajuste Pensional
 
         if ($Mes == 1) {
-            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada + $sumafija;
+            if ($Anio == 1979) {
+                if ($Mesada <= 12900) {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                } else {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                }
+            } elseif ($Anio == 1984) {
+                if ($Mesada >= 36872.5 && $Mesada <= 46305) {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                } else {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                }
+            } elseif ($Anio == 1985) {
+                if ($Mesada >= 25462.5 && $Mesada <= 56490) {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                } else {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                }
+            } elseif ($Anio == 1986) {
+                if ($Mesada >= 22590 && $Mesada <= 67788) {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                } else {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                }
+            } elseif ($Anio == 1987) {
+                if ($Mesada >= 54231.15 && $Mesada <= 84057) {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                } else {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                }
+            } elseif ($Anio == 1988) {
+                if ($Mesada >= 46230 && $Mesada <= 102549) {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                } else {
+                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                }
+            }
+            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
         } else {
             $Mesada_Fecha = ($Mesada);
         }
@@ -1832,54 +1886,72 @@ class funciones_liquidador extends funcionGeneral {
         }
     }
 
-    function Intereses_a2006($FECHA, $valor_cuota) {
+    function Intereses_a2006($liquidacion, $f_desde, $f_hasta) {
 //Determinar el dtf para la fecha de liquidación
-        $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
-
-        $parametros = array();
-        $historia_dtf = $this->RescatarDtf($parametros);
-        $dtf_periodo = '';
-
-        foreach ($historia_dtf as $key => $values) {
-
-            $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
-            $fin = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
-
-            if ($Fecha_ >= $inicio && $$Fecha_ <= $fin) {
-                $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
-                $cont = $key;
-            }
-        }
-
+        $hoy = (strtotime(str_replace('/', '-', date('dd/mm/yyyy'))));
+        $desde = (strtotime(str_replace('/', '-', $f_desde)));
+        $hasta = (strtotime(str_replace('/', '-', $f_hasta)));
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
 
-        if ($Fecha_ < $ley_2006) {
+        $dias_deuda = floor(abs(($ley_2006 - $desde) / 86400));
+
+
+        $total_liquidacion = $this->calculoTotales($liquidacion);
+        $deuda_capital = $total_liquidacion['total'];
+
 //Si es menor al 28/07/2006=> interes=(C*n*t)/365
 //C= cuota, n=numero dias, t=tasa mora
-            $valor_interes = ((floatval($valor_cuota) * 30 * floatval($dtf_periodo)) / 365);
-        } else {
-            $valor_interes = 0;
-        }
+
+        $total_liquidacion['interes_a2006'] = ((floatval($deuda_capital) * floatval($dias_deuda) * floatval(12 / 100)) / 365);
+        $valor_interes = $total_liquidacion['interes_a2006'];
 
         return $valor_interes;
     }
 
-    function Intereses_d2006($FECHA, $valor_cuota, $fecha_hasta) {
+    function Intereses_d2006($liquidacion, $f_desde, $f_hasta) {
 //Determinar el dtf para la fecha de liquidación
-        $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
-        $f_hasta = (strtotime(str_replace('/', '-', $fecha_hasta)));
-        $valor_interes = 0;
+        $Fecha_ = (strtotime(str_replace('/', '-', $liquidacion[$key]['fecha'])));
+        $hoy = (strtotime(str_replace('/', '-', date('dd/mm/yyyy'))));
+        $desde = (strtotime(str_replace('/', '-', $f_desde)));
+        $hasta = (strtotime(str_replace('/', '-', $f_hasta)));
+        $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
+        $valor_interes = 1;
+
+        $total_liquidacion = $this->calculoTotales($liquidacion);
+        $deuda_capital = $total_liquidacion['total'];
 
         $parametros = array();
         $historia_dtf = $this->RescatarDtf($parametros);
         $dtf_periodo = '';
 
+
+        foreach ($liquidacion as $key => $values) {
+            
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         foreach ($historia_dtf as $key => $values) {
 
             $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
-            $fin = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
+            $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
 
-            if ($Fecha_ >= $inicio && $$Fecha_ <= $fin) {
+            if ($Fecha_ >= $inicio && $Fecha_ <= $final) {
                 $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
                 $cont = $key;
             }
@@ -1887,7 +1959,7 @@ class funciones_liquidador extends funcionGeneral {
 
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
 
-        if ($Fecha_ < $ley_2006) {
+        if ($Fecha_ <= $ley_2006) {
             $valor_interes = 0;
         } else {
 //Si es mayor al 28/07/2006
@@ -1896,16 +1968,20 @@ class funciones_liquidador extends funcionGeneral {
             foreach ($historia_dtf as $cont => $values) {
                 $inicio = strtotime(str_replace('/', '-', $historia_dtf[$cont]['dtf_fe_desde']));
                 $fin = strtotime(str_replace('/', '-', $historia_dtf[$cont]['dtf_fe_hasta']));
-                while ($f_hasta >= $fin) {
-                    $dias_vigencia = floor(abs(($fin - $inicio) / 86400));
-                    $valor_dtf = ((1 + pow(floatval($historia_dtf[$cont]['dtf_indi_ce']), ($dias_vigencia / 365))) - 1);
-                    $valor_acumulado = $valor_acumulado * $valor_dtf;
-                    $valor_interes = ($valor_cuota * $valor_acumulado);
-                }
+
+                $dias_vigencia = floor(abs(($fin - $inicio) / 86400));
+
+                $valor_dtf = (pow(1 + floatval($historia_dtf[$cont]['dtf_indi_ce']) * 100, ($dias_vigencia / 365)) - 1);
+                $valor_acumulado = $valor_acumulado * $valor_dtf;
             }
 
-            return $valor_interes;
+            $valor_acumulado;
+
+            $valor_cuota;
+
+            $valor_interes = ($valor_cuota * $valor_acumulado);
         }
+        return $valor_interes;
     }
 
     function cambiafecha_format($fecha) {
@@ -2121,4 +2197,5 @@ class funciones_liquidador extends funcionGeneral {
 
 
 
-        
+
+
