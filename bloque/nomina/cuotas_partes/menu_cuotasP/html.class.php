@@ -74,6 +74,13 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Consultar Estado de Cuenta</a></li>
+                                    
+                                    <li><a href="<?
+                                        $variable = 'pagina=formularioSustituto';
+                                        $variable.='&opcion=reporte';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Consultar Sustitutos Registrados</a></li>
                                 </ul>
                             </li>
 
@@ -169,12 +176,8 @@
                                         ?>">Registrar Cuenta Cobro Manual</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                     </li>
-
-
-
                 </ul>
             </div>
         </body>

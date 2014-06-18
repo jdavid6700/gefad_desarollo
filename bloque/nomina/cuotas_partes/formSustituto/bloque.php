@@ -18,7 +18,7 @@
  * @description  	Bloque para gestionar formularios de cuotas partes.
  *                      Implementa:
 
-                        Despliegue formulario cuotas partes registro sustitutos
+  Despliegue formulario cuotas partes registro sustitutos
  *                      Registro información de formularios
  */
 /* -------------------------------------------------------------------------------------------------------------------------- */
@@ -53,9 +53,7 @@ class bloque_formSustituto extends bloque {
             switch ($accion) {
 
                 case "historiaSustituto":
-
                     $cedula = $_REQUEST['cedula_emp'];
-
                     if (!preg_match("^\d+$^", $cedula)) {
                         echo "<script type=\"text/javascript\">" .
                         "alert('La cédula no posee un formato válido');" .
@@ -69,6 +67,15 @@ class bloque_formSustituto extends bloque {
                     } else {
                         $this->funcion->mostrarFormulario($cedula);
                     }
+                    break;
+
+                case "reporte":
+                    $this->funcion->reporteSustituto();
+                    break;
+
+                case "pdf_reporte":
+                    $datos_sustitutos = unserialize($_REQUEST['datos_sustitutos']);
+                    $this->funcion->generarPDF_sustituto($datos_sustitutos);
                     break;
 
                 default :

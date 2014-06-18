@@ -87,12 +87,12 @@ class html_formSustituto {
 
     function formularioSustituto($cedula, $pensionado) {
 
-        
+
         $this->formulario = "formSustituto";
         $fecha_min = date('d/m/Y', strtotime(str_replace('/', '-', $pensionado[0][1])));
 
         $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $pensionado[0][1]))));
-        $i_fecha_dia = date('d', (strtotime(str_replace('/', '-',$pensionado[0][1]))));
+        $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $pensionado[0][1]))));
         $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $pensionado[0][1]))));
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -106,7 +106,6 @@ class html_formSustituto {
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-
 
         <script>
                 function acceptNum2(e) {
@@ -162,6 +161,18 @@ class html_formSustituto {
                     maxDate: "+2M",
                     dateFormat: 'dd/mm/yy'
                 });
+                $("#fecha_res_sustitucion").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
+            });
+
+            $(document).ready(function() {
+                $("#fecha_certificado").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:c',
+                    maxDate: "+2M",
+                    dateFormat: 'dd/mm/yy'
+                });
+                $("#fecha_certificado").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
             });
         </script>
 
@@ -170,55 +181,94 @@ class html_formSustituto {
             function echeck(str) {
 
                 var min = new Date('<? echo $i_fecha_anio ?>,<? echo $i_fecha_mes ?>,<? echo $i_fecha_dia ?>');
-                     
-                                var y = str.substring(6);
-                                var m3 = str.substring(3, 5);
-                                var m2 = m3 - 1;
-                                var m = '0' + m2;
-                                var d = str.substring(0, 2);
-                                var cadena = new Date(y, m, d);
-                                if (cadena < min) {
-                                    alert('Fecha fuera del rango especificado')
-                                    return false
-                                }
 
-                                return true
-                            }
+                        var y = str.substring(6);
+                        var m3 = str.substring(3, 5);
+                        var m2 = m3 - 1;
+                        var m = '0' + m2;
+                        var d = str.substring(0, 2);
+                        var cadena = new Date(y, m, d);
+                        if (cadena < min) {
+                            alert('Fecha fuera del rango especificado')
+                            return false
+                        }
 
-                            function minDate() {
+                        return true
+                    }
 
-                                var fechaID = document.formSustituto.fecha_muerte
+                    function minDate() {
 
-                                if ((fechaID.value == null) || (fechaID.value == "")) {
-                                    alert("Ingrese una fecha válida!")
-                                    emailID.focus()
-                                    return false
-                                }
+                        var fechaID = document.formSustituto.fecha_muerte
 
-                                if (echeck(fechaID.value) == false) {
-                                    fechaID.value = ""
-                                    fechaID.focus()
-                                    return false
-                                }
+                        if ((fechaID.value == null) || (fechaID.value == "")) {
+                            alert("Ingrese una fecha válida!")
+                            emailID.focus()
+                            return false
+                        }
 
-
-                                var fechaID = document.formSustituto.fecha_res_sustitucion
-
-                                if ((fechaID.value == null) || (fechaID.value == "")) {
-                                    alert("Ingrese una fecha válida!")
-                                    emailID.focus()
-                                    return false
-                                }
-
-                                if (echeck(fechaID.value) == false) {
-                                    fechaID.value = ""
-                                    fechaID.focus()
-                                    return false
-                                }
+                        if (echeck(fechaID.value) == false) {
+                            fechaID.value = ""
+                            fechaID.focus()
+                            return false
+                        }
 
 
-                                return true
-                            }
+                        var fechaID = document.formSustituto.fecha_res_sustitucion
+
+                        if ((fechaID.value == null) || (fechaID.value == "")) {
+                            alert("Ingrese una fecha válida!")
+                            emailID.focus()
+                            return false
+                        }
+
+                        if (echeck(fechaID.value) == false) {
+                            fechaID.value = ""
+                            fechaID.focus()
+                            return false
+                        }
+
+                        var fechaID = document.formSustituto.fecha_certificado
+
+                        if ((fechaID.value == null) || (fechaID.value == "")) {
+                            alert("Ingrese una fecha válida!")
+                            emailID.focus()
+                            return false
+                        }
+
+                        if (echeck(fechaID.value) == false) {
+                            fechaID.value = ""
+                            fechaID.focus()
+                            return false
+                        }
+                        return true
+                    }
+        </script>
+
+        <script>
+            function  validarFecha() {
+                var desde = (document.getElementById("fecha_res_sustitucion").value);
+                var hasta = (document.getElementById("fecha_certificado").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
+
+                if (cadena1.getTime() < cadena2.getTime()) {
+                    document.getElementById("fecha_certificado").focus();
+                    document.getElementById("fecha_res_sustitucion").focus();
+                    alert("Fecha No Válida");
+                    return false
+                }
+                return true
+            }
         </script>
 
         <script>
@@ -326,8 +376,6 @@ class html_formSustituto {
                 <div class="null"></div>
             </div>
 
-
-
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
@@ -345,8 +393,39 @@ class html_formSustituto {
                 <div class="null"></div>
             </div>
 
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
+            <div class="formrow f1 f2">
+                <div id="p1f10" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for=certificado_defuncion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Certificado<br>  Defunción</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="certificado_defuncion" title="*Campo Obligatorio" name="certificado_defuncion" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false" >
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div id="p1f11" class="field n2">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="fecha_certificado"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha <br>  Certificado <br>  Defunción</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="fecha_certificado" title="*Campo Obligatorio" name="fecha_certificadod" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" onchange="validarFecha()">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1 f2">
+                <div id="p1f10" class="field n1">
                     <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="resolucion_sustitucion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Resolución<br>  Sustitución</span></span></span></label>
                         <div class="null"></div>
@@ -359,13 +438,10 @@ class html_formSustituto {
                     </div>
                     <div class="null"></div>
                 </div>
-                <div class="null"></div>
-            </div>
 
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
+                <div id="p1f11" class="field n2">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_res_sustitucion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Resolución<br>  Sustitución</span></span></span></label>
+                        <label class="fieldlabel" for="fecha_res_sustitucion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha<br>  Resolución<br>  Sustitución</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
@@ -391,4 +467,96 @@ class html_formSustituto {
         <?
     }
 
-}
+    function reporteSustituto($datos_sustitutos) {
+
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+
+        $this->formulario = "formSustituto";
+        ?>
+        <!referencias a estilos y plugins>
+        <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
+        <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel = "stylesheet" type = "text/css"/>
+        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
+        <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
+        <!-- permite la paginacion-->        
+
+        <script>
+                $(function() {
+                    $("div.holder").jPages({
+                        containerID: "itemContainer",
+                        previous: "←",
+                        next: "→",
+                        perPage: 4,
+                        delay: 20
+                    });
+                });
+        </script>
+        <center>     
+
+            <h1>Sustitutos Registrados</h1>
+
+            <form id="<? echo $this->formulario; ?>" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
+                <center><table class='bordered'  width ="75%" align="center">
+                        <tr>
+                            <th colspan="8" class='encabezado_registro'>SUSTITUTOS REGISTRADOS</th>
+                            <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                        </tr>
+                        <tr>
+                            <td class='texto_elegante2 estilo_td' align=center>CÉDULA PENSIONADO</td>
+                            <td class='texto_elegante2 estilo_td' align=center>CÉDULA SUSTITUTO</td>
+                            <td class='texto_elegante2 estilo_td' align=center>FECHA DEFUNCION</td>
+                            <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
+                            <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
+                            <td class='texto_elegante2 estilo_td' align=center>FECHA NAC. SUSTITUTO</td>
+                            <td class='texto_elegante2 estilo_td' align=center>RES. SUSTITUCIÓN</td>
+                            <td class='texto_elegante2 estilo_td' align=center>FECHA RES. SUSTITUCIÓN</td>
+                        </tr>
+                        <tbody id="itemContainer">
+                            <?
+                            if (is_array($datos_sustitutos)) {
+
+                                foreach ($datos_sustitutos as $key => $value) {
+                                    echo "<tr>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fnac_sustituto'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_resol_sustitucion'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fresol_sustitucion'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                    </table >
+                    <center><div class="holder"></div></center>
+                    
+                    <div>
+                        <div class="null"></div>
+                        <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
+                        <input type='hidden' name='no_pagina' value="formularioSustituto">
+                        <input type='hidden' name='opcion' value='pdf_reporte'>
+                        <input type="hidden" name='datos_sustitutos' value='<?php echo serialize($datos_sustitutos) ?>'>
+                    </div>
+            </form>
+            <?
+        }
+
+    }
+    

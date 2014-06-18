@@ -1231,7 +1231,7 @@ class funciones_liquidador extends funcionGeneral {
                     $cuota_parte = $liquidacion[$cont]['cuota_parte'] + $cuota_parte;
                     $interes_a2006 = $liquidacion[$cont]['interes_a2006'] + $interes_a2006;
                     $interes_d2006 = $liquidacion[$cont]['interes_d2006'] + $interes_d2006;
-                    $interes = $liquidacion[$cont]['interes'] + $interes;
+                    $interes = $liquidacion[$cont]['interes'] + $interes6;
                     $total = $liquidacion[$cont]['total'] + $total;
 
                     $año_liquidacion[$key]['vigencia'] = $año_k;
@@ -1240,7 +1240,7 @@ class funciones_liquidador extends funcionGeneral {
                     $año_liquidacion[$key]['mesada_adc'] = $mesada_adc;
                     $año_liquidacion[$key]['incremento'] = $incremento;
                     $año_liquidacion[$key]['cuota_parte'] = $cuota_parte;
-                    $año_liquidacion[$key]['interes'] = $interes_a2006 + $interes_d2006;
+                    $año_liquidacion[$key]['interes'] = $interes_a2006;
                     $año_liquidacion[$key]['interes_a2006'] = $interes_a2006;
                     $año_liquidacion[$key]['interes_d2006'] = $interes_d2006;
                     $año_liquidacion[$key]['total'] = $total;
@@ -1430,7 +1430,6 @@ class funciones_liquidador extends funcionGeneral {
             $calculo_totales['interes_d2006'] = $liquidacion_periodo[$key]['interes_d2006'] + $calculo_totales['interes_d2006'];
             $calculo_totales['interes'] = $liquidacion_periodo[$key]['interes'] + $calculo_totales['interes'];
             $calculo_totales['total'] = $liquidacion_periodo[$key]['total'] + $calculo_totales['total'];
-            
         }
 
         return $calculo_totales;
@@ -1476,8 +1475,12 @@ class funciones_liquidador extends funcionGeneral {
 
             $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
 
-            //$INTERESES = 0;
-            //Valor Total Mes liquidado
+            $INTERESES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
+            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota, $f_actual);
+            $INTERESES = $this->Intereses($FECHAS[$key], $valor_cuota);
+
+//$INTERESES = 0;
+//Valor Total Mes liquidado
             $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
             $TOTAL = round($TOTAL, 0);
 
@@ -1490,24 +1493,13 @@ class funciones_liquidador extends funcionGeneral {
             $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
             $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
             $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
-            $liquidacion_cp[$key]['interes_a2006'] = 0;
-            $liquidacion_cp[$key]['interes_d2006'] = 0;
-            $liquidacion_cp[$key]['interes'] = 0;
+            $liquidacion_cp[$key]['interes_a2006'] = $INTERESES_A2006;
+            $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
+            $liquidacion_cp[$key]['interes'] = $INTERESES;
             $liquidacion_cp[$key]['total'] = $TOTAL;
             $mesada = $MESADA;
         }
 
-        //CALCULANDO LOS INTERESES DE OTRA FORMA JUNIO 2014
-        $liquidacion_cp[0]['interes_a2006'] = $this->Intereses_a2006($liquidacion_cp, $f_pension, $f_actual);
-
-        foreach ($FECHAS as $key => $value) {
-            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $liquidacion_cp, $f_pension, $f_actual);
-            $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006[$key]['interes_d2006'];
-            $acumulado=$liquidacion_cp[$key]['total'];
-            $liquidacion_cp[$key]['total']=$acumulado+$INTERESES_D2006[$key]['interes_d2006'];
-        }
-
-    
         return $liquidacion_cp;
     }
 
@@ -1888,76 +1880,91 @@ class funciones_liquidador extends funcionGeneral {
         }
     }
 
-    function Intereses_a2006($liquidacion, $f_desde, $f_hasta) {
+    function Intereses_a2006($FECHA, $valor_cuota) {
 //Determinar el dtf para la fecha de liquidación
-        $hoy = (strtotime(str_replace('/', '-', date('dd/mm/yyyy'))));
-        $desde = (strtotime(str_replace('/', '-', $f_desde)));
-        $hasta = (strtotime(str_replace('/', '-', $f_hasta)));
+        $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
+
+        $parametros = array();
+        $historia_dtf = $this->RescatarDtf($parametros);
+        $dtf_periodo = '';
+
+        foreach ($historia_dtf as $key => $values) {
+
+            $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
+            $fin = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
+//
+//            if ($Fecha_ >= $inicio && $$Fecha_ <= $fin) {
+//                $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
+//                $cont = $key;
+//            }
+            
+             if ($Fecha_ >= $inicio) {
+                $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
+                $cont = $key;
+            }
+        }
 
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
 
-        $dias_deuda = floor(abs(($ley_2006 - $desde) / 86400));
-
-
-        $total_liquidacion = $this->calculoTotales($liquidacion);
-        $deuda_capital = $total_liquidacion['total'];
-
+        if ($Fecha_ <= $ley_2006) {
 //Si es menor al 28/07/2006=> interes=(C*n*t)/365
 //C= cuota, n=numero dias, t=tasa mora
-
-        $total_liquidacion['interes_a2006'] = ((floatval($deuda_capital) * floatval($dias_deuda) * floatval(12 / 100)) / 365);
-        $valor_interes = $total_liquidacion['interes_a2006'];
+            $valor_interes = ((floatval($valor_cuota) * 30 * floatval($dtf_periodo)) / 365);
+        } else {
+            $valor_interes = 0;
+        }
 
         return $valor_interes;
     }
 
-    function Intereses_d2006($fecha_liq, $liquidacion, $f_desde, $f_hasta) {
+    function Intereses_d2006($FECHA, $valor_cuota, $fecha_hasta) {
 //Determinar el dtf para la fecha de liquidación
-        $fecha = (strtotime(str_replace('/', '-', $fecha_liq)));
-        $hoy = (strtotime(str_replace('/', '-', date('dd/mm/yyyy'))));
-        $desde = (strtotime(str_replace('/', '-', $f_desde)));
-        $hasta = (strtotime(str_replace('/', '-', $f_hasta)));
-        $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
-
-        $valor_interes = 1;
-
-        $total_liquidacion = $this->calculoTotales($liquidacion);
-        $deuda_capital = $total_liquidacion['total'];
+        $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
+        $f_hasta = (strtotime(str_replace('/', '-', $fecha_hasta)));
+        $valor_interes = 0;
 
         $parametros = array();
         $historia_dtf = $this->RescatarDtf($parametros);
-        $dtf_aplicado = 0;
-        $interes_mensual = array();
+        $dtf_periodo = '';
 
-        if ($fecha <= $ley_2006) {
-            $interes_mensual = 0;
-        } else {
-            foreach ($liquidacion as $cont => $values) {
-                foreach ($historia_dtf as $key => $values) {
+        foreach ($historia_dtf as $key => $values) {
 
-                    $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
-                    $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
-                    $f_liq = strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha']));
+            $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
+            $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
 
-                    $year = date('Y', (strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha']))));
-                    $mes = date('m', (strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha']))));
-
-                    if ($f_liq >= $inicio && $f_liq <= $final) {
-                        $dtf_aplicado = $historia_dtf[$key]['dtf_indi_ce'];
-                        //$dias_vigencia = floor(abs(($final - $inicio) / 86400));
-
-                        $dias_vigencia = date('t', mktime(0, 0, 0, $mes, 1, $year));
-                    }
-                }
-
-                $interes_mensual[$cont]['fecha'] = $liquidacion[$cont]['fecha'];
-                $interes_mensual[$cont]['interes_d2006'] = $deuda_capital * (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
-                $deuda_capital = $deuda_capital + $interes_mensual[$cont]['interes_d2006'];
-                $interes_mensual[$cont]['capital_acumulado'] = $deuda_capital;
+//            if ($Fecha_ >= $inicio && $$Fecha_ <= $final) {
+//                $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
+//                $cont = $key;
+//            }
+            
+               if ($Fecha_ >= $inicio) {
+                $dtf_periodo = $historia_dtf[$key]['dtf_indi_ce'];
+                $cont = $key;
             }
         }
 
-        return $interes_mensual;
+        $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
+
+        if ($Fecha_ <= $ley_2006) {
+            $valor_interes = 0;
+        } else {
+//Si es mayor al 28/07/2006
+            $valor_acumulado = 1;
+
+            foreach ($historia_dtf as $cont => $values) {
+                $inicio = strtotime(str_replace('/', '-', $historia_dtf[$cont]['dtf_fe_desde']));
+                $fin = strtotime(str_replace('/', '-', $historia_dtf[$cont]['dtf_fe_hasta']));
+                while ($f_hasta >= $fin) {
+                    $dias_vigencia = floor(abs(($fin - $inicio) / 86400));
+                    $valor_dtf = ((1 + pow(floatval($historia_dtf[$cont]['dtf_indi_ce']), ($dias_vigencia / 365))) - 1);
+                    $valor_acumulado = $valor_acumulado * $valor_dtf;
+                    echo $valor_interes = ($valor_cuota * $valor_acumulado);
+                }
+            }
+
+            
+            return $valor_interes;
+        }
     }
 
     function cambiafecha_format($fecha) {

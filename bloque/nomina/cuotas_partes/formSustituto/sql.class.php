@@ -22,6 +22,8 @@ class sql_formSustituto extends sql {
                 $cadena_sql.=" (sus_cedulapen, ";
                 $cadena_sql.=" sus_cedulasus,  ";
                 $cadena_sql.=" sus_fdefuncion , ";
+                $cadena_sql.=" sus_certificado_defuncion, ";
+                $cadena_sql.=" sus_fcertificado_defuncion, ";
                 $cadena_sql.=" sus_fnac_sustituto, ";
                 $cadena_sql.=" sus_resol_sustitucion, ";
                 $cadena_sql.=" sus_fresol_sustitucion, ";
@@ -31,6 +33,8 @@ class sql_formSustituto extends sql {
                 $cadena_sql.=" '" . $variable['cedula_pen'] . "', ";
                 $cadena_sql.=" '" . $variable['cedula_sustituto'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_muerte'] . "', ";
+                $cadena_sql.=" '" . $variable['certificado_defuncion'] . "', ";
+                $cadena_sql.=" '" . $variable['fecha_certificadod'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_nacsustituto'] . "', ";
                 $cadena_sql.=" '" . $variable['res_sustitucion'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_res_sustitucion'] . "', ";
@@ -42,6 +46,15 @@ class sql_formSustituto extends sql {
                 $cadena_sql = " SELECT sus_cedulapen, sus_cedulasus, sus_fresol_sustitucion ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_sustituto ";
                 $cadena_sql.=" WHERE sus_cedulapen='" . $variable['cedula'] . "' ";
+                break;
+
+            case "listadoSustitutos":
+                $cadena_sql = " SELECT sus_cedulapen,sus_cedulasus, ";
+                $cadena_sql.=" sus_fdefuncion, sus_certificado_defuncion, ";
+                $cadena_sql.=" sus_fcertificado_defuncion,sus_fnac_sustituto, ";
+                $cadena_sql.=" sus_resol_sustitucion,sus_fresol_sustitucion ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_sustituto ";
+                $cadena_sql.=" ORDER BY sus_cedulapen ASC ";
                 break;
 
             case "datos_pensionado":

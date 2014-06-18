@@ -42,6 +42,7 @@ class funciones_formSustituto extends funcionGeneral {
         include ($configuracion["raiz_documento"] . $configuracion["estilo"] . "/basico/tema.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/log.class.php");
+        include_once($configuracion["raiz_documento"] . $configuracion["plugins"] . "/html2pdf/html2pdf.class.php");
 
         $this->cripto = new encriptar();
         $this->log_us = new log();
@@ -84,7 +85,7 @@ class funciones_formSustituto extends funcionGeneral {
             "alert('Ya existe un sustituto registrado para el pensionado con cédula " . $cedula . "');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formulariosustituto';
+            $variable = 'pagina=formularioSustituto';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -95,6 +96,16 @@ class funciones_formSustituto extends funcionGeneral {
             } else {
                 if (is_array($datos_pensionado_pg)) {
                     $this->html_formSustituto->formularioSustituto($cedula, $datos_pensionado_pg);
+                } else {
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('No existe registro de fecha de pensión para la cédula " . $cedula . "');" .
+                    "</script> ";
+                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                    $variable = 'pagina=formularioConcurrencia';
+                    $variable.='&opcion=';
+                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                    exit;
                 }
             }
         }
@@ -108,6 +119,12 @@ class funciones_formSustituto extends funcionGeneral {
 
     function consultarSustituto($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteSustituto", $parametros);
+        $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_registro;
+    }
+
+    function reporteSustitutos($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "listadoSustitutos", $parametros);
         $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_registro;
     }
@@ -185,6 +202,8 @@ class funciones_formSustituto extends funcionGeneral {
             'cedula_sustituto' => (isset($datos['cedula_sustituto']) ? $datos['cedula_sustituto'] : ''),
             'fecha_nacsustituto' => (isset($datos['fecha_nacsustituto']) ? $datos['fecha_nacsustituto'] : ''),
             'fecha_muerte' => (isset($datos['fecha_muerte']) ? $datos['fecha_muerte'] : ''),
+            'fecha_certificadod' => (isset($datos['fecha_certificadod']) ? $datos['fecha_certificadod'] : ''),
+            'certificado_defuncion' => (isset($datos['certificado_defuncion']) ? $datos['certificado_defuncion'] : ''),
             'fecha_res_sustitucion' => (isset($datos['cedula_sustituto']) ? $datos['cedula_sustituto'] : ''),
             'res_sustitucion' => (isset($datos['resolucion_sustitucion']) ? $datos['resolucion_sustitucion'] : ''),
             'estado' => $estado_registro,
@@ -224,6 +243,161 @@ class funciones_formSustituto extends funcionGeneral {
         }
     }
 
-}
+    function reporteSustituto() {
 
-?>
+        $parametros = array();
+        $datos_sustitutos = $this->reporteSustitutos($parametros);
+
+        if (is_array($datos_sustitutos)) {
+            $this->html_formSustituto->reporteSustituto($datos_sustitutos);
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No existen datos para el reporte.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSustituto';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+    }
+
+    function generarPDF_sustituto($datos_sustitutos) {
+
+        ob_start();
+        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+
+        $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
+        $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+        $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' del ' . date('Y');
+
+        $contenido = '';
+        if (is_array($datos_sustitutos)) {
+            foreach ($datos_sustitutos as $key => $value) {
+                $contenido = "<tr>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fnac_sustituto'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_resol_sustitucion'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fresol_sustitucion'] . "</td>";
+                $contenido.="</tr>";
+            }
+        } else {
+            $contenido = "<tr>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+            $contenido.="</tr>";
+        }
+
+        $ContenidoPdf = "
+ <style type=\"text/css\">
+        table { 
+            color:#333; /* Lighten up font color */
+            font-family:Helvetica, Arial, sans-serif; /* Nicer font */
+            border-collapse:collapse; border-spacing: 3px; 
+        }
+
+              td, th { 
+            border: 1px solid #CCC; 
+            height: 13px;
+        } /* Make cells a bit taller */
+
+        th {
+            background: #F3F3F3; /* Light grey background */
+            font-weight: bold; /* Make sure they're bold */
+            text-align: center;
+            font-size:10px
+        }
+
+        td {
+            background: #FAFAFA; /* Lighter grey background */
+            text-align: left;
+            font-size:10px
+        }
+        
+        div.niveau
+    
+{ padding-left: 5mm; }
+    </style>
+
+<page backtop='30mm' backbottom='20mm' backleft='3mm' backright='3mm' pagegroup='new'>
+<page_header>
+    <table align='center'>
+                <tr>
+                <th style=\"width:10px;\" colspan=\"1\">
+                    <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
+                </th>
+                <th style=\"width:570px;font-size:13px;\" colspan=\"1\">
+                    <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
+                    <br> NIT 899999230-7<br>
+                    <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
+                </th>
+                <th style=\"width:130px;font-size:10px;\" colspan=\"1\">
+                    <br>REPORTE SUSTITUTOS REGISTRADOS<BR>
+                    <br>" . $fecha_cc . "<br><br>
+                </th>
+            </tr>
+    </table>  
+    <br>
+</page_header>
+
+<page_footer>
+        <table align='center'>
+        <tr>
+        <td align = 'center' style=\"width: 770px; text-align:center\">
+        Universidad Distrital Francisco José de Caldas
+        <br>
+        Todos los derechos reservados.
+        <br>
+        Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+        <br>
+        </td>
+        </tr>
+        </table>
+        <p style=\"font-size:7px\">Diseño forma: Oficina Asesora de Sistemas</p>
+        <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
+</page_footer>
+
+  <table  align='center'>
+   <thead>
+        <tr>
+            <th colspan=\"8\" style=\"width:770px; font-size:12px;\">DETALLE DE SUSTITUTOS</th>
+        </tr>
+        <tr>
+                        <th>CÉDULA<BR> PENSIONADO</th>
+                        <th>CÉDULA<BR> SUSTITUTO</th>
+                        <th>FECHA<BR> DEFUNCION</th>
+                        <th>CERTIFICADO<BR> DEFUNCIÓN</th>
+                        <th>CERTIFICADO<BR> DEFUNCIÓN</th>
+                        <th>FECHA NAC. SUSTITUTO</th>
+                        <th>RES. SUSTITUCIÓN</th>
+                        <th>FECHA RES. SUSTITUCIÓN</th>
+        </tr>
+         </thead>
+         <tbody>
+            " . $contenido . "
+                </tbody>
+                
+    </table>
+</page>
+        ";
+
+        //$ContenidoPdf = ob_get_clean();
+        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', 3);
+        $PDF->pdf->SetDisplayMode('fullpage');
+        $PDF->writeHTML($ContenidoPdf);
+        clearstatcache();
+        $PDF->Output("ReporteSustitutos.pdf", "D");
+    }
+
+}
