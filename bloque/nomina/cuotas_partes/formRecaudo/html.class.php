@@ -178,7 +178,7 @@ class html_formRecaudo {
             <div class="formrow f1">
                 <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">

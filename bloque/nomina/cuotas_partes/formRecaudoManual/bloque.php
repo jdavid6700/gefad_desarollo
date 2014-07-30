@@ -8,7 +8,7 @@
  * @author        Violeta Sosa
  * @revision      Última revisión 01 mayo 2014
   /*--------------------------------------------------------------------------------------------------------------------------
- * @subpackage		bloqueformSustituto
+ * @subpackage		bloqueformRecaudoManual
  * @package		bloques
  * @copyright    	Universidad Distrital Francisco Jose de Caldas
  * @version      	0.0.0.1 - 1 de mayo de 2014
@@ -35,14 +35,14 @@ include_once("sql.class.php");
 include_once("funcion.class.php");
 
 //Clase
-class bloque_formSustituto extends bloque {
+class bloque_formRecaudoManual extends bloque {
 
     private $configuracion;
 
     public function __construct($configuracion) {
         $this->configuracion = $configuracion;
-        $this->sql = new sql_formSustituto();
-        $this->funcion = new funciones_formSustituto($configuracion, $this->sql);
+        $this->sql = new sql_formRecaudoManual();
+        $this->funcion = new funciones_formRecaudoManual($configuracion, $this->sql);
         $this->cripto = new encriptar();
     }
 
@@ -52,32 +52,45 @@ class bloque_formSustituto extends bloque {
 
             switch ($accion) {
 
-                case "historiaSustituto":
+                case "validarCedula":
                     $cedula = $_REQUEST['cedula_emp'];
                     if (!preg_match("^\d+$^", $cedula)) {
                         echo "<script type=\"text/javascript\">" .
                         "alert('La cédula no posee un formato válido');" .
                         "</script> ";
                         $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                        $variable = 'pagina=reportesCuotas';
+                        $variable = 'pagina=formularioRManual';
                         $variable.='&opcion=';
                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                         echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                         exit;
                     } else {
-                        $this->funcion->mostrarFormulario($cedula);
+                        $this->funcion->entidadFormulario($cedula);
                     }
                     break;
 
-                case "reporte":
-                    $this->funcion->reporteSustituto();
+                case "consultar":
+                    $consultar_previsora = array();
+                    $saldo_cuenta = 0;
+                    foreach ($_REQUEST as $key => $value) {
+                        if ($key != 'action' && $key != 'opcion') {
+                            $consultar_recaudos[$key] = $_REQUEST[$key];
+                        }
+                    }
+
+                    $this->funcion->historiaRecaudos($consultar_recaudos, $saldo_cuenta);
                     break;
 
-                case "pdf_reporte":
-                    $datos_sustitutos = unserialize($_REQUEST['datos_sustitutos']);
-                    $this->funcion->generarPDF_sustituto($datos_sustitutos);
+                case "pasoFormulario":
+                    foreach ($_REQUEST as $key => $value) {
+                        if ($key != 'action' && $key != 'opcion') {
+                            $recaudo_manual[$key] = $_REQUEST[$key];
+                        }
+                    }
+                    $this->funcion->mostrarFormulario($recaudo_manual);
                     break;
 
+    
                 default :
                     $this->funcion->inicio();
             }
@@ -91,16 +104,16 @@ class bloque_formSustituto extends bloque {
 
         switch ($_REQUEST['opcion']) {
 
-            case "registrarSustituto":
-                $registro_sustituto = array();
+            case "guardarRecaudo":
+                $registro_recaudo = array();
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
-                        $registro_sustituto[$key] = $_REQUEST[$key];
+                        $registro_recaudo[$key] = $_REQUEST[$key];
                     }
                 }
 
-                $this->funcion->procesarFormulario($registro_sustituto);
+                $this->funcion->procesarFormulario($registro_recaudo);
                 break;
 
             default :
@@ -116,7 +129,7 @@ class bloque_formSustituto extends bloque {
 }
 
 // @ Crear un objeto bloque especifico
-$esteBloque = new bloque_formSustituto($configuracion);
+$esteBloque = new bloque_formRecaudoManual($configuracion);
 //echo var_dump($_REQUEST);exit;
 //"blouqe ".$_REQUEST['action'];exit;
 

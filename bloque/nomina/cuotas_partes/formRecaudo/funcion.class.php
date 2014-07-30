@@ -123,8 +123,9 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
     function consultarRecaudos($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudos", $parametros);
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudos", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        var_dump($datos);
         return $datos;
     }
 
@@ -668,8 +669,8 @@ class funciones_formRecaudo extends funcionGeneral {
             $total_pago_bd = $parametros['total_recaudo'];
 
             //Cálculos de la deuda
-            $saldo_capital = $deuda_capital - $pago_capital;
-            $saldo_interes = $deuda_interes - $deuda_interes;
+            $saldo_capital = floatval($deuda_capital) - floatval($pago_capital);
+            $saldo_interes = floatval($deuda_interes) - floatval($pago_interes);
             $saldo_total = $saldo_capital + $saldo_interes;
 
             if ($saldo_total == 0) {
@@ -1018,7 +1019,6 @@ class funciones_formRecaudo extends funcionGeneral {
             'medio_pago' => (isset($datos['medio_pago']) ? $datos['medio_pago'] : ''),
             'valor_pagado_capital' => (isset($total_capital) ? $total_capital : ''),
             'valor_pagado_interes' => (isset($total_interes) ? $total_interes : ''),
-            'valor_pagado_interes' => (isset($total_interes) ? $total_interes : ''),
             'fecha_registro' => date('Y-m-d'),
             'total_recaudo' => (isset($datos['total_recaudo']) ? $datos['total_recaudo'] : ''));
 
@@ -1048,7 +1048,6 @@ class funciones_formRecaudo extends funcionGeneral {
 
                     $revisar_saldo = $this->actualizarSaldo($parametros);
 
-                    exit;
                     $datos_recaudo_cobro = $this->registrarPagoCobro($parametros);
 
                     if ($datos_recaudo_cobro == 1) {

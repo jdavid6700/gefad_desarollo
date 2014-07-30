@@ -16,6 +16,15 @@ class sql_liquidador extends sql {
     function cadena_sql($configuracion, $conexion, $opcion, $variable) {
 
         switch ($opcion) {
+            
+            case "actualizarEstadoLiquidacion":
+                $cadena_sql = " UPDATE ";
+                $cadena_sql.=" cuotas_partes.cuotas_liquidacion ";
+                $cadena_sql.=" SET ";
+                $cadena_sql.=" liq_estado_cc = 'INACTIVO' ";
+                $cadena_sql.=" WHERE ";
+                $cadena_sql.=" liq_consecutivo = '".$variable."' ";
+                break;
 
             //Reestructuración
             case "consultarEntidades":
@@ -187,8 +196,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" AND ipc_estado_registro='1' ";
                 $cadena_sql.=" ORDER BY ipc_sumas_fijas ASC ";
                 break;
-            
-             case "detalle_indices":
+
+            case "detalle_indices":
                 $cadena_sql = " SELECT ipc_fecha, ipc_indiceipc, ipc_sumas_fijas ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_indc_ipc ";
                 $cadena_sql.=" WHERE ipc_fecha='" . $variable . "' ";
@@ -202,6 +211,13 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" WHERE dtf_estado='1' ";
                 $cadena_sql.=" AND dtf_fe_desde BETWEEN '2006-07-08' AND current_date  ";
                 $cadena_sql.=" ORDER BY dtf_fe_desde ASC ";
+                break;
+
+            case "valor_dtf_entre":
+                $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce from cuotas_partes.cuotas_indc_dtf ";
+                $cadena_sql.= " where dtf_fe_desde between '".$variable['desde']."' and '".$variable['hasta']."' ";
+                $cadena_sql.= " and dtf_fe_hasta between '".$variable['desde']."' and '".$variable['hasta']."' ";
+                $cadena_sql.= " order by dtf_fe_desde ASC ";
                 break;
 
             case "consecutivo":
@@ -403,8 +419,6 @@ class sql_liquidador extends sql {
                 $cadena_sql.= " WHERE emp_cod=dep_emp_cod ";
                 $cadena_sql.= " AND dep_nombre='TESORERIA' ";
                 break;
-
-
 
             default:
                 $cadena_sql = "";

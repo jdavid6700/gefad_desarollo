@@ -90,7 +90,7 @@ class bloqueLiquidador extends bloque {
                 $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
 
                 $this->funcion->guardarLiquidacion($datos_basicos, $totales_liquidacion);
-     
+
                 if ($_REQUEST['reportes_formato'] == 'Generar Reportes') {
                     $this->funcion->reportes($datos_basicos);
                 }
@@ -121,7 +121,6 @@ class bloqueLiquidador extends bloque {
                 $jefeTesoreria = $_REQUEST['jTesoreria'];
 
                 $this->funcion->generarPDF_Cuenta($datos_basicos, $totales_liquidacion, $enletras, $consecutivo, $jefeRecursos, $jefeTesoreria);
-
                 break;
 
             case "pdf_resumen":
@@ -151,6 +150,19 @@ class bloqueLiquidador extends bloque {
                 $this->funcion->generarPDF_Detalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos);
                 break;
 
+            case "activarCobro":
+
+                 $opcion_pago='voluntario';
+
+                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
+                $consecutivo = $_REQUEST['consecutivo'];
+                $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
+                $enletras = $_REQUEST['letras'];
+                $jefeRecursos = $_REQUEST['jRecursos'];
+                $jefeTesoreria = $_REQUEST['jTesoreria'];
+
+                $this->funcion->activarCobro($datos_basicos,$consecutivo,  $totales_liquidacion, $opcion_pago);
+                break;
             default:
                 $this->funcion->datosIniciales();
                 break;

@@ -675,7 +675,7 @@ class html_liquidador {
             <center>
                 <table class='bordered'  width ="90%" >
                     <tr>
-                        <th colspan="13" class="subtitulo_th" style="font-size:12px;">DETALLE DE LA LIQUIDACIÓN</th>
+                        <th colspan="14" class="subtitulo_th" style="font-size:12px;">DETALLE DE LA LIQUIDACIÓN</th>
                     </tr>
                     <tr>
                         <th class='subtitulo_th centrar' rowspan='2'>ID</th>
@@ -690,6 +690,7 @@ class html_liquidador {
 
                         <th class='subtitulo_th centrar' rowspan='2'>TOTAL MES</th>
                         <th class='subtitulo_th centrar' colspan='3'>TIPO DE REPORTE</th>
+                        <th class='subtitulo_th centrar' rowspan='2'>ESTADO COBRO</th>
                     </tr>
                     <tr>
                         <th class='subtitulo_th centrar'>DESDE</th>
@@ -747,7 +748,10 @@ class html_liquidador {
                             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                             echo " " . $this->indice . $variable . "'>
                             <img alt = 'Imagen' width = '20px' src = '" . $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] . "/nomina/cuotas_partes/liquidador/icons/detalle.png'/></td>";
+                            
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'> ". $totales_liquidacion[$key]['liq_estado_cc']."</p></td>";
                             echo "</tr>";
+                            
                         }
                     } else {
                         echo "<tr>";
@@ -757,6 +761,7 @@ class html_liquidador {
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         //echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
+                        echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
                         echo "<td class = 'texto_elegante estilo_td' style = 'text-align:center;'></td>";
@@ -893,7 +898,7 @@ class html_liquidador {
                         <th class='subtitulo_th centrar'>MESADA AD.</th>
                         <th class='subtitulo_th centrar'>INCREMENTO SALUD</th>
                         <th class='subtitulo_th centrar'>INTERÉS L_68/1923</th>
-                       <th class='subtitulo_th centrar'>INTERÉS L_1066/2006</th>
+                        <th class='subtitulo_th centrar'>INTERÉS L_1066/2006</th>
                         <th class='subtitulo_th centrar'>TOTAL MES</th>
                     </tr>
                     <tbody id="itemContainer">

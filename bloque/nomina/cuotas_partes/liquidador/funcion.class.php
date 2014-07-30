@@ -257,14 +257,17 @@ class funciones_liquidador extends funcionGeneral {
 
 ";
 
+
+
         $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', 3);
         $PDF->pdf->SetDisplayMode('fullpage');
         $PDF->writeHTML($ContenidoPdf);
         clearstatcache();
         $PDF->Output("CuentadeCobro_" . $datos_basicos['cedula'] . "_" . $datos_basicos['entidad_nombre'] . ".pdf", "D");
-
-
-        $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion);
+        
+        
+        $opcion_pago = 'voluntario';
+        $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago);
     }
 
     function generarPDF_Resumen($datos_basicos, $consecutivo, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos, $total_dias) {
@@ -751,8 +754,8 @@ class funciones_liquidador extends funcionGeneral {
 
         if (!is_array($datos_entidad)) {
             echo "<script type = \"text/javascript\">" .
-            "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
-            "</script> ";
+                    "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
+                    "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioConcurrencia';
@@ -790,8 +793,8 @@ class funciones_liquidador extends funcionGeneral {
 
         if (!is_array($datos_entidad)) {
             echo "<script type=\"text/javascript\">" .
-            "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
-            "</script> ";
+                    "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
+                    "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioConcurrencia';
@@ -850,8 +853,8 @@ class funciones_liquidador extends funcionGeneral {
             }
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
-            "</script> ";
+                    "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
+                    "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioConcurrencia';
@@ -998,6 +1001,12 @@ class funciones_liquidador extends funcionGeneral {
         return $datos;
     }
 
+    function RescatarDTFEntre($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "valor_dtf_entre", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
 // Reportes Liquidación
     function reportes($datos_basicos) {
 
@@ -1023,8 +1032,8 @@ class funciones_liquidador extends funcionGeneral {
             $this->html_liquidador->generarReportes($datos_basicos, $totales_liq);
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('No existen Liquidaciones Generadas para la Entidad.');" .
-            "</script> ";
+                    "alert('No existen Liquidaciones Generadas para la Entidad.');" .
+                    "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=liquidadorCP';
@@ -1033,6 +1042,11 @@ class funciones_liquidador extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
+    }
+
+    function activarCobro($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago) {
+
+        $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago);
     }
 
     function reporteCuenta($datos_basicos, $consecutivo) {
@@ -1066,11 +1080,9 @@ class funciones_liquidador extends funcionGeneral {
 
         $existe_cc = $this->consultarCC($parametros);
 
-        if ($existe_cc == true) {
-            $conse_cc = $existe_cc[0]['cob_consecu_cta'];
-        } else {
+        if ($existe_cc == NULL) {
             echo "<script type=\"text/javascript\">" .
-            "alert('¡Debe crear primero una Cuenta de Cobro!');" .
+            "alert('¡Debe Activar primero una Cuenta de Cobro!');" .
             "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
@@ -1079,6 +1091,8 @@ class funciones_liquidador extends funcionGeneral {
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
+        } else {
+            $conse_cc = $existe_cc[0]['cob_consecu_cta'];
         }
 
 //recuperar datos de la concurrencia
@@ -1128,19 +1142,19 @@ class funciones_liquidador extends funcionGeneral {
 
         $existe_cc = $this->consultarCC($parametros);
 
-        if ($existe_cc == true) {
-            $conse_cc = $existe_cc[0]['cob_consecu_cta'];
-        } else {
+        if ($existe_cc == NULL) {
             echo "<script type=\"text/javascript\">" .
-            "alert('¡Debe crear primero una Cuenta de Cobro!');" .
+            "alert('¡Debe Activar primero una Cuenta de Cobro!');" .
             "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=liquidadorCP';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            echo  "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
+        } else {
+            $conse_cc = $existe_cc[0]['cob_consecu_cta'];
         }
 //recuperar y organizar año a año liquidación detallada
         $parametros = array(
@@ -1224,11 +1238,11 @@ class funciones_liquidador extends funcionGeneral {
 
                 if ($año == $año_k) {
 
-                    $mesada = $liquidacion[$cont]['mesada'] + $mesada;
+                    $mesada = $liquidacion[$cont]['mesada']/* + $mesada*/;
                     $ajuste_pen = $liquidacion[$cont]['ajuste_pension'] + $ajuste_pen;
                     $mesada_adc = $liquidacion[$cont]['mesada_adc'] + $mesada_adc;
                     $incremento = $liquidacion[$cont]['incremento'] + $incremento;
-                    $cuota_parte = $liquidacion[$cont]['cuota_parte'] + $cuota_parte;
+                    $cuota_parte = $liquidacion[$cont]['cuota_parte']/* + $cuota_parte*/;
                     $interes_a2006 = $liquidacion[$cont]['interes_a2006'] + $interes_a2006;
                     $interes_d2006 = $liquidacion[$cont]['interes_d2006'] + $interes_d2006;
                     $interes = $liquidacion[$cont]['interes'] + $interes;
@@ -1261,11 +1275,11 @@ class funciones_liquidador extends funcionGeneral {
         return $año_liquidacion;
     }
 
-    function guardar_cuenta($datos_basicos, $consecutivocc, $totales_liq) {
+    function guardar_cuenta($datos_basicos, $consecutivocc, $totales_liq, $opcion_pago) {
 
         $parametros_x = array();
         $consecutivo = $this->consecutivoCC($parametros_x);
-        $consecutivo_cc = $this->generarConsecutivo($parametros_x);
+        $consecutivo_cc = $this->generarConsecutivo($opcion_pago);
 
         $cons = intval($consecutivo[0][0]) + 1;
 
@@ -1297,6 +1311,8 @@ class funciones_liquidador extends funcionGeneral {
             'fecha_registro' => $totales_liq[0]['liq_fecha_registro']
         );
 
+
+
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "guardar_cuentac", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
@@ -1313,12 +1329,12 @@ class funciones_liquidador extends funcionGeneral {
             $this->log_us->log_usuario($registro, $this->configuracion);
 
             echo "<script type=\"text/javascript\">" .
-            "alert('Datos Registrados');" .
-            "</script> ";
+                    "alert('Datos Registrados');" .
+                    "</script> ";
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
-            "</script> ";
+                    "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
+                    "</script> ";
         }
 
         $parametros_z = array();
@@ -1329,6 +1345,9 @@ class funciones_liquidador extends funcionGeneral {
         } else {
             $rectaid = $consecutivo_recta[0][0] + 1;
         }
+        
+        
+        //revisar si la liquidación es para la misma consec_recta
 
         $parametros_saldo = array(
             'id_registro' => $rectaid,
@@ -1347,20 +1366,25 @@ class funciones_liquidador extends funcionGeneral {
         $registro_saldo = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql_saldo, "registrar");
 
         if ($registro_saldo == true) {
+            //Actualizar Estado Liquidación de que sí se cobró
+            $parametros_liquidador_ac = $totales_liq[0]['liq_consecutivo'];
+            $cadena_sql_liquidador_ac = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarEstadoLiquidacion", $parametros_liquidador_ac);
+            $registro_liquidador_ac = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql_liquidador_ac, "actualizar");
+
             $registro[0] = "GUARDAR";
             $registro[1] = $parametros['cedula'] . '|' . $parametros['previsor']; //
-            $registro[2] = "CUOTAS_PARTES-CuentaCobroManualSaldo";
+            $registro[2] = "CUOTAS_PARTES-CuentaCobroLiqSaldo";
             $registro[3] = $parametros['consecutivo_cc'] . '|' . $parametros['fecha_inicial'] . '|' . $parametros['fecha_final'] . '|' . $parametros['mesada']
                     . '|' . $parametros['mesada_adc'] . '|' . $parametros['subtotal'] . '|' . $parametros['incremento'] . '|' . $parametros['t_sin_interes'] . '|' . $parametros['interes']
                     . '|' . $parametros['t_con_interes'] . '|' . $parametros['saldo_fecha'] . '|' . $parametros['fecha_recibido']; //
             $registro[4] = time();
-            $registro[5] = "Registra datos cuenta de cobro manual del pensionado en la tabla de saldos, con ";
+            $registro[5] = "Registra datos cuenta de cobro desde liquidador del pensionado en la tabla de saldos, con ";
             $registro[5] .= " identificacion =" . $parametros['cedula'];
             $this->log_us->log_usuario($registro, $this->configuracion);
 
             echo "<script type=\"text/javascript\">" .
-            "alert('Datos Registrados');" .
-            "</script> ";
+                    "alert('Datos Registrados');" .
+                    "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=reportesCuotas";
             $variable .= "&opcion=";
@@ -1369,8 +1393,8 @@ class funciones_liquidador extends funcionGeneral {
             exit;
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('Datos NO Registrados Correctamente. ERROR en el REGISTRO');" .
-            "</script> ";
+                    "alert('Datos NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                    "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formularioCManual";
             $variable .= "&opcion=manual";
@@ -1380,20 +1404,33 @@ class funciones_liquidador extends funcionGeneral {
         }
     }
 
-    function generarConsecutivo() {
+    function generarConsecutivo($opcion_pago) {
         $parametros = array();
         $consecutivo = $this->consecutivoCC($parametros);
         $cons = $consecutivo[0]['cob_idcob'] + 1;
         $annio = date("Y");
 
-        if ($cons <= 9) {
-            $cons_cuenta = "CP-000" . $cons . "-" . $annio;
-        } elseif ($cons <= 99) {
-            $cons_cuenta = "CP-00" . $cons . "-" . $annio;
-        } elseif ($cons <= 999) {
-            $cons_cuenta = "CP-0" . $cons . "-" . $annio;
+        if ($opcion_pago == 'voluntario') {
+            if ($cons <= 9) {
+                $cons_cuenta = "VCP-000" . $cons . "-" . $annio;
+            } elseif ($cons <= 99) {
+                $cons_cuenta = "VCP-00" . $cons . "-" . $annio;
+            } elseif ($cons <= 999) {
+                $cons_cuenta = "VCP-0" . $cons . "-" . $annio;
+            } else {
+                $cons_cuenta = "VCP-" . $cons . "-" . $annio;
+            }
         } else {
-            $cons_cuenta = "CP-" . $cons . "-" . $annio;
+
+            if ($cons <= 9) {
+                $cons_cuenta = "CP-000" . $cons . "-" . $annio;
+            } elseif ($cons <= 99) {
+                $cons_cuenta = "CP-00" . $cons . "-" . $annio;
+            } elseif ($cons <= 999) {
+                $cons_cuenta = "CP-0" . $cons . "-" . $annio;
+            } else {
+                $cons_cuenta = "CP-" . $cons . "-" . $annio;
+            }
         }
 
         return $cons_cuenta;
@@ -1428,11 +1465,11 @@ class funciones_liquidador extends funcionGeneral {
             $calculo_totales['cuota_parte'] = $liquidacion_periodo[$key]['cuota_parte'] + $calculo_totales['cuota_parte'];
             $calculo_totales['interes_a2006'] = $liquidacion_periodo[$key]['interes_a2006'] + $calculo_totales['interes_a2006'];
             $calculo_totales['interes_d2006'] = $liquidacion_periodo[$key]['interes_d2006'] + $calculo_totales['interes_d2006'];
-            $calculo_totales['interes'] = $liquidacion_periodo[$key]['interes'] + $calculo_totales['interes'];
+            //$calculo_totales['interes'] = $liquidacion_periodo[$key]['interes'] + $calculo_totales['interes'];
             $calculo_totales['total'] = $liquidacion_periodo[$key]['total'] + $calculo_totales['total'];
-            
         }
 
+        $calculo_totales['interes'] = $calculo_totales['interes_a2006'] + $calculo_totales['interes_d2006'];
         return $calculo_totales;
     }
 
@@ -1477,8 +1514,10 @@ class funciones_liquidador extends funcionGeneral {
             $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
 
             //$INTERESES = 0;
+            $INTERES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
+            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota);
             //Valor Total Mes liquidado
-            $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERESES;
+            $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERES_A2006 + $INTERESES_D2006;
             $TOTAL = round($TOTAL, 0);
 
 //**************SALIDA FINAL****************//
@@ -1490,24 +1529,24 @@ class funciones_liquidador extends funcionGeneral {
             $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
             $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
             $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
-            $liquidacion_cp[$key]['interes_a2006'] = 0;
-            $liquidacion_cp[$key]['interes_d2006'] = 0;
+            $liquidacion_cp[$key]['interes_a2006'] = $INTERES_A2006;
+            $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
             $liquidacion_cp[$key]['interes'] = 0;
             $liquidacion_cp[$key]['total'] = $TOTAL;
             $mesada = $MESADA;
         }
 
         //CALCULANDO LOS INTERESES DE OTRA FORMA JUNIO 2014
-        $liquidacion_cp[0]['interes_a2006'] = $this->Intereses_a2006($liquidacion_cp, $f_pension, $f_actual);
+        // $liquidacion_cp[0]['interes_a2006'] = $this->Intereses_a2006($liquidacion_cp, $f_pension, $f_actual);
 
-        foreach ($FECHAS as $key => $value) {
-            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $liquidacion_cp, $f_pension, $f_actual);
-            $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006[$key]['interes_d2006'];
-            $acumulado=$liquidacion_cp[$key]['total'];
-            $liquidacion_cp[$key]['total']=$acumulado+$INTERESES_D2006[$key]['interes_d2006'];
-        }
+        /* foreach ($FECHAS as $key => $value) {
+          $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $liquidacion_cp, $f_pension, $f_actual);
+          $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006[$key]['interes_d2006'];
+          $acumulado = $liquidacion_cp[$key]['total'];
+          $liquidacion_cp[$key]['total'] = $acumulado + $INTERESES_D2006[$key]['interes_d2006'];
+          }
+         */
 
-    
         return $liquidacion_cp;
     }
 
@@ -1575,8 +1614,8 @@ class funciones_liquidador extends funcionGeneral {
             return $periodo_calculado;
         } else {
             echo "<script type=\"text/javascript\">" .
-            "alert('Error recuperando la liquidación. Reinicie el proceso.');" .
-            "</script> ";
+                    "alert('Error recuperando la liquidación. Reinicie el proceso.');" .
+                    "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=liquidadorCP';
@@ -1636,11 +1675,11 @@ class funciones_liquidador extends funcionGeneral {
             'liq_interes' => (isset($totales_liquidacion['interes']) ? $totales_liquidacion['interes'] : ''),
             'liq_cuotap' => (isset($totales_liquidacion['cuota_parte']) ? $totales_liquidacion['cuota_parte'] : ''),
             'liq_total' => (isset($totales_liquidacion['total']) ? $totales_liquidacion['total'] : ''),
-            'liq_estado_cc' => 'ACTIVO',
+            'liq_estado_cc' => 'INACTIVO',
             'liq_fecha_estado_cc' => null,
-            'liq_estado_ccdetalle' => 'ACTIVO',
+            'liq_estado_ccdetalle' => 'INACTIVO',
             'liq_fecha_estado_ccdetalle' => null,
-            'liq_estado_ccresumen' => 'ACTIVO',
+            'liq_estado_ccresumen' => 'INACTIVO',
             'liq_fecha_estado_ccresumen' => null,
             'liq_estado' => 'ACTIVO',
             'liq_fecha_registro' => date('Y-m-d')
@@ -1660,8 +1699,8 @@ class funciones_liquidador extends funcionGeneral {
             $this->log_us->log_usuario($registro, $this->configuracion);
 
             echo "<script type=\"text/javascript\">" .
-            "alert('Gestor de Reportes');" .
-            "</script> ";
+                    "alert('Gestor de Reportes');" .
+                    "</script> ";
         }
     }
 
@@ -1687,7 +1726,7 @@ class funciones_liquidador extends funcionGeneral {
 
         for ($Anio_p; $Anio_p <= $Anio_a; $Anio_p++) {
             for ($Mes_p; $Mes_p <= 12; $Mes_p++) {
-//echo $Mes_p;
+//$Mes_p;
                 if ($Anio_p != $Anio_a) {
                     $fecha[] = $Dia . "/" . $Mes_p . "/" . $Anio_p;
                     $Dia = mktime(0, 0, 0, $Mes_p + 2, 0, $Anio_p);
@@ -1701,8 +1740,8 @@ class funciones_liquidador extends funcionGeneral {
                     settype($Dia, "integer");
                     settype($Dia, "integer");
                 }
-//echo $Anio;
-//echo $Anio_p;	
+//$Anio;
+//$Anio_p;	
             }
             $Mes_p = 1;
         }
@@ -1888,76 +1927,73 @@ class funciones_liquidador extends funcionGeneral {
         }
     }
 
-    function Intereses_a2006($liquidacion, $f_desde, $f_hasta) {
+    function Intereses_a2006($FECHA, $valor_cuotap) {
 //Determinar el dtf para la fecha de liquidación
         $hoy = (strtotime(str_replace('/', '-', date('dd/mm/yyyy'))));
-        $desde = (strtotime(str_replace('/', '-', $f_desde)));
+        $desde = (strtotime(str_replace('/', '-', $FECHA)));
         $hasta = (strtotime(str_replace('/', '-', $f_hasta)));
 
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
 
-        $dias_deuda = floor(abs(($ley_2006 - $desde) / 86400));
+        //periodo total
+        //$dias_deuda = floor(abs(($ley_2006 - $desde) / 86400));
+        //periodo mensual
 
 
-        $total_liquidacion = $this->calculoTotales($liquidacion);
-        $deuda_capital = $total_liquidacion['total'];
+        if ($desde >= $ley_2006) {
+            $valor_interes = 0;
+        } else {
+            $dias_deuda = floor(abs(($ley_2006 - $desde) / 86400));
+            $total_liquidacion['interes_a2006'] = ((floatval($valor_cuotap) * floatval($dias_deuda) * floatval(12 / 100)) / 365);
+            $valor_interes = $total_liquidacion['interes_a2006'];
+        }
+
+        /* $total_liquidacion = $this->calculoTotales($liquidacion);
+          $deuda_capital = $total_liquidacion['total']; */
 
 //Si es menor al 28/07/2006=> interes=(C*n*t)/365
 //C= cuota, n=numero dias, t=tasa mora
-
-        $total_liquidacion['interes_a2006'] = ((floatval($deuda_capital) * floatval($dias_deuda) * floatval(12 / 100)) / 365);
-        $valor_interes = $total_liquidacion['interes_a2006'];
-
         return $valor_interes;
     }
 
-    function Intereses_d2006($fecha_liq, $liquidacion, $f_desde, $f_hasta) {
+    function Intereses_d2006($FECHA_L, $cuota_parte) {
 //Determinar el dtf para la fecha de liquidación
-        $fecha = (strtotime(str_replace('/', '-', $fecha_liq)));
-        $hoy = (strtotime(str_replace('/', '-', date('dd/mm/yyyy'))));
-        $desde = (strtotime(str_replace('/', '-', $f_desde)));
-        $hasta = (strtotime(str_replace('/', '-', $f_hasta)));
+        $fecha = (strtotime(str_replace('/', '-', $FECHA_L)));
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
 
         $valor_interes = 1;
 
-        $total_liquidacion = $this->calculoTotales($liquidacion);
-        $deuda_capital = $total_liquidacion['total'];
+        $parametros = array(
+            'desde' => date('Y-m-d', strtotime(str_replace('/', '-', $FECHA_L))),
+            'hasta' => date('Y-m-d')
+        );
 
-        $parametros = array();
-        $historia_dtf = $this->RescatarDtf($parametros);
-        $dtf_aplicado = 0;
+        $historia_dtf = $this->RescatarDtfEntre($parametros);
         $interes_mensual = array();
+        $deuda_capital = $cuota_parte;
 
-        if ($fecha <= $ley_2006) {
-            $interes_mensual = 0;
-        } else {
-            foreach ($liquidacion as $cont => $values) {
-                foreach ($historia_dtf as $key => $values) {
+        /* if ($fecha <= $ley_2006) {
+          $interes_final = 0;
+          } else { */
+        foreach ($historia_dtf as $key => $values) {
 
-                    $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
-                    $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
-                    $f_liq = strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha']));
-
-                    $year = date('Y', (strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha']))));
-                    $mes = date('m', (strtotime(str_replace('/', '-', $liquidacion[$cont]['fecha']))));
-
-                    if ($f_liq >= $inicio && $f_liq <= $final) {
-                        $dtf_aplicado = $historia_dtf[$key]['dtf_indi_ce'];
-                        //$dias_vigencia = floor(abs(($final - $inicio) / 86400));
-
-                        $dias_vigencia = date('t', mktime(0, 0, 0, $mes, 1, $year));
-                    }
-                }
-
-                $interes_mensual[$cont]['fecha'] = $liquidacion[$cont]['fecha'];
-                $interes_mensual[$cont]['interes_d2006'] = $deuda_capital * (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
-                $deuda_capital = $deuda_capital + $interes_mensual[$cont]['interes_d2006'];
-                $interes_mensual[$cont]['capital_acumulado'] = $deuda_capital;
-            }
+            $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
+            $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
+            $vigencia = floor(abs(($final - $inicio) / 86400));
+            $historia_dtf[$key]['vigencia'] = $vigencia;
         }
 
-        return $interes_mensual;
+        foreach ($historia_dtf as $key => $values) {
+            $dtf_aplicado = $historia_dtf[$key]['dtf_indi_ce'];
+            $dias_vigencia = $historia_dtf[$key]['vigencia'];
+
+            $interes_mensual[$key]['interes_d2006'] = $deuda_capital * (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
+            $deuda_capital = $deuda_capital + $interes_mensual[$key]['interes_d2006'];
+            $interes_final = $interes_mensual[$key]['interes_d2006'];
+        }
+        /* } */
+
+        return $interes_final;
     }
 
     function cambiafecha_format($fecha) {
@@ -2175,3 +2211,7 @@ class funciones_liquidador extends funcionGeneral {
 
 
 
+
+
+
+    
