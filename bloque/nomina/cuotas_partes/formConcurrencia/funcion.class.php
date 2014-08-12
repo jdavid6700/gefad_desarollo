@@ -211,7 +211,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
-
+/*
         if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['porc_aceptado'])) {
             echo "<script type=\"text/javascript\">" .
             "alert('Formulario NO diligenciado correctamente. Formato porcentaje erróneo');" .
@@ -270,7 +270,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
-        }
+        }*/
 
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),

@@ -103,7 +103,12 @@ class bloque_formHistoria extends bloque {
                         $this->funcion->mostrarFormulario($cedula);
                     }
                     break;
-                    
+
+                case "modificar":
+                    $historia_laboral = unserialize($_REQUEST['historia']);
+                             $this->funcion->modificarHistoria($historia_laboral);
+                    break;
+
                 default :
                     $this->funcion->dbasicoHistoriaR();
                     break;
@@ -126,6 +131,19 @@ class bloque_formHistoria extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_historia);
+                break;
+
+            case "actualizarHistoria":
+                $historia_antigua=unserialize($_REQUEST['historia_completa']);
+             
+                $actualizar_historia = array();
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $actualizar_historia[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->actualizarFormulario($actualizar_historia, $historia_antigua);
                 break;
 
             case "registrarInterrupcion":

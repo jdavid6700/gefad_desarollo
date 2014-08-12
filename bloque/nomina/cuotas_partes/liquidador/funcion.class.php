@@ -104,15 +104,15 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
-<page backtop='60mm' backbottom='20mm' backleft='3mm' backright='3mm' pagegroup='new'>
+<page backtop='60mm' backbottom='20mm' backleft='30mm' backright='3mm' pagegroup='new'>
 <page_header>
-    <table align='center'>
+    <table align='right'>
         <thead>
             <tr>
                 <th style=\"width:10px;\" colspan=\"1\">
                     <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
                 </th>
-                <th style=\"width:520px;font-size:13px;\" colspan=\"1\">
+                <th style=\"width:420px;font-size:13px;\" colspan=\"1\">
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
@@ -137,18 +137,18 @@ class funciones_liquidador extends funcionGeneral {
                     </tr>
     </table>  
     <br>
-     <table align='center'>
+     <table align='right'>
                     <tr>
                         <td>Nombre Pensionado:</td>
-                        <td style=\"width:280px;\">" . '&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] . "</td>
+                        <td style=\"width:309px;\">" . '&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] . "</td>
                         <td>Documento Pensionado:</td>
-                        <td style=\"width:280px;\">" . '&nbsp;&nbsp;' . $datos_basicos['cedula'] . "</td>
+                        <td style=\"width:150px;\">" . '&nbsp;&nbsp;' . $datos_basicos['cedula'] . "</td>
                     </tr>
                     <tr>
                         <td>Nombre Sustituto:</td>
-                        <td style=\"width:280px;\"></td>
+                        <td style=\"width:309px;\"></td>
                         <td>Documento Sustituto:</td>
-                        <td style=\"width:280px;\" ></td>
+                        <td style=\"width:150px;\" ></td>
                     </tr>
                 </table>
 </page_header>
@@ -170,7 +170,9 @@ class funciones_liquidador extends funcionGeneral {
      <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
         <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
 </page_footer> 
-                   <table align='center'>
+
+
+<table align='right'>
                     <tr>
                         <th>Item</th>
                         <th>Descripción</th>
@@ -180,7 +182,7 @@ class funciones_liquidador extends funcionGeneral {
                     </tr>
                     <tr>
                         <td style=\"text-align:center;\">1</td>
-                        <td>Cuotas Partes Pensionales (mesadas ordinarias y adicionales)</td>
+                        <td >Cuotas Partes Pensionales (mesadas ordinarias y adicionales)</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fdesde'] . "</td>
                         <td style=\"text-align:center;\">" . '&nbsp;&nbsp;' . $totales_liquidacion[0]['liq_fhasta'] . "</td>
                         <td>" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_cuotap'] + $totales_liquidacion[0]['liq_mesada_ad']) . "</td>
@@ -212,19 +214,19 @@ class funciones_liquidador extends funcionGeneral {
                         <td >" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_total']) . "</td>
             </tr>
             <tr>
-            <td style=\"width:750px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
+            <td style=\"width:675px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
             </tr>
             </table><br>             
-            <table align='center'>
+            <table align='right'>
                     <tr>
-                        <td   align:justify style=\"font-size:12px;width:650px;\" colspan=\"2\">
+                        <td   align:justify style=\"font-size:12px;width:300px;\" colspan=\"2\">
                             El (La) Jefe de la División de Recursos Humanos y la (el) Tesorero (a) de 
                             la UNIVERSIDAD DISTRITAL FRANCISCO JOSE DE CALDAS, certifican que  la persona 
                             por quien se realiza este cobro se encuentra incluida en nomina  de pensionados y se le ha pagado las mesadas cobradas.
                             La supervivencia fue verificada de conformidad con el articulo 21 del Decreto 19 de 2012.</td>
                     </tr>
                     <tr>
-                        <td   align=justify style=\"font-size:12px;width:650px;text-align:justify;\" colspan=\"2\">
+                        <td   align=justify style=\"font-size:12px;width:300px;text-align:justify;\" colspan=\"2\">
                             La suma adeudada debe ser consignada (en efectivo, cheque de gerencia o transferencia electronica) en la Cuenta 
                             de Ahorros No 251–80660–0 del Banco de Occcidente, a nombre del FONDO DE PENSIONES UNIVERSIDAD DISTRITAL y remitir 
                             copia de la misma a la carrera 7 Nº 40-53, piso 6, Division de Recursos Humanos y al correo electronico rechumanos@udistrital.edu.co.
@@ -241,11 +243,11 @@ class funciones_liquidador extends funcionGeneral {
                         </td>
                     </tr>
                     <tr>
-                        <td   align=center style=\"width:375px;text-align:center;\">
+                        <td   align=center style=\"width:332px;text-align:center;\">
         " . $jefeTesoreria . "
                             <br>Tesorero(a)
                         </td>
-                        <td   align=center style=\"width:375px;text-align:center;\">
+                        <td   align=center style=\"width:332px;text-align:center;\">
         " . $jefeRecursos . "
                             <br>Jefe(a) División de Recursos Humanos
                         </td>
@@ -264,8 +266,8 @@ class funciones_liquidador extends funcionGeneral {
         $PDF->writeHTML($ContenidoPdf);
         clearstatcache();
         $PDF->Output("CuentadeCobro_" . $datos_basicos['cedula'] . "_" . $datos_basicos['entidad_nombre'] . ".pdf", "D");
-        
-        
+
+
         $opcion_pago = 'voluntario';
         $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago);
     }
@@ -429,13 +431,13 @@ class funciones_liquidador extends funcionGeneral {
 <table align='center' >
     <tr>
         <th colspan=\"1\" width=\"5%\">PERIODO</th>
-        <th rowspan=\"2\" width=\"13.5%\">MONTO DE MESADA</th>
-        <th rowspan='2' width=\"13.5%\">CUOTA MENSUAL</th>
-        <th rowspan='2' width=\"13.5%\">MESADA ADICIONAL</th>
-        <th rowspan='2' width=\"13.5%\">INCREMENTO SALUD (7%)</th>
-        <th rowspan='2' width=\"13.5%\">INTERÉS LEY 68/1923</th>
-        <th rowspan='2' width=\"13.5%\">INTERÉS LEY 1066/2006</th>
-        <th rowspan='2' width=\"13.5%\">TOTAL AÑO</th>
+        <th rowspan=\"2\" width=\"14.5%\">MONTO<br>MESADA</th>
+        <th rowspan='2' width=\"14.5%\">CUOTA<br>MENSUAL</th>
+        <th rowspan='2' width=\"14.5%\">MESADA<br>ADICIONAL</th>
+        <th rowspan='2' width=\"14.5%\">INCREMENTO<br>SALUD (7%)</th>
+        <th rowspan='2' width=\"14.5%\">INTERÉS<br>LEY 68/1923</th>
+        <th rowspan='2' width=\"14.5%\">INTERÉS<br>LEY 1066/2006</th>
+        <th rowspan='2' width=\"14.5%\">TOTAL<br>AÑO</th>
     </tr>
     <tr>
         <th colspan=\"1\">AÑO</th>
@@ -667,11 +669,11 @@ class funciones_liquidador extends funcionGeneral {
         <tr>
             <th>CICLO</th>
             <th>MESADA</th>
-            <th>VALOR CUOTA</th>
-            <th>MESADA AD.</th>
-            <th>INCREMENTO SALUD</th>
-            <th>INTERÉS L_68/1923</th>
-            <th>INTERÉS L_1066/2006</th>
+            <th>VALOR<br>CUOTA</th>
+            <th>MESADA<br>ADICIONAL</th>
+            <th>INCREMENTO<br>SALUD</th>
+            <th>INTERÉS<br>L_68/1923</th>
+            <th>INTERÉS<br>L_1066/2006</th>
             <th>TOTAL MES</th>
         </tr>
          </thead>
@@ -754,8 +756,8 @@ class funciones_liquidador extends funcionGeneral {
 
         if (!is_array($datos_entidad)) {
             echo "<script type = \"text/javascript\">" .
-                    "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
-                    "</script> ";
+            "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
+            "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioConcurrencia';
@@ -793,8 +795,8 @@ class funciones_liquidador extends funcionGeneral {
 
         if (!is_array($datos_entidad)) {
             echo "<script type=\"text/javascript\">" .
-                    "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
-                    "</script> ";
+            "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
+            "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioConcurrencia';
@@ -853,8 +855,8 @@ class funciones_liquidador extends funcionGeneral {
             }
         } else {
             echo "<script type=\"text/javascript\">" .
-                    "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
-                    "</script> ";
+            "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
+            "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioConcurrencia';
@@ -1032,8 +1034,8 @@ class funciones_liquidador extends funcionGeneral {
             $this->html_liquidador->generarReportes($datos_basicos, $totales_liq);
         } else {
             echo "<script type=\"text/javascript\">" .
-                    "alert('No existen Liquidaciones Generadas para la Entidad.');" .
-                    "</script> ";
+            "alert('No existen Liquidaciones Generadas para la Entidad.');" .
+            "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=liquidadorCP';
@@ -1151,7 +1153,7 @@ class funciones_liquidador extends funcionGeneral {
             $variable = 'pagina=liquidadorCP';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo  "<script>location.replace('" . $pagina . $variable . "')</script>";
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         } else {
             $conse_cc = $existe_cc[0]['cob_consecu_cta'];
@@ -1238,11 +1240,11 @@ class funciones_liquidador extends funcionGeneral {
 
                 if ($año == $año_k) {
 
-                    $mesada = $liquidacion[$cont]['mesada']/* + $mesada*/;
+                    $mesada = $liquidacion[$cont]['mesada']/* + $mesada */;
                     $ajuste_pen = $liquidacion[$cont]['ajuste_pension'] + $ajuste_pen;
                     $mesada_adc = $liquidacion[$cont]['mesada_adc'] + $mesada_adc;
                     $incremento = $liquidacion[$cont]['incremento'] + $incremento;
-                    $cuota_parte = $liquidacion[$cont]['cuota_parte']/* + $cuota_parte*/;
+                    $cuota_parte = $liquidacion[$cont]['cuota_parte']/* + $cuota_parte */;
                     $interes_a2006 = $liquidacion[$cont]['interes_a2006'] + $interes_a2006;
                     $interes_d2006 = $liquidacion[$cont]['interes_d2006'] + $interes_d2006;
                     $interes = $liquidacion[$cont]['interes'] + $interes;
@@ -1329,12 +1331,12 @@ class funciones_liquidador extends funcionGeneral {
             $this->log_us->log_usuario($registro, $this->configuracion);
 
             echo "<script type=\"text/javascript\">" .
-                    "alert('Datos Registrados');" .
-                    "</script> ";
+            "alert('Datos Registrados');" .
+            "</script> ";
         } else {
             echo "<script type=\"text/javascript\">" .
-                    "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
-                    "</script> ";
+            "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
+            "</script> ";
         }
 
         $parametros_z = array();
@@ -1345,8 +1347,8 @@ class funciones_liquidador extends funcionGeneral {
         } else {
             $rectaid = $consecutivo_recta[0][0] + 1;
         }
-        
-        
+
+
         //revisar si la liquidación es para la misma consec_recta
 
         $parametros_saldo = array(
@@ -1383,8 +1385,8 @@ class funciones_liquidador extends funcionGeneral {
             $this->log_us->log_usuario($registro, $this->configuracion);
 
             echo "<script type=\"text/javascript\">" .
-                    "alert('Datos Registrados');" .
-                    "</script> ";
+            "alert('Datos Registrados');" .
+            "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=reportesCuotas";
             $variable .= "&opcion=";
@@ -1393,8 +1395,8 @@ class funciones_liquidador extends funcionGeneral {
             exit;
         } else {
             echo "<script type=\"text/javascript\">" .
-                    "alert('Datos NO Registrados Correctamente. ERROR en el REGISTRO');" .
-                    "</script> ";
+            "alert('Datos NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = "pagina=formularioCManual";
             $variable .= "&opcion=manual";
@@ -1412,24 +1414,24 @@ class funciones_liquidador extends funcionGeneral {
 
         if ($opcion_pago == 'voluntario') {
             if ($cons <= 9) {
-                $cons_cuenta = "VCP-000" . $cons . "-" . $annio;
+                $cons_cuenta = "VCPC-000" . $cons . "-" . $annio;
             } elseif ($cons <= 99) {
-                $cons_cuenta = "VCP-00" . $cons . "-" . $annio;
+                $cons_cuenta = "VCPC-00" . $cons . "-" . $annio;
             } elseif ($cons <= 999) {
-                $cons_cuenta = "VCP-0" . $cons . "-" . $annio;
+                $cons_cuenta = "VCPC-0" . $cons . "-" . $annio;
             } else {
-                $cons_cuenta = "VCP-" . $cons . "-" . $annio;
+                $cons_cuenta = "VCPC-" . $cons . "-" . $annio;
             }
         } else {
 
             if ($cons <= 9) {
-                $cons_cuenta = "CP-000" . $cons . "-" . $annio;
+                $cons_cuenta = "CPC-000" . $cons . "-" . $annio;
             } elseif ($cons <= 99) {
-                $cons_cuenta = "CP-00" . $cons . "-" . $annio;
+                $cons_cuenta = "CPC-00" . $cons . "-" . $annio;
             } elseif ($cons <= 999) {
-                $cons_cuenta = "CP-0" . $cons . "-" . $annio;
+                $cons_cuenta = "CPC-0" . $cons . "-" . $annio;
             } else {
-                $cons_cuenta = "CP-" . $cons . "-" . $annio;
+                $cons_cuenta = "CPC-" . $cons . "-" . $annio;
             }
         }
 
@@ -1475,20 +1477,22 @@ class funciones_liquidador extends funcionGeneral {
 
     function liquidacion($datos_liquidar) {
 
-        $periodo_liquidar = $this->cadenaLiquidacion();
-
         $parametros = array(
             'cedula' => (isset($datos_liquidar['cedula']) ? $datos_liquidar['cedula'] : ''),
             'entidad' => (isset($datos_liquidar['entidad']) ? $datos_liquidar['entidad'] : ''));
 
         $datos_concurrencia = $this->datosConcurrencia($parametros);
 
-        $f_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'])));
+        $f_desde = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'])));
         $f_actual = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_hasta'])));
-        $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
-        $mesada = $datos_concurrencia[0]['dcp_valor_mesada'];
 
-        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_actual);
+        $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
+
+        $fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
+        $mesada_descripcion = $datos_concurrencia[0]['dcp_valor_mesada'];
+        $mesada = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
+
+        list ($FECHAS) = $fechas = $this->GenerarFechas($f_desde, $f_actual);
         $TOTAL = 0;
 
         $liquidacion_cp = array();
@@ -1614,8 +1618,8 @@ class funciones_liquidador extends funcionGeneral {
             return $periodo_calculado;
         } else {
             echo "<script type=\"text/javascript\">" .
-                    "alert('Error recuperando la liquidación. Reinicie el proceso.');" .
-                    "</script> ";
+            "alert('Error recuperando la liquidación. Reinicie el proceso.');" .
+            "</script> ";
             error_log('\n');
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=liquidadorCP';
@@ -1699,8 +1703,8 @@ class funciones_liquidador extends funcionGeneral {
             $this->log_us->log_usuario($registro, $this->configuracion);
 
             echo "<script type=\"text/javascript\">" .
-                    "alert('Gestor de Reportes');" .
-                    "</script> ";
+            "alert('Gestor de Reportes');" .
+            "</script> ";
         }
     }
 
@@ -1746,6 +1750,21 @@ class funciones_liquidador extends funcionGeneral {
             $Mes_p = 1;
         }
         return array($fecha);
+    }
+
+    function mesadaPeriodo($mesada, $f_pension, $f_hasta) {
+
+        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_hasta);
+
+        foreach ($FECHAS as $key => $value) {
+
+            $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
+            $sumafija = $this->obtenerSumafija($annio);
+            $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
+            $mesada = $MESADA;
+        }
+
+        return $MESADA;
     }
 
     function AjustePensional($FECHA, $sumafija) {

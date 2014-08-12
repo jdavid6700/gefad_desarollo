@@ -108,12 +108,12 @@
                                         echo $this->indice . $variable;
                                         ?>">Registrar Recaudos (Pagos) con Cuenta de Cobro</a></li>
                                     
-                                    <li><a href="<?
+                                    <!--li><a href="<?
                                         $variable = 'pagina=formularioRManual';
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>">Registrar Recaudos Manual</a></li>
+                                        ?>">Registrar Recaudos Manual</a></li-->
                                     
                                      <li><a href="<?
                                         $variable = 'pagina=formularioSustituto';

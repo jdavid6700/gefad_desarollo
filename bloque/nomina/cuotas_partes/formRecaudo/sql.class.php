@@ -236,8 +236,8 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" rec_identificacion,  ";
                 $cadena_sql.=" rec_resolucionop,  ";
                 $cadena_sql.=" rec_fecha_resolucion,  ";
-                $cadena_sql.=" rec_actoadmin,  ";
-                $cadena_sql.=" rec_factoadmin,  ";
+               // $cadena_sql.=" rec_actoadmin,  ";
+               // $cadena_sql.=" rec_factoadmin,  ";
                 $cadena_sql.=" rec_fecha_pago,  ";
                 $cadena_sql.=" rec_medio_pago,  ";
                 $cadena_sql.=" rec_pago_capital,  ";
@@ -251,8 +251,8 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" '" . $variable['cedula_emp'] . "', ";
                 $cadena_sql.=" '" . $variable['resolucion_OP'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_resolucion'] . "', ";
-                $cadena_sql.=" '" . $variable['actoadmin'] . "', ";
-                $cadena_sql.=" '" . $variable['factoadmin'] . "', ";
+               // $cadena_sql.=" '" . $variable['actoadmin'] . "', ";
+               // $cadena_sql.=" '" . $variable['factoadmin'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_pago_cuenta'] . "', ";
                 $cadena_sql.=" '" . $variable['medio_pago'] . "', ";
                 $cadena_sql.=" '" . $variable['valor_pagado_capital'] . "', ";

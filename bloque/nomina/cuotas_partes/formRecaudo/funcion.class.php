@@ -123,10 +123,9 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
     function consultarRecaudos($parametros) {
-        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudos", $parametros);
+       $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarRecaudos", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        var_dump($datos);
-        return $datos;
+           return $datos;
     }
 
     function consultarRecaudoCompleto($parametros) {
@@ -1011,8 +1010,8 @@ class funciones_formRecaudo extends funcionGeneral {
             'consecutivo_rec' => $cons_recaudo,
             'nit_previsional' => (isset($datos['nit_previsional']) ? $datos['nit_previsional'] : ''),
             'cedula_emp' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
-            'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
-            'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
+            'actoadmin' => '',
+            'factoadmin' => '',
             'resolucion_OP' => (isset($datos['resolucion_OP']) ? $datos['resolucion_OP'] : ''),
             'fecha_resolucion' => (isset($datos['fecha_resolucion']) ? $datos['fecha_resolucion'] : ''),
             'fecha_pago_cuenta' => (isset($datos['fecha_pago_cuenta']) ? $datos['fecha_pago_cuenta'] : ''),

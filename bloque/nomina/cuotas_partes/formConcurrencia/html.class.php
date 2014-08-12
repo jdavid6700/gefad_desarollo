@@ -194,8 +194,8 @@ class html_formConcurrencia {
         $maxDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro'] . " + 1 day"));
 
         $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
-        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']). "+1 day")));
-        $f_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_historia[0]['hlab_fretiro']) )));
+        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_historia[0]['hlab_fretiro']) . "+1 day")));
+        $f_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_historia[0]['hlab_fretiro']))));
 
         if ($datos_concurrencia !== 0) {
             $valor_mesada = $datos_concurrencia[0]['dcp_valor_mesada'];
@@ -300,6 +300,7 @@ class html_formConcurrencia {
                     defaultDate: '20/12/2013'
                 });
                 $("#fecha_con").datepicker('setDate', '<? echo $fecha_concurrencia ?>');
+                $("#fecha_con").datepicker('option', 'minDate', '<?php echo $fecha_pension?>');
 
             });
 
@@ -351,7 +352,7 @@ class html_formConcurrencia {
                 var cadena = new Date(y, m, d);
 
                 if (cadena < min) {
-                    alert('Ingrese una fecha válida')
+                    alert('Ingrese una fecha válida' + min)
                     return false
                 }
 
@@ -534,7 +535,7 @@ class html_formConcurrencia {
                     <div class="control capleft">
                         <div class="control capleft">
                             <div class="dropdown" required='required' title="*Campo Obligatorio" >
-                                       <select name='entidad_previsora' required>
+                                <select name='entidad_previsora' required>
 
                                     <?
                                     foreach ($datos_previsora as $key => $value) {
@@ -647,7 +648,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="cp_aceptada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" maxlength="11"  onpaste="return false">Mínimo 4 caracteres
+                            <input type="text" id="p1f6c" name="cp_aceptada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" pattern="^[0-9]\d{3,9}(\.\d{1,2})?%?$" maxlength="11"  onpaste="return false">Mínimo 4 caracteres
                         </div>
                         <div class="null"></div>
                     </div>

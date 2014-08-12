@@ -855,16 +855,16 @@ class html_formRecaudo {
                 $("#fecha_resolucion").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
 
-            $(document).ready(function() {
-                $("#fecha_acto_adm").datepicker({
-                    changeMonth: true,
-                    changeYear: true,
-                    yearRange: '1980:c',
-                    maxDate: "+2M",
-                    dateFormat: 'dd/mm/yy'
-                });
-                $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
-            });
+          /// $(document).ready(function() {
+             ///   $("#fecha_acto_adm").datepicker({
+             ///       changeMonth: true,
+             ///       changeYear: true,
+             ///       yearRange: '1980:c',
+             ///       maxDate: "+2M",
+             ///       dateFormat: 'dd/mm/yy'
+             ///   });
+             ///   $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
+            ///});
 
         <? foreach ($fecha_cobro as $key => $values) { ?>
 
@@ -1170,9 +1170,13 @@ class html_formRecaudo {
 
                 document.getElementById('total_recaudo').value = total_capint;
             }
+            
+            //onSubmit="return minDate();"
         </script>
+        
+        
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='off'  onSubmit="return minDate();">
+        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='off'  >
             <h1>Registro Recaudos Pensionado CP</h1>
             <div class="formrow f1">
                 <div id="p1f1" class="field n1">
@@ -1220,7 +1224,7 @@ class html_formRecaudo {
                     <div class="null"></div>
                 </div>
 
-                <div class="formrow f1">
+                <!--div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Número/Referencia<br>   Acto Administrativo</span></span></span></label>
@@ -1235,9 +1239,9 @@ class html_formRecaudo {
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
-                </div>
+                </div-->
 
-                <div class="formrow f1">
+                <!--div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
                             <label class="fieldlabel" for="fecha_acto_adm"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Acto<br>  Administrativo</span></span></span></label>
@@ -1252,7 +1256,7 @@ class html_formRecaudo {
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>
-                </div>
+                </div-->
 
                 <div class="formrow f1 f2">
                     <div id="p1f12" class="field n1">
