@@ -144,8 +144,27 @@ class funciones_formConcurrencia extends funcionGeneral {
         }
     }
 
+    function modificarConcurrencia($datos_concurrencia) {
+
+        $parametros = array(
+            'cedula' => $datos_concurrencia['dcp_nro_identificacion'],
+            'previsor' => $datos_concurrencia['dcp_nitprev']);
+
+        $datos_laboral = $this->consultarHistoria($parametros);
+        $datos_entidad = $this->consultarEmpleador($parametros);
+        $datos_previsora = $this->consultarPrevForm($parametros);
+
+        $this->html_formConcurrencia->formularioConcurrenciaModificar($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
+    }
+
     function registrarDescripcionCP($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarDescripcionCP", $parametros);
+        $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
+        return $datos_DescripcionCP;
+    }
+
+    function actualizarDescripcionCP($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarDescripcionCP", $parametros);
         $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
         return $datos_DescripcionCP;
     }
@@ -211,66 +230,66 @@ class funciones_formConcurrencia extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
         }
-/*
-        if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['porc_aceptado'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formulario NO diligenciado correctamente. Formato porcentaje erróneo');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
+        /*
+          if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['porc_aceptado'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formulario NO diligenciado correctamente. Formato porcentaje erróneo');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_concurrencia'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha concurrencia diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_concurrencia'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha concurrencia diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_res_pension'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha resolución pensión diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_res_pension'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha resolución pensión diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pension'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha pensión diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pension'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha pensión diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
 
-        if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_acto_adm'])) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha acto administrativo diligenciado incorrectamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
-            exit;
-        }*/
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_acto_adm'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha acto administrativo diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          } */
 
         $parametros_descripcion_cp = array(
             'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
@@ -313,6 +332,149 @@ class funciones_formConcurrencia extends funcionGeneral {
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('Datos de Concurrencia No Registrados Correctamente. Puede deberse a que el registro ya existe');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioConcurrencia";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        }
+    }
+
+    function actualizarConcurrencia($datos) {
+
+        $fecha_registro = date('d/m/Y');
+        $estado_registro = 1;
+
+        foreach ($datos as $key => $value) {
+
+            if ($datos[$key] == "") {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Formulario NO diligenciado correctamente');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioConcurrencia';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
+        if ($datos['porc_aceptado'] == 0) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Valor de Porcentaje NO válido');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioConcurrencia';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+        /*
+          if (!preg_match("^\d*[0](|.\d*[0-9]|)*$^", $datos['porc_aceptado'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formulario NO diligenciado correctamente. Formato porcentaje erróneo');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          }
+
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_concurrencia'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha concurrencia diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
+
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_res_pension'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha resolución pensión diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
+
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_pension'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha pensión diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          }
+
+          if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_acto_adm'])) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('Formato fecha acto administrativo diligenciado incorrectamente');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formularioConcurrencia';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+          exit;
+          } */
+
+        $parametros_descripcion_cp = array(
+            'cedula' => (isset($datos['cedula']) ? $datos['cedula'] : ''),
+            'nit_entidad' => (isset($datos['entidad_empleadora']) ? $datos['entidad_empleadora'] : ''),
+            'nit_previsora' => (isset($datos['entidad_previsora']) ? $datos['entidad_previsora'] : ''),
+            'resolucion_pension' => (isset($datos['resolucion_pension']) ? $datos['resolucion_pension'] : ''),
+            'fecha_res_pension' => (isset($datos['fecha_res_pension']) ? $datos['fecha_res_pension'] : ''),
+            'fecha_pension' => (isset($datos['fecha_pension']) ? $datos['fecha_pension'] : ''),
+            'valor_mesada' => (isset($datos['mesada']) ? $datos['mesada'] : ''),
+            'valor_cuota' => (isset($datos['cp_aceptada']) ? $datos['cp_aceptada'] : ''),
+            'porcen_cuota' => (isset($datos['porc_aceptado']) ? $datos['porc_aceptado'] : ''),
+            'fecha_concurrencia' => (isset($datos['fecha_concurrencia']) ? $datos['fecha_concurrencia'] : ''),
+            'tipo_actoadmin' => (isset($datos['tipo_acto']) ? $datos['tipo_acto'] : ''),
+            'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
+            'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
+            'estado' => $estado_registro,
+            'registro' => $fecha_registro);
+
+        $registro_descripcion_cp = $this->actualizarDescripcionCP($parametros_descripcion_cp);
+
+        if ($registro_descripcion_cp == true) {
+            $registroD[0] = "GUARDAR";
+            $registroD[1] = $parametros_descripcion_cp['cedula'] . '|' . $parametros_descripcion_cp['nit_entidad'] . '|' . $parametros_descripcion_cp['nit_previsora']; //
+            $registroD[2] = "CUOTAS_PARTES";
+            $registroD[3] = $parametros_descripcion_cp['valor_mesada'] . '|' . $parametros_descripcion_cp['valor_cuota'] . '|' . $parametros_descripcion_cp['porcen_cuota']; //
+            $registroD[4] = time();
+            $registroD[5] = "Registra datos cuota parte pactada para el pensionado con ";
+            $registroD[5] .= " identificacion =" . $parametros_descripcion_cp['cedula'];
+            $this->log_us->log_usuario($registroD, $this->configuracion);
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos Actualizados');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioConcurrencia";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos de Concurrencia No Actualizados Correctamente. ');" .
             "</script> ";
 
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";

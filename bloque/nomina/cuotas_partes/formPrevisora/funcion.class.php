@@ -33,6 +33,7 @@ if (!isset($GLOBALS["autorizado"])) {
     exit;
 }
 
+date_default_timezone_set('America/Bogota');
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/funcionGeneral.class.php");
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/navegacion.class.php");
 include_once("html.class.php");
@@ -101,6 +102,28 @@ class funciones_formPrevisora extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
         $datos_registro = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_registro;
+    }
+
+    function modificarRegistro($datos_entidad) {
+        $parametros = array();
+
+        $deptoC = $this->consultarDepartamento($parametros);
+        $munC = $this->consultarMunicipio($parametros);
+
+        if ($deptoC == true) {
+            foreach ($deptoC as $key => $value) {
+                $depto[$key] = array('departamento' => $value['DEP_NOMBRE']);
+            }
+        }
+
+        if ($munC == true) {
+            foreach ($munC as $key => $value) {
+                $mun[$key] = array(
+                    'departamento' => $value['DEP_NOMBRE'],
+                    'municipio' => $value['MUN_NOMBRE']);
+            }
+        }
+        $this->html_formPrevisora->modificarPrevisora($depto, $mun, $datos_entidad);
     }
 
     function mostrarFormulario() {
@@ -198,7 +221,66 @@ class funciones_formPrevisora extends funcionGeneral {
             "alert('Los datos NO se registraron correctamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = "pagina=formularioSalario";
+            $variable = "pagina=formularioPrevisora";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+    }
+
+    function procesarFormularioActualizar($datos) {
+
+        $fecha_registro = date('d/m/Y');
+        $estado_registro = 1;
+
+        $parametros = array(
+            'serial' => (isset($datos['serial']) ? $datos['serial'] : ''),
+            'nit_previsora' => (isset($datos['nit_previsora']) ? $datos['nit_previsora'] : ''),
+            'nombre_previsora' => (isset($datos['nombre_previsora']) ? $datos['nombre_previsora'] : ''),
+            'estado' => (isset($datos['estado']) ? $datos['estado'] : ''),
+            'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
+            'direccion' => (isset($datos['direccion']) ? $datos['direccion'] : ''),
+            'ciudad' => (isset($datos['municipios']) ? $datos['municipios'] : ''),
+            'departamento' => (isset($datos['departamentos']) ? $datos['departamentos'] : ''),
+            'telefono' => (isset($datos['telefono']) ? $datos['telefono'] : ''),
+            'responsable' => (isset($datos['responsable']) ? $datos['responsable'] : ''),
+            'cargo' => (isset($datos['cargo']) ? $datos['cargo'] : ''),
+            'otro_contacto' => (isset($datos['otro_contacto']) ? $datos['otro_contacto'] : ''),
+            'otro_cargo' => (isset($datos['otro_cargo']) ? $datos['otro_cargo'] : ''),
+            'correo1' => (isset($datos['txtEmail']) ? $datos['txtEmail'] : ''),
+            'correo2' => (isset($datos['txtEmail2']) ? $datos['txtEmail2'] : ''),
+            'estado_registro' => ($estado_registro),
+            'fecha_registro' => $fecha_registro,);
+
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarPrevisora", $parametros);
+        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "actualizar");
+
+        if ($datos_registrados == true) {
+            $registro[0] = "ACTUALIZAR";
+            $registro[1] = $parametros['nit_previsora'] . '|' . $parametros['nombre_previsora'] . '|' . $parametros['estado']; //
+            $registro[2] = "CUOTAS_PARTES_previsora";
+            $registro[3] = $parametros['direccion'] . '|' . $parametros['telefono'] . '|' . $parametros['responsable']; //
+            $registro[4] = time();
+            $registro[5] = "Actualiza datos básicos entidad previsora con ";
+            $registro[5] .= "NIT =" . $parametros['nit_previsora'];
+            $this->log_us->log_usuario($registro, $this->configuracion);
+
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos Actualizados');" .
+            "</script> ";
+
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioPrevisora";
+            $variable .= "&opcion=";
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Los datos NO se actualizaron correctamente');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = "pagina=formularioPrevisora";
             $variable .= "&opcion=";
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";

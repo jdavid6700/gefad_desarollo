@@ -55,6 +55,13 @@ class bloque_formPrevisora extends bloque {
                     $this->funcion->mostrarFormulario();
                     break;
 
+
+                case "modificar":
+                    $datos_entidad = unserialize($_REQUEST['datos_entidad']);
+                    $this->funcion->modificarRegistro($datos_entidad);
+                    break;
+
+
                 default :
                     $this->funcion->consultarRegistros();
             }
@@ -77,6 +84,18 @@ class bloque_formPrevisora extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_previsora);
+                break;
+
+            case "actualizarPrevisora":
+                $actualizar_previsora = array();
+
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $actualizar_previsora[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->procesarFormularioActualizar($actualizar_previsora);
                 break;
 
             default :

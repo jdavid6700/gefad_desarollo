@@ -200,11 +200,12 @@ class funciones_formSustituto extends funcionGeneral {
         $parametros = array(
             'cedula_pen' => (isset($datos['cedula_pen']) ? $datos['cedula_pen'] : ''),
             'cedula_sustituto' => (isset($datos['cedula_sustituto']) ? $datos['cedula_sustituto'] : ''),
+            'nombre_sustituto' => (isset($datos['nombre_sustituto']) ? $datos['nombre_sustituto'] : ''),
             'fecha_nacsustituto' => (isset($datos['fecha_nacsustituto']) ? $datos['fecha_nacsustituto'] : ''),
             'fecha_muerte' => (isset($datos['fecha_muerte']) ? $datos['fecha_muerte'] : ''),
             'fecha_certificadod' => (isset($datos['fecha_certificadod']) ? $datos['fecha_certificadod'] : ''),
             'certificado_defuncion' => (isset($datos['certificado_defuncion']) ? $datos['certificado_defuncion'] : ''),
-            'fecha_res_sustitucion' => (isset($datos['cedula_sustituto']) ? $datos['cedula_sustituto'] : ''),
+            'fecha_res_sustitucion' => (isset($datos['fecha_res_sustitucion']) ? $datos['fecha_res_sustitucion'] : ''),
             'res_sustitucion' => (isset($datos['resolucion_sustitucion']) ? $datos['resolucion_sustitucion'] : ''),
             'estado' => $estado_registro,
             'registro' => $fecha_registro);
@@ -278,6 +279,7 @@ class funciones_formSustituto extends funcionGeneral {
                 $contenido = "<tr>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . wordwrap($datos_sustitutos[$key]['sus_nombresus'], 25,"<BR>",true) . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
@@ -288,6 +290,7 @@ class funciones_formSustituto extends funcionGeneral {
             }
         } else {
             $contenido = "<tr>";
+            $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
             $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
             $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
             $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -330,19 +333,19 @@ class funciones_formSustituto extends funcionGeneral {
 { padding-left: 5mm; }
     </style>
 
-<page backtop='30mm' backbottom='20mm' backleft='3mm' backright='3mm' pagegroup='new'>
+<page backtop='30mm' backbottom='20mm' backleft='25mm' backright='5mm' pagegroup='new'>
 <page_header>
-    <table align='center'>
+    <table align='right'>
                 <tr>
                 <th style=\"width:10px;\" colspan=\"1\">
                     <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
                 </th>
-                <th style=\"width:570px;font-size:13px;\" colspan=\"1\">
+                <th style=\"width:480px;font-size:13px;\" colspan=\"1\">
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
                 </th>
-                <th style=\"width:130px;font-size:10px;\" colspan=\"1\">
+                <th style=\"width:135px;font-size:10px;\" colspan=\"1\">
                     <br>REPORTE SUSTITUTOS REGISTRADOS<BR>
                     <br>" . $fecha_cc . "<br><br>
                 </th>
@@ -352,9 +355,9 @@ class funciones_formSustituto extends funcionGeneral {
 </page_header>
 
 <page_footer>
-        <table align='center'>
+        <table align='right'>
         <tr>
-        <td align = 'center' style=\"width: 770px; text-align:center\">
+        <td align = 'center' style=\"width: 700px; text-align:center\">
         Universidad Distrital Francisco José de Caldas
         <br>
         Todos los derechos reservados.
@@ -371,17 +374,18 @@ class funciones_formSustituto extends funcionGeneral {
   <table  align='center'>
    <thead>
         <tr>
-            <th colspan=\"8\" style=\"width:770px; font-size:12px;\">DETALLE DE SUSTITUTOS</th>
+            <th colspan=\"9\" style=\"width:700px; font-size:12px;\">DETALLE DE SUSTITUTOS</th>
         </tr>
         <tr>
                         <th>CÉDULA<BR> PENSIONADO</th>
                         <th>CÉDULA<BR> SUSTITUTO</th>
+                        <th>NOMBRE<BR> SUSTITUTO</th>
                         <th>FECHA<BR> DEFUNCION</th>
                         <th>CERTIFICADO<BR> DEFUNCIÓN</th>
                         <th>CERTIFICADO<BR> DEFUNCIÓN</th>
-                        <th>FECHA NAC. SUSTITUTO</th>
-                        <th>RES. SUSTITUCIÓN</th>
-                        <th>FECHA RES. SUSTITUCIÓN</th>
+                        <th>FECHA NAC.<BR> SUSTITUTO</th>
+                        <th>RES.<BR> SUSTITUCIÓN</th>
+                        <th>FECHA RES.<BR> SUSTITUCIÓN</th>
         </tr>
          </thead>
          <tbody>

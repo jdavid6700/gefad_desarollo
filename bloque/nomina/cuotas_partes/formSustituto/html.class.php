@@ -360,6 +360,23 @@ class html_formSustituto {
             </div>
 
             <div class="formrow f1">
+                <div id="p1f12" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Sustituto</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="p1f12c" name="nombre_sustituto" title="*Campo Obligatorio"  onKeyPress='return acceptNumLetter(event)' class="fieldcontent" required='required' onpaste="return false">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="fecha_nacsustituto"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Nacimiento <br>  Sustituto</span></span></span></label>
@@ -502,12 +519,13 @@ class html_formSustituto {
             <form id="<? echo $this->formulario; ?>" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
                 <center><table class='bordered'  width ="75%" align="center">
                         <tr>
-                            <th colspan="8" class='encabezado_registro'>SUSTITUTOS REGISTRADOS</th>
+                            <th colspan="9" class='encabezado_registro'>SUSTITUTOS REGISTRADOS</th>
                             <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                         </tr>
                         <tr>
                             <td class='texto_elegante2 estilo_td' align=center>CÉDULA PENSIONADO</td>
                             <td class='texto_elegante2 estilo_td' align=center>CÉDULA SUSTITUTO</td>
+                            <td class='texto_elegante2 estilo_td' align=center>NOMBRE SUSTITUTO</td>
                             <td class='texto_elegante2 estilo_td' align=center>FECHA DEFUNCION</td>
                             <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
                             <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
@@ -523,6 +541,7 @@ class html_formSustituto {
                                     echo "<tr>";
                                     echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
                                     echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_nombresus'] . "</td>";
                                     echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
                                     echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
                                     echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
@@ -541,12 +560,13 @@ class html_formSustituto {
                                 echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                                 echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                                 echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                                 echo "</tr>";
                             }
                             ?>
                     </table >
                     <center><div class="holder"></div></center>
-                    
+
                     <div>
                         <div class="null"></div>
                         <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">

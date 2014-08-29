@@ -72,8 +72,12 @@ class bloque_formConcurrencia extends bloque {
                     break;
 
                 case "formulario":
-
                     $this->funcion->mostrarFormulario();
+                    break;
+
+                case "modificarConcurrencia":
+                    $concurrencia_registrada = unserialize($_REQUEST['concurrencia']);
+                    $this->funcion->modificarConcurrencia($concurrencia_registrada);
                     break;
 
                 default :
@@ -89,7 +93,6 @@ class bloque_formConcurrencia extends bloque {
 
         switch ($_REQUEST['opcion']) {
 
-
             case "registrarConcurrencia":
                 $registro_previsora = array();
 
@@ -100,6 +103,18 @@ class bloque_formConcurrencia extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_previsora);
+                break;
+
+            case "actualizarConcurrencia":
+                $registro_previsora = array();
+
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $registro_previsora[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->actualizarConcurrencia($registro_previsora);
                 break;
 
             default :

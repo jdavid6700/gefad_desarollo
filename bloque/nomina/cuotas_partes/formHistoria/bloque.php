@@ -106,7 +106,7 @@ class bloque_formHistoria extends bloque {
 
                 case "modificar":
                     $historia_laboral = unserialize($_REQUEST['historia']);
-                             $this->funcion->modificarHistoria($historia_laboral);
+                 $this->funcion->modificarHistoria($historia_laboral);
                     break;
 
                 default :

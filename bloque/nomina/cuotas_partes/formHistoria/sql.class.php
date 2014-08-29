@@ -25,6 +25,8 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_fretiro='" . $variable['fecha_salida'] . "' ,";
                 $cadena_sql.=" hlab_horas='" . $variable['horas_labor'] . "' ,";
                 $cadena_sql.=" hlab_periodicidad='" . $variable['periodo_labor'] . "' ,";
+                $cadena_sql.=" hlab_numcertificado='" . $variable['num_certificado'] . "' ,";
+                $cadena_sql.=" hlab_fcertificado='" . $variable['fecha_certificado'] . "' ,";
                 $cadena_sql.=" hlab_estado= '" . $variable['estado'] . "' ,";
                 $cadena_sql.=" hlab_registro='" . $variable['registro'] . "' ";
                 $cadena_sql.=" WHERE ";
@@ -44,6 +46,11 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" AND int_nro_identificacion='" . $variable['cedula'] . "' ";
                 break;
 
+            case "consultarSustituto":
+                $cadena_sql = " SELECT sus_cedulasus,  sus_nombresus,  sus_fnac_sustituto, sus_fresol_sustitucion ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_sustituto ";
+                $cadena_sql.=" WHERE sus_cedulapen='" . $variable . "' ";
+                break;
 
             case "insertarHistoria":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_hlaboral ( ";
@@ -55,6 +62,8 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_fretiro, ";
                 $cadena_sql.=" hlab_horas, ";
                 $cadena_sql.=" hlab_periodicidad, ";
+                $cadena_sql.=" hlab_numcertificado, ";
+                $cadena_sql.=" hlab_fcertificado,";
                 $cadena_sql.=" hlab_estado, ";
                 $cadena_sql.=" hlab_registro) VALUES ( ";
                 $cadena_sql.=" '" . $variable['nro_ingreso'] . "', ";
@@ -65,26 +74,10 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" '" . $variable['fecha_salida'] . "', ";
                 $cadena_sql.=" '" . $variable['horas_labor'] . "', ";
                 $cadena_sql.=" '" . $variable['periodo_labor'] . "', ";
+                $cadena_sql.=" '" . $variable['num_certificado'] . "' ,";
+                $cadena_sql.=" '" . $variable['fecha_certificado'] . "' ,";
                 $cadena_sql.=" '" . $variable['estado'] . "', ";
                 $cadena_sql.=" '" . $variable['registro'] . "' )";
-                break;
-
-            case "insertarEntidad":
-                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_entidad ( ";
-                $cadena_sql.=" ent_nit_entidad, ";
-                $cadena_sql.=" ent_ciudad, ";
-                $cadena_sql.=" ent_direccion, ";
-                $cadena_sql.=" ent_telefono, ";
-                $cadena_sql.=" ent_contacto, ";
-                $cadena_sql.=" ent_estado, ";
-                $cadena_sql.=" ent_registro) VALUES ( ";
-                $cadena_sql.=" '" . $variable['nit_entidad'] . "', ";
-                $cadena_sql.=" '" . $variable['ciudad_entidad'] . "', ";
-                $cadena_sql.=" '" . $variable['direccion_entidad'] . "', ";
-                $cadena_sql.=" '" . $variable['telefono_entidad'] . "', ";
-                $cadena_sql.=" '" . $variable['contacto_entidad'] . "', ";
-                $cadena_sql.=" '" . $variable['estado'] . "', ";
-                $cadena_sql.=" '" . $variable['registro'] . "' ) ";
                 break;
 
             case "insertarInterrupcion":
@@ -94,7 +87,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" int_nro_identificacion, ";
                 $cadena_sql.=" int_nitent, int_nitprev, ";
                 $cadena_sql.=" int_dias, int_fdesde, int_fhasta, ";
-                $cadena_sql.=" int_num_certificado, int_fecha_cert, ";
+                // $cadena_sql.=" int_num_certificado, int_fecha_cert, ";
                 $cadena_sql.=" int_estado, int_registro) VALUES ( ";
                 $cadena_sql.=" '" . $variable['nro_interrupcion'] . "', ";
                 $cadena_sql.=" '" . $variable['nro_ingreso'] . "', ";
@@ -104,8 +97,8 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" '" . $variable['total_dias'] . "', ";
                 $cadena_sql.=" " . (isset($variable['dias_nor_desde']) ? "'" . $variable['dias_nor_desde'] . "'" : 'NULL') . ", ";
                 $cadena_sql.=" " . (isset($variable['dias_nor_hasta']) ? "'" . $variable['dias_nor_hasta'] . "'" : 'NULL') . ", ";
-                $cadena_sql.=" '" . $variable['num_certificado'] . "', ";
-                $cadena_sql.=" '" . $variable['fecha_certificado'] . "', ";
+                //$cadena_sql.=" '" . $variable['num_certificado'] . "', ";
+                //$cadena_sql.=" '" . $variable['fecha_certificado'] . "', ";
                 $cadena_sql.=" '" . $variable['estado'] . "', ";
                 $cadena_sql.=" '" . $variable['registro'] . "' ) ";
                 break;
@@ -129,6 +122,8 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_fretiro, ";
                 $cadena_sql.=" hlab_horas, ";
                 $cadena_sql.=" hlab_periodicidad, ";
+                $cadena_sql.=" hlab_numcertificado, ";
+                $cadena_sql.=" hlab_fcertificado,";
                 $cadena_sql.=" hlab_estado, ";
                 $cadena_sql.=" hlab_registro ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
@@ -147,7 +142,9 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_fingreso, ";
                 $cadena_sql.=" hlab_fretiro, ";
                 $cadena_sql.=" hlab_horas, ";
-                $cadena_sql.=" hlab_periodicidad ";
+                $cadena_sql.=" hlab_periodicidad, ";
+                $cadena_sql.=" hlab_numcertificado, ";
+                $cadena_sql.=" hlab_fcertificado ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion = '" . $variable . "' ";
                 $cadena_sql.=" AND prev_nit = hlab_nitprev ";
@@ -165,7 +162,9 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" hlab_fingreso, ";
                 $cadena_sql.=" hlab_fretiro, ";
                 $cadena_sql.=" hlab_horas, ";
-                $cadena_sql.=" hlab_periodicidad ";
+                $cadena_sql.=" hlab_periodicidad, ";
+                $cadena_sql.=" hlab_numcertificado, ";
+                $cadena_sql.=" hlab_fcertificado ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" WHERE hlab_nro_identificacion = '" . $variable . "' ";
                 $cadena_sql.=" AND prev_nit = hlab_nitenti ";
@@ -213,7 +212,7 @@ class sql_formHistoria extends sql {
                 break;
 
             case "reporteDescripcion":
-                $cadena_sql = " SELECT ";
+                $cadena_sql = " SELECT dcp_nro_identificacion,";
                 $cadena_sql.= " dcp_nitprev, ";
                 $cadena_sql.= " dcp_resol_pension_fecha, ";
                 $cadena_sql.= " dcp_resol_pension, ";
@@ -259,7 +258,7 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" emp_nro_iden, emp_nombre AS NOMBRE ";
                 $cadena_sql.=" FROM peemp ";
                 $cadena_sql.=" WHERE emp_nro_iden = " . $variable . " ";
-                $cadena_sql.=" AND emp_estado = 'A' ";
+                //$cadena_sql.=" AND emp_estado = 'A' ";
                 $cadena_sql.=" ORDER BY emp_nro_iden ASC ";
                 break;
 

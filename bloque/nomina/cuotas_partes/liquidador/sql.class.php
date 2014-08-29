@@ -16,15 +16,25 @@ class sql_liquidador extends sql {
     function cadena_sql($configuracion, $conexion, $opcion, $variable) {
 
         switch ($opcion) {
-            
+
             case "actualizarEstadoLiquidacion":
                 $cadena_sql = " UPDATE ";
                 $cadena_sql.=" cuotas_partes.cuotas_liquidacion ";
                 $cadena_sql.=" SET ";
                 $cadena_sql.=" liq_estado_cc = 'INACTIVO' ";
                 $cadena_sql.=" WHERE ";
-                $cadena_sql.=" liq_consecutivo = '".$variable."' ";
+                $cadena_sql.=" liq_consecutivo = '" . $variable . "' ";
                 break;
+
+            case "consultarSustitutos":
+                $cadena_sql = " SELECT sus_cedulapen,sus_cedulasus,sus_nombresus, ";
+                $cadena_sql.=" sus_fdefuncion, sus_certificado_defuncion, ";
+                $cadena_sql.=" sus_fcertificado_defuncion,sus_fnac_sustituto, ";
+                $cadena_sql.=" sus_resol_sustitucion,sus_fresol_sustitucion ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_sustituto ";
+                $cadena_sql.=" WHERE sus_cedulapen='" . $variable['cedula'] . "' ";
+                break;
+
 
             //Reestructuración
             case "consultarEntidades":
@@ -215,8 +225,8 @@ class sql_liquidador extends sql {
 
             case "valor_dtf_entre":
                 $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce from cuotas_partes.cuotas_indc_dtf ";
-                $cadena_sql.= " where dtf_fe_desde between '".$variable['desde']."' and '".$variable['hasta']."' ";
-                $cadena_sql.= " and dtf_fe_hasta between '".$variable['desde']."' and '".$variable['hasta']."' ";
+                $cadena_sql.= " where dtf_fe_desde between '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
+                $cadena_sql.= " and dtf_fe_hasta between '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
                 $cadena_sql.= " order by dtf_fe_desde ASC ";
                 break;
 

@@ -265,10 +265,10 @@ class html_liquidador {
                         dateFormat: 'dd/mm/yy',
                         maxDate: "+1Y",
                         /*onSelect: function(dateValue, inst) {
-                            $("#liquidar_hasta").datepicker("option", "minDate", dateValue)
-                        }*/
+                         $("#liquidar_hasta").datepicker("option", "minDate", dateValue)
+                         }*/
                     });
-                   /* $("#liquidar_desde").datepicker('option', 'minDate', '<?php echo $fecha_inicial ?>');*/
+                    /* $("#liquidar_desde").datepicker('option', 'minDate', '<?php echo $fecha_inicial ?>');*/
                 });
                 $(document).ready(function() {
                     $("#liquidar_hasta").datepicker({
@@ -594,7 +594,7 @@ class html_liquidador {
         <?
     }
 
-    function generarReportes($datos_basicos, $totales_liquidacion) {
+    function generarReportes($datos_basicos, $totales_liquidacion, $sustitutos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -666,9 +666,25 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <?
+                        if (is_array($sustitutos)) {
+                            foreach ($sustitutos as $key => $value) {
+                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                            }
+                        } else {
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        }
+                        ?>
                         <td class='texto_elegante estilo_td' >Documento Sustituto:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <?
+                        if (is_array($sustitutos)) {
+                            foreach ($sustitutos as $key => $value) {
+                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td>";
+                            }
+                        } else {
+                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'></td>";
+                        }
+                        ?>
                     </tr>
                 </table>
             </center>
@@ -749,10 +765,9 @@ class html_liquidador {
                             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                             echo " " . $this->indice . $variable . "'>
                             <img alt = 'Imagen' width = '20px' src = '" . $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] . "/nomina/cuotas_partes/liquidador/icons/detalle.png'/></td>";
-                            
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'> ". $totales_liquidacion[$key]['liq_estado_cc']."</p></td>";
+
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'> " . $totales_liquidacion[$key]['liq_estado_cc'] . "</p></td>";
                             echo "</tr>";
-                            
                         }
                     } else {
                         echo "<tr>";
@@ -784,7 +799,7 @@ class html_liquidador {
 
     //PDF
 
-    function reporteDetalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos) {
+    function reporteDetalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos, $sustitutos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -879,9 +894,25 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <?
+                        if (is_array($sustitutos)) {
+                            foreach ($sustitutos as $key => $value) {
+                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                            }
+                        } else {
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        }
+                        ?>
                         <td class='texto_elegante estilo_td' >Documento Sustituto:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <?
+                        if (is_array($sustitutos)) {
+                            foreach ($sustitutos as $key => $value) {
+                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td>";
+                            }
+                        } else {
+                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'></td>";
+                        }
+                        ?>
                     </tr>
                 </table>
             </center>
@@ -1063,7 +1094,7 @@ class html_liquidador {
         <?
     }
 
-    function reporteCuenta($datos_basicos, $totales_liquidacion, $enletras, $consecutivo, $jefeRecursos, $jefeTesoreria) {
+    function reporteCuenta($datos_basicos, $totales_liquidacion, $enletras, $consecutivo, $jefeRecursos, $jefeTesoreria, $sustitutos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -1139,9 +1170,25 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <?
+                        if (is_array($sustitutos)) {
+                            foreach ($sustitutos as $key => $value) {
+                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                            }
+                        } else {
+                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                        }
+                        ?>
                         <td class='texto_elegante estilo_td' >Documento Sustituto:</td>
-                        <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
+                        <?
+                        if (is_array($sustitutos)) {
+                            foreach ($sustitutos as $key => $value) {
+                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td>";
+                            }
+                        } else {
+                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'></td>";
+                        }
+                        ?>
                     </tr>
                 </table>
             </center>
@@ -1263,7 +1310,7 @@ class html_liquidador {
         <?
     }
 
-    function reporteResumen($datos_basicos, $consecu_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos) {
+    function reporteResumen($datos_basicos, $consecu_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos, $sustitutos) {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -1326,77 +1373,77 @@ class html_liquidador {
             <center>
                 <table class='bordered'  width ="60%">
                     <tr>
-                        <th class='subtitulo_th centrar' colspan="8">DATOS PENSIONADO - PENSIÓN</th>
+                        <th class='subtitulo_th centrar' colspan="11">DATOS PENSIONADO - PENSIÓN</th>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Nombres y Apellidos del Titular:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='8'><? echo'&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Documento:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='8'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Fecha de Nacimiento:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_pensionado[0]['FECHA_NAC'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='8'><? echo'&nbsp;&nbsp;' . $datos_pensionado[0]['FECHA_NAC'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Resolución Reconocimiento Concurrencia:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . $datos_concurrencia[0]['dcp_actoadmin'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='8'><? echo'&nbsp;&nbsp;' . $datos_concurrencia[0]['dcp_actoadmin'] ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Fecha de Efectividad:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))); ?></td>
+                        <td class='texto_elegante estilo_td' colspan='8'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))); ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Fecha Inicio de Concurrencia:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']))); ?></td>
+                        <td class='texto_elegante estilo_td' colspan='8'><? echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']))); ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='1'>Días a Cargo:</td>
                         <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . $dias_cargo[$datos_basicos['entidad']]['total_dia'] ?></td>
                         <td class='texto_elegante estilo_td' colspan='1'>Total Días</td>
-                        <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . $dias_cargo['Total'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;&nbsp;' . $dias_cargo['Total'] ?></td>
                         <td class='texto_elegante estilo_td' colspan='1'>Porcentaje Ingresado:</td>
-                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;&nbsp;' . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' ?></td>
                         <!--td class='texto_elegante estilo_td' colspan='1'>Porcentaje Calculado:</td>
                         <td class='texto_elegante estilo_td' colspan='1'><? echo'&nbsp;&nbsp;' . round(((($dias_cargo[$datos_basicos['entidad']]['total_dia']) / ($dias_cargo['Total'])) * 100), 3) . '&nbsp;%' ?></td-->
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='2'>Mesada Inicial:</td>
-                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_mesada']) ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_mesada']) ?></td>
                         <td class='texto_elegante estilo_td' colspan='2'>Cuota Parte:</td>
-                        <td class='texto_elegante estilo_td' colspan='2'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_cuota']) ?></td>
+                        <td class='texto_elegante estilo_td' colspan='4'><? echo'&nbsp;$&nbsp;' . number_format($datos_concurrencia[0]['dcp_valor_cuota']) ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Resolución que modifica o reliquida:</td>
-                        <td class='texto_elegante estilo_td' colspan='5'><? echo'&nbsp;&nbsp;' ?></td>
+                        <td class='texto_elegante estilo_td' colspan='8'><? echo'&nbsp;&nbsp;' ?></td>
                     </tr>
                     <?
-                    if ($datos_pensionado[0]['FALLECIDO'] == 'S') {
+                    if (is_array($sustitutos)) {
                         echo " <tr> ";
-                        echo "      <th class='subtitulo_th centrar' colspan='6'>DATOS PENSIONADO - SUSTITUTO</th> ";
+                        echo "      <th class='subtitulo_th centrar' colspan='11'>DATOS PENSIONADO - SUSTITUTO</th> ";
                         echo " </tr> ";
                         echo " <tr> ";
                         echo "      <td class = 'texto_elegante estilo_td' colspan = '2'>Fecha Defunción Titular:</td > ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
+                        echo "      <td class='texto_elegante estilo_td' colspan='9'>" . $sustitutos[0]['sus_fdefuncion'] . "</td> ";
                         echo " </tr> ";
-                        echo " <tr> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Resolución de Sustitución:</td> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
-                        echo " </tr> ";
-                        echo " <tr> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Nombre Sustituto:</td> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
-                        echo " </tr> ";
-                        echo " <tr> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Documento Sustituto:</td> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
-                        echo " </tr> ";
-                        echo " <tr> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='2'>Fecha Nacimiento Sustituto:</td> ";
-                        echo "      <td class='texto_elegante estilo_td' colspan='4'></td> ";
-                        echo " </tr> ";
+
+                        foreach ($sustitutos as $key => $values) {
+
+                            echo " <tr> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='2'>Nombre Sustituto:</td> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='6'>" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='2'>Documento Sustituto:</td> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='6'>" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
+                            echo " </tr> ";
+                            echo " <tr> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='2'>Fecha Nacimiento Sustituto:</td> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='6'>" . $sustitutos[$key]['sus_fnac_sustituto'] . "</td> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='2'>Resolución de Sustitución:</td> ";
+                            echo "      <td class='texto_elegante estilo_td' colspan='6'>" . $sustitutos[$key]['sus_resol_sustitucion'] . "</td> ";
+                            echo " </tr> ";
+                        }
                     }
                     ?>
                 </table>

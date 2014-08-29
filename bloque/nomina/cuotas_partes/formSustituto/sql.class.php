@@ -21,6 +21,7 @@ class sql_formSustituto extends sql {
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_sustituto ";
                 $cadena_sql.=" (sus_cedulapen, ";
                 $cadena_sql.=" sus_cedulasus,  ";
+                $cadena_sql.=" sus_nombresus,  ";
                 $cadena_sql.=" sus_fdefuncion , ";
                 $cadena_sql.=" sus_certificado_defuncion, ";
                 $cadena_sql.=" sus_fcertificado_defuncion, ";
@@ -32,6 +33,7 @@ class sql_formSustituto extends sql {
                 $cadena_sql.=" VALUES ( ";
                 $cadena_sql.=" '" . $variable['cedula_pen'] . "', ";
                 $cadena_sql.=" '" . $variable['cedula_sustituto'] . "', ";
+                $cadena_sql.=" '" . $variable['nombre_sustituto'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_muerte'] . "', ";
                 $cadena_sql.=" '" . $variable['certificado_defuncion'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_certificadod'] . "', ";
@@ -43,13 +45,13 @@ class sql_formSustituto extends sql {
                 break;
 
             case "reporteSustituto":
-                $cadena_sql = " SELECT sus_cedulapen, sus_cedulasus, sus_fresol_sustitucion ";
+                $cadena_sql = " SELECT sus_cedulapen, sus_cedulasus,sus_nombresus, sus_fresol_sustitucion ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_sustituto ";
                 $cadena_sql.=" WHERE sus_cedulapen='" . $variable['cedula'] . "' ";
                 break;
 
             case "listadoSustitutos":
-                $cadena_sql = " SELECT sus_cedulapen,sus_cedulasus, ";
+                $cadena_sql = " SELECT sus_cedulapen,sus_cedulasus,sus_nombresus, ";
                 $cadena_sql.=" sus_fdefuncion, sus_certificado_defuncion, ";
                 $cadena_sql.=" sus_fcertificado_defuncion,sus_fnac_sustituto, ";
                 $cadena_sql.=" sus_resol_sustitucion,sus_fresol_sustitucion ";

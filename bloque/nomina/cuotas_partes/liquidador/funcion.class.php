@@ -14,7 +14,7 @@
   ----------------------------------------------------------------------------------------
  */
 
-
+date_default_timezone_set('America/Bogota');
 if (!isset($GLOBALS["autorizado"])) {
     include("../index.php");
     exit;
@@ -68,6 +68,28 @@ class funciones_liquidador extends funcionGeneral {
 
         ob_start();
         $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+
+        $parametros = array(
+            'cedula' => $datos_basicos['cedula']
+        );
+
+        $sustitutos = $this->consultarSustitutos($parametros);
+
+        if (is_array($sustitutos)) {
+            foreach ($sustitutos as $key => $values) {
+                $contenido1 = "<td style=\"width:209px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+            }
+        } else {
+            $contenido1 = "<td style=\"width:209px;\" >&nbsp;&nbsp;</td> ";
+        }
+
+        if (is_array($sustitutos)) {
+            foreach ($sustitutos as $key => $values) {
+                $contenido2 = "<td style=\"width:150px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
+            }
+        } else {
+            $contenido2 = "<td style=\"width:150px;\" >&nbsp;&nbsp;</td> ";
+        }
 
         $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
         $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
@@ -146,9 +168,9 @@ class funciones_liquidador extends funcionGeneral {
                     </tr>
                     <tr>
                         <td>Nombre Sustituto:</td>
-                        <td style=\"width:309px;\"></td>
+                       " . $contenido1 . "
                         <td>Documento Sustituto:</td>
-                        <td style=\"width:150px;\" ></td>
+                       " . $contenido2 . "
                     </tr>
                 </table>
 </page_header>
@@ -283,6 +305,7 @@ class funciones_liquidador extends funcionGeneral {
 
         $total = 0;
         $contenido = '';
+
         foreach ($liquidacion_anual as $key => $values) {
             $contenido.= " <tr> ";
             $contenido.= "<td   colspan='1'>" . $liquidacion_anual[$key]['vigencia'] . "</td> ";
@@ -297,10 +320,29 @@ class funciones_liquidador extends funcionGeneral {
             $total = $liquidacion_anual[$key]['total'] + $total;
         }
 
+        $parametros = array(
+            'cedula' => $datos_basicos['cedula']);
 
+        $sustitutos = $this->consultarSustitutos($parametros);
+
+        $contenido2 = '';
+        foreach ($sustitutos as $key => $values) {
+            $contenido2.=" <tr> ";
+            $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
+            $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+            $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
+            $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
+            $contenido2.=" </tr> ";
+            $contenido2.=" <tr> ";
+            $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
+            $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_fnac_sustituto'] . "</td> ";
+            $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
+            $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_resol_sustitucion'] . "</td> ";
+            $contenido2.=" </tr>";
+        }
 
         $ContenidoPdf = "
-<style type=\"text/css\">
+            <style type = \"text/css\">
     table { 
         color:#333; /* Lighten up font color */
         font-family:Helvetica, Arial, sans-serif; /* Nicer font */
@@ -329,20 +371,20 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
-<page backtop='95mm' backbottom='20mm' backleft='3mm' backright='3mm' pagegroup='new'>
+<page backtop='40mm' backbottom='20mm' backleft='30mm' backright='5mm' pagegroup='new'>
 <page_header>
-    <table align='center'>
+    <table align='right'>
         <thead>
             <tr>
                 <th style=\"width:60px;\" colspan=\"1\">
                     <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
                 </th>
-                <th style=\"width:490px;font-size:13px;\" colspan=\"1\">
+                <th style=\"width:450px;font-size:13px;\" colspan=\"1\">
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
                 </th>
-                <th style=\"width:160px;font-size:10px;\" colspan=\"1\">
+                <th style=\"width:140px;font-size:10px;\" colspan=\"1\">
                     <br>RESUMEN CUENTA DE COBRO
                     <br>No." . $consecutivo . "<br>
                     <br>" . $fecha_cc . "<br><br>
@@ -359,9 +401,27 @@ class funciones_liquidador extends funcionGeneral {
         </tr>
     </table>  
     <br>
-    <table align='center' style=\"width: 750px;\">
+    
+</page_header>
+<page_footer>
+    <table align='right'>
+        <tr>
+            <td align='center' style=\"width: 650px;\">
+                Universidad Distrital Francisco José de Caldas
+                <br>
+                Todos los derechos reservados.
+                <br>
+                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
+                <br>
+            </td>
+        </tr>
+    </table>
+     <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+        <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
+</page_footer>
+<table align='right' style=\"width: 650px;\">
     <tr>
-        <th colspan=\"8\" style=\"width: 750px;\">DATOS PENSIONADO - PENSIÓN</th>
+        <th colspan=\"8\" style=\"width: 650px;\">DATOS PENSIONADO - PENSIÓN</th>
     </tr>
     <tr>
         <td colspan='3'>Nombres y Apellidos del Titular:</td>
@@ -405,30 +465,23 @@ class funciones_liquidador extends funcionGeneral {
         <td colspan='2'></td>
     </tr>
     <tr>
-        <td colspan='3'>Resolución que modifica o reliquida:</td>
-        <td colspan='5'></td>
+        <td colspan='2'>Resolución que modifica o reliquida:</td>
+        <td colspan='6'></td>
     </tr>
-</table>
-</page_header>
-<page_footer>
-    <table align='center' width='100%'>
-        <tr>
-            <td align='center' style=\"width: 750px;\">
-                Universidad Distrital Francisco José de Caldas
-                <br>
-                Todos los derechos reservados.
-                <br>
-                Carrera 8 N. 40-78 Piso 1 / PBX 3238400 - 3239300, Ext. 1618 - 1603
-                <br>
-            </td>
-        </tr>
-    </table>
-     <p style=\"font-size:7px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
-        <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
-</page_footer>
+    
+    <tr>
+         <th colspan='11'>DATOS PENSIONADO - SUSTITUTO</th>
+         </tr>
+    <tr>
+         <td colspan = '2'>Fecha Defunción Titular:</td >
+         <td colspan='9'>" . $sustitutos[0]['sus_fdefuncion'] . "</td>
+    </tr>
+    " . $contenido2 . "
 
+</table>
 <br>
 <table align='center' >
+<thead>
     <tr>
         <th colspan=\"1\" width=\"5%\">PERIODO</th>
         <th rowspan=\"2\" width=\"14.5%\">MONTO<br>MESADA</th>
@@ -442,6 +495,7 @@ class funciones_liquidador extends funcionGeneral {
     <tr>
         <th colspan=\"1\">AÑO</th>
     </tr>
+    </thead>
     " . $contenido . "
     <tr>
         <th  style=\"text-align:right;\" colspan=\"6\">Valor liquidado a la fecha de corte&nbsp;&nbsp;</th>
@@ -457,13 +511,13 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
 </table>
 <br>
-<table align='center'>
+<table align='right'>
     <tr>
-        <td style=\"text-align:center; width: 750px;\"><br><br><br><br>
+        <td style=\"text-align:center; width: 650px;\"><br><br><br><br>
         </td>
     </tr>
     <tr>  
-        <td align='center' style=\"text-align:center; width: 750px;\" >
+        <td align='center' style=\"text-align:center; width: 650px;\" >
             " . $jefeRecursos . "
             <br>
             Jefe(a) División de Recursos Humanos
@@ -491,6 +545,29 @@ class funciones_liquidador extends funcionGeneral {
         $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
         $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
         $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' del ' . date('Y');
+
+        $parametros = array(
+            'cedula' => $datos_basicos['cedula']
+        );
+
+        $sustitutos = $this->consultarSustitutos($parametros);
+
+        if (is_array($sustitutos)) {
+            foreach ($sustitutos as $key => $values) {
+                $contenido_1 = "<td style=\"width:223px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+            }
+        } else {
+            $contenido_1 = "<td style=\"width:223px;\" >&nbsp;&nbsp;</td> ";
+        }
+
+        if (is_array($sustitutos)) {
+            foreach ($sustitutos as $key => $values) {
+                $contenido_2 = "<td style=\"width:225px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
+            }
+        } else {
+            $contenido_2 = "<td style=\"width:225px;\" >&nbsp;&nbsp;</td> ";
+        }
+
 
         $total = 0;
         $contenido = '';
@@ -590,15 +667,15 @@ class funciones_liquidador extends funcionGeneral {
 { padding-left: 5mm; }
     </style>
 
-<page backtop='70mm' backbottom='20mm' backleft='3mm' backright='3mm' pagegroup='new'>
+<page backtop='70mm' backbottom='23mm' backleft='30mm' backright='3mm' pagegroup='new'>
 <page_header>
-    <table align='center'>
+    <table align='right'>
         <thead>
             <tr>
                 <th style=\"width:10px;\" rowspan=\"2\">
                     <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
                 </th>
-                <th style=\"width:668px;font-size:12px;\" colspan=\"1\">
+                <th style=\"width:570px;font-size:12px;\" colspan=\"1\">
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br>
@@ -607,7 +684,7 @@ class funciones_liquidador extends funcionGeneral {
             </th>
         </tr>
         <tr>
-            <th colspan=\"1\" style=\"font-size:10px; width:668px;\">" . $fecha_cc . "
+            <th colspan=\"1\" style=\"font-size:10px; width:570px;\">" . $fecha_cc . "
             </th>
         </tr>
     </thead>      
@@ -626,18 +703,18 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
 </table>
 <br>
-  <table align='center'>
+  <table align='right'>
         <tr>
             <td>Nombre Pensionado:</td>
-            <td style=\"width:273px;\" colspan='1'>" . $datos_basicos['nombre_emp'] . "</td>
+            <td style=\"width:223px;\" colspan='1'>" . $datos_basicos['nombre_emp'] . "</td>
             <td>Documento Pensionado:</td>
-            <td style=\"width:273px;\" colspan='1'>" . $datos_basicos['cedula'] . "</td>
+            <td style=\"width:225px;\" colspan='1'>" . $datos_basicos['cedula'] . "</td>
         </tr>
         <tr>
             <td>Nombre Sustituto:</td>
-            <td style=\"width:273px;\" colspan='1'></td>
+            " . $contenido_1 . "
             <td>Documento Sustituto:</td>
-            <td style=\"width:273px;\" colspan='1'></td>
+            " . $contenido_2 . "
         </tr>
     </table>
 <br>
@@ -647,7 +724,7 @@ class funciones_liquidador extends funcionGeneral {
 
         <table align='center'>
         <tr>
-        <td align = 'center' style=\"width: 762px; text-align:center\">
+        <td align = 'center' style=\"width: 650px; text-align:center\">
         Universidad Distrital Francisco José de Caldas
         <br>
         Todos los derechos reservados.
@@ -661,10 +738,10 @@ class funciones_liquidador extends funcionGeneral {
         <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
         </page_footer>
 
-  <table>
+  <table align='right'>
    <thead>
         <tr>
-            <th colspan=\"8\" style=\"width:767px; font-size:12px;\">DETALLE DE LA LIQUIDACIÓN</th>
+            <th colspan=\"8\" style=\"width:650px; font-size:12px;\">DETALLE DE LA LIQUIDACIÓN</th>
         </tr>
         <tr>
             <th>CICLO</th>
@@ -684,10 +761,10 @@ class funciones_liquidador extends funcionGeneral {
     </table>
 <br>
 
-<table>
+<table align='right'>
   <thead>
         <tr>
-            <th colspan=\"9\" style=\"width:767px; font-size:11px; border-collapse: collapse\">PARCIALES LIQUIDACIÓN</th>
+            <th colspan=\"9\" style=\"width:650px; font-size:11px; border-collapse: collapse\">PARCIALES LIQUIDACIÓN</th>
         </tr>
         <tr>
             <th rowspan=\"2\">TOTAL</th>
@@ -710,24 +787,27 @@ class funciones_liquidador extends funcionGeneral {
         </table>
         <br>
     <table align='center'>
+        <thead>
         <tr>
         <th colspan=\"3\" style=\"width:320px; font-size:12px;\">AJUSTES ANUALES PENSIÓN APLICADOS (Ley 4a/76, Ley 71/88 y Ley 100 de 1993)</th>
         </tr>
+        
         <tr>
             <th>VIGENCIA</th>
-            <th>PORCENTAJE (IPC)</th>
+            <th>INDICE (IPC)</th>
             <th>SUMAFIJA</th>
         </tr>
+        </thead>
        " . $contenido3 . "
         </table>
         <br><br><br><br>
         <table align='center'>
     <tr>
-        <td style=\"text-align:center; width: 740px;\"><br><br><br><br>
+        <td style=\"text-align:center; width: 650px;\"><br><br><br><br>
         </td>
     </tr>
     <tr>  
-        <td align='center' style=\"text-align:center; width: 750px;\" >
+        <td align='center' style=\"text-align:center; width: 650px;\" >
             " . $jefeRecursos . "
             <br>
             Jefe(a) División de Recursos Humanos
@@ -882,6 +962,12 @@ class funciones_liquidador extends funcionGeneral {
         return $datos;
     }
 
+    function consultarSustitutos($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarSustitutos", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
     function consultarEntidades($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -1017,6 +1103,8 @@ class funciones_liquidador extends funcionGeneral {
             'entidad' => (isset($datos_basicos['entidad']) ? $datos_basicos['entidad'] : ''),
         );
 
+        $sustitutos = $this->consultarSustitutos($parametros);
+
         if (!isset($datos_basicos['entidad_nombre'])) {
 
             $nombre_entidad = $this->nombreEntidad($datos_basicos);
@@ -1031,7 +1119,7 @@ class funciones_liquidador extends funcionGeneral {
         $totales_liq = $this->consultarLiqui($parametros);
 
         if (is_array($totales_liq)) {
-            $this->html_liquidador->generarReportes($datos_basicos, $totales_liq);
+            $this->html_liquidador->generarReportes($datos_basicos, $totales_liq, $sustitutos);
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existen Liquidaciones Generadas para la Entidad.');" .
@@ -1060,16 +1148,18 @@ class funciones_liquidador extends funcionGeneral {
             'liq_consecutivo' => $consecutivo
         );
 
+        $sustitutos = $this->consultarSustitutos($parametros);
         $total_liquidacion = $this->consultarLiquiFija($parametros);
         $enletras = strtoupper($this->num2letras($total_liquidacion[0]['liq_total']));
 //definir consecutivo cuenta de cobro
-        $consecutivo = $this->generarConsecutivo();
+        $opcion_pago = '';
+        $consecutivo = $this->generarConsecutivo($opcion_pago);
 
         $a = array();
         $jefe_recursos = $this->consultarJefeRecursos($a);
         $jefe_tesoreria = $this->consultarJefeTesoreria($a);
 
-        $this->html_liquidador->reporteCuenta($datos_basicos, $total_liquidacion, $enletras, $consecutivo, $jefe_recursos, $jefe_tesoreria);
+        $this->html_liquidador->reporteCuenta($datos_basicos, $total_liquidacion, $enletras, $consecutivo, $jefe_recursos, $jefe_tesoreria, $sustitutos);
     }
 
     function reporteResumen($datos_basicos, $consecutivo) {
@@ -1079,6 +1169,8 @@ class funciones_liquidador extends funcionGeneral {
             'cedula' => $datos_basicos['cedula'],
             'entidad' => $datos_basicos['entidad']
         );
+
+        $sustitutos = $this->consultarSustitutos($parametros);
 
         $existe_cc = $this->consultarCC($parametros);
 
@@ -1131,7 +1223,7 @@ class funciones_liquidador extends funcionGeneral {
         $jefe_recursos = $this->consultarJefeRecursos($a);
 
 
-        $this->html_liquidador->reporteResumen($datos_basicos, $conse_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefe_recursos);
+        $this->html_liquidador->reporteResumen($datos_basicos, $conse_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefe_recursos, $sustitutos);
     }
 
     function reportesDetalle($datos_basicos, $consecutivo) {
@@ -1141,6 +1233,9 @@ class funciones_liquidador extends funcionGeneral {
             'cedula' => $datos_basicos['cedula'],
             'entidad' => $datos_basicos['entidad']
         );
+
+
+        $datos_sustitutos = $this->consultarSustitutos($parametros);
 
         $existe_cc = $this->consultarCC($parametros);
 
@@ -1185,7 +1280,8 @@ class funciones_liquidador extends funcionGeneral {
         $a = array();
         $jefe_recursos = $this->consultarJefeRecursos($a);
 
-        $this->html_liquidador->reporteDetalle($datos_basicos, $liquidacion, $total_liquidacion, $conse_cc, $detalle_indice, $fecha_cobro, $jefe_recursos);
+
+        $this->html_liquidador->reporteDetalle($datos_basicos, $liquidacion, $total_liquidacion, $conse_cc, $detalle_indice, $fecha_cobro, $jefe_recursos, $datos_sustitutos);
     }
 
     function detalleIndices($liquidacion) {
@@ -2222,6 +2318,10 @@ class funciones_liquidador extends funcionGeneral {
 }
 
 // fin de la clase
+
+
+
+
 
 
 

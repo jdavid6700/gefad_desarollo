@@ -17,6 +17,29 @@ class sql_formConcurrencia extends sql {
 
         switch ($opcion) {
 
+              case "actualizarDescripcionCP":
+                $cadena_sql = " UPDATE cuotas_partes.cuotas_descripcion_cuotaparte SET ";
+                $cadena_sql.=" dcp_nro_identificacion= '" . $variable['cedula'] . "' ,";
+                $cadena_sql.=" dcp_nitent= '" . $variable['nit_entidad'] . "' ,";
+                $cadena_sql.=" dcp_nitprev='" . $variable['nit_previsora'] . "' ,";
+                $cadena_sql.=" dcp_fecha_concurrencia='" . $variable['fecha_concurrencia'] . "' ,";
+                $cadena_sql.=" dcp_resol_pension='" . $variable['resolucion_pension'] . "', ";
+                $cadena_sql.=" dcp_resol_pension_fecha='" . $variable['fecha_res_pension'] . "', ";
+                $cadena_sql.=" dcp_fecha_pension='" . $variable['fecha_pension'] . "', ";
+                $cadena_sql.=" dcp_valor_mesada='" . $variable['valor_mesada'] . "' ,";
+                $cadena_sql.=" dcp_valor_cuota= '" . $variable['valor_cuota'] . "' ,";
+                $cadena_sql.=" dcp_porcen_cuota='" . $variable['porcen_cuota'] . "' ,";
+                $cadena_sql.=" dcp_tipo_actoadmin='" . $variable['tipo_actoadmin'] . "' ,";
+                $cadena_sql.=" dcp_actoadmin='" . $variable['actoadmin'] . "' ,";
+                $cadena_sql.=" dcp_factoadmin='" . $variable['factoadmin'] . "' ,";
+                $cadena_sql.=" dcp_estado='" . $variable['estado'] . "' ,";
+                $cadena_sql.=" dcp_registro=  '" . $variable['registro'] . "' ";
+                $cadena_sql.=" WHERE ";
+                $cadena_sql.=" dcp_nro_identificacion= '" . $variable['cedula'] . "' AND";
+                $cadena_sql.=" dcp_nitent= '" . $variable['nit_entidad'] . "' AND";
+                $cadena_sql.=" dcp_nitprev='" . $variable['nit_previsora'] . "' ";
+                break;
+            
             case "insertarDescripcionCP":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_descripcion_cuotaparte ( ";
                 $cadena_sql.=" dcp_nro_identificacion, ";
