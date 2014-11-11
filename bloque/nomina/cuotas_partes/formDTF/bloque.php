@@ -51,6 +51,11 @@ class bloque_formDTF extends bloque {
 
             switch ($accion) {
 
+                case "modificarDTF":
+                    $datos_dtf = unserialize($_REQUEST['datos_dtf']);
+                    $this->funcion->modificarDTF($datos_dtf);
+                    break;
+
                 default :
                     $this->funcion->mostrarFormulario();
                     $this->funcion->mostrarIndice();
@@ -66,7 +71,7 @@ class bloque_formDTF extends bloque {
     function action() {
 
         switch ($_REQUEST['opcion']) {
-            case "insertarDTF":           
+            case "insertarDTF":
                 $registro_dtf = array();
 
                 foreach ($_REQUEST as $key => $value) {
@@ -76,6 +81,19 @@ class bloque_formDTF extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_dtf);
+                break;
+                
+                
+            case "actualizarDTF":
+                $modificar_dtf= array();
+
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $modificar_dtf[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->procesarFormulario_Modificar($modificar_dtf);
                 break;
 
             default :

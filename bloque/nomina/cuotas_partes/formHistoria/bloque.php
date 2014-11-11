@@ -62,6 +62,11 @@ class bloque_formHistoria extends bloque {
                     $this->funcion->nuevaInterrupcion($datos_interrupcion);
                     break;
 
+                case "modificarInterrupcion":
+                    $interrupcion = unserialize($_REQUEST['interrupcion']);
+                    $this->funcion->modificarInterrupcion($interrupcion);
+                    break;
+
                 case "dbasicoHistoria":
                     $this->funcion->dbasicoHistoria();
                     break;
@@ -106,7 +111,7 @@ class bloque_formHistoria extends bloque {
 
                 case "modificar":
                     $historia_laboral = unserialize($_REQUEST['historia']);
-                 $this->funcion->modificarHistoria($historia_laboral);
+                    $this->funcion->modificarHistoria($historia_laboral);
                     break;
 
                 default :
@@ -134,8 +139,8 @@ class bloque_formHistoria extends bloque {
                 break;
 
             case "actualizarHistoria":
-                $historia_antigua=unserialize($_REQUEST['historia_completa']);
-             
+                $historia_antigua = unserialize($_REQUEST['historia_completa']);
+
                 $actualizar_historia = array();
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
@@ -155,6 +160,18 @@ class bloque_formHistoria extends bloque {
                     }
                 }
                 $this->funcion->procesarFormularioInterrupcion($registro_interrupcion);
+                break;
+
+            case "actualizarInterrupcion":
+                
+                $actualizar_interrupcion = array();
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $actualizar_interrupcion[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->procesarFormularioInterrupcion_Modificar($actualizar_interrupcion);
                 break;
 
             default :

@@ -305,6 +305,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             'tipo_actoadmin' => (isset($datos['tipo_acto']) ? $datos['tipo_acto'] : ''),
             'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
             'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
+            'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
             'estado' => $estado_registro,
             'registro' => $fecha_registro);
 
@@ -448,6 +449,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             'tipo_actoadmin' => (isset($datos['tipo_acto']) ? $datos['tipo_acto'] : ''),
             'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
             'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
+             'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
             'estado' => $estado_registro,
             'registro' => $fecha_registro);
 

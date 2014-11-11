@@ -928,11 +928,13 @@ class funciones_liquidador extends funcionGeneral {
 
 
         if (is_array($consultar_pension)) {
-            if (is_array($consultar_fechas)) {
-                $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_fechas[0]['recta_fechahasta'])));
-            } else {
-                $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
-            }
+            /*
+              if (is_array($consultar_fechas)) {
+              $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_fechas[0]['recta_fechahasta'])));
+              } else {
+              $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
+              } */
+            $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
@@ -1409,8 +1411,9 @@ class funciones_liquidador extends funcionGeneral {
             'fecha_registro' => $totales_liq[0]['liq_fecha_registro']
         );
 
-
-
+      
+//Revisar si el nuevo periodo de cobro está habilitado para cobro y no tener dos cuentas de cobro activas a la vez
+        
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "guardar_cuentac", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
@@ -1584,24 +1587,41 @@ class funciones_liquidador extends funcionGeneral {
 
         $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
 
-        $fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
-        $mesada_descripcion = $datos_concurrencia[0]['dcp_valor_mesada'];
-        $mesada = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
+        //$fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
+        $fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+        $mesada_descripcion = doubleval($datos_concurrencia[0]['dcp_valor_mesada']);
+
+
+        ///Aplicando Ley 4, que dice que la primera vez de liquidación, se debe cunplir que la persona cumplió un año de pensionado para poder aplicarle el ajuste.
+        //$fecha_pension2 = date('Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
+        $fecha_pension2 = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+
 
         list ($FECHAS) = $fechas = $this->GenerarFechas($f_desde, $f_actual);
+
         $TOTAL = 0;
 
         $liquidacion_cp = array();
+        //$mesada = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
+        $mesada = $mesada_descripcion;
 
         foreach ($FECHAS as $key => $value) {
 
 //Cadena del periodo liquidar
             $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
-
-//Valor Indices Básicos
+            $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
             $sumafija = $this->obtenerSumafija($annio);
             $INDICE = $this->obtenerIPC($annio);
-            $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
+
+//Valor Indices Básicos
+            $fecha_liq = strtotime(str_replace('/', '-', $FECHAS[$key]));
+            $fecha_pension2 = strtotime(str_replace('/', '-', $datos_concurrencia[0][7] . "+ 1 year"));
+
+            if ($fecha_liq < $fecha_pension2) {
+                $MESADA = $mesada_descripcion;
+            } else {
+                $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
+            }
 
 //Determinar Cuota Parte
             $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
@@ -1633,7 +1653,10 @@ class funciones_liquidador extends funcionGeneral {
             $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
             $liquidacion_cp[$key]['interes'] = 0;
             $liquidacion_cp[$key]['total'] = $TOTAL;
-            $mesada = $MESADA;
+
+            if ($mes == 12) {
+                $mesada = $MESADA;
+            }
         }
 
         //CALCULANDO LOS INTERESES DE OTRA FORMA JUNIO 2014
@@ -1853,11 +1876,15 @@ class funciones_liquidador extends funcionGeneral {
         list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_hasta);
 
         foreach ($FECHAS as $key => $value) {
+            $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key])));
+            $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
 
-            $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
             $sumafija = $this->obtenerSumafija($annio);
             $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
-            $mesada = $MESADA;
+
+            if ($mes == 12) {
+                $mesada = $MESADA;
+            }
         }
 
         return $MESADA;
@@ -1915,58 +1942,53 @@ class funciones_liquidador extends funcionGeneral {
         $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4) + 1;
         $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
-        settype($Anio, "integer");
-        settype($Mes, "integer");
-
         $Mesada = round($Mesada);
         $INDICE = $this->obtenerIPC($Anio);
 
-//Ajuste Pensional
+        //Ajuste Pensional
 
-        if ($Mes == 1) {
-            if ($Anio == 1979) {
-                if ($Mesada <= 12900) {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
-                } else {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
-                }
-            } elseif ($Anio == 1984) {
-                if ($Mesada >= 36872.5 && $Mesada <= 46305) {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
-                } else {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
-                }
-            } elseif ($Anio == 1985) {
-                if ($Mesada >= 25462.5 && $Mesada <= 56490) {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
-                } else {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
-                }
-            } elseif ($Anio == 1986) {
-                if ($Mesada >= 22590 && $Mesada <= 67788) {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
-                } else {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
-                }
-            } elseif ($Anio == 1987) {
-                if ($Mesada >= 54231.15 && $Mesada <= 84057) {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
-                } else {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
-                }
-            } elseif ($Anio == 1988) {
-                if ($Mesada >= 46230 && $Mesada <= 102549) {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
-                } else {
-                    $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
-                }
+        if ($Anio == 1979) {
+            if ($Mesada <= 12900) {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+            } else {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
             }
-            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+        } elseif ($Anio == 1984) {
+            if ($Mesada >= 36872.5 && $Mesada <= 46305) {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+            } else {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+            }
+        } elseif ($Anio == 1985) {
+            if ($Mesada >= 25462.5 && $Mesada <= 56490) {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+            } else {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+            }
+        } elseif ($Anio == 1986) {
+            if ($Mesada >= 22590 && $Mesada <= 67788) {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+            } else {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+            }
+        } elseif ($Anio == 1987) {
+            if ($Mesada >= 54231.15 && $Mesada <= 84057) {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+            } else {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+            }
+        } elseif ($Anio == 1988) {
+            if ($Mesada >= 46230 && $Mesada <= 102549) {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+            } else {
+                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+            }
         } else {
-            $Mesada_Fecha = ($Mesada);
+            $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
         }
 
         $Mesada_Fecha = round($Mesada_Fecha, 2);
+
         return ($Mesada_Fecha);
     }
 
@@ -2318,19 +2340,5 @@ class funciones_liquidador extends funcionGeneral {
 }
 
 // fin de la clase
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     

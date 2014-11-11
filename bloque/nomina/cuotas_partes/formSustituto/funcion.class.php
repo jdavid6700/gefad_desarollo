@@ -79,34 +79,34 @@ class funciones_formSustituto extends funcionGeneral {
         $datos_sustituto = $this->consultarSustituto($parametros);
         $datos_pensionado = $this->consultarPensionado($parametros);
         $datos_pensionado_pg = $this->consultarPensionadoPG($parametros);
+        $defuncion = array(
+            'fecha_defuncion' => 0,
+            'defuncion_certificado' => 0,
+            'fecha_defuncioncertificado' => 0,
+        );
 
         if (is_array($datos_sustituto)) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Ya existe un sustituto registrado para el pensionado con cédula " . $cedula . "');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioSustituto';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
+
+            $defuncion = array(
+                'fecha_defuncion' => $datos_sustituto[0]['sus_fdefuncion'],
+                'defuncion_certificado' => $datos_sustituto[0]['sus_certificado_defuncion'],
+                'fecha_defuncioncertificado' => $datos_sustituto[0]['sus_fcertificado_defuncion'],);
+        }
+        if (is_array($datos_pensionado)) {
+            $this->html_formSustituto->formularioSustituto($cedula, $datos_pensionado, $defuncion);
         } else {
-            if (is_array($datos_pensionado)) {
-                $this->html_formSustituto->formularioSustituto($cedula, $datos_pensionado);
+            if (is_array($datos_pensionado_pg)) {
+                $this->html_formSustituto->formularioSustituto($cedula, $datos_pensionado_pg, $defuncion);
             } else {
-                if (is_array($datos_pensionado_pg)) {
-                    $this->html_formSustituto->formularioSustituto($cedula, $datos_pensionado_pg);
-                } else {
-                    echo "<script type=\"text/javascript\">" .
-                    "alert('No existe registro de fecha de pensión para la cédula " . $cedula . "');" .
-                    "</script> ";
-                    $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                    $variable = 'pagina=formularioConcurrencia';
-                    $variable.='&opcion=';
-                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                    echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                    exit;
-                }
+                echo "<script type=\"text/javascript\">" .
+                "alert('No existe registro de fecha de pensión para la cédula " . $cedula . "');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioSustituto';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
             }
         }
     }
@@ -153,7 +153,7 @@ class funciones_formSustituto extends funcionGeneral {
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formularioConcurrencia';
+                $variable = 'pagina=formularioSustituto';
                 $variable.='&opcion=';
                 $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                 echo "<script>location.replace('" . $pagina . $variable . "')</script>";
@@ -163,10 +163,10 @@ class funciones_formSustituto extends funcionGeneral {
 
         if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_nacsustituto'])) {
             echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha concurrencia diligenciado incorrectamente');" .
+            "alert('Formato fecha nacimiento diligenciado incorrectamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
+            $variable = 'pagina=formularioSustituto';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
@@ -175,10 +175,10 @@ class funciones_formSustituto extends funcionGeneral {
 
         if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_muerte'])) {
             echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha resolución pensión diligenciado incorrectamente');" .
+            "alert('Formato fecha defunción diligenciado incorrectamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
+            $variable = 'pagina=formularioSustituto';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
@@ -187,15 +187,44 @@ class funciones_formSustituto extends funcionGeneral {
 
         if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_res_sustitucion'])) {
             echo "<script type=\"text/javascript\">" .
-            "alert('Formato fecha pensión diligenciado incorrectamente');" .
+            "alert('Formato fecha sustitución diligenciado incorrectamente');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioConcurrencia';
+            $variable = 'pagina=formularioSustituto';
             $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
             exit;
         }
+
+        $defuncion = strtotime(str_replace('/', '-', $datos['fecha_muerte']));
+        $defuncion_c = strtotime(str_replace('/', '-', $datos['fecha_certificadod']));
+        $defuncion_sus = strtotime(str_replace('/', '-', $datos['fecha_res_sustitucion']));
+
+        if ($defuncion_c < $defuncion) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha de certificado defunción no válida.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSustituto';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if ($defuncion_sus < $defuncion || $defuncion_sus < $defuncion_c) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha de certificado de sustitución no válida');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSustituto';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
 
         $parametros = array(
             'cedula_pen' => (isset($datos['cedula_pen']) ? $datos['cedula_pen'] : ''),
@@ -211,6 +240,8 @@ class funciones_formSustituto extends funcionGeneral {
             'registro' => $fecha_registro);
 
         $registro_sustituto = $this->registrarSustituto($parametros);
+
+
 
         if ($registro_sustituto == true) {
             $registroD[0] = "GUARDAR";
@@ -269,6 +300,9 @@ class funciones_formSustituto extends funcionGeneral {
         ob_start();
         $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
 
+        // $parametros='';
+        //$datos_sustitutos=  $this->reporteSustitutos($parametros);//
+
         $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
         $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
         $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' del ' . date('Y');
@@ -276,10 +310,10 @@ class funciones_formSustituto extends funcionGeneral {
         $contenido = '';
         if (is_array($datos_sustitutos)) {
             foreach ($datos_sustitutos as $key => $value) {
-                $contenido = "<tr>";
+                $contenido.= "<tr>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
-                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . wordwrap($datos_sustitutos[$key]['sus_nombresus'], 25,"<BR>",true) . "</td>";
+                $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . wordwrap($datos_sustitutos[$key]['sus_nombresus'], 25, "<BR>", true) . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
                 $contenido.="<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
@@ -289,7 +323,7 @@ class funciones_formSustituto extends funcionGeneral {
                 $contenido.="</tr>";
             }
         } else {
-            $contenido = "<tr>";
+            $contenido.= "<tr>";
             $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
             $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
             $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -301,6 +335,7 @@ class funciones_formSustituto extends funcionGeneral {
             $contenido.="<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
             $contenido.="</tr>";
         }
+
 
         $ContenidoPdf = "
  <style type=\"text/css\">

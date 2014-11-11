@@ -45,7 +45,10 @@ class sql_formSustituto extends sql {
                 break;
 
             case "reporteSustituto":
-                $cadena_sql = " SELECT sus_cedulapen, sus_cedulasus,sus_nombresus, sus_fresol_sustitucion ";
+                $cadena_sql = " SELECT sus_cedulapen,sus_cedulasus,sus_nombresus, ";
+                $cadena_sql.=" sus_fdefuncion, sus_certificado_defuncion, ";
+                $cadena_sql.=" sus_fcertificado_defuncion,sus_fnac_sustituto, ";
+                $cadena_sql.=" sus_resol_sustitucion,sus_fresol_sustitucion ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_sustituto ";
                 $cadena_sql.=" WHERE sus_cedulapen='" . $variable['cedula'] . "' ";
                 break;

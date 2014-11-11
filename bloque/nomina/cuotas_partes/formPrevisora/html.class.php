@@ -97,7 +97,7 @@ class html_formPrevisora {
 
         <br><br><br><br><br><br>
 
-        <table class='bordered'>
+        <table class='bordered' width='80%' align='center'>
             <thead>
             <th class = 'texto_elegante2 estilo_th NIT' name='NIT' width='30px' align = center>NIT</th>
             <th class = 'texto_elegante2 estilo_th ' align = center>NOMBRE</th>
@@ -165,7 +165,7 @@ class html_formPrevisora {
     }
 
     function formularioPrevisora($depto, $mun) {
-
+    
         $this->formulario = "formPrevisora";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -871,7 +871,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="nit_previsora" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='15' onpaste="return false" value=" <?php echo $datos_entidad["prev_nit"] ?>" >
+                            <input type="text" id="p1f6c" name="nit_previsora" class="fieldcontent" required='required' onKeyPress='return acceptNum(event)' maxlength='15' onpaste="return false" value="<?php echo $datos_entidad["prev_nit"] ?>" >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -888,7 +888,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false" value=" <?php echo $datos_entidad["prev_nombre"] ?>">
+                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_nombre"]?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -906,7 +906,7 @@ class html_formPrevisora {
                     <div class="control capleft">
                         <div>
                             <div class="dropdown">
-                                <select id="p1f13c" name="estado" required='required' class="fieldcontent" value=" <?php echo $datos_entidad["prev_nit"] ?>"><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
+                                <select id="p1f13c" name="estado" required='required' class="fieldcontent" value="<?php echo $datos_entidad["prev_nit"] ?>"><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
                                 <div class="fielderror"></div>
                             </div>
                         </div>
@@ -925,7 +925,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="observacion" class="fieldcontent" maxlength='150' onKeyPress='return acceptNumLetter(event)'  onpaste="return false"  value=" <?php echo $datos_entidad["prev_observacion"] ?>">
+                            <input type="text" id="p1f7c" name="observacion" class="fieldcontent" maxlength='150' onKeyPress='return acceptNumLetter(event)'  onpaste="return false"  value="<?php echo $datos_entidad["prev_observacion"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -943,7 +943,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="direccion" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false" value=" <?php echo $datos_entidad["prev_direccion"] ?>"> 
+                            <input type="text" id="p1f7c" name="direccion" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_direccion"] ?>"> 
                         </div>
                         <div class="null"></div>
                     </div>
@@ -1005,7 +1005,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="telefono" class="fieldcontent" placeholder="7777777 - (057) 7777777 Ext.000/001" onKeyPress='return acceptNum3(event)' maxlength='50' onpaste="return false" value=" <?php echo $datos_entidad["prev_telefono"] ?>">
+                            <input type="text" id="p1f7c" name="telefono" class="fieldcontent" placeholder="7777777 - (057) 7777777 Ext.000/001" onKeyPress='return acceptNum3(event)' maxlength='50' onpaste="return false" value="<?php echo $datos_entidad["prev_telefono"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -1029,7 +1029,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="responsable" class="fieldcontent"  maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value=" <?php echo $datos_entidad["prev_responsable"] ?>">
+                            <input type="text" id="p1f7c" name="responsable" class="fieldcontent"  maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_responsable"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -1046,7 +1046,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="cargo" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value=" <?php echo $datos_entidad["prev_cargo"] ?>">
+                            <input type="text" id="p1f7c" name="cargo" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_cargo"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -1063,7 +1063,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="otro_contacto" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value=" <?php echo $datos_entidad["prev_otroc"] ?>">
+                            <input type="text" id="p1f7c" name="otro_contacto" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_otroc"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -1081,7 +1081,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="otro_cargo" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value=" <?php echo $datos_entidad["prev_cargooc"] ?>">
+                            <input type="text" id="p1f7c" name="otro_cargo" class="fieldcontent" maxlength='50' onKeyPress='return acceptLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_cargooc"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -1098,7 +1098,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="email" name="txtEmail" class="fieldcontent" maxlength='50' placeholder="correo@dominio.com" onKeyPress='return acceptNumLetter(event)' onpaste="return false" value=" <?php echo $datos_entidad["prev_correo1"] ?>">
+                            <input type="text" id="email" name="txtEmail" class="fieldcontent" maxlength='50' placeholder="correo@dominio.com" onKeyPress='return acceptNumLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_correo1"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>

@@ -50,6 +50,11 @@ class bloque_formSalario extends bloque {
 
             switch ($accion) {
 
+                case "modificarSalario":
+                    $datos_salario = unserialize($_REQUEST['datos_salario']);
+                    $this->funcion->modificarSalario($datos_salario);
+                    break;
+
                 default :
                     $this->funcion->mostrarFormulario();
                     $this->funcion->ConsultarSalario();
@@ -74,6 +79,18 @@ class bloque_formSalario extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_salario);
+                break;
+
+            case "actualizarSalario":
+                $actualizar_salario = array();
+
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $actualizar_salario[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->procesarFormulario_Modificar($actualizar_salario);
                 break;
 
             default :

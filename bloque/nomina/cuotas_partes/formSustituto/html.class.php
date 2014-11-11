@@ -24,6 +24,8 @@ if (!isset($GLOBALS["autorizado"])) {
     exit;
 }
 
+date_default_timezone_set('America/Bogota');
+
 class html_formSustituto {
 
     public $configuracion;
@@ -85,8 +87,7 @@ class html_formSustituto {
         <?
     }
 
-    function formularioSustituto($cedula, $pensionado) {
-
+    function formularioSustituto($cedula, $pensionado, $defuncion) {
 
         $this->formulario = "formSustituto";
         $fecha_min = date('d/m/Y', strtotime(str_replace('/', '-', $pensionado[0][1])));
@@ -94,6 +95,19 @@ class html_formSustituto {
         $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $pensionado[0][1]))));
         $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $pensionado[0][1]))));
         $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $pensionado[0][1]))));
+
+        $disable = '';
+
+        if ($defuncion['fecha_defuncion'] != 0) {
+            $disable = 'readonly';
+            $defuncion['fecha_defuncion'] = date('d/m/Y', strtotime(str_replace('/', '-',$defuncion['fecha_defuncion'])));
+            $defuncion['fecha_defuncioncertificado'] = date('d/m/Y', strtotime(str_replace('/', '-',$defuncion['fecha_defuncioncertificado'])));
+            
+        } else {
+            $defuncion['fecha_defuncion'] = '';
+            $defuncion['fecha_defuncioncertificado'] = '';
+            $defuncion['defuncion_certificado'] = '';
+        }
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -147,9 +161,11 @@ class html_formSustituto {
                     dateFormat: 'dd/mm/yy',
                     onSelect: function(dateValue, inst) {
                         $("#fecha_res_sustitucion").datepicker("option", "minDate", dateValue)
+                        $("#fecha_certificado").datepicker("option", "minDate", dateValue)
                     }
                 });
-                $("#fecha_muerte").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
+                $("#fecha_muerte").datepicker('setDate', '<?php echo $defuncion['fecha_defuncion'] ?>');
+                $("#fecha_muerte").datepicker("option", "minDate", '<?php echo $fecha_min ?>');
 
             });
 
@@ -170,9 +186,12 @@ class html_formSustituto {
                     changeYear: true,
                     yearRange: '1940:c',
                     maxDate: "+2M",
-                    dateFormat: 'dd/mm/yy'
+                    dateFormat: 'dd/mm/yy',
+                    onSelect: function(dateValue, inst) {
+                        $("#fecha_res_sustitucion").datepicker("option", "minDate", dateValue)
+                    }
                 });
-                $("#fecha_certificado").datepicker('option', 'minDate', '<?php echo $fecha_min ?>');
+                $("#fecha_certificado").datepicker('setDate', '<?php echo $defuncion['fecha_defuncioncertificado'] ?>');
             });
         </script>
 
@@ -291,6 +310,26 @@ class html_formSustituto {
                 }
             }
         </script>
+        
+        <script>
+            function acceptLetter(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ñÑ";
+                especiales = [8, 9, 64, 32];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
 
         <script>
             function confirmarEnvio()
@@ -367,7 +406,7 @@ class html_formSustituto {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="nombre_sustituto" title="*Campo Obligatorio"  onKeyPress='return acceptNumLetter(event)' class="fieldcontent" required='required' onpaste="return false">
+                            <input type="text" id="p1f12c" name="nombre_sustituto" title="*Campo Obligatorio"  onKeyPress='return acceptLetter(event)' class="fieldcontent" required='required' onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -384,7 +423,7 @@ class html_formSustituto {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_nacs" title="*Campo Obligatorio" name="fecha_nacsustituto" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_nacs" title="*Campo Obligatorio" name="fecha_nacsustituto" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -401,7 +440,7 @@ class html_formSustituto {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_muerte" title="*Campo Obligatorio" name="fecha_muerte" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false">
+                            <input type="text" id="fecha_muerte" <? echo $disable ?> title="*Campo Obligatorio" name="fecha_muerte" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<?php echo $defuncion['fecha_defuncion'] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -418,7 +457,7 @@ class html_formSustituto {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="certificado_defuncion" title="*Campo Obligatorio" name="certificado_defuncion" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false" >
+                            <input type="text" id="certificado_defuncion" <? echo $disable ?> title="*Campo Obligatorio" name="certificado_defuncion" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false" value="<?php echo $defuncion['defuncion_certificado'] ?>" >
                         </div>
                         <div class="null"></div>
                     </div>
@@ -432,7 +471,7 @@ class html_formSustituto {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="fecha_certificado" title="*Campo Obligatorio" name="fecha_certificadod" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" onchange="validarFecha()">
+                            <input type="text" id="fecha_certificado" <? echo $disable ?> title="*Campo Obligatorio" name="fecha_certificadod" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false"  onchange="validarFecha()">
                         </div>
                         <div class="null"></div>
                     </div>

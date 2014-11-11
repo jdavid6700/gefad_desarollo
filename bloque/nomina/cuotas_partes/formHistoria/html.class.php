@@ -24,6 +24,8 @@ if (!isset($GLOBALS["autorizado"])) {
     exit;
 }
 
+date_default_timezone_set('America/Bogota');
+
 class html_formHistoria {
 
     public $configuracion;
@@ -43,12 +45,12 @@ class html_formHistoria {
 
     function formularioInterrupcion($datos_prev, $datos_interrupcion, $datos_historia, $datos_regint) {
 
-        $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']) . "+1 month")));
+        $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
         $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida'])));
 
         $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
         $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
-        $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']) . "+1 month")));
+        $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
 
         $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida']))));
         $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida']))));
@@ -654,7 +656,6 @@ class html_formHistoria {
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
                 <input type='hidden' name='serial' value='<? echo $datos_interrupcion['serial'] ?>'>
                 <input type='hidden' name='h_nro_ingreso' value='<? echo $datos_interrupcion['h_nro_ingreso'] ?>'>
-                <input type='hidden' name='h_nro_ingreso' value='<? echo $datos_interrupcion['h_nro_ingreso'] ?>'>
                 <input type='hidden' name='h_horas_labor' value='<? echo $datos_interrupcion['h_horas_labor'] ?>'>
                 <input type='hidden' name='h_periodo_labor' value='<? echo $datos_interrupcion['h_periodo_labor'] ?>'>
                 <input type='hidden' name='h_estado' value='<? echo $datos_interrupcion['h_estado'] ?>'>
@@ -671,9 +672,644 @@ class html_formHistoria {
         <?
     }
 
+    function formularioInterrupcion_Modificar($datos_prev, $datos_interrupcion, $datos_historia, $datos_regint, $datos_int_historia) {
+
+        $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_int_historia[0]['hlab_fingreso']))));
+        $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fretiro'])));
+
+        $min_fecha_anio = date('Y', (strtotime("" . str_replace('/', '-', $datos_int_historia[0]['hlab_fingreso']))));
+        $min_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $datos_int_historia[0]['hlab_fingreso']))));
+        $min_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_int_historia[0]['hlab_fingreso']))));
+
+        $max_fecha_anio = date('Y', strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fretiro'])));
+        $max_fecha_mes = date('m', strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fretiro'])));
+        $max_fecha_dia = date('d', strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fretiro'])));
+
+        $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fingreso']))));
+        $i_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fingreso']))));
+        $i_fecha_mes = date('m', (strtotime("" . str_replace('/', '-', $datos_int_historia[0]['hlab_fingreso']))));
+
+        $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fretiro']))));
+        $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fretiro']))));
+        $f_fecha_dia = date('d', (strtotime(str_replace('/', '-', $datos_int_historia[0]['hlab_fretiro']))));
+
+        $fecha_desde = date('d/m/Y', (strtotime(str_replace('/', '-', $datos_interrupcion['int_fdesde']))));
+        $fecha_hasta = date('d/m/Y', (strtotime(str_replace('/', '-', $datos_interrupcion['int_fhasta']))));
+
+        $this->formulario = "formHistoria";
+
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+        ?>
+
+        <style>                    h3{text-align: left}                </style>
+
+        <!referencias a estilos y plugins>
+        <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formHistoria/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+        <script>
+                        $(document).ready(function() {
+                            $("#dias_nor_desde").datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                yearRange: '1940:2100',
+                                dateFormat: 'dd/mm/yy'
+                            });
+                            $("#dias_nor_desde").datepicker('setDate', '<?php echo $fecha_desde ?>');
+                        });
+
+                        $(document).ready(function() {
+                            $("#dias_nor_hasta").datepicker({
+                                changeMonth: true,
+                                changeYear: true,
+                                yearRange: '1940:c',
+                                dateFormat: 'dd/mm/yy',
+                            });
+                            $("#dias_nor_hasta").datepicker('setDate', '<?php echo $fecha_hasta ?>');
+                        });
+        </script>
+
+
+        <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890-";
+                especiales = [8, 39, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+
+        <script>
+            function acceptNumLetter(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-@_ñÑ";
+                especiales = [8, 9, 64, 32];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+
+        <script>
+            function acceptNum2(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "1234567890";
+                especiales = [8, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+
+        <script>
+            function confirmarEnvio()
+            {
+                var r = confirm("Confirmar envío de formulario.");
+                if (r == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
+
+        <script language = "Javascript">
+            //Éste script valida si las fechas ingresadas en el formulario no son menores a la fecha de retiro de la entidad
+
+            function echeck(str) {
+
+                var min = new Date('<? echo $i_fecha_anio ?>,<? echo $i_fecha_mes ?>,<? echo $i_fecha_dia ?>');
+                        var max = new Date('<? echo $f_fecha_anio ?>,<? echo $f_fecha_mes ?>,<? echo $f_fecha_dia ?>');
+                                var y = str.substring(6);
+                                var m3 = str.substring(3, 5);
+                                var m2 = m3 - 1;
+                                var m = '0' + m2;
+                                var d = str.substring(0, 2);
+                                var cadena = new Date(y, m, d);
+                                if (cadena < min || cadena > max) {
+                                    alert('Fuera del rango')
+                                    alert(min)
+                                    alert(cadena)
+                                    alert(max)
+                                    return false
+                                }
+                                return true
+                            }
+
+                            function echeck2(str) {
+
+        <?
+        foreach ($datos_regint as $key => $values) {
+            /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
+              echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
+
+            if ($datos_regint[$key]['int_nro_ingreso'] !== $datos_interrupcion['int_nro_ingreso']) {
+                $i_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fdesde']))));
+                $i_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fdesde']))));
+                $i_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $datos_regint[$key]['int_fdesde']))));
+
+                $f_fecha_anio = date('Y', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fhasta']))));
+                $f_fecha_mes = date('m', (strtotime(str_replace('/', '-', $datos_regint[$key]['int_fhasta']))));
+                $f_fecha_dia = date('d', (strtotime("" . str_replace('/', '-', $datos_regint[$key]['int_fhasta']))));
+
+                echo "var min = new Date('" . $i_fecha_anio . "," . $i_fecha_mes . "," . $i_fecha_dia . "');\n";
+                echo "var max = new Date('" . $f_fecha_anio . "," . $f_fecha_mes . "," . $f_fecha_dia . "');    \n";
+
+                echo "var y1 = str.substring(6);\n\n";
+                echo "var m13 = str . substring(3, 5);\n\n";
+                echo "var m12 = m13 - 1;\n\n";
+                echo "var m1 = '0' + m12;\n\n";
+                echo "var d1 = str.substring(0, 2);\n\n";
+                echo "var cadena = new Date(y1, m1, d1);\n\n";
+
+                echo "var ming = min.getTime();\n\n";
+                echo "var maxg = max.getTime();\n\n";
+                echo "var cadenag = cadena.getTime();\n\n";
+
+                echo "if (cadenag >= ming && cadenag <= maxg) {\n";
+                // echo "alert(min  cadena  max)\n\n";
+                echo "alert('Ya existen interrupciones registradas para este periodo.')\n";
+                echo " return false\n";
+                echo "    }\n\n";
+            }
+        }
+        ?>
+                                return true
+                            }
+
+                            function minDate() {
+
+                                var fechaID = document.formHistoria.dias_nor_desde
+                                /*   if ((fechaID.value == null) || (fechaID.value == "")) {
+                                 alert("Ingrese una fecha válida!")
+                                 fechaID.focus()
+                                 return false
+                                 }*/
+
+                                if (echeck(fechaID.value) == false) {
+                                    fechaID.value = ""
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                var fechaID = document.formHistoria.dias_nor_hasta
+                                /*    if ((fechaID.value == null) || (fechaID.value == "")) {
+                                 alert("Ingrese una fecha válida!")
+                                 fechaID.focus()
+                                 return false
+                                 }*/
+
+                                if (echeck(fechaID.value) == false) {
+                                    fechaID.value = ""
+                                    fechaID.focus()
+                                    return false
+                                }
+
+
+                                //Segundo check
+                                var fechaID = document.formHistoria.dias_nor_desde
+                                /**//*  if ((fechaID.value == null) || (fechaID.value == "")) {
+                                 alert("Ingrese una fecha válida!")
+                                 fechaID.focus()
+                                 return false
+                                 }*/
+
+                                if (echeck2(fechaID.value) == false) {
+                                    fechaID.value = ""
+                                    fechaID.focus()
+                                    return false
+                                }
+
+                                var desde = (document.getElementById("dias_nor_desde").value);
+                                var hasta = (document.getElementById("dias_nor_hasta").value);
+                                var y1 = desde.substring(6);
+                                var m13 = desde.substring(3, 5);
+                                var m12 = m13 - 1;
+                                var m1 = '0' + m12;
+                                var d1 = desde.substring(0, 2);
+                                var y2 = hasta.substring(6);
+                                var m23 = hasta.substring(3, 5);
+                                var m22 = m23 - 1;
+                                var m2 = '0' + m22;
+                                var d2 = hasta.substring(0, 2);
+                                var cadena1 = new Date(y1, m1, d1);
+                                var cadena2 = new Date(y2, m2, d2);
+
+                                if (cadena1.getTime() > cadena2.getTime()) {
+                                    document.getElementById("dias_nor_desde").focus();
+                                    document.getElementById("dias_nor_hasta").focus();
+                                    alert("Fecha Final no válida");
+                                    return false;
+                                }
+
+
+                                var hasta_vacio = (document.getElementById("dias_nor_hasta").value)
+                                var desde_vacio = (document.getElementById("dias_nor_desde").value)
+                                var dias_vacio = (document.getElementById("total_dias").value)
+
+                                if ((hasta_vacio == "") || (hasta_vacio == null)) {
+                                    if ((dias_vacio == "") || (dias_vacio == null)) {
+                                        alert("Debe diligenciar la fecha ó bien los días no remunerados")
+                                        return false
+                                    }
+                                } else {
+                                    if ((desde_vacio == "") || (desde_vacio == null)) {
+                                        alert("Debe diligenciar la fecha completa ó bien los días no remunerados")
+                                        return false
+                                    }
+                                }
+                            }
+        </script>
+
+        <script>
+            function validarDias() {
+
+                var _MS_PER_DAY = 1000 * 24 * 60 * 60;
+
+                var hasta = (document.getElementById("dias_nor_hasta").value)
+                var desde = (document.getElementById("dias_nor_desde").value)
+
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+
+                var utc1 = new Date(y1, m1, d1);
+                var utc2 = new Date(y2, m2, d2);
+
+
+                function treatAsUTC(date) {
+                    var result = new Date(date);
+                    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+                    return result;
+                }
+
+                var ingreso_dias = parseInt((document.getElementById("total_dias").value))
+                var diferencia = Math.abs(((treatAsUTC(utc2) - treatAsUTC(utc1)) / _MS_PER_DAY
+                        ));
+                if (ingreso_dias > diferencia) {
+                    alert("El número total de días es mayor a lo esperado. ")
+                    document.getElementById("total_dias").value = 0;
+                }
+
+            }
+        </script>
+
+        <script>
+            function validarFecha() {
+                var desde = (document.getElementById("dias_nor_desde").value);
+                var hasta = (document.getElementById("dias_nor_hasta").value);
+                var y1 = desde.substring(6);
+                var m13 = desde.substring(3, 5);
+                var m12 = m13 - 1;
+                var m1 = '0' + m12;
+                var d1 = desde.substring(0, 2);
+                var y2 = hasta.substring(6);
+                var m23 = hasta.substring(3, 5);
+                var m22 = m23 - 1;
+                var m2 = '0' + m22;
+                var d2 = hasta.substring(0, 2);
+                var cadena1 = new Date(y1, m1, d1);
+                var cadena2 = new Date(y2, m2, d2);
+
+                if (cadena1.getTime() > cadena2.getTime()) {
+                    document.getElementById("dias_nor_desde").focus();
+                    document.getElementById("dias_nor_hasta").focus();
+                    document.getElementById("dias_nor_hasta").value = '';
+                    alert("Fecha Final no válida");
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+
+        <script>
+            function validarVacio() {
+
+                var hasta_vacio = (document.getElementById("dias_nor_hasta").value)
+                var desde_vacio = (document.getElementById("dias_nor_desde").value)
+                var dias_vacio = (document.getElementById("total_dias").value)
+
+                if (hasta_vacio == '') {
+
+                    if (dias_vacio == '') {
+                        alert("Debe diligenciar la fecha ó bien los días no remunerados")
+                    }
+                }
+                return false
+
+            }
+
+        </script>
+
+        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return minDate();">
+            <h1>Registro Interrupción Laboral</h1>
+
+
+            <center>     
+                <h2>Historia Laboral Registrada<br><br></h2>
+
+                <table width="100%" class='bordered' >
+                    <tr>
+                        <th colspan="4" class='encabezado_registro'>PERIODO LABORAL CONTENIDO</th>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                    </tr>
+                    <tr>
+                        <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
+                        <th class='encabezado_registro' style="text-align:center">Nit Previsora</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Ingreso</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Salida</th>
+
+                    </tr>
+                    <tbody id="itemContainer">
+                        <tr>
+                            <?php
+                            if (is_array($datos_int_historia)) {
+
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_int_historia[0]['int_nitent'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_int_historia[0]['int_nitprev'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_int_historia[0]['hlab_fingreso'] . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_int_historia[0]['hlab_fretiro'] . "</td>";
+                                echo "</tr>";
+                            } else {
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                </table>
+
+                <center><div class="holder" style="-moz-user-select: none;"></div></center>
+            </center>
+
+            <br><br>
+            <center>     
+                <table width="100%" class='bordered' >
+                    <tr>
+                        <th colspan="5" class='encabezado_registro'>INTERRUPCIONES PREVIAMENTE REGISTRADAS</th>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                    </tr>
+                    <tr>
+                        <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
+                        <th class='encabezado_registro' style="text-align:center">Nit Previsora</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Inicial</th>
+                        <th class='encabezado_registro' style="text-align:center">Fecha Final</th>
+                        <th class='encabezado_registro' style="text-align:center">Días Interrumpidos</th>
+                    </tr>
+                    <tbody id="itemContainer">
+                        <tr>
+                            <?php
+                            if (is_array($datos_regint)) {
+                                foreach ($datos_regint as $key => $values) {
+                                    echo "<tr>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_nitent'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_nitprev'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_fdesde'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_fhasta'] . "</td>";
+                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_regint[$key]['int_dias'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                </table>
+                <center><div class="holder" style="-moz-user-select: none;"></div></center>
+            </center>
+
+            <br><br>
+            <a STYLE="color: red" >* Tenga en cuenta que una vez registrada la historia laboral en el sistema, no puede modificar los periodos de interrupción</a>
+            <br><br>
+
+            <h2><br>Formulario Registro de Interrupción<br><br></h2>
+
+            <div class="formrow f1">
+                <div id="p1f1" class="field n1">
+                    <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">INFORMACIÓN BÁSICA</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f2" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f2c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Cédula Pensionado</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div>
+                        <input type="text" id="p1f2c" name="cedula_emp" title="*Campo Obligatorio" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' readonly value='<? echo $datos_interrupcion['int_nro_identificacion'] ?>' maxlength="10">
+                    </div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f4" class="field n1">
+                        <div class="staticcontrol">
+                            <div class="hrcenter px1"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f5" class="field n1">
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO ENTIDAD</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit Empleador</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f6c" title="*Campo Obligatorio" onpaste="return false" name="nit_entidad" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['int_nitent'] ?>'>
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nit Entidad Previsora</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div class="control capleft">
+                                <div>
+                                    <input type="text" id="p1f6c" title="*Campo Obligatorio" onpaste="return false" name="prev_nit" class="fieldcontent" maxlength="15" required='required' onKeyPress='return acceptNum(event)' readonly value='<? echo $datos_interrupcion['int_nitprev'] ?>'> 
+                                </div>
+                            </div>
+
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f4" class="field n1">
+                        <div class="staticcontrol">
+                            <div class="hrcenter px1"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f5" class="field n1">
+                        <div class="staticcontrol"><span class="wordwrap"><span class="pspan arial" style="text-align: left; font-size:14px;"><span class="ispan" style="color:#000099" xml:space="preserve">REGISTRO INTERRUPCIÓN</span><span class="ispan" style="color:#EE3D23" xml:space="preserve"> </span></span></span></div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="dias_nor_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Inicio</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="dias_nor_desde" title="*Campo Obligatorio" onpaste="return false" name="dias_nor_desde" placeholder="dd/mm/aaaa" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d">
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n2">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="dias_nor_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Final</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="dias_nor_hasta" title="*Campo Obligatorio" onpaste="return false" name="dias_nor_hasta" placeholder="dd/mm/aaaa" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onchange="validarFecha()">
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Total Días</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="total_dias" title="*Campo Obligatorio" onchange="validarDias()" placeholder="000" name="total_dias" onpaste="return false" class="fieldcontent"  onKeyPress='return acceptNum2(event)' maxlength="3" value='<? echo $datos_interrupcion['int_dias'] ?>'>
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="null"></div>
+
+                <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
+
+
+                <center> 
+                    <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Modificar Interrupción" onClick='return confirmarEnvio();'>
+                    <a href=
+                       '<?
+                       $variable = 'pagina=formHistoria';
+                       $variable.='&opcion=actualizarInterrupcion';
+                       $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                       echo $this->indice . $variable;
+                       ?>'><button name='registro' id="registrarBoton" type="submit" class="navbtn" value="Cancelar">Cancelar</button></a>
+                </center>
+
+                <input type='hidden' name='opcion' value='actualizarInterrupcion'>
+                <input type='hidden' name='int_nro_ingreso' value='<? echo $datos_int_historia[0]['int_nro_ingreso'] ?>'>
+                <input type='hidden' name='int_nro_interrupcion' value='<? echo $datos_int_historia[0]['int_nro_interrupcion'] ?>'>
+                <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+                <br><br>           <br><br>
+            </div>
+
+        </form>
+        <?
+    }
+
     function modificarHistoria($datos_previsora, $historia_laboral, $rango) {
 
         $this->formulario = "formHistoria";
+
+        $fecha_certificado = date('d/m/Y', (strtotime(str_replace('/', '-', $historia_laboral['hlab_fcertificado']))));
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
@@ -712,6 +1348,8 @@ class html_formHistoria {
                                 yearRange: '1940:c',
                                 dateFormat: 'dd/mm/yy'
                             });
+                            $("#fecha_certificado").datepicker('setDate', '<?php echo $fecha_certificado ?>');
+
                         });
 
                         $(document).ready(function() {
@@ -750,7 +1388,7 @@ class html_formHistoria {
         <script>
             function confirmarEnvio()
             {
-                var r = confirm("Confirmar envío de formulario.");
+                var r = confirm("Si existen interrupciones laborales fuera del nuevo periodo, éstas serán eliminadas. ¿Confirmar envío de formulario? ");
                 if (r == true) {
                     return true;
                 } else {
@@ -761,7 +1399,7 @@ class html_formHistoria {
 
         <script>
             //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
-            function echeck(str) {
+            function echeck2(str) {
 
         <?
         foreach ($rango as $key => $values) {
@@ -1074,7 +1712,7 @@ class html_formHistoria {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f6c" title="*Campo Obligatorio" onchange="validarVacio()" name="num_certificado" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="13">
+                                <input type="text" id="p1f6c" title="*Campo Obligatorio" onchange="validarVacio()" name="num_certificado" onpaste="return false" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="13" value="<? echo $historia_laboral['hlab_numcertificado'] ?>">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -1893,7 +2531,7 @@ class html_formHistoria {
                             . " <a href='";
                             $variable = 'pagina=formHistoria';
                             $variable.='&opcion=modificarInterrupcion';
-                            $variable.='&historia=' . serialize($interrupcion[$key]);
+                            $variable.='&interrupcion=' . serialize($interrupcion[$key]);
                             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                             echo " " . $this->indice . $variable . "'>
                             <img alt='Imagen' width='20px' src='" . $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] . "/nomina/cuotas_partes/liquidador/icons/cuentacobro.png'/></td>";
@@ -1926,12 +2564,12 @@ class html_formHistoria {
                 <tr>
                     <?
                     if (is_array($historia)) {
-                      //  foreach ($historia as $key => $value) {
-                            echo "<tr>";
-                            echo "<td class='texto_elegante estilo_td' colspan='5' style='text-align:center;'>" . $historia[0]['hlab_numcertificado'] . "</td>";
-                            echo "<td class='texto_elegante estilo_td' colspan='6' style='text-align:center;'>" . $historia[0]['hlab_fcertificado'] . "</td>";
-                            echo "</tr>";
-                       // }
+                        //  foreach ($historia as $key => $value) {
+                        echo "<tr>";
+                        echo "<td class='texto_elegante estilo_td' colspan='5' style='text-align:center;'>" . $historia[0]['hlab_numcertificado'] . "</td>";
+                        echo "<td class='texto_elegante estilo_td' colspan='6' style='text-align:center;'>" . $historia[0]['hlab_fcertificado'] . "</td>";
+                        echo "</tr>";
+                        // }
                     } else {
                         echo "<tr>";
                         echo "<td class='texto_elegante estilo_td' colspan='5' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";

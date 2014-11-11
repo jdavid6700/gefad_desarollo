@@ -32,6 +32,7 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" dcp_tipo_actoadmin='" . $variable['tipo_actoadmin'] . "' ,";
                 $cadena_sql.=" dcp_actoadmin='" . $variable['actoadmin'] . "' ,";
                 $cadena_sql.=" dcp_factoadmin='" . $variable['factoadmin'] . "' ,";
+                $cadena_sql.=" dcp_observacion='" . $variable['observacion'] . "' ,";
                 $cadena_sql.=" dcp_estado='" . $variable['estado'] . "' ,";
                 $cadena_sql.=" dcp_registro=  '" . $variable['registro'] . "' ";
                 $cadena_sql.=" WHERE ";
@@ -55,6 +56,7 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" dcp_tipo_actoadmin, ";
                 $cadena_sql.=" dcp_actoadmin, ";
                 $cadena_sql.=" dcp_factoadmin, ";
+                $cadena_sql.=" dcp_observacion,";
                 $cadena_sql.=" dcp_estado, ";
                 $cadena_sql.=" dcp_registro) VALUES ( ";
                 $cadena_sql.=" '" . $variable['cedula'] . "' ,";
@@ -70,6 +72,7 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.=" '" . $variable['tipo_actoadmin'] . "' ,";
                 $cadena_sql.=" '" . $variable['actoadmin'] . "' ,";
                 $cadena_sql.=" '" . $variable['factoadmin'] . "' ,";
+                $cadena_sql.=" '" . $variable['observacion'] . "' ,";
                 $cadena_sql.=" '" . $variable['estado'] . "' ,";
                 $cadena_sql.=" '" . $variable['registro'] . "');";
                 break;
@@ -128,7 +131,8 @@ class sql_formConcurrencia extends sql {
                 $cadena_sql.= " dcp_fecha_concurrencia, ";
                 $cadena_sql.= " dcp_valor_mesada, ";
                 $cadena_sql.= " dcp_porcen_cuota, ";
-                $cadena_sql.= " dcp_valor_cuota ";
+                $cadena_sql.= " dcp_valor_cuota, ";
+                $cadena_sql.= " dcp_observacion ";
                 $cadena_sql.= " from cuotas_partes.cuotas_descripcion_cuotaparte ";
                 $cadena_sql.= " where dcp_nro_identificacion = '" . $variable['cedula'] . "' ";
                 $cadena_sql.= " ORDER BY dcp_nitprev DESC ";

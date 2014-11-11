@@ -119,6 +119,61 @@ class funciones_formHistoria extends funcionGeneral {
         return $datos_basicos;
     }
 
+    function inactivarInterrupcion($parametros) {
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "inactivarInterrupcion", $parametros);
+        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos_historia;
+       
+    }
+
+    function registrarHLaboral($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarHistoria", $parametros);
+        $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos_Hlaboral;
+    }
+
+    function registrarEntidad($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarEntidad", $parametros);
+        $datos_Entidad = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+        return $datos_Entidad;
+    }
+
+    function reporteHistoria($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria", $parametro);
+        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_historia;
+    }
+
+    function reporteHistoriaEmpleador($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria2", $parametro);
+        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_historia;
+    }
+
+    function reporteInterrupcionEntidad($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteInterrupcionEntidad", $parametro);
+        $datos_interrupcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_interrupcion;
+    }
+
+    function reporteInterrupcionEntidad_Mod($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteInterrupcionEntidad_Modificar", $parametro);
+        $datos_interrupcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_interrupcion;
+    }
+
+    function reporteInterrupcion($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteInterrupcion", $parametro);
+        $datos_interrupcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_interrupcion;
+    }
+
+    function reporteDescripcion($parametro) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteDescripcion", $parametro);
+        $datos_descripcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_descripcion;
+    }
+
     function dbasicoHistoria() {
         $this->html_formHistoria->datoBasico();
     }
@@ -196,7 +251,6 @@ class funciones_formHistoria extends funcionGeneral {
             'previsora' => $datos_interrupcion['nit_previsora'],
         );
 
-
         $datos_previsor = $this->consultarPrevisora();
         $datos_historia = $this->consultarHistoria($cedula);
         $datos_regint = $this->reporteInterrupcionEntidad($parametro);
@@ -204,46 +258,23 @@ class funciones_formHistoria extends funcionGeneral {
         $this->html_formHistoria->formularioInterrupcion($datos_previsor, $datos_interrupcion, $datos_historia, $datos_regint);
     }
 
-    function registrarHLaboral($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarHistoria", $parametros);
-        $datos_Hlaboral = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-        return $datos_Hlaboral;
-    }
+    function modificarInterrupcion($datos_interrupcion) {
 
-    function registrarEntidad($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarEntidad", $parametros);
-        $datos_Entidad = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-        return $datos_Entidad;
-    }
+        $cedula = $datos_interrupcion['int_nro_identificacion'];
 
-    function reporteHistoria($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria", $parametro);
-        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos_historia;
-    }
+        $parametro = array(
+            'cedula' => $datos_interrupcion['int_nro_identificacion'],
+            'empleador' => $datos_interrupcion['int_nitent'],
+            'previsora' => $datos_interrupcion['int_nitprev'],
+            'h_ingreso' => $datos_interrupcion['int_nro_ingreso']
+        );
 
-    function reporteHistoriaEmpleador($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria2", $parametro);
-        $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos_historia;
-    }
+        $datos_previsor = $this->consultarPrevisora();
+        $datos_historia = $this->consultarHistoria($cedula);
+        $datos_int_historia = $this->reporteInterrupcionEntidad_Mod($parametro);
+        $datos_regint = $this->reporteInterrupcionEntidad($parametro);
 
-    function reporteInterrupcionEntidad($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteInterrupcionEntidad", $parametro);
-        $datos_interrupcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos_interrupcion;
-    }
-
-    function reporteInterrupcion($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteInterrupcion", $parametro);
-        $datos_interrupcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos_interrupcion;
-    }
-
-    function reporteDescripcion($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteDescripcion", $parametro);
-        $datos_descripcion = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos_descripcion;
+        $this->html_formHistoria->formularioInterrupcion_Modificar($datos_previsor, $datos_interrupcion, $datos_historia, $datos_regint, $datos_int_historia);
     }
 
     function modificarHistoria($historia_laboral) {
@@ -311,19 +342,19 @@ class funciones_formHistoria extends funcionGeneral {
 
         $dias_transcurridos = abs(($despues - $antes) / 86400);
 
-
-        $certificado = strtotime(str_replace('/', '-', $datos['fecha_certificado']));
-        if ($certificado < $despues) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('La fecha del certificado no corresponde con el periodo laborado.');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formHistoria';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
+        /*
+          $certificado = strtotime(str_replace('/', '-', $datos['fecha_certificado']));
+          if ($certificado < $despues) {
+          echo "<script type=\"text/javascript\">" .
+          "alert('La fecha del certificado no corresponde con el periodo laborado.');" .
+          "</script> ";
+          $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+          $variable = 'pagina=formHistoria';
+          $variable.='&opcion=';
+          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+          echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+          exit;
+          } */
 
         /*
           if ($dias_transcurridos < ) {
@@ -596,7 +627,6 @@ class funciones_formHistoria extends funcionGeneral {
         $estado = 1;
         $fecha_registro = date('d/m/Y');
 
-
         $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_nuevos['fecha_salida'])));
 
         $antes = strtotime(str_replace('/', '-', $datos_nuevos['fecha_ingreso']));
@@ -604,11 +634,12 @@ class funciones_formHistoria extends funcionGeneral {
 
         $dias_transcurridos = abs(($despues - $antes) / 86400);
 
+        $certificado = strtotime(str_replace('/', '-', $datos_nuevos['fecha_certificado']));
 
-        $certificado = strtotime(str_replace('/', '-', $datos['fecha_certificado']));
+
         if ($certificado < $despues) {
             echo "<script type=\"text/javascript\">" .
-            "alert('La fecha del certificado no corresponde con el periodo de interrupción.');" .
+            "alert('La fecha del certificado no corresponde con el periodo de historia.');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formHistoria';
@@ -766,9 +797,11 @@ class funciones_formHistoria extends funcionGeneral {
           }
           }
           }
-
-          /
-          /* Terminan las validaciones de los datos_nuevos */
+         * 
+         * 
+         * 
+          //VALIDAR SI LOS DATOS DE LA NUEVA HISTORIA POSEE INTERRUPCIONES ANTIGUAS Y QUÉ SE QUIERE HACER CON ESTOS
+         * */
 
         $parametros_hlaboral = array(
             'serial' => (isset($datos_antiguos['hlab_serial']) ? $datos_antiguos['hlab_serial'] : ''),
@@ -780,10 +813,65 @@ class funciones_formHistoria extends funcionGeneral {
             'fecha_salida' => (isset($datos_nuevos['fecha_salida']) ? $datos_nuevos['fecha_salida'] : ''),
             'horas_labor' => (isset($datos_nuevos['horas_laboradas']) ? $datos_nuevos['horas_laboradas'] : ''),
             'periodo_labor' => (isset($datos_nuevos['tipo_horas']) ? $datos_nuevos['tipo_horas'] : ''),
-            'num_certificado' => (isset($datos['num_certificado']) ? $datos['num_certificado'] : ''),
-            'fecha_certificado' => (isset($datos['fecha_certificado']) ? $datos['fecha_certificado'] : null),
+            'num_certificado' => (isset($datos_nuevos['num_certificado']) ? $datos_nuevos['num_certificado'] : ''),
+            'fecha_certificado' => (isset($datos_nuevos['fecha_certificado']) ? $datos_nuevos['fecha_certificado'] : null),
             'estado' => $estado,
             'registro' => $fecha_registro);
+
+        //CONSULTAR INTERRUPCIONES ASOCIADAS A LA HISTORIA
+
+        $parametro = $datos_antiguos['hlab_nro_identificacion'];
+        $datos_regint = $this->reporteInterrupcion($parametro);
+
+
+        if (is_array($datos_regint)) {
+            if ($datos_regint == true) {
+                foreach ($datos_regint as $key => $value) {
+                    $rango[$key] = array(
+                        'inicio' => date('d/m/Y', strtotime($datos_regint[$key]['int_fdesde'])),
+                        'fin' => date('d/m/Y', strtotime($datos_regint[$key]['int_fhasta'])),
+                        'nro_ingreso' => $datos_regint[$key]['int_nro_ingreso']);
+                }
+            } else {
+                $rango[$key] = array(
+                    'inicio' => date('d/m/Y', strtotime('01/01/1940')),
+                    'fin' => date('d/m/Y', strtotime('01/02/1940')),
+                    'nro_ingreso' => '0');
+            }
+
+            foreach ($rango as $key => $values) {
+
+                $parametros_int = array(
+                    'nro_ingreso' => $rango[$key]['nro_ingreso'],
+                    'cedula' => (isset($datos_nuevos['cedula_emp']) ? $datos_nuevos['cedula_emp'] : ''),
+                    'nit_entidad' => (isset($datos_nuevos['empleador_nit']) ? $datos_nuevos['empleador_nit'] : ''),
+                    'nit_previsora' => (isset($datos_nuevos['prev_nit']) ? $datos_nuevos['prev_nit'] : ''),
+                    'registro' => $fecha_registro
+                );
+
+                $inicio = strtotime(str_replace('/', '-', $rango[$key]['inicio']));
+                $fin = strtotime(str_replace('/', '-', $rango[$key]['fin']));
+
+                if ($antes >= $inicio) {
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('El intervalo de historia laboral no corresponde con las interrupciones registradas previamente. Éstas se eliminarán "
+                    . " automáticamente.');" .
+                    "</script> ";
+
+                    $inactivar_interrupcion = $this->inactivarInterrupcion($parametros_int);
+                }
+
+                if ($despues <= $fin) {
+                    echo "<script type=\"text/javascript\">" .
+                    "alert('El intervalo de historia laboral no corresponde con las interrupciones registradas previamente. Éstas se eliminarán "
+                    . " automáticamente');" .
+                    "</script> ";
+                    $inactivar_interrupcion = $this->inactivarInterrupcion($parametros_int);
+                }
+            }
+        }
+
+        /* Terminan las validaciones de los datos_nuevos */
 
         if (isset($datos_nuevos['interrupcion'])) {
 
@@ -828,7 +916,6 @@ class funciones_formHistoria extends funcionGeneral {
             echo "<script>location.replace('" . $pagina . $variable . "' ) </script>";
             exit;
         } else {
-
             $actualizar_hlaboral = $this->actualizarHLaboral($parametros_hlaboral);
             $actualizar_interrupciones = $this->actualizarNitInterrupcion($parametros_hlaboral);
 
@@ -842,8 +929,8 @@ class funciones_formHistoria extends funcionGeneral {
                 $registroL[5] .= " identificacion =" . $parametros_hlaboral['cedula'];
                 $this->log_us->log_usuario($registroL, $this->configuracion);
 
-                echo "<script type = \"t63   xt/javascript\">" .
-                "alert('Datos Registrados');" .
+                echo "<script type = \"text/javascript\">" .
+                "alert('Datos Actualizados');" .
                 "</script> ";
 
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
@@ -854,7 +941,7 @@ class funciones_formHistoria extends funcionGeneral {
                 exit;
             } else {
                 echo "<script type=\"text/javascript\">" .
-                "alert('Datos de Historia Laboral NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                "alert('Datos de Historia Laboral NO Actualizados Correctamente. ERROR en el REGISTRO');" .
                 "</script> ";
 
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
@@ -868,7 +955,6 @@ class funciones_formHistoria extends funcionGeneral {
     }
 
     function procesarFormularioInterrupcion($datos) {
-
 
         $parametros = array(
             'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
@@ -997,8 +1083,8 @@ class funciones_formHistoria extends funcionGeneral {
                     }
 
                     foreach ($rango as $key => $values) {
-                       $inicio = strtotime(str_replace('/', '-', $rango[$key]['inicio']));
-                       $fin = strtotime(str_replace('/', '-', $rango[$key]['fin']));
+                        $inicio = strtotime(str_replace('/', '-', $rango[$key]['inicio']));
+                        $fin = strtotime(str_replace('/', '-', $rango[$key]['fin']));
 
                         if ($antes >= $inicio && $antes <= $fin) {
                             echo "<script type=\"text/javascript\">" .
@@ -1018,7 +1104,7 @@ class funciones_formHistoria extends funcionGeneral {
                             echo "<script type=\"text/javascript\">" .
                             "alert('El intervalo de fechas de interrupción no es válido');" .
                             "</script> ";
-                             EXIT;
+                            EXIT;
                             error_log('\n');
                             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                             $variable = 'pagina=formHistoria';
@@ -1060,12 +1146,12 @@ class funciones_formHistoria extends funcionGeneral {
                 'estado' => (isset($datos['h_estado']) ? $datos['h_estado'] : ''),
                 'registro' => (isset($datos['h_registro']) ? $datos['h_registro'] : ''));
 
-                  if ($datos['h_tipo'] == 'actualizar') {
+            if ($datos['h_tipo'] == 'actualizar') {
                 $procesar_hlaboral = $this->actualizarHLaboral($parametros_hlaboral);
             } else {
                 $procesar_hlaboral = $this->registrarHLaboral($parametros_hlaboral);
             }
-       
+
             if ($procesar_hlaboral == true) {
                 $registroL[0] = "GUARDAR";
                 $registroL[1] = $parametros_hlaboral['cedula'] . '|' . $parametros_hlaboral['nro_ingreso'] . '|' . $parametros_hlaboral['nit_entidad']; //
@@ -1086,7 +1172,7 @@ class funciones_formHistoria extends funcionGeneral {
 
             $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarInterrupcion", $parametros);
             $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
-            
+
             if ($datos_registrados == true) {
                 $registro[0] = "GUARDAR";
                 $registro[1] = $parametros['cedula'] . '|' . $parametros['nro_interrupcion'] . '|' . $parametros['nit_entidad']; //
@@ -1129,6 +1215,212 @@ class funciones_formHistoria extends funcionGeneral {
             } else {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Datos de Interrupción NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                "</script> ";
+
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = "pagina=reportesCuotas";
+                $variable .= "&opcion=";
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+    }
+
+    function procesarFormularioInterrupcion_Modificar($datos) {
+
+        $parametros = array(
+            'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
+            'nit_entidad' => (isset($datos['empleador_nit']) ? $datos['empleador_nit'] : ''),
+            'nit_previsora' => (isset($datos['prev_nit']) ? $datos['prev_nit'] : ''),
+        );
+
+        $fecha_registro = date('d/m/Y');
+        $estado = 1;
+
+        $antes = strtotime(str_replace('/', '-', $datos['dias_nor_desde']));
+        $despues = strtotime(str_replace('/', '-', $datos['dias_nor_hasta']));
+
+        if ($antes == 0) {
+            $datos['dias_nor_desde'] = NULL;
+        }
+
+        if ($despues == 0) {
+            $datos['dias_nor_hasta'] = NULL;
+        }
+
+        $dias_transcurridos = abs(($despues - $antes) / 86400);
+        $dias_registrados = intval($datos['total_dias']);
+
+        if ($dias_registrados == 0) {
+            $datos['total_dias'] = 0;
+        }
+
+        if ($antes > $despues) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Las fechas de interrupción no son válidas');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if ($dias_registrados != 0 && $dias_transcurridos != 0) {
+            if (($dias_registrados) > $dias_transcurridos) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('El número de días de interrupción es mayor a los días existentes en el periodo de interrupción.');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
+        foreach ($datos as $key => $value) {
+
+            /*  if ($datos[$key] == "") {
+              echo "<script type=\"text/javascript\">" .
+              "alert('Formulario NO diligenciado correctamente');" .
+              "</script> ";
+              $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+              $variable = 'pagina=formHistoria';
+              $variable.='&opcion=';
+              $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+              echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+              exit;
+              }
+              }
+             */
+            if (isset($datos['total_dias']) == 0) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Valor días de trabajo NO válido');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+
+            /*  foreach ($datos as $key => $value) {
+              if (!preg_match("#^[a-zA-Z0-9/.-\só]{1,50}$#", $datos[$key])) {
+              echo "<script type=\"text/javascript\">" .
+              "alert('Formulario NO diligenciado correctamente ...');" .
+              "</script> ";
+              $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+              $variable = 'pagina=formHistoria';
+              $variable.='&opcion=';
+              $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+              echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+              exit;
+              }
+              } */
+
+            //VALIDACIÓN DE TRASLAPE DE FECHAS
+
+            $parametro = $datos['cedula_emp'];
+            $datos_regint = $this->reporteInterrupcion($parametro);
+
+            /* Para determinar los limites del registro de la historia laboral */
+            if ($antes != 0) {
+                if (is_array($datos_regint)) {
+                    if ($datos_regint == true) {
+                        foreach ($datos_regint as $key => $value) {
+                            if ($datos_regint[$key]['int_nro_interrupcion'] !== $datos['int_nro_ingreso']) {
+                                $rango[$key] = array(
+                                    'inicio' => date('d/m/Y', strtotime($datos_regint[$key]['int_fdesde'])),
+                                    'fin' => date('d/m/Y', strtotime($datos_regint[$key]['int_fhasta'])));
+                            }
+                        }
+                    } else {
+                        $rango[$key] = array(
+                            'inicio' => date('d/m/Y', strtotime('01/01/1940')),
+                            'fin' => date('d/m/Y', strtotime('01/02/1940')));
+                    }
+
+                    foreach ($rango as $key => $values) {
+
+                        $inicio = strtotime(str_replace('/', '-', $rango[$key]['inicio']));
+                        $fin = strtotime(str_replace('/', '-', $rango[$key]['fin']));
+
+                        if ($antes >= $inicio && $antes <= $fin) {
+                            echo "<script type=\"text/javascript\">" .
+                            "alert('El intervalo de fechas de interrupción no es válido');" .
+                            "</script> ";
+                            EXIT;
+                            error_log('\n');
+                            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                            $variable = 'pagina=formHistoria';
+                            $variable.='&opcion=';
+                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                            exit;
+                        }
+
+                        if ($despues >= $inicio && $despues <= $fin) {
+                            echo "<script type=\"text/javascript\">" .
+                            "alert('El intervalo de fechas de interrupción no es válido');" .
+                            "</script> ";
+                            EXIT;
+                            error_log('\n');
+                            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                            $variable = 'pagina=formHistoria';
+                            $variable.='&opcion=';
+                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                            exit;
+                        }
+                    }
+                }
+            }
+            /* Terminan las validaciones de los datos */
+
+            $parametros = array(
+                'nro_interrupcion' => (isset($datos['int_nro_ingreso']) ? $datos['int_nro_ingreso'] : ''),
+                'nro_ingreso' => (isset($datos['int_nro_interrupcion']) ? $datos['int_nro_interrupcion'] : ''),
+                'cedula' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
+                'nit_entidad' => (isset($datos['nit_entidad']) ? $datos['nit_entidad'] : ''),
+                'entidad_previsora' => (isset($datos['prev_nit']) ? $datos['prev_nit'] : ''),
+                'dias_nor_desde' => (isset($datos['dias_nor_desde']) ? $datos['dias_nor_desde'] : ''),
+                'dias_nor_hasta' => (isset($datos['dias_nor_hasta']) ? $datos['dias_nor_hasta'] : ''),
+                'estado' => $estado,
+                'registro' => $fecha_registro,
+                'total_dias' => (isset($datos['total_dias']) ? $datos['total_dias'] : 0));
+
+            $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarInterrupcion", $parametros);
+            $datos_actualizados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+
+            if ($datos_actualizados == true) {
+                $registro[0] = "ACTUALIZAR";
+                $registro[1] = $parametros['cedula'] . '|' . $parametros['nro_interrupcion'] . '|' . $parametros['nit_entidad']; //
+                $registro[2] = "CUOTAS_PARTES";
+                $registro[3] = $parametros['entidad_previsora'] . '|' . $parametros['dias_nor_desde'] . '|' . $parametros['dias_nor_hasta']; //
+                $registro[4] = time();
+                $registro[5] = "Actualizar datos de interrupcion laboral del pensionado con ";
+                $registro[5] .= " identificacion =" . $parametros['cedula'];
+                $this->log_us->log_usuario($registro, $this->configuracion);
+
+                echo "<script type=\"text/javascript\">" .
+                "alert('Datos Interrupción Laboral Actualizados');" .
+                "</script> ";
+
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = "pagina=reportesCuotas";
+                $variable .= "&opcion=";
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+                exit;
+            } else {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Datos de Interrupción NO Actualizados Correctamente. ERROR en el REGISTRO');" .
                 "</script> ";
 
                 $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";

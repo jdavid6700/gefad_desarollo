@@ -253,7 +253,7 @@ class html_liquidador {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
 
         $this->formulario = "liquidador";
-        $annio = date('Y', strtotime($fecha_inicial));
+    $annio =date('Y', (strtotime("" . str_replace('/', '-',$fecha_inicial))));
         ?>
         <!referencias a estilos y plugins>
         <script>
@@ -264,12 +264,13 @@ class html_liquidador {
                         yearRange: '<?php echo $annio ?>:c',
                         dateFormat: 'dd/mm/yy',
                         maxDate: "+1Y",
-                        /*onSelect: function(dateValue, inst) {
+                                                onSelect: function(dateValue) {
                          $("#liquidar_hasta").datepicker("option", "minDate", dateValue)
-                         }*/
+                         }
                     });
-                    /* $("#liquidar_desde").datepicker('option', 'minDate', '<?php echo $fecha_inicial ?>');*/
+                    $("#liquidar_desde").datepicker('option', 'minDate', '<?php echo $fecha_inicial ?>');
                 });
+                
                 $(document).ready(function() {
                     $("#liquidar_hasta").datepicker({
                         changeMonth: true,

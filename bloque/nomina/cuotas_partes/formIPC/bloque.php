@@ -50,6 +50,11 @@ class bloque_formIPC extends bloque {
 
             switch ($accion) {
 
+                case 'modificarIPC':
+                    $datos_ipc = unserialize($_REQUEST['datos_ipc']);
+                    $this->funcion->modificarIPC($datos_ipc);
+                    break;
+
                 default :
                     $this->funcion->mostrarFormulario();
                     $this->funcion->ConsultarIndice();
@@ -74,6 +79,18 @@ class bloque_formIPC extends bloque {
                 }
 
                 $this->funcion->procesarFormulario($registro_ipc);
+                break;
+
+            case "actualizarIPC":
+                $modificar_ipc = array();
+
+                foreach ($_REQUEST as $key => $value) {
+                    if ($key != 'action' && $key != 'opcion') {
+                        $modificar_ipc[$key] = $_REQUEST[$key];
+                    }
+                }
+
+                $this->funcion->procesarFormulario_Modificar($modificar_ipc);
                 break;
 
             default :
