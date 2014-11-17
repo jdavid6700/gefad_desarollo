@@ -100,9 +100,8 @@ class html_formSustituto {
 
         if ($defuncion['fecha_defuncion'] != 0) {
             $disable = 'readonly';
-            $defuncion['fecha_defuncion'] = date('d/m/Y', strtotime(str_replace('/', '-',$defuncion['fecha_defuncion'])));
-            $defuncion['fecha_defuncioncertificado'] = date('d/m/Y', strtotime(str_replace('/', '-',$defuncion['fecha_defuncioncertificado'])));
-            
+            $defuncion['fecha_defuncion'] = date('d/m/Y', strtotime(str_replace('/', '-', $defuncion['fecha_defuncion'])));
+            $defuncion['fecha_defuncioncertificado'] = date('d/m/Y', strtotime(str_replace('/', '-', $defuncion['fecha_defuncioncertificado'])));
         } else {
             $defuncion['fecha_defuncion'] = '';
             $defuncion['fecha_defuncioncertificado'] = '';
@@ -116,7 +115,7 @@ class html_formSustituto {
 
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formSustituto/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formSustituto/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -310,7 +309,7 @@ class html_formSustituto {
                 }
             }
         </script>
-        
+
         <script>
             function acceptLetter(e) {
                 key = e.keyCode || e.which;
@@ -343,6 +342,17 @@ class html_formSustituto {
             }
         </script>
 
+        <script>
+            $(function() {
+                $('.tercero').hide();
+
+                $('#tutor').change(function() {
+                    $('.tercero').hide();
+                    $('#' + $(this).val()).show();
+                });
+            });
+        </script>
+
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return minDate();" autocomplete='Off'>
             <h1>Registrar Sustituto de Pensionado</h1>
 
@@ -372,58 +382,7 @@ class html_formSustituto {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f12c" name="cedula_pen" title="*Campo Obligatorio" class="fieldcontent" readonly required='required' value="<? echo $cedula; ?>" onpaste="return false">
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f12" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Documento Sustituto</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f12c" name="cedula_sustituto" title="*Campo Obligatorio"  onKeyPress='return acceptNum2(event)' class="fieldcontent" required='required' onpaste="return false">
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f12" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Nombre Sustituto</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="p1f12c" name="nombre_sustituto" title="*Campo Obligatorio"  onKeyPress='return acceptLetter(event)' class="fieldcontent" required='required' onpaste="return false">
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="fecha_nacsustituto"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Nacimiento <br>  Sustituto</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <input type="text" id="fecha_nacs" title="*Campo Obligatorio" name="fecha_nacsustituto" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
+                            <input type="text" id="p1f12c" name="cedula_pen" title="*Campo Obligatorio" maxlenght="16" class="fieldcontent" readonly required='required' value="<? echo $cedula; ?>" onpaste="return false">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -480,6 +439,57 @@ class html_formSustituto {
                 <div class="null"></div>
             </div>
 
+            <div class="formrow f1">
+                <div id="p1f12" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Documento<br>   Sustituto</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="p1f12c" name="cedula_sustituto" maxlenght="16" title="*Campo Obligatorio"  onKeyPress='return acceptNum2(event)' class="fieldcontent" required='required' onpaste="return false">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f12" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial"  style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nombre<br>   Sustituto</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="p1f7c" name="nombre_sustituto" maxlenght="50" title="*Campo Obligatorio"  onKeyPress='return acceptLetter(event)' class="fieldcontent" required='required' onpaste="return false">
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="fecha_nacsustituto"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Nacimiento <br>  Sustituto</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <input type="text" id="fecha_nacs" title="*Campo Obligatorio" name="fecha_nacsustituto" maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
             <div class="formrow f1 f2">
                 <div id="p1f10" class="field n1">
                     <div class="caption capleft alignleft">
@@ -511,111 +521,205 @@ class html_formSustituto {
                 <div class="null"></div>
             </div>
 
-            <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
-
-            <div class="null"></div>
-            <center> <input id="registrarBoton" type="submit" class="navbtn"  onClick='return confirmarEnvio();' value="Registrar"></center>
-
-            <input type='hidden' name='opcion' value='registrarSustituto'>
-            <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
-
-        </form>
-        <?
-    }
-
-    function reporteSustituto($datos_sustitutos) {
-
-        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
-        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
-        include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
-
-        $this->formulario = "formSustituto";
-        ?>
-        <!referencias a estilos y plugins>
-        <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
-        <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel = "stylesheet" type = "text/css"/>
-        <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-        <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
-        <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
-        <!-- permite la paginacion-->        
-
-        <script>
-                $(function() {
-                    $("div.holder").jPages({
-                        containerID: "itemContainer",
-                        previous: "←",
-                        next: "→",
-                        perPage: 4,
-                        delay: 20
-                    });
-                });
-        </script>
-        <center>     
-
-            <h1>Sustitutos Registrados</h1>
-
-            <form id="<? echo $this->formulario; ?>" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
-                <center><table class='bordered'  width ="75%" align="center">
-                        <tr>
-                            <th colspan="9" class='encabezado_registro'>SUSTITUTOS REGISTRADOS</th>
-                            <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
-                        </tr>
-                        <tr>
-                            <td class='texto_elegante2 estilo_td' align=center>CÉDULA PENSIONADO</td>
-                            <td class='texto_elegante2 estilo_td' align=center>CÉDULA SUSTITUTO</td>
-                            <td class='texto_elegante2 estilo_td' align=center>NOMBRE SUSTITUTO</td>
-                            <td class='texto_elegante2 estilo_td' align=center>FECHA DEFUNCION</td>
-                            <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
-                            <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
-                            <td class='texto_elegante2 estilo_td' align=center>FECHA NAC. SUSTITUTO</td>
-                            <td class='texto_elegante2 estilo_td' align=center>RES. SUSTITUCIÓN</td>
-                            <td class='texto_elegante2 estilo_td' align=center>FECHA RES. SUSTITUCIÓN</td>
-                        </tr>
-                        <tbody id="itemContainer">
-                            <?
-                            if (is_array($datos_sustitutos)) {
-
-                                foreach ($datos_sustitutos as $key => $value) {
-                                    echo "<tr>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_nombresus'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fnac_sustituto'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_resol_sustitucion'] . "</td>";
-                                    echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fresol_sustitucion'] . "</td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                    </table >
-                    <center><div class="holder"></div></center>
-
-                    <div>
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Parentezco</span></span></span></label>
                         <div class="null"></div>
-                        <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
-                        <input type='hidden' name='no_pagina' value="formularioSustituto">
-                        <input type='hidden' name='opcion' value='pdf_reporte'>
-                        <input type="hidden" name='datos_sustitutos' value='<?php echo serialize($datos_sustitutos) ?>'>
                     </div>
-            </form>
-            <?
-        }
+                    <div class="control capleft">
+                        <div>
+                            <select id="select" name="parentezco" class="fieldcontent" title="*Campo Obligatorio">
+                                <option value="conyugue">Cónyugue</option> 
+                                <option value="compañero">Compañera(o)</option>
+                                <option value="hijo">Hija(o)</option>
+                                <option value="padre">Madre (Padre)</option>
+                                <option value="otro" selected="selected">Otro</option></select>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
 
-    }
-    
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Tutor</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <select id="tutor" name="tutor" class="fieldcontent" title="*Campo Obligatorio">
+                                <option value="madre" selected="selected">Madre</option> 
+                                <option value="padre">Padre</option>
+                                <option value="tercero">Tercero</option></select>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+            <div id="tercero" class="tercero">
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="tercero_sentencia"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Sentencia<br>  Judicial</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <textarea id="observacion" rows="4" cols="50" title="*Campo Obligatorio" name="tercero_sentencia"  maxlenght="100" onpaste="return false" ></textarea>
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f6" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="fecha_tersentencia"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha<br>  Sentencia</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="fecha_tersentencia" title="*Campo Obligatorio" name="fecha_tersentencia" maxlenght="10" placeholder="dd/mm/aaaa" pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" >
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+            </div>
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="observacion"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" > Observaciones</span></label>
+                                    <div class="null"></div>
+                                    </div>
+                                    <div class="control capleft">
+                                        <div>
+                                            <textarea id="observacion" rows="4" cols="50" title="*Campo Obligatorio" name="observacion"  maxlenght="80" onpaste="return false" ></textarea>
+                                        </div>
+                                        <div class="null"></div>
+                                    </div>
+                                    <div class="null">
+                                    </div>
+                                    </div>
+                                    <div class="null"></div>
+                                    </div>
+
+                                    <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
+
+                                    <div class="null"></div>
+                                    <center> <input id="registrarBoton" type="submit" class="navbtn"  onClick='return confirmarEnvio();' value="Registrar"></center>
+
+                                    <input type='hidden' name='opcion' value='registrarSustituto'>
+                                    <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+
+                                    </form>
+                                    <?
+                                }
+
+                                function reporteSustituto($datos_sustitutos) {
+
+                                    include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
+                                    include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
+                                    include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
+
+                                    $this->formulario = "formSustituto";
+                                    ?>
+                                    <!referencias a estilos y plugins>
+                                    <link href = "<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/cuentaCobro/cuentaC.css" rel = "stylesheet" type = "text/css" />
+                                    <link href = "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel = "stylesheet" type = "text/css"/>
+                                    <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+                                    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+                                    <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
+                                    <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
+                                    <!-- permite la paginacion-->        
+
+                                    <script>
+                                        $(function() {
+                                            $("div.holder").jPages({
+                                                containerID: "itemContainer",
+                                                previous: "←",
+                                                next: "→",
+                                                perPage: 4,
+                                                delay: 20
+                                            });
+                                        });
+                                    </script>
+                                    <center>     
+
+                                        <h1>Sustitutos Registrados</h1>
+
+                                        <form id="<? echo $this->formulario; ?>" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
+                                            <center><table class='bordered'  width ="75%" align="center">
+                                                    <tr>
+                                                        <th colspan="9" class='encabezado_registro'>SUSTITUTOS REGISTRADOS</th>
+                                                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class='texto_elegante2 estilo_td' align=center>CÉDULA PENSIONADO</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>CÉDULA SUSTITUTO</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>NOMBRE SUSTITUTO</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>FECHA DEFUNCION</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>FECHA NAC. SUSTITUTO</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>RES. SUSTITUCIÓN</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>FECHA RES. SUSTITUCIÓN</td>
+                                                    </tr>
+                                                    <tbody id="itemContainer">
+                                                        <?
+                                                        if (is_array($datos_sustitutos)) {
+
+                                                            foreach ($datos_sustitutos as $key => $value) {
+                                                                echo "<tr>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_nombresus'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fnac_sustituto'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_resol_sustitucion'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fresol_sustitucion'] . "</td>";
+                                                                echo "</tr>";
+                                                            }
+                                                        } else {
+                                                            echo "<tr>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "</tr>";
+                                                        }
+                                                        ?>
+                                                </table >
+                                                <center><div class="holder"></div></center>
+
+                                                <div>
+                                                    <div class="null"></div>
+                                                    <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
+                                                    <input type='hidden' name='no_pagina' value="formularioSustituto">
+                                                    <input type='hidden' name='opcion' value='pdf_reporte'>
+                                                    <input type="hidden" name='datos_sustitutos' value='<?php echo serialize($datos_sustitutos) ?>'>
+                                                </div>
+                                        </form>
+                                        <?
+                                    }
+
+                                }
+                                

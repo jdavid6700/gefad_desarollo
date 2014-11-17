@@ -93,6 +93,9 @@ class bloque_formSustituto extends bloque {
 
             case "registrarSustituto":
                 $registro_sustituto = array();
+                
+                var_dump($_REQUEST);
+                exit;
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {

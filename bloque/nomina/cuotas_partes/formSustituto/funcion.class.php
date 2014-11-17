@@ -242,7 +242,6 @@ class funciones_formSustituto extends funcionGeneral {
         $registro_sustituto = $this->registrarSustituto($parametros);
 
 
-
         if ($registro_sustituto == true) {
             $registroD[0] = "GUARDAR";
             $registroD[1] = $parametros['cedula_pen'] . '|' . $parametros['cedula_sustituto']; //
