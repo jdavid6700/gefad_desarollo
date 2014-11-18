@@ -918,7 +918,7 @@ class html_formConcurrencia {
                                             var cadena = new Date(y, m, d);
 
                                             if (cadena < min) {
-                                                alert('Ingrese una fecha válida ' +str)
+                                                alert('Ingrese una fecha válida ' + str)
                                                 return false
                                             }
 

@@ -430,6 +430,12 @@ class sql_liquidador extends sql {
                 $cadena_sql.= " AND dep_nombre='TESORERIA' ";
                 break;
 
+            case "consultarMasivo":
+                $cadena_sql = " SELECT cedula, entidad, fecha_hasta ";
+                $cadena_sql.= " FROM cuotas_partes.cuotas_cobroMasivo";
+                $cadena_sql.= " WHERE estado='1'";
+                break;
+
             default:
                 $cadena_sql = "";
                 break;

@@ -1137,7 +1137,6 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function activarCobro($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago) {
-
         $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago);
     }
 
@@ -1411,9 +1410,9 @@ class funciones_liquidador extends funcionGeneral {
             'fecha_registro' => $totales_liq[0]['liq_fecha_registro']
         );
 
-      
+
 //Revisar si el nuevo periodo de cobro está habilitado para cobro y no tener dos cuentas de cobro activas a la vez
-        
+
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "guardar_cuentac", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
 
@@ -1522,7 +1521,6 @@ class funciones_liquidador extends funcionGeneral {
                 $cons_cuenta = "VCPC-" . $cons . "-" . $annio;
             }
         } else {
-
             if ($cons <= 9) {
                 $cons_cuenta = "CPC-000" . $cons . "-" . $annio;
             } elseif ($cons <= 99) {
@@ -1588,7 +1586,7 @@ class funciones_liquidador extends funcionGeneral {
         $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
 
         //$fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
-        $fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+        //$fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
         $mesada_descripcion = doubleval($datos_concurrencia[0]['dcp_valor_mesada']);
 
 
@@ -1944,44 +1942,44 @@ class funciones_liquidador extends funcionGeneral {
 
         $Mesada = round($Mesada);
         $INDICE = $this->obtenerIPC($Anio);
-
+        ;
         //Ajuste Pensional
 
         if ($Anio == 1979) {
             if ($Mesada <= 12900) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
             }
         } elseif ($Anio == 1984) {
             if ($Mesada >= 36872.5 && $Mesada <= 46305) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
             }
         } elseif ($Anio == 1985) {
             if ($Mesada >= 25462.5 && $Mesada <= 56490) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
             }
         } elseif ($Anio == 1986) {
             if ($Mesada >= 22590 && $Mesada <= 67788) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
             }
         } elseif ($Anio == 1987) {
             if ($Mesada >= 54231.15 && $Mesada <= 84057) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
             }
         } elseif ($Anio == 1988) {
             if ($Mesada >= 46230 && $Mesada <= 102549) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][1]) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
             }
         } else {
             $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
@@ -2068,7 +2066,7 @@ class funciones_liquidador extends funcionGeneral {
 //Determinar el dtf para la fecha de liquidación
         $hoy = (strtotime(str_replace('/', '-', date('dd/mm/yyyy'))));
         $desde = (strtotime(str_replace('/', '-', $FECHA)));
-        $hasta = (strtotime(str_replace('/', '-', $f_hasta)));
+        //$hasta = (strtotime(str_replace('/', '-', $f_hasta)));
 
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
 
@@ -2097,6 +2095,7 @@ class funciones_liquidador extends funcionGeneral {
 //Determinar el dtf para la fecha de liquidación
         $fecha = (strtotime(str_replace('/', '-', $FECHA_L)));
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
+        $interes_final = 0;
 
         $valor_interes = 1;
 
@@ -2112,24 +2111,25 @@ class funciones_liquidador extends funcionGeneral {
         /* if ($fecha <= $ley_2006) {
           $interes_final = 0;
           } else { */
-        foreach ($historia_dtf as $key => $values) {
+        if (is_array($historia_dtf)) {
+            foreach ($historia_dtf as $key => $values) {
 
-            $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
-            $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
-            $vigencia = floor(abs(($final - $inicio) / 86400));
-            $historia_dtf[$key]['vigencia'] = $vigencia;
+                $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
+                $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
+                $vigencia = floor(abs(($final - $inicio) / 86400));
+                $historia_dtf[$key]['vigencia'] = $vigencia;
+            }
+
+            foreach ($historia_dtf as $key => $values) {
+                $dtf_aplicado = $historia_dtf[$key]['dtf_indi_ce'];
+                $dias_vigencia = $historia_dtf[$key]['vigencia'];
+
+                $interes_mensual[$key]['interes_d2006'] = $deuda_capital * (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
+                $deuda_capital = $deuda_capital + $interes_mensual[$key]['interes_d2006'];
+                $interes_final = $interes_mensual[$key]['interes_d2006'];
+            }
+            /* } */
         }
-
-        foreach ($historia_dtf as $key => $values) {
-            $dtf_aplicado = $historia_dtf[$key]['dtf_indi_ce'];
-            $dias_vigencia = $historia_dtf[$key]['vigencia'];
-
-            $interes_mensual[$key]['interes_d2006'] = $deuda_capital * (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
-            $deuda_capital = $deuda_capital + $interes_mensual[$key]['interes_d2006'];
-            $interes_final = $interes_mensual[$key]['interes_d2006'];
-        }
-        /* } */
-
         return $interes_final;
     }
 
@@ -2335,6 +2335,287 @@ class funciones_liquidador extends funcionGeneral {
 //Zi hack --> return ucfirst($tex);
         $end_num = ucfirst($tex) . ' PESOS M/CTE';
         return $end_num;
+    }
+
+//*************************Cuando se necesite generar liquidación y primer cobro de manera masiva************//
+
+    function liquidacion_masiva() {
+
+        echo "<script type=\"text/javascript\">" .
+        "alert('Entrada a Liquidación Masiva');" .
+        "</script> ";
+
+        $num_cuentas = 0;
+
+        $array = array();
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarMasivo", $array);
+        $datos_masivos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+
+        if ($datos_masivos == false) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No hay datos habilitados para la opción de generación masiva');" .
+            "</script> ";
+        }
+        //organizar los datos para las funciones internas
+        //Llamar a la base de datos
+
+        foreach ($datos_masivos as $key => $values) {
+
+            $datos_liquidar = array(
+                'cedula' => $datos_masivos[$key]['cedula'],
+                'entidad' => $datos_masivos[$key]['entidad'],
+                'liquidar_hasta' => $datos_masivos[$key]['fecha_hasta'],
+            );
+
+            $parametros = array(
+                'cedula' => (isset($datos_liquidar['cedula']) ? $datos_liquidar['cedula'] : ''),
+                'entidad' => (isset($datos_liquidar['entidad']) ? $datos_liquidar['entidad'] : ''));
+
+            $datos_concurrencia = $this->datosConcurrencia($parametros);
+
+
+            $f_desde = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+            $f_actual = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_hasta'])));
+
+            $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
+
+            //$fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
+            //$fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+            $mesada_descripcion = doubleval($datos_concurrencia[0]['dcp_valor_mesada']);
+
+
+            ///Aplicando Ley 4, que dice que la primera vez de liquidación, se debe cunplir que la persona cumplió un año de pensionado para poder aplicarle el ajuste.
+            //$fecha_pension2 = date('Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
+            $fecha_pension2 = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+
+
+            list ($FECHAS) = $fechas = $this->GenerarFechas($f_desde, $f_actual);
+
+            $TOTAL = 0;
+
+            $liquidacion_cp = array();
+            //$mesada = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
+            $mesada = $mesada_descripcion;
+
+            foreach ($FECHAS as $key => $value) {
+
+//Cadena del periodo liquidar
+                $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
+                $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                $sumafija = $this->obtenerSumafija($annio);
+                $INDICE = $this->obtenerIPC($annio);
+
+//Valor Indices Básicos
+                $fecha_liq = strtotime(str_replace('/', '-', $FECHAS[$key]));
+                $fecha_pension2 = strtotime(str_replace('/', '-', $datos_concurrencia[0][7] . "+ 1 year"));
+
+                if ($fecha_liq < $fecha_pension2) {
+                    $MESADA = $mesada_descripcion;
+                } else {
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
+                }
+
+//Determinar Cuota Parte
+                $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
+
+//Valor Ajustes Adicionales
+                $AJUSTEPENSIONAL = $this->AjustePensional(($FECHAS[$key]), $sumafija[0][0]);
+                $MESADAADICIONAL = $this->MesadaAdicional(($FECHAS[$key]), $CUOTAPARTE);
+                $INCREMENTOSALUD = $this->IncrementoSalud(($FECHAS[$key]), $CUOTAPARTE);
+
+                $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
+
+                //$INTERESES = 0;
+                $INTERES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
+                $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota);
+                //Valor Total Mes liquidado
+                $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERES_A2006 + $INTERESES_D2006;
+                $TOTAL = round($TOTAL, 0);
+
+//**************SALIDA FINAL****************//
+
+                $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
+                $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
+                $liquidacion_cp[$key]['mesada'] = $MESADA;
+                $liquidacion_cp[$key]['ajuste_pension'] = 0;
+                $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
+                $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
+                $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
+                $liquidacion_cp[$key]['interes_a2006'] = $INTERES_A2006;
+                $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
+                $liquidacion_cp[$key]['interes'] = 0;
+                $liquidacion_cp[$key]['total'] = $TOTAL;
+
+                if ($mes == 12) {
+                    $mesada = $MESADA;
+                }
+            }
+
+//        return $liquidacion_cp;
+
+            $opcion_pago = 'noVoluntario';
+
+            $datos_basicos = array(
+                'cedula' => $datos_liquidar['cedula'],
+                'entidad' => $datos_liquidar['entidad'],
+                'liquidar_hasta' => $datos_liquidar['liquidar_hasta'],
+                'liquidar_desde' => $f_desde,
+            );
+
+            //Calcular los totales de la liquidación
+            $totales_liquidacion = $this->calculoTotales($liquidacion_cp);
+
+            //Guardar la liquidación en la BD
+            $guardarLiquidacion = $this->guardarLiquidacion_masiva($datos_basicos, $totales_liquidacion);
+
+            //Guardar el cobro en la BD
+            $totales_liq = $this->consultarLiqui($datos_basicos);
+            $cuenta_cobro = $this->guardar_cuenta_masiva($datos_basicos, $totales_liq, $opcion_pago);
+
+            $num_cuentas = $num_cuentas + 1;
+        }
+
+        echo "Se generaron exitosamente " . $num_cuentas . " liquidaciones.";
+    }
+
+    function guardarLiquidacion_masiva($datos_basicos, $totales_liquidacion) {
+//Generar consecutivo liquidación
+        $parametro = array();
+        $consecutivo = $this->consecutivo($parametro);
+
+        if ($consecutivo == null) {
+            $consecutivo[0][0] = 0;
+        }
+        $consecutivo_real = intval($consecutivo[0][0]) + 1;
+
+//Guardar datos Liquidación
+        $parametros = array(
+            'liq_consecutivo' => (isset($consecutivo_real) ? $consecutivo_real : ''),
+            'liq_fgenerado' => date('Y-m-d'),
+            'liq_cedula' => (isset($datos_basicos['cedula']) ? $datos_basicos['cedula'] : ''),
+            'liq_nitprev' => (isset($datos_basicos['entidad']) ? $datos_basicos['entidad'] : ''),
+            'liq_fdesde' => (isset($datos_basicos['liquidar_desde']) ? $datos_basicos['liquidar_desde'] : ''),
+            'liq_fhasta' => (isset($datos_basicos['liquidar_hasta']) ? $datos_basicos['liquidar_hasta'] : ''),
+            'liq_mesada' => (isset($totales_liquidacion['mesada']) ? $totales_liquidacion['mesada'] : ''),
+            'liq_ajustepen' => (isset($totales_liquidacion['ajuste_pension']) ? $totales_liquidacion['ajuste_pension'] : ''),
+            'liq_mesada_ad' => (isset($totales_liquidacion['mesada_adc']) ? $totales_liquidacion['mesada_adc'] : ''),
+            'liq_incremento' => (isset($totales_liquidacion['incremento']) ? $totales_liquidacion['incremento'] : ''),
+            'liq_interes_a2006' => (isset($totales_liquidacion['interes_a2006']) ? $totales_liquidacion['interes_a2006'] : ''),
+            'liq_interes_d2006' => (isset($totales_liquidacion['interes_d2006']) ? $totales_liquidacion['interes_d2006'] : ''),
+            'liq_interes' => (isset($totales_liquidacion['interes']) ? $totales_liquidacion['interes'] : ''),
+            'liq_cuotap' => (isset($totales_liquidacion['cuota_parte']) ? $totales_liquidacion['cuota_parte'] : ''),
+            'liq_total' => (isset($totales_liquidacion['total']) ? $totales_liquidacion['total'] : ''),
+            'liq_estado_cc' => 'INACTIVO',
+            'liq_fecha_estado_cc' => null,
+            'liq_estado_ccdetalle' => 'INACTIVO',
+            'liq_fecha_estado_ccdetalle' => null,
+            'liq_estado_ccresumen' => 'INACTIVO',
+            'liq_fecha_estado_ccresumen' => null,
+            'liq_estado' => 'ACTIVO',
+            'liq_fecha_registro' => date('Y-m-d')
+        );
+
+        $datos_registrados = $this->guardarLiqui($parametros);
+
+        if ($datos_registrados == true) {
+            $resultado = "exitoso";
+        } else {
+            $resultado = "error en el registro";
+        }
+
+        return $resultado;
+    }
+
+    function guardar_cuenta_masiva($datos_basicos, $totales_liq, $opcion_pago) {
+
+        $parametros_x = array();
+        $consecutivo = $this->consecutivoCC($parametros_x);
+        $consecutivo_cc = $this->generarConsecutivo($opcion_pago);
+
+        $cons = intval($consecutivo[0][0]) + 1;
+
+        $subtotal = $totales_liq[0]['liq_cuotap'] + $totales_liq[0]['liq_mesada_ad'];
+        $t_s_interes = $subtotal + $totales_liq[0]['liq_incremento'] + $totales_liq[0]['liq_ajustepen'];
+
+        $parametros = array(
+            'id_liq' => $totales_liq[0]['liq_consecutivo'],
+            'id_cuentac' => $cons,
+            'fecha_generacion' => $totales_liq[0]['liq_fgenerado'],
+            'cedula' => $totales_liq[0]['liq_cedula'],
+            'previsor' => $totales_liq[0]['liq_nitprev'],
+            'consecutivo_cc' => $consecutivo_cc,
+            'saldo_fecha' => $totales_liq[0]['liq_total'],
+            'fecha_inicial' => $totales_liq[0]['liq_fdesde'],
+            'fecha_final' => $totales_liq[0]['liq_fhasta'],
+            'mesada_ordinaria' => $totales_liq[0]['liq_cuotap'],
+            'mesada_adc' => $totales_liq[0]['liq_mesada_ad'],
+            'subtotal' => $subtotal,
+            'incremento' => $totales_liq[0]['liq_incremento'],
+            'ajuste_pension' => $totales_liq[0]['liq_ajustepen'],
+            't_sin_interes' => $t_s_interes,
+            'interes' => $totales_liq[0]['liq_interes'],
+            't_con_interes' => $totales_liq[0]['liq_total'],
+            'total' => $totales_liq[0]['liq_total'],
+            'fecha_recibido' => '',
+            'estado_cuenta' => 'ACTIVA',
+            'estado' => $totales_liq[0]['liq_estado'],
+            'fecha_registro' => $totales_liq[0]['liq_fecha_registro']
+        );
+
+
+//Revisar si el nuevo periodo de cobro está habilitado para cobro y no tener dos cuentas de cobro activas a la vez
+
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "guardar_cuentac", $parametros);
+        $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
+
+        if ($datos_registrados !== 1) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
+            "</script> ";
+        }
+
+        $parametros_z = array();
+        $consecutivo_recta = $this->consultarConseRecta($parametros_z);
+
+        if ($consecutivo_recta == null) {
+            $rectaid = 1;
+        } else {
+            $rectaid = $consecutivo_recta[0][0] + 1;
+        }
+
+
+        //revisar si la liquidación es para la misma consec_recta
+
+        $parametros_saldo = array(
+            'id_registro' => $rectaid,
+            'cedula' => $totales_liq[0]['liq_cedula'],
+            'previsor' => $totales_liq[0]['liq_nitprev'],
+            'consecutivo_cc' => $consecutivo_cc,
+            'recaudo' => 0,
+            'consecu_rec' => 1,
+            'capital' => $t_s_interes,
+            'interes' => $totales_liq[0]['liq_interes'],
+            't_con_interes' => $totales_liq[0]['liq_total'],
+            'saldo_fecha' => $totales_liq[0]['liq_total']
+        );
+
+        $cadena_sql_saldo = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarRecta", $parametros_saldo);
+        $registro_saldo = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql_saldo, "registrar");
+
+        if ($registro_saldo == false) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Datos NO Registrados Correctamente. ERROR en el REGISTRO');" .
+            "</script> ";
+            exit;
+        }
+
+        if ($registro_saldo == true) {
+            $resultado = "exitoso";
+        } else {
+            $resultado = "error en el registro";
+        }
+
+        return $resultado;
     }
 
 }

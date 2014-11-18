@@ -141,7 +141,7 @@ class funciones_formRecaudo extends funcionGeneral {
     }
 
     function consultarSaldoAnterior($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarSaldoAnterior", $parametros);
+       echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarSaldoAnterior", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
@@ -652,6 +652,9 @@ class funciones_formRecaudo extends funcionGeneral {
         }
 
         $consultar_saldo_anterior = $this->consultarSaldoAnterior($parametros);
+        
+        var_dump($consultar_saldo_anterior);
+        exit;
 
         if ($consultar_saldo_anterior !== null) {
             //No existen pagos anteriores registrados

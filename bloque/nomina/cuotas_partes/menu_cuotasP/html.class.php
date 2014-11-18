@@ -166,6 +166,14 @@
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Liquidación para Cuota Parte</a></li>
+                                    
+                                         <li><a href=
+                                           "<?
+                                           $variable = "pagina=liquidadorCP";
+                                           $variable.="&opcion=masiva";
+                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                           echo $this->indice . $variable;
+                                           ?>">Generar Liquidación Masiva para Cuota Parte</a></li>
 
                                     <li><a href=
                                            "<?

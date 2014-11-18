@@ -163,6 +163,11 @@ class bloqueLiquidador extends bloque {
 
                 $this->funcion->activarCobro($datos_basicos,$consecutivo,  $totales_liquidacion, $opcion_pago);
                 break;
+            
+            case "masiva":
+                $this->funcion->liquidacion_masiva();
+                break;
+            
             default:
                 $this->funcion->datosIniciales();
                 break;
