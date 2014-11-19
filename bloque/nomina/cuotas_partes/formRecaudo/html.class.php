@@ -716,6 +716,9 @@ class html_formRecaudo {
                                   <input type='hidden' name='fechaf_pago[" . $key . "]' value='" . $cobros[$key]['cob_ffinal'] . "'>
                                   <input type='hidden' name='valor_pago[" . $key . "]' value='" . $cobros[$key]['cob_tc_interes'] . "'>
                                   <input type='hidden' name='saldo[" . $key . "]' value='" . $cobros[$key]['recta_saldototal']. "'>
+                                  <input type='hidden' name='saldo_interes[" . $key . "]' value='" . $cobros[$key]['recta_saldointeres']. "'>
+                                  <input type='hidden' name='saldo_capital[" . $key . "]' value='" . $cobros[$key]['recta_saldocapital']. "'>
+                                              
                                   <input type='hidden' name='identificacion[" . $key . "]' value='" . $cobros[$key]['cob_cedula'] . "'>
                                   
                                   <input type='checkbox' id='cuenta_pagar" . $key . "' name='cuenta_pagar[" . $key . "]' value='" . $key . "'>  
@@ -1344,7 +1347,7 @@ class html_formRecaudo {
                                 <?
                                 foreach ($cuentas_pago as $key => $value) {
                                     $valor = $key;
-                                    $cobro = $cuentas_pago[$key]['saldo'];
+                                    $cobro = $cuentas_pago[$key]['saldo_capital'];
                                     echo "<input type='text'  id='valor_pagado_capital" . $valor . "' onpaste='return false' value='" . $cobro . "'title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{4,8}\.?\d{0,2}' name='valor_pagado_capital" . $valor . "' class='fieldcontent' maxlength='11' required='required' onKeyPress='return acceptNum2(event)' ><br>";
                                 }
                                 ?>
@@ -1361,7 +1364,8 @@ class html_formRecaudo {
                                 <?
                                 foreach ($cuentas_pago as $key => $value) {
                                     $valor = $key;
-                                    echo "<input type='text' id='valor_pagado_interes" . $valor . "' value='0' onpaste='return false' title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{0,8}\.?\d{0,2}' name='valor_pagado_interes" . $valor . "' class='fieldcontent' maxlength='11' required='required' onKeyPress='return acceptNum2(event)'><br>";
+                                    $cobro_interes = $cuentas_pago[$key]['saldo_interes'];
+                                    echo "<input type='text' id='valor_pagado_interes" . $valor . "' value='".$cobro_interes."' onpaste='return false' title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{0,8}\.?\d{0,2}' name='valor_pagado_interes" . $valor . "' class='fieldcontent' maxlength='11' required='required' onKeyPress='return acceptNum2(event)'><br>";
                                 }
                                 ?>
 

@@ -100,6 +100,8 @@ class bloque_formRecaudo extends bloque {
                             'fechaf_pago' => $_REQUEST["fechaf_pago"][$key],
                             'valor_pago' => $_REQUEST["valor_pago"][$key],
                             'saldo' => $_REQUEST["saldo"][$key],
+                            'saldo_interes' => $_REQUEST["saldo_interes"][$key],
+                            'saldo_capital' => $_REQUEST["saldo_capital"][$key],
                             'identificacion' => $_REQUEST["identificacion"][$key]);
 
                         $cont = $cont + 1;
@@ -114,7 +116,7 @@ class bloque_formRecaudo extends bloque {
                     $datos_concurrencia = unserialize($_REQUEST['datos_concurrencia']);
                     $cobros = unserialize($_REQUEST['cobros']);
                     $datos_saldo = unserialize($_REQUEST['datos_saldo']);
-                    
+
                     $this->funcion->generarPDF_Estado($datos_basicos, $datos_recaudos, $cobros, $datos_concurrencia, $datos_saldo);
                     break;
 
