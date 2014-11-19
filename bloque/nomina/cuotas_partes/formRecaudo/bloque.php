@@ -120,6 +120,10 @@ class bloque_formRecaudo extends bloque {
                     $this->funcion->generarPDF_Estado($datos_basicos, $datos_recaudos, $cobros, $datos_concurrencia, $datos_saldo);
                     break;
 
+                case "masivo":
+                    $this->funcion->procesarFormulario_Masivo();
+                    break;
+
 
                 default :
                     $this->funcion->inicio();
@@ -137,13 +141,15 @@ class bloque_formRecaudo extends bloque {
 
             case"guardarRecaudo":
                 $parametros_recaudo = array();
+                
+                
 
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
                         $parametros_recaudo[$key] = $_REQUEST[$key];
                     }
                 }
-
+     
                 $this->funcion->procesarFormulario($parametros_recaudo);
                 break;
 

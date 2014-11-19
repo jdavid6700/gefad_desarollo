@@ -236,8 +236,8 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" rec_identificacion,  ";
                 $cadena_sql.=" rec_resolucionop,  ";
                 $cadena_sql.=" rec_fecha_resolucion,  ";
-               // $cadena_sql.=" rec_actoadmin,  ";
-               // $cadena_sql.=" rec_factoadmin,  ";
+                // $cadena_sql.=" rec_actoadmin,  ";
+                // $cadena_sql.=" rec_factoadmin,  ";
                 $cadena_sql.=" rec_fecha_pago,  ";
                 $cadena_sql.=" rec_medio_pago,  ";
                 $cadena_sql.=" rec_pago_capital,  ";
@@ -251,8 +251,8 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" '" . $variable['cedula_emp'] . "', ";
                 $cadena_sql.=" '" . $variable['resolucion_OP'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_resolucion'] . "', ";
-               // $cadena_sql.=" '" . $variable['actoadmin'] . "', ";
-               // $cadena_sql.=" '" . $variable['factoadmin'] . "', ";
+                // $cadena_sql.=" '" . $variable['actoadmin'] . "', ";
+                // $cadena_sql.=" '" . $variable['factoadmin'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_pago_cuenta'] . "', ";
                 $cadena_sql.=" '" . $variable['medio_pago'] . "', ";
                 $cadena_sql.=" '" . $variable['valor_pagado_capital'] . "', ";
@@ -324,6 +324,14 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" '" . date("d/m/Y") . "' ) ; ";
                 break;
 
+            /* Para cargues masivos */
+            case "consultarCargue":
+                $cadena_sql = " SELECT cuotas_pagomasivo.cedula, cuotas_pagomasivo.nit_previsora, cuotas_pagomasivo.resolucion_op, cuotas_pagomasivo.fecha_resoop, cuotas_pagomasivo.capital,  ";
+                $cadena_sql.=" cuotas_pagomasivo.interes, cuotas_pagomasivo.total, cuotas_pagomasivo.fechapago, cuotas_pagomasivo.fpdesde, cuotas_pagomasivo.fphasta,cuotas_pagomasivo.observacion ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_pagomasivo ";
+                $cadena_sql.=" WHERE cuotas_pagomasivo.estado='1' ";
+                break;
+            
             default:
                 $cadena_sql = "";
                 break;

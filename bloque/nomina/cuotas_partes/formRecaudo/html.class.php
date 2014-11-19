@@ -1440,7 +1440,7 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="p1f7c" onpaste='return false' title="*Campo Obligatorio" name="medio_pago" maxlength="50" placeholder="Medio de pago/Prescripción Cuota" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' >
+                                <input type="text" id="p1f7c" onpaste='return false' title="*Campo Obligatorio" name="medio_pago" maxlength="100" placeholder="Medio de pago/Prescripción Cuota" class="fieldcontent" required='required' onKeyPress='return acceptNumLetter(event)' >
                             </div>
                             <div align="left"><a STYLE="color: red" ><br><br>* Campo obligatorio</a></div>
                         </div>      

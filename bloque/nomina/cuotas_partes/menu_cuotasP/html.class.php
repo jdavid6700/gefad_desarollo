@@ -74,7 +74,7 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Consultar Estado de Cuenta</a></li>
-                                    
+
                                     <li><a href="<?
                                         $variable = 'pagina=formularioSustituto';
                                         $variable.='&opcion=reporte';
@@ -107,15 +107,15 @@
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Registrar Recaudos (Pagos) con Cuenta de Cobro</a></li>
-                                    
-                                    <!--li><a href="<?
-                                        $variable = 'pagina=formularioRManual';
-                                        $variable.='&opcion=';
-                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                        echo $this->indice . $variable;
-                                        ?>">Registrar Recaudos Manual</a></li-->
-                                    
-                                     <li><a href="<?
+
+                                                                       <!--li><a href="<?
+                                    $variable = 'pagina=formularioRManual';
+                                    $variable.='&opcion=';
+                                    $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                    echo $this->indice . $variable;
+                                    ?>">Registrar Recaudos Manual</a></li-->
+
+                                    <li><a href="<?
                                         $variable = 'pagina=formularioSustituto';
                                         $variable.='&opcion=';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -166,14 +166,6 @@
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Liquidación para Cuota Parte</a></li>
-                                    
-                                         <li><a href=
-                                           "<?
-                                           $variable = "pagina=liquidadorCP";
-                                           $variable.="&opcion=masiva";
-                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                                           echo $this->indice . $variable;
-                                           ?>">Generar Liquidación Masiva para Cuota Parte</a></li>
 
                                     <li><a href=
                                            "<?
@@ -182,13 +174,35 @@
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Formatos de Cuenta de Cobro</a></li>
-                                                                        
+
                                     <li><a href="<?
                                         $variable = 'pagina=formularioCManual';
                                         $variable.='&opcion=manual';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
                                         ?>">Registrar Cuenta Cobro Manual</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="#">Gestión Procedimientos Masivos</a>
+                                <ul>
+
+                                    <li><a href=
+                                           "<?
+                                           $variable = "pagina=liquidadorCP";
+                                           $variable.="&opcion=masiva";
+                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                           echo $this->indice . $variable;
+                                           ?>">Generar Liquidación Masiva para Cuota Parte</a></li>
+
+                                    <li><a href="<?
+                                        $variable = 'pagina=formularioRecaudo';
+                                        $variable.='&opcion=masivo';
+                                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                        echo $this->indice . $variable;
+                                        ?>">Registrar Recaudos (Pagos) con Cuenta de Cobro Masivo</a></li>
+
+
                                 </ul>
                             </li>
                         </ul>
