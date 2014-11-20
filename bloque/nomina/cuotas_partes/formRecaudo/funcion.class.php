@@ -1054,54 +1054,54 @@ class funciones_formRecaudo extends funcionGeneral {
 
                     $revisar_saldo = $this->actualizarSaldo($parametros);
 
-                    /*Las siguientes funciones se realizan en actualizar Saldo
+                    /* Las siguientes funciones se realizan en actualizar Saldo
                      * $datos_recaudo_cobro = $this->registrarPagoCobro($parametros);
 
-                    if ($datos_recaudo_cobro == 1) {
-                        $registroL[0] = "REGISTRAR";
-                        $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_previsional']; //
-                        $registroL[2] = "CUOTAS_PARTES";
-                        $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
-                        $registroL[4] = time();
-                        $registroL[5] = "Registra el pago_cobro para el pensionado con ";
-                        $registroL[5] .= " identificacion =" . $parametros['cedula_emp'];
-                        $this->log_us->log_usuario($registroL, $this->configuracion);
-                    } else {
-                        echo "<script type=\"text/javascript\">" .
-                        "alert('Datos de Recaudo-Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
-                        "</script> ";
+                      if ($datos_recaudo_cobro == 1) {
+                      $registroL[0] = "REGISTRAR";
+                      $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_previsional']; //
+                      $registroL[2] = "CUOTAS_PARTES";
+                      $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
+                      $registroL[4] = time();
+                      $registroL[5] = "Registra el pago_cobro para el pensionado con ";
+                      $registroL[5] .= " identificacion =" . $parametros['cedula_emp'];
+                      $this->log_us->log_usuario($registroL, $this->configuracion);
+                      } else {
+                      echo "<script type=\"text/javascript\">" .
+                      "alert('Datos de Recaudo-Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                      "</script> ";
 
-                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                        $variable = 'pagina=formularioRecaudo';
-                        $variable .= "&opcion=";
-                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                        break;
-                    }
+                      $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                      $variable = 'pagina=formularioRecaudo';
+                      $variable .= "&opcion=";
+                      $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                      echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                      break;
+                      }
 
-                    $actualizar_cobro = $this->actualizarEstadoCobro($parametros['consecutivo_cc']);
+                      $actualizar_cobro = $this->actualizarEstadoCobro($parametros['consecutivo_cc']);
 
-                    if ($actualizar_cobro == false) {
-                        echo "<script type=\"text/javascript\">" .
-                        "alert('Datos de Actualización de Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
-                        "</script> ";
+                      if ($actualizar_cobro == false) {
+                      echo "<script type=\"text/javascript\">" .
+                      "alert('Datos de Actualización de Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                      "</script> ";
 
-                        $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                        $variable = 'pagina=formularioRecaudo';
-                        $variable .= "&opcion=";
-                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                        echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                        break;
-                    } else {
-                        $registroL[0] = "ACTUALIZAR";
-                        $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_previsional']; //
-                        $registroL[2] = "CUOTAS_PARTES";
-                        $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
-                        $registroL[4] = time();
-                        $registroL[5] = "Actualiza el cobro para el pensionado con ";
-                        $registroL[5] .= " identificacion =" . $parametros['cedula_emp'];
-                        $this->log_us->log_usuario($registroL, $this->configuracion);
-                    }*/
+                      $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                      $variable = 'pagina=formularioRecaudo';
+                      $variable .= "&opcion=";
+                      $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                      echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                      break;
+                      } else {
+                      $registroL[0] = "ACTUALIZAR";
+                      $registroL[1] = $parametros['cedula_emp'] . '|' . $parametros['nit_previsional']; //
+                      $registroL[2] = "CUOTAS_PARTES";
+                      $registroL[3] = $parametros['consecutivo_cc'] . '|' . $parametros['consecutivo_rec'] . '|' . $parametros['total_recaudo'] . '|' . $parametros['fecha_pdesde'] . '|' . $parametros['fecha_phasta']; //
+                      $registroL[4] = time();
+                      $registroL[5] = "Actualiza el cobro para el pensionado con ";
+                      $registroL[5] .= " identificacion =" . $parametros['cedula_emp'];
+                      $this->log_us->log_usuario($registroL, $this->configuracion);
+                      } */
                 }
             }
 
@@ -1274,129 +1274,133 @@ class funciones_formRecaudo extends funcionGeneral {
 
     function procesarFormulario_Masivo() {
 
-
+        $count = 0;
         /* llamar datos de la BD para los recaudos masivos */
         $consultaParametro = array();
         $datos_masivos = $this->consultarCargue($consultaParametro);
 
-        $parametros = array(
-            'cedula_emp' => $datos_masivos[0]['cedula'],
-            'nit_previsional' => $datos_masivos[0]['nit_previsora']);
+        foreach ($datos_masivos as $key => $values) {
+            $parametros = array(
+                'cedula_emp' => $datos_masivos[$key]['cedula'],
+                'nit_previsional' => $datos_masivos[$key]['nit_previsora']);
 
-        $datos_cobros = $this->consultarCobros($parametros);
+            $datos_cobros = $this->consultarCobros($parametros);
 
-        $datos = array(
-            'cedula_emp' => $datos_masivos[0]['cedula'],
-            'nit_previsional' => $datos_masivos[0]['nit_previsora'],
-            'resolucion_OP' => $datos_masivos[0]['resolucion_op'],
-            'fecha_resolucion' => $datos_masivos[0]['fecha_resoop'],
-            'consec_cc' => $datos_cobros[0]['cob_consecu_cta'],
-            'valor_cobro' => $datos_cobros[0]['cob_tc_interes'],
-            'valor_saldo' => $datos_cobros[0]['recta_saldototal'],
-            'valor_pagado_capital' => round($datos_masivos[0]['capital']),
-            'valor_pagado_interes' => round($datos_masivos[0]['interes']),
-            'total_recaudo' => round($datos_masivos[0]['total']),
-            'fecha_pago_cuenta' => $datos_masivos[0]['fechapago'],
-            'fecha_pinicio' => $datos_masivos[0]['fpdesde'],
-            'fecha_pfin' => $datos_masivos[0]['fphasta'],
-            'medio_pago' => $datos_masivos[0]['observacion'],
-            'fecha_cinicio' => $datos_cobros[0]['cob_finicial'],
-            'fecha_cfin' => $datos_cobros[0]['cob_ffinal'],
-        );
-
-
-        $total_capital = 0;
-        $total_interes = 0;
-
-        $total_capital = intval($datos['valor_pagado_capital']);
-        $total_interes = intval($datos['valor_pagado_interes']);
-
-        $total_pagado = intval($total_capital) + intval($total_interes);
-
-        if (intval($datos['total_recaudo']) !== intval($total_pagado)) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Valor Total Pagado no corresponde a la Suma de los valores correspondientes!');" .
-            "</script> ";
-        }
-
-        $consecutivo = $this->consultarConsecPago();
-        $cons = $consecutivo[0]['rec_id'] + 1;
-        $annio = date("Y");
-
-        if ($cons <= 9) {
-            $cons_recaudo = "RC-000" . $cons . "-" . $annio;
-        } elseif ($cons <= 99) {
-            $cons_recaudo = "RC-00" . $cons . "-" . $annio;
-        } elseif ($cons <= 999) {
-            $cons_recaudo = "RC-0" . $cons . "-" . $annio;
-        } else {
-            $cons_recaudo = "RC-" . $cons . "-" . $annio;
-        }
-
-        $parametros_recaudo = array(
-            'rec_id' => $cons,
-            'consecutivo_rec' => $cons_recaudo,
-            'nit_previsional' => (isset($datos['nit_previsional']) ? $datos['nit_previsional'] : ''),
-            'cedula_emp' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
-            'actoadmin' => '',
-            'factoadmin' => '',
-            'resolucion_OP' => (isset($datos['resolucion_OP']) ? $datos['resolucion_OP'] : ''),
-            'fecha_resolucion' => (isset($datos['fecha_resolucion']) ? $datos['fecha_resolucion'] : ''),
-            'fecha_pago_cuenta' => (isset($datos['fecha_pago_cuenta']) ? $datos['fecha_pago_cuenta'] : ''),
-            'medio_pago' => (isset($datos['medio_pago']) ? $datos['medio_pago'] : ''),
-            'valor_pagado_capital' => (isset($total_capital) ? $total_capital : ''),
-            'valor_pagado_interes' => (isset($total_interes) ? $total_interes : ''),
-            'fecha_registro' => date('Y-m-d'),
-            'total_recaudo' => (isset($datos['total_recaudo']) ? $datos['total_recaudo'] : ''));
-
-        $datos_recaudo = $this->registrarPago($parametros_recaudo);
-
-        if ($datos_recaudo == 1) {
-
-            
-            $total_Recaudo = $total_pagado;
-            
-             $parametros = array(
-                'consecutivo_cc' => $datos['consec_cc'],
-                'consecutivo_rec' => $cons_recaudo,
-                'cedula_emp' => $datos['cedula_emp'],
-                'nit_previsional' => $datos['nit_previsional'],
-                'valor_pagado_capital' => $datos['valor_pagado_capital'],
-                'valor_pagado_interes' => $datos['valor_pagado_interes'],
-                'total_recaudo' => $total_Recaudo,
-                'total_cobro' => $datos['valor_cobro'],
-                'fecha_pago' => $datos['fecha_pago_cuenta'],
-                'fecha_pdesde' => $datos['fecha_pinicio'],
-                'fecha_phasta' => $datos['fecha_pfin']
+            $datos = array(
+                'cedula_emp' => $datos_masivos[$key]['cedula'],
+                'nit_previsional' => $datos_masivos[$key]['nit_previsora'],
+                'resolucion_OP' => $datos_masivos[$key]['resolucion_op'],
+                'fecha_resolucion' => $datos_masivos[$key]['fecha_resoop'],
+                'consec_cc' => $datos_cobros[0]['cob_consecu_cta'],
+                'valor_cobro' => $datos_cobros[0]['cob_tc_interes'],
+                'valor_saldo' => $datos_cobros[0]['recta_saldototal'],
+                'valor_pagado_capital' => round($datos_masivos[$key]['capital']),
+                'valor_pagado_interes' => round($datos_masivos[$key]['interes']),
+                'total_recaudo' => round($datos_masivos[$key]['total']),
+                'fecha_pago_cuenta' => $datos_masivos[$key]['fechapago'],
+                'fecha_pinicio' => $datos_masivos[$key]['fpdesde'],
+                'fecha_pfin' => $datos_masivos[$key]['fphasta'],
+                'medio_pago' => $datos_masivos[$key]['observacion'],
+                'fecha_cinicio' => $datos_cobros[0]['cob_finicial'],
+                'fecha_cfin' => $datos_cobros[0]['cob_ffinal'],
             );
 
-            $revisar_saldo = $this->actualizarSaldo_masivo($parametros);
 
-            /*$datos_recaudo_cobro = $this->registrarPagoCobro($parametros);
+            $total_capital = 0;
+            $total_interes = 0;
 
-            if ($datos_recaudo_cobro == 1) {
-                echo "pago-cobro registrado";
-            } else {
+            $total_capital = intval($datos['valor_pagado_capital']);
+            $total_interes = intval($datos['valor_pagado_interes']);
+
+            $total_pagado = intval($total_capital) + intval($total_interes);
+
+            if (intval($datos['total_recaudo']) !== intval($total_pagado)) {
                 echo "<script type=\"text/javascript\">" .
-                "alert('Datos de Recaudo-Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                "alert('Valor Total Pagado no corresponde a la Suma de los valores correspondientes!');" .
                 "</script> ";
             }
 
-            $actualizar_cobro = $this->actualizarEstadoCobro($parametros['consecutivo_cc']);
+            $consecutivo = $this->consultarConsecPago();
+            $cons = intval($consecutivo[0]['rec_id']) + 1;
+            $annio = date("Y");
 
-            if ($actualizar_cobro == false) {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Datos de Actualización de Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
-                "</script> ";
+            if ($cons <= 9) {
+                $cons_recaudo = "RC-000" . $cons . "-" . $annio;
+            } elseif ($cons <= 99) {
+                $cons_recaudo = "RC-00" . $cons . "-" . $annio;
+            } elseif ($cons <= 999) {
+                $cons_recaudo = "RC-0" . $cons . "-" . $annio;
             } else {
-                echo "cobro actualizado";
-            }*/
-        } else {
+                $cons_recaudo = "RC-" . $cons . "-" . $annio;
+            }
 
-            echo "<script type=\"text/javascript\">" .
-            "alert('Datos de Recaudos NO Registrados Correctamente. ERROR en el REGISTRO');" .
-            "</script> ";
+            $parametros_recaudo = array(
+                'rec_id' => $cons,
+                'consecutivo_rec' => $cons_recaudo,
+                'nit_previsional' => (isset($datos['nit_previsional']) ? $datos['nit_previsional'] : ''),
+                'cedula_emp' => (isset($datos['cedula_emp']) ? $datos['cedula_emp'] : ''),
+                'actoadmin' => '',
+                'factoadmin' => '',
+                'resolucion_OP' => (isset($datos['resolucion_OP']) ? $datos['resolucion_OP'] : ''),
+                'fecha_resolucion' => (isset($datos['fecha_resolucion']) ? $datos['fecha_resolucion'] : ''),
+                'fecha_pago_cuenta' => (isset($datos['fecha_pago_cuenta']) ? $datos['fecha_pago_cuenta'] : ''),
+                'medio_pago' => (isset($datos['medio_pago']) ? $datos['medio_pago'] : ''),
+                'valor_pagado_capital' => (isset($total_capital) ? $total_capital : ''),
+                'valor_pagado_interes' => (isset($total_interes) ? $total_interes : ''),
+                'fecha_registro' => date('Y-m-d'),
+                'total_recaudo' => (isset($datos['total_recaudo']) ? $datos['total_recaudo'] : ''));
+
+            $datos_recaudo = $this->registrarPago($parametros_recaudo);
+
+            if ($datos_recaudo == 1) {
+
+
+                $total_Recaudo = $total_pagado;
+
+                $parametros = array(
+                    'consecutivo_cc' => $datos['consec_cc'],
+                    'consecutivo_rec' => $cons_recaudo,
+                    'cedula_emp' => $datos['cedula_emp'],
+                    'nit_previsional' => $datos['nit_previsional'],
+                    'valor_pagado_capital' => $datos['valor_pagado_capital'],
+                    'valor_pagado_interes' => $datos['valor_pagado_interes'],
+                    'total_recaudo' => $total_Recaudo,
+                    'total_cobro' => $datos['valor_cobro'],
+                    'fecha_pago' => $datos['fecha_pago_cuenta'],
+                    'fecha_pdesde' => $datos['fecha_pinicio'],
+                    'fecha_phasta' => $datos['fecha_pfin']
+                );
+
+                $revisar_saldo = $this->actualizarSaldo_masivo($parametros);
+
+                /* $datos_recaudo_cobro = $this->registrarPagoCobro($parametros);
+
+                  if ($datos_recaudo_cobro == 1) {
+                  echo "pago-cobro registrado";
+                  } else {
+                  echo "<script type=\"text/javascript\">" .
+                  "alert('Datos de Recaudo-Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                  "</script> ";
+                  }
+
+                  $actualizar_cobro = $this->actualizarEstadoCobro($parametros['consecutivo_cc']);
+
+                  if ($actualizar_cobro == false) {
+                  echo "<script type=\"text/javascript\">" .
+                  "alert('Datos de Actualización de Cobro NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                  "</script> ";
+                  } else {
+                  echo "cobro actualizado";
+                  } */
+            } else {
+
+                echo "<script type=\"text/javascript\">" .
+                "alert('Datos de Recaudos NO Registrados Correctamente. ERROR en el REGISTRO');" .
+                "</script> ";
+            }
+            $count++;
         }
+        echo "Se realizó con éxito el registro de " . $count . " recaudos. ";
     }
 
 }
