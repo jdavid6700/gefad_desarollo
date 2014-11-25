@@ -22,7 +22,7 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" SET ";
                 $cadena_sql.=" prev_nit='" . $variable['nit_previsora'] . "' , ";
                 $cadena_sql.=" prev_nombre='" . $variable['nombre_previsora'] . "',";
-                $cadena_sql.="prev_habilitado_pago='" . $variable['estado'] . "',";
+                $cadena_sql.=" prev_habilitado_pago='" . $variable['estado'] . "',";
                 $cadena_sql.=" prev_observacion='" . $variable['observacion'] . "' , ";
                 $cadena_sql.=" prev_direccion='" . $variable['direccion'] . "', ";
                 $cadena_sql.=" prev_departamento='" . $variable['departamento'] . "' ,  ";

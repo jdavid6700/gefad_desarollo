@@ -161,6 +161,7 @@ class html_formSustituto {
                     onSelect: function(dateValue, inst) {
                         $("#fecha_res_sustitucion").datepicker("option", "minDate", dateValue)
                         $("#fecha_certificado").datepicker("option", "minDate", dateValue)
+                        $("#fecha_tersentencia").datepicker("option", "minDate", dateValue)
                     }
                 });
                 $("#fecha_muerte").datepicker('setDate', '<?php echo $defuncion['fecha_defuncion'] ?>');
@@ -192,6 +193,18 @@ class html_formSustituto {
                 });
                 $("#fecha_certificado").datepicker('setDate', '<?php echo $defuncion['fecha_defuncioncertificado'] ?>');
             });
+
+            $(document).ready(function() {
+                $("#fecha_tersentencia").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: '1940:c',
+                    maxDate: "+2M",
+                    dateFormat: 'dd/mm/yy',
+                });
+            });
+
+
         </script>
 
         <script language = "Javascript">
@@ -476,6 +489,47 @@ class html_formSustituto {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Parentezco</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <select id="select" name="parentezco" class="fieldcontent" title="*Campo Obligatorio">
+                                <option value="Cónyugue">Cónyugue</option> 
+                                <option value="Compañera(o)">Compañera(o)</option>
+                                <option value="Hija(o)">Hija(o)</option>
+                                <option value="Madre (Padre)">Madre (Padre)</option>
+                                <option value="Otro" selected="selected">Otro</option></select>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Género</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div>
+                            <select id="select" name="genero" class="fieldcontent" title="*Campo Obligatorio">
+                                <option value="M">Masculino</option> 
+                                <option value="F" selected="selected">Femenino</option></select>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1">
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="fecha_nacsustituto"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Fecha Nacimiento <br>  Sustituto</span></span></span></label>
                         <div class="null"></div>
                     </div>
@@ -524,37 +578,16 @@ class html_formSustituto {
             <div class="formrow f1">
                 <div id="p1f6" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Parentezco</span></span></span></label>
-                        <div class="null"></div>
-                    </div>
-                    <div class="control capleft">
-                        <div>
-                            <select id="select" name="parentezco" class="fieldcontent" title="*Campo Obligatorio">
-                                <option value="conyugue">Cónyugue</option> 
-                                <option value="compañero">Compañera(o)</option>
-                                <option value="hijo">Hija(o)</option>
-                                <option value="padre">Madre (Padre)</option>
-                                <option value="otro" selected="selected">Otro</option></select>
-                        </div>
-                        <div class="null"></div>
-                    </div>
-                    <div class="null"></div>
-                </div>
-                <div class="null"></div>
-            </div>
-
-            <div class="formrow f1">
-                <div id="p1f6" class="field n1">
-                    <div class="caption capleft alignleft">
                         <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Tutor</span></span></span></label>
                         <div class="null"></div>
                     </div>
                     <div class="control capleft">
                         <div>
                             <select id="tutor" name="tutor" class="fieldcontent" title="*Campo Obligatorio">
-                                <option value="madre" selected="selected">Madre</option> 
+                                <option value="madre" >Madre</option> 
                                 <option value="padre">Padre</option>
-                                <option value="tercero">Tercero</option></select>
+                                <option value="tercero">Tercero</option>
+                                <option value="noAplica" selected="selected">No Aplica</option></select>
                         </div>
                         <div class="null"></div>
                     </div>
@@ -563,6 +596,40 @@ class html_formSustituto {
                 <div class="null"></div>
             </div>
             <div id="tercero" class="tercero">
+                <div class="formrow f1">
+                    <div id="p1f12" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Documento<br>   Tercero</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f12c" name="cedula_tercero" maxlenght="16" title="*Campo Obligatorio"  onKeyPress='return acceptNum2(event)' class="fieldcontent"  onpaste="return false">
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
+                <div class="formrow f1">
+                    <div id="p1f12" class="field n1">
+                        <div class="caption capleft alignleft">
+                            <label class="fieldlabel" for="p1f12c"><span><span class="pspan arial"  style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Nombre<br>   Tercero</span></span></span></label>
+                            <div class="null"></div>
+                        </div>
+                        <div class="control capleft">
+                            <div>
+                                <input type="text" id="p1f7c" name="nombre_tercero" maxlenght="50" title="*Campo Obligatorio"  onKeyPress='return acceptLetter(event)' class="fieldcontent"  onpaste="return false">
+                            </div>
+                            <div class="null"></div>
+                        </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+
                 <div class="formrow f1">
                     <div id="p1f6" class="field n1">
                         <div class="caption capleft alignleft">
@@ -662,19 +729,27 @@ class html_formSustituto {
                                         <form id="<? echo $this->formulario; ?>" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='Off' onSubmit="return validate();">
                                             <center><table class='bordered'  width ="75%" align="center">
                                                     <tr>
-                                                        <th colspan="9" class='encabezado_registro'>SUSTITUTOS REGISTRADOS</th>
+                                                        <th colspan="14" class='encabezado_registro'>SUSTITUTOS REGISTRADOS</th>
                                                         <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                                                     </tr>
                                                     <tr>
                                                         <td class='texto_elegante2 estilo_td' align=center>CÉDULA PENSIONADO</td>
-                                                        <td class='texto_elegante2 estilo_td' align=center>CÉDULA SUSTITUTO</td>
-                                                        <td class='texto_elegante2 estilo_td' align=center>NOMBRE SUSTITUTO</td>
                                                         <td class='texto_elegante2 estilo_td' align=center>FECHA DEFUNCION</td>
                                                         <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
-                                                        <td class='texto_elegante2 estilo_td' align=center>CERTIFICADO DEFUNCIÓN</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>FECHA C. D.</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>CÉDULA SUSTITUTO</td>
+                                                        <!--td class='texto_elegante2 estilo_td' align=center>NOMBRE SUSTITUTO</td-->
                                                         <td class='texto_elegante2 estilo_td' align=center>FECHA NAC. SUSTITUTO</td>
                                                         <td class='texto_elegante2 estilo_td' align=center>RES. SUSTITUCIÓN</td>
                                                         <td class='texto_elegante2 estilo_td' align=center>FECHA RES. SUSTITUCIÓN</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>PARENTEZCO</td>
+                                                        <!--td class='texto_elegante2 estilo_td' align=center>GÉNERO</td-->
+                                                        <td class='texto_elegante2 estilo_td' align=center>TUTOR</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>CÉDULA TERCERO </td>
+                                                        <!--td class='texto_elegante2 estilo_td' align=center>NOMBRE TERCERO</td-->
+                                                        <td class='texto_elegante2 estilo_td' align=center>SENTENCIA</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>FECHA SENTENCIA</td>
+                                                        <td class='texto_elegante2 estilo_td' align=center>OBSERVACIONES </td>
                                                     </tr>
                                                     <tbody id="itemContainer">
                                                         <?
@@ -683,14 +758,22 @@ class html_formSustituto {
                                                             foreach ($datos_sustitutos as $key => $value) {
                                                                 echo "<tr>";
                                                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulapen'] . "</td>";
-                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
-                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_nombresus'] . "</td>";
                                                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fdefuncion'] . "</td>";
                                                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
                                                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
+                                                                //echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_nombresus'] . "</td>";
                                                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fnac_sustituto'] . "</td>";
                                                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_resol_sustitucion'] . "</td>";
                                                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fresol_sustitucion'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_parentezcosus'] . "</td>";
+                                                                //echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_generosus'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_tutor'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_cedula_tercero'] . "</td>";
+                                                                //echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_nombre_tercero'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_tercero_sentencia'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_fecha_tersentencia'] . "</td>";
+                                                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_sustitutos[$key]['sus_observacion'] . "</td>";
                                                                 echo "</tr>";
                                                             }
                                                         } else {
@@ -704,6 +787,14 @@ class html_formSustituto {
                                                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                                                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                                                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            //echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            //echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                                                            // echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                                                             echo "</tr>";
                                                         }
                                                         ?>

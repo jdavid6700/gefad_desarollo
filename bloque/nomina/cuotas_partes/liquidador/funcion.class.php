@@ -2573,6 +2573,10 @@ class funciones_liquidador extends funcionGeneral {
             "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
             "</script> ";
         }
+        
+        //AQUI DEBE ACTIVAR LA CUENTA DE COBRO
+        
+        
 
         $parametros_z = array();
         $consecutivo_recta = $this->consultarConseRecta($parametros_z);

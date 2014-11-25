@@ -165,7 +165,7 @@ class html_formPrevisora {
     }
 
     function formularioPrevisora($depto, $mun) {
-    
+
         $this->formulario = "formPrevisora";
 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
@@ -647,7 +647,6 @@ class html_formPrevisora {
 
         $this->formulario = "formPrevisora";
 
-
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -888,7 +887,7 @@ class html_formPrevisora {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_nombre"]?>">
+                            <input type="text" id="p1f7c" name="nombre_previsora" class="fieldcontent" required='required' maxlength='50' onKeyPress='return acceptNumLetter(event)' onpaste="return false" value="<?php echo $datos_entidad["prev_nombre"] ?>">
                         </div>
                         <div class="null"></div>
                     </div>
@@ -962,9 +961,11 @@ class html_formPrevisora {
                         <div>
                             <select name='departamentos' onChange='ComponerLista(this.value)' title="*Campo Obligatorio" autocomplete="off" required='required'>
                                 <?php
-                                $var = "<option selected value=''> Seleccione Departamento </option>";
+                                $var = "<option selected value='" . $datos_entidad['prev_departamento'] . "'> " . $datos_entidad['prev_departamento'] . " </option>";
                                 foreach ($depto as $key => $value) {
-                                    $var.= "<option value='" . $depto[$key]['departamento'] . "'>" . $depto[$key]['departamento'] . "</option>";
+                                    if ($depto[$key]['departamento'] !== $datos_entidad['prev_departamento']) {
+                                        $var.= "<option value='" . $depto[$key]['departamento'] . "'>" . $depto[$key]['departamento'] . "</option>";
+                                    }
                                 }
                                 echo $var;
                                 ?>   
@@ -987,7 +988,11 @@ class html_formPrevisora {
                     <div class="control capleft">
 
                         <select id="municipios" name="municipios" required='required' autocomplete="off" title="*Campo Obligatorio">
-                            <option value='' >Seleccione un Municipio</option>
+                            <?php
+                            $var = "<option selected value='" . $datos_entidad['prev_ciudad'] . "'> " . $datos_entidad['prev_ciudad'] . " </option>";
+                            echo $var;
+                            ?>   
+
                         </select>
 
                         <div class="null"></div>
@@ -1113,9 +1118,9 @@ class html_formPrevisora {
             <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Modificar Registro" onClick='return confirmarEnvio();'></center>
 
             <input type='hidden' name='opcion' value='actualizarPrevisora'>
-            <input type='hidden' name='serial' value='<?echo $datos_entidad['prev_serial']?>'>
+            <input type='hidden' name='serial' value='<? echo $datos_entidad['prev_serial'] ?>'>
             <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
-            
+
 
         </form>
         <?

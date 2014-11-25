@@ -21,7 +21,7 @@ class sql_liquidador extends sql {
                 $cadena_sql = " UPDATE ";
                 $cadena_sql.=" cuotas_partes.cuotas_liquidacion ";
                 $cadena_sql.=" SET ";
-                $cadena_sql.=" liq_estado_cc = 'INACTIVO' ";
+                $cadena_sql.=" liq_estado_cc = 'ACTIVO' ";
                 $cadena_sql.=" WHERE ";
                 $cadena_sql.=" liq_consecutivo = '" . $variable . "' ";
                 break;

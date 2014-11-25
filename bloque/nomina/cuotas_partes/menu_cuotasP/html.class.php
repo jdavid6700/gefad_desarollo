@@ -66,7 +66,7 @@
                                         $variable.='&opcion=dbasicoHistoria';
                                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                         echo $this->indice . $variable;
-                                        ?>'>Consultar Historia Laboral</a></li>
+                                        ?>'>Consultar Consolidado Información Pensionado CP</a></li>
 
                                     <li><a href="<?
                                         $variable = 'pagina=formularioRecaudo';
