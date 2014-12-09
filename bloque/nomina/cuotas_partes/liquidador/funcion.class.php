@@ -1598,6 +1598,7 @@ class funciones_liquidador extends funcionGeneral {
         list ($FECHAS) = $fechas = $this->GenerarFechas($f_desde, $f_actual);
 
         $TOTAL = 0;
+        $INTERESES = 0;
 
         $liquidacion_cp = array();
         //$mesada = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
@@ -1631,12 +1632,15 @@ class funciones_liquidador extends funcionGeneral {
 
             $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
 
-            //$INTERESES = 0;
+
             $INTERES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
-            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota);
+            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota, $f_actual);
+            $INTERESES = $valor_cuota + $INTERESES;
+
+
             //Valor Total Mes liquidado
             $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERES_A2006 + $INTERESES_D2006;
-            $TOTAL = round($TOTAL, 0);
+            $TOTAL = round($TOTAL, 2);
 
 //**************SALIDA FINAL****************//
 
@@ -1655,6 +1659,7 @@ class funciones_liquidador extends funcionGeneral {
             if ($mes == 12) {
                 $mesada = $MESADA;
             }
+
         }
 
         //CALCULANDO LOS INTERESES DE OTRA FORMA JUNIO 2014
@@ -1917,7 +1922,7 @@ class funciones_liquidador extends funcionGeneral {
 
 //Cuota Parte	
         $Cuotaparte = $porcentajecp * $Mesadacp;
-        $Cuotaparte2 = round($Cuotaparte);
+        $Cuotaparte2 = round($Cuotaparte,2);
 
         return($Cuotaparte2);
     }
@@ -1937,49 +1942,51 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function MesadaFecha($FECHA, $Mesada, $sumafija) {
-        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4) + 1;
+        $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
         $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
         $Mesada = round($Mesada);
+
         $INDICE = $this->obtenerIPC($Anio);
-        ;
+        $sumafija = $this->obtenerSumafija($Anio);
+
         //Ajuste Pensional
 
         if ($Anio == 1979) {
             if ($Mesada <= 12900) {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * $INDICE[1]['valor_ipc']) + $Mesada + $sumafija[0]['suma_fija'];
             }
         } elseif ($Anio == 1984) {
             if ($Mesada >= 36872.5 && $Mesada <= 46305) {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * $INDICE[1]['valor_ipc']) + $Mesada + $sumafija[0]['suma_fija'];
             }
         } elseif ($Anio == 1985) {
             if ($Mesada >= 25462.5 && $Mesada <= 56490) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada + $sumafija[0]['suma_fija'];
             }
         } elseif ($Anio == 1986) {
             if ($Mesada >= 22590 && $Mesada <= 67788) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada + $sumafija[0]['suma_fija'];
             }
         } elseif ($Anio == 1987) {
             if ($Mesada >= 54231.15 && $Mesada <= 84057) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada + $sumafija[0]['suma_fija'];
             }
         } elseif ($Anio == 1988) {
             if ($Mesada >= 46230 && $Mesada <= 102549) {
                 $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
             } else {
-                $Mesada_Fecha = ($Mesada * isset($INDICE[0][1])) + $Mesada + $sumafija;
+                $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada + $sumafija[0]['suma_fija'];
             }
         } else {
             $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
@@ -2021,6 +2028,7 @@ class funciones_liquidador extends funcionGeneral {
 //Rescatando DTF
     function Intereses($FECHA, $valor_cuota, $fecha_hasta) {
 //Determinar el dtf para la fecha de liquidación
+
         $Fecha_ = (strtotime(str_replace('/', '-', $FECHA)));
         $f_hasta = (strtotime(str_replace('/', '-', $fecha_hasta)));
 
@@ -2057,9 +2065,9 @@ class funciones_liquidador extends funcionGeneral {
                     $valor_interes = ($valor_cuota * $valor_acumulado);
                 }
             }
-
-            return $valor_interes;
         }
+
+        return $valor_interes;
     }
 
     function Intereses_a2006($FECHA, $valor_cuotap) {
@@ -2083,52 +2091,54 @@ class funciones_liquidador extends funcionGeneral {
             $valor_interes = $total_liquidacion['interes_a2006'];
         }
 
+        $valor_interes_f=  round($valor_interes,2);
+
         /* $total_liquidacion = $this->calculoTotales($liquidacion);
           $deuda_capital = $total_liquidacion['total']; */
 
-//Si es menor al 28/07/2006=> interes=(C*n*t)/365
+//Si es menor al 28/07/2006=> interes=(C*n*t)/365 
 //C= cuota, n=numero dias, t=tasa mora
-        return $valor_interes;
+        return $valor_interes_f;
     }
 
-    function Intereses_d2006($FECHA_L, $cuota_parte) {
+    function Intereses_d2006($FECHA_L, $cuota_parte, $fecha_final) {
 //Determinar el dtf para la fecha de liquidación
         $fecha = (strtotime(str_replace('/', '-', $FECHA_L)));
-        $ley_2006 = strtotime(str_replace('/', '-', '2006-07-28'));
+        $f_final = (strtotime(str_replace('/', '-', $fecha_final)));
+        $ley_2006 = strtotime(str_replace('/', '-', '2006-07-29'));
         $interes_final = 0;
 
-        $valor_interes = 1;
 
-        $parametros = array(
-            'desde' => date('Y-m-d', strtotime(str_replace('/', '-', $FECHA_L))),
-            'hasta' => date('Y-m-d')
-        );
+        if ($fecha < $ley_2006) {
+            $parametros = array(
+                'desde' => date('Y-m-d', strtotime(str_replace('/', '-', '2006-07-29'))),
+                'hasta' => date('Y-m-d', strtotime(str_replace('/', '-', $fecha_final)))
+            );
+        } else {
+            $parametros = array(
+                'desde' => date('Y-m-d', strtotime(str_replace('/', '-', $FECHA_L))),
+                'hasta' => date('Y-m-d', strtotime(str_replace('/', '-', $fecha_final))));
+        }
 
         $historia_dtf = $this->RescatarDtfEntre($parametros);
-        $interes_mensual = array();
         $deuda_capital = $cuota_parte;
+        $acumulado = 1;
 
-        /* if ($fecha <= $ley_2006) {
-          $interes_final = 0;
-          } else { */
         if (is_array($historia_dtf)) {
             foreach ($historia_dtf as $key => $values) {
-
                 $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
                 $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
-                $vigencia = floor(abs(($final - $inicio) / 86400));
-                $historia_dtf[$key]['vigencia'] = $vigencia;
+                $historia_dtf[$key]['vigencia'] = floor(abs(($final - $inicio) / 86400));
             }
 
             foreach ($historia_dtf as $key => $values) {
                 $dtf_aplicado = $historia_dtf[$key]['dtf_indi_ce'];
                 $dias_vigencia = $historia_dtf[$key]['vigencia'];
-
-                $interes_mensual[$key]['interes_d2006'] = $deuda_capital * (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
-                $deuda_capital = $deuda_capital + $interes_mensual[$key]['interes_d2006'];
-                $interes_final = $interes_mensual[$key]['interes_d2006'];
+                $interes_mensual = round(1 + (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1),4);
+                $acumulado = $interes_mensual * $acumulado;
             }
-            /* } */
+      
+            $interes_final = round($deuda_capital * floatval($acumulado),2);
         }
         return $interes_final;
     }
@@ -2452,6 +2462,16 @@ class funciones_liquidador extends funcionGeneral {
             }
 
 //        return $liquidacion_cp;
+            //CALCULANDO LOS INTERESES DE OTRA FORMA JUNIO 2014
+            // $liquidacion_cp[0]['interes_a2006'] = $this->Intereses_a2006($liquidacion_cp, $f_pension, $f_actual);
+
+            /* foreach ($FECHAS as $key => $value) {
+              $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $liquidacion_cp, $f_pension, $f_actual);
+              $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006[$key]['interes_d2006'];
+              $acumulado = $liquidacion_cp[$key]['total'];
+              $liquidacion_cp[$key]['total'] = $acumulado + $INTERESES_D2006[$key]['interes_d2006'];
+              }
+             */
 
             $opcion_pago = 'noVoluntario';
 
@@ -2505,7 +2525,7 @@ class funciones_liquidador extends funcionGeneral {
             'liq_interes' => (isset($totales_liquidacion['interes']) ? $totales_liquidacion['interes'] : ''),
             'liq_cuotap' => (isset($totales_liquidacion['cuota_parte']) ? $totales_liquidacion['cuota_parte'] : ''),
             'liq_total' => (isset($totales_liquidacion['total']) ? $totales_liquidacion['total'] : ''),
-            'liq_estado_cc' => 'INACTIVO',
+            'liq_estado_cc' => 'ACTIVO',
             'liq_fecha_estado_cc' => null,
             'liq_estado_ccdetalle' => 'INACTIVO',
             'liq_fecha_estado_ccdetalle' => null,
@@ -2573,10 +2593,10 @@ class funciones_liquidador extends funcionGeneral {
             "alert('Esta Cuenta de Cobro ya Existe!. ERROR en el REGISTRO');" .
             "</script> ";
         }
-        
+
         //AQUI DEBE ACTIVAR LA CUENTA DE COBRO
-        
-        
+
+
 
         $parametros_z = array();
         $consecutivo_recta = $this->consultarConseRecta($parametros_z);
@@ -2625,5 +2645,7 @@ class funciones_liquidador extends funcionGeneral {
 }
 
 // fin de la clase
+
+
 
     
