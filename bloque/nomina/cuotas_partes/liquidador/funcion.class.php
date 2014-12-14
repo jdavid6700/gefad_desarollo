@@ -1043,6 +1043,24 @@ class funciones_liquidador extends funcionGeneral {
         return $datos;
     }
 
+    function guardarDTF($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "temporal_dtf", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarDTF_temp($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultardtf_temp", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function borrarDTF_temp($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "borrardtf_temp", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
     function mesadaInicial($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "valor_mesada_inicial", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -1971,7 +1989,7 @@ class funciones_liquidador extends funcionGeneral {
             }
         } elseif ($Anio == 1986) {
             if ($Mesada >= 22590 && $Mesada <= 67788) {
-                $Mesada_Fecha = ($Mesada * $INDICE[0][0]) + $Mesada;
+                $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada;
             } else {
                 $Mesada_Fecha = ($Mesada * $INDICE[1]['valor_ipc']) + $Mesada + $sumafija[0]['suma_fija'];
             }
@@ -1991,7 +2009,7 @@ class funciones_liquidador extends funcionGeneral {
             $Mesada_Fecha = ($Mesada * $INDICE[0]['valor_ipc']) + $Mesada;
         }
 
-        $Mesada_Fecha = round($Mesada_Fecha, 2);
+        $Mesada_Fecha = round($Mesada_Fecha, 4);
 
         return ($Mesada_Fecha);
     }
@@ -2103,7 +2121,6 @@ class funciones_liquidador extends funcionGeneral {
     function Intereses_d2006($FECHA_L, $cuota_parte, $fecha_final) {
 //Determinar el dtf para la fecha de liquidación
         $fecha = (strtotime(str_replace('/', '-', $FECHA_L)));
-        $f_final = (strtotime(str_replace('/', '-', $fecha_final)));
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-29'));
         $interes_final = 0;
 
@@ -2122,23 +2139,84 @@ class funciones_liquidador extends funcionGeneral {
         $historia_dtf = $this->RescatarDtfEntre($parametros);
         $deuda_capital = $cuota_parte;
         $acumulado = 1;
+        $a = 0;
+        $cont = 0;
 
         if (is_array($historia_dtf)) {
             foreach ($historia_dtf as $key => $values) {
                 $inicio = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_desde']));
                 $final = strtotime(str_replace('/', '-', $historia_dtf[$key]['dtf_fe_hasta']));
-                $historia_dtf[$key]['vigencia'] = floor(abs(($final - $inicio) / 86400));
+
+                $start = new DateTime($historia_dtf[$key]['dtf_fe_desde']);
+                $interval = new DateInterval('P1M');
+                $end = new DateTime($historia_dtf[$key]['dtf_fe_hasta']);
+                $period = new DatePeriod($start, $interval, $end);
+
+                foreach ($period as $dt) {
+                    $periodos_dtf[$a]['periodo_mes'] = intval($dt->format('m') . PHP_EOL);
+                    $periodos_dtf[$a]['periodo_anio'] = intval($dt->format('Y') . PHP_EOL);
+                    $periodos_dtf[$a]['periodo_dias'] = date('t', mktime(0, 0, 0, $dt->format('m') . PHP_EOL, 1, $dt->format('Y') . PHP_EOL));
+                    $periodos_dtf[$a]['periodo_indice'] = $historia_dtf[$key]['dtf_indi_ce'];
+                    $a++;
+                }
             }
 
-            foreach ($historia_dtf as $key => $values) {
-                $dtf_aplicado = $historia_dtf[$key]['dtf_indi_ce'];
-                $dias_vigencia = $historia_dtf[$key]['vigencia'];
-                $interes_mensual = round(1 + (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1), 4);
+            foreach ($periodos_dtf as $key => $values) {
+
+                if ($periodos_dtf[$key]['periodo_anio'] == 2006 && $periodos_dtf[$key]['periodo_mes'] <= 9) {
+
+                    switch ($periodos_dtf[$key]['periodo_mes']) {
+
+                        case 7:
+                            $periodos_dtf[$key]['vigencia'] = '3';
+                            break;
+
+                        case 8:
+                            $periodos_dtf[$key]['vigencia'] = '31';
+                            break;
+
+                        case 9;
+                            $periodos_dtf[$key]['vigencia'] = '30';
+                            break;
+                    }
+                } elseif ($periodos_dtf[$key]['periodo_anio'] == 2007 && $periodos_dtf[$key]['periodo_mes'] == 1 && $periodos_dtf[$key]['periodo_indice'] == 0.3209) {
+                    $periodos_dtf[$key]['vigencia'] = '4';
+                } else {
+                    $d1 = date('t', mktime(0, 0, 0, $periodos_dtf[$key]['periodo_mes'], 1, $periodos_dtf[$key]['periodo_anio']));
+                    $periodos_dtf[$key]['vigencia'] = intval($d1);
+                }
+            }
+
+
+            foreach ($periodos_dtf as $key => $values) {
+
+                if ($periodos_dtf[$key]['periodo_mes'] == 7 && $periodos_dtf[$key]['periodo_anio'] == 2006) {
+                    $periodos_dtf[$key]['periodo_desde'] = $periodos_dtf[$key]['periodo_anio'] . '-' . $periodos_dtf[$key]['periodo_mes'] . '-' . '29';
+                    $periodos_dtf[$key]['periodo_hasta'] = $periodos_dtf[$key]['periodo_anio'] . '-' . $periodos_dtf[$key]['periodo_mes'] . '-' . $periodos_dtf[$key]['periodo_dias'];
+                } else {
+                    $periodos_dtf[$key]['periodo_desde'] = $periodos_dtf[$key]['periodo_anio'] . '-' . $periodos_dtf[$key]['periodo_mes'] . '-' . '01';
+                    $periodos_dtf[$key]['periodo_hasta'] = $periodos_dtf[$key]['periodo_anio'] . '-' . $periodos_dtf[$key]['periodo_mes'] . '-' . $periodos_dtf[$key]['periodo_dias'];
+                }
+            }
+
+            foreach ($periodos_dtf as $key => $values) {
+                $definitivo_dtf = $this->guardarDTF($periodos_dtf[$key]);
+            }
+
+            $detalle_dtf = $this->consultarDTF_temp($parametros);
+
+            foreach ($detalle_dtf as $key => $values) {
+                $detalle_dtf[$key]['periodo_hasta'];
+                $dtf_aplicado = floatval($detalle_dtf[$key]['periodo_indice']);
+                $dias_vigencia = intval($detalle_dtf[$key]['periodo_vigencia']);
+                $interes_mensual = 1 + (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
                 $acumulado = $interes_mensual * $acumulado;
             }
-
             $interes_final = round($deuda_capital * floatval($acumulado), 2) - $deuda_capital;
         }
+        
+        $borrar_detalle = $this->borrarDTF_temp($parametros);
+
         return $interes_final;
     }
 
@@ -2647,4 +2725,3 @@ class funciones_liquidador extends funcionGeneral {
 
 
 
-    

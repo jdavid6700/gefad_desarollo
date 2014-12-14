@@ -36,7 +36,7 @@ class sql_liquidador extends sql {
                 break;
 
 
-            //Reestructuración
+//Reestructuración
             case "consultarEntidades":
                 $cadena_sql = " SELECT prev_nombre, hlab_nro_ingreso, hlab_nitprev, prev_nit ";
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
@@ -223,6 +223,34 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" ORDER BY dtf_fe_desde ASC ";
                 break;
 
+            case "temporal_dtf":
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_dtfperiodo_temp( ";
+                $cadena_sql.="  periodo_desde, ";
+                $cadena_sql.="  periodo_hasta, ";
+                $cadena_sql.=" periodo_vigencia, ";
+                $cadena_sql.=" periodo_indice) ";
+                $cadena_sql.=" VALUES ( ";
+                $cadena_sql.=" '" . $variable['periodo_desde'] . "', ";
+                $cadena_sql.=" '" . $variable['periodo_hasta'] . "', ";
+                $cadena_sql.=" " . $variable['vigencia'] . ", ";
+                $cadena_sql.=" '" . $variable['periodo_indice'] . "'); ";
+                break;
+
+            case "consultardtf_temp":
+                $cadena_sql = "SELECT ";
+                $cadena_sql.=" periodo_desde, ";
+                $cadena_sql.=" periodo_hasta, ";
+                $cadena_sql.=" periodo_vigencia, ";
+                $cadena_sql.=" periodo_indice ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_dtfperiodo_temp ";
+                $cadena_sql.=" WHERE periodo_hasta between  '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
+                $cadena_sql.=" ORDER BY periodo_desde ASC";
+                break;
+
+            case "borrardtf_temp":
+                $cadena_sql = "DELETE  FROM cuotas_partes.cuotas_dtfperiodo_temp ";
+                break;
+
             case "valor_dtf_entre":
                 $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce, dtf_serial from cuotas_partes.cuotas_indc_dtf ";
                 $cadena_sql.= " where dtf_fe_hasta between '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
@@ -292,7 +320,7 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" '" . $variable['liq_estado_ccresumen'] . "', ";
                 $cadena_sql.=" '" . $variable['liq_fecha_estado_ccresumen'] . "', ";
                 $cadena_sql.=" '" . $variable['liq_estado'] . "', ";
-                $cadena_sql.=" '" . $variable['liq_fecha_registro'] . "') ";
+                $cadena_sql.=" '" . $variable['liq_fecha_registro'] . "' ) ";
                 break;
 
             case "consultarLiquidacion":
@@ -321,9 +349,9 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" liq_estado, ";
                 $cadena_sql.=" liq_fecha_registro ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_liquidacion ";
-                $cadena_sql.=" WHERE liq_cedula='" . $variable['cedula'] . "' ";
-                $cadena_sql.=" AND liq_nitprev='" . $variable['entidad'] . "' ";
-                $cadena_sql.=" AND liq_estado='ACTIVO' ";
+                $cadena_sql.=" WHERE liq_cedula = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" AND liq_nitprev = '" . $variable['entidad'] . "' ";
+                $cadena_sql.=" AND liq_estado = 'ACTIVO' ";
                 $cadena_sql.=" ORDER BY liq_consecutivo ASC ";
                 break;
 
@@ -404,35 +432,36 @@ class sql_liquidador extends sql {
                 $cadena_sql.= " '" . $variable['fecha_recibido'] . "', ";
                 $cadena_sql.= " '" . $variable['estado_cuenta'] . "', ";
                 $cadena_sql.= " '" . $variable['estado'] . "', ";
-                $cadena_sql.= " '" . $variable['fecha_registro'] . "' ); ";
+                $cadena_sql.= " '" . $variable['fecha_registro'] . "' );
+            ";
                 break;
 
             case "consultarCC":
-                $cadena_sql = " SELECT cob_idcob, cob_idliq, cob_cedula, cob_nitprev,cob_consecu_cta ";
+                $cadena_sql = " SELECT cob_idcob, cob_idliq, cob_cedula, cob_nitprev, cob_consecu_cta ";
                 $cadena_sql.= " FROM cuotas_partes.cuotas_cobros ";
-                $cadena_sql.= " WHERE cob_idliq='" . $variable['id_liq'] . "' ";
-                $cadena_sql.= " AND cob_cedula='" . $variable['cedula'] . "' ";
-                $cadena_sql.= " AND cob_nitprev='" . $variable['entidad'] . "' ";
+                $cadena_sql.= " WHERE cob_idliq = '" . $variable['id_liq'] . "' ";
+                $cadena_sql.= " AND cob_cedula = '" . $variable['cedula'] . "' ";
+                $cadena_sql.= " AND cob_nitprev = '" . $variable['entidad'] . "' ";
                 break;
 
             case "jefeRecursosH":
                 $cadena_sql = " SELECT emp_nombre ";
                 $cadena_sql.= " FROM gedep, peemp ";
-                $cadena_sql.= " WHERE emp_cod=dep_emp_cod ";
-                $cadena_sql.= " AND dep_nombre='DIVISION DE RECURSOS HUMANOS' ";
+                $cadena_sql.= " WHERE emp_cod = dep_emp_cod ";
+                $cadena_sql.= " AND dep_nombre = 'DIVISION DE RECURSOS HUMANOS' ";
                 break;
 
             case "jefeTesoreria":
                 $cadena_sql = " SELECT emp_nombre ";
                 $cadena_sql.= " FROM gedep, peemp ";
-                $cadena_sql.= " WHERE emp_cod=dep_emp_cod ";
-                $cadena_sql.= " AND dep_nombre='TESORERIA' ";
+                $cadena_sql.= " WHERE emp_cod = dep_emp_cod ";
+                $cadena_sql.= " AND dep_nombre = 'TESORERIA' ";
                 break;
 
             case "consultarMasivo":
                 $cadena_sql = " SELECT cedula, entidad, fecha_hasta ";
                 $cadena_sql.= " FROM cuotas_partes.cuotas_cobroMasivo";
-                $cadena_sql.= " WHERE estado='1'";
+                $cadena_sql.= " WHERE estado = '1'";
                 break;
 
             default:
