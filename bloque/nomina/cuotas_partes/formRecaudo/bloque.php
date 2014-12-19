@@ -139,18 +139,20 @@ class bloque_formRecaudo extends bloque {
 
         switch ($_REQUEST['opcion']) {
 
+            
             case"guardarRecaudo":
+          
                 $parametros_recaudo = array();
-                
-                
-
+       
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
                         $parametros_recaudo[$key] = $_REQUEST[$key];
                     }
                 }
+                
+                $cuentas_pago=  unserialize($_REQUEST['cuentas_pago']);
      
-                $this->funcion->procesarFormulario($parametros_recaudo);
+                $this->funcion->procesarFormulario($parametros_recaudo, $cuentas_pago);
                 break;
 
             default :

@@ -53,7 +53,6 @@ class bloqueLiquidador extends bloque {
                 }
 
                 $this->funcion->periodoLiquidar($periodo_liquidar);
-                exit;
                 break;
 
             case "liquidar":

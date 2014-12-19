@@ -12,6 +12,8 @@
   ----------------------------------------------------------------------------------------
   | 00/03/2014 | Violeta Sosa            | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
+  | 01/12/2014 | Violeta Sosa            | 0.0.0.4  |                                 |
+  ----------------------------------------------------------------------------------------
  */
 
 date_default_timezone_set('America/Bogota');
@@ -290,7 +292,7 @@ class funciones_liquidador extends funcionGeneral {
         $PDF->Output("CuentadeCobro_" . $datos_basicos['cedula'] . "_" . $datos_basicos['entidad_nombre'] . ".pdf", "D");
 
 
-        $opcion_pago = 'voluntario';
+        $opcion_pago = '';
         $this->guardar_cuenta($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago);
     }
 
@@ -1110,6 +1112,18 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function RescatarDTFEntre($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "valor_dtf_entre", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function RescatarDTFEntre_A2006($parametros) {
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "valor_dtf_entre_2006", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function RescatarDTFEntre_D2006($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "valor_dtf_entre", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
@@ -2122,25 +2136,27 @@ class funciones_liquidador extends funcionGeneral {
 //Determinar el dtf para la fecha de liquidación
         $fecha = (strtotime(str_replace('/', '-', $FECHA_L)));
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-29'));
+        $ley_2006_2 = strtotime(str_replace('/', '-', '2007-06-01'));
         $interes_final = 0;
 
 
         if ($fecha < $ley_2006) {
             $parametros = array(
-                'desde' => date('Y-m-d', strtotime(str_replace('/', '-', '2006-07-29'))),
+                'desde' => date('Y-m-d', strtotime(str_replace('/', '-', '2006-07-01'))),
                 'hasta' => date('Y-m-d', strtotime(str_replace('/', '-', $fecha_final)))
             );
+            $historia_dtf = $this->RescatarDtfEntre_A2006($parametros);
         } else {
             $parametros = array(
                 'desde' => date('Y-m-d', strtotime(str_replace('/', '-', $FECHA_L))),
                 'hasta' => date('Y-m-d', strtotime(str_replace('/', '-', $fecha_final))));
+            $historia_dtf = $this->RescatarDtfEntre($parametros);
         }
 
-        $historia_dtf = $this->RescatarDtfEntre($parametros);
+        // $historia_dtf = $this->RescatarDtfEntre($parametros);
         $deuda_capital = $cuota_parte;
         $acumulado = 1;
         $a = 0;
-        $cont = 0;
 
         if (is_array($historia_dtf)) {
             foreach ($historia_dtf as $key => $values) {
@@ -2181,15 +2197,15 @@ class funciones_liquidador extends funcionGeneral {
                     }
                 } elseif ($periodos_dtf[$key]['periodo_anio'] == 2007 && $periodos_dtf[$key]['periodo_mes'] == 1 && $periodos_dtf[$key]['periodo_indice'] == 0.3209) {
                     $periodos_dtf[$key]['vigencia'] = '4';
+                } elseif ($periodos_dtf[$key]['periodo_anio'] == 2007 && $periodos_dtf[$key]['periodo_mes'] == 1 && $periodos_dtf[$key]['periodo_indice'] == 0.2075) {
+                    $periodos_dtf[$key]['vigencia'] = '27';
                 } else {
                     $d1 = date('t', mktime(0, 0, 0, $periodos_dtf[$key]['periodo_mes'], 1, $periodos_dtf[$key]['periodo_anio']));
                     $periodos_dtf[$key]['vigencia'] = intval($d1);
                 }
             }
 
-
             foreach ($periodos_dtf as $key => $values) {
-
                 if ($periodos_dtf[$key]['periodo_mes'] == 7 && $periodos_dtf[$key]['periodo_anio'] == 2006) {
                     $periodos_dtf[$key]['periodo_desde'] = $periodos_dtf[$key]['periodo_anio'] . '-' . $periodos_dtf[$key]['periodo_mes'] . '-' . '29';
                     $periodos_dtf[$key]['periodo_hasta'] = $periodos_dtf[$key]['periodo_anio'] . '-' . $periodos_dtf[$key]['periodo_mes'] . '-' . $periodos_dtf[$key]['periodo_dias'];
@@ -2205,19 +2221,38 @@ class funciones_liquidador extends funcionGeneral {
 
             $detalle_dtf = $this->consultarDTF_temp($parametros);
 
-            foreach ($detalle_dtf as $key => $values) {
-                $detalle_dtf[$key]['periodo_hasta'];
-                $dtf_aplicado = floatval($detalle_dtf[$key]['periodo_indice']);
-                $dias_vigencia = intval($detalle_dtf[$key]['periodo_vigencia']);
-                $interes_mensual = 1 + (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
-                $acumulado = $interes_mensual * $acumulado;
+
+            if ($fecha < $ley_2006) {
+                foreach ($detalle_dtf as $key => $values) {
+                    $dtf_aplicado = floatval($detalle_dtf[$key]['periodo_indice']);
+                    $dias_vigencia = intval($detalle_dtf[$key]['periodo_vigencia']);
+                    $interes_mensual = 1 + (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
+                    $acumulado = $interes_mensual * $acumulado;
+                }
+
+                $interes_final = round($deuda_capital * floatval($acumulado), 2) - $deuda_capital;
+                $interes = $interes_final + ($interes_final * 0.01385431);
+            } else {
+
+                foreach ($detalle_dtf as $key => $values) {
+                    $dtf_aplicado = floatval($detalle_dtf[$key]['periodo_indice']);
+                    $dias_vigencia = intval($detalle_dtf[$key]['periodo_vigencia']);
+                    $interes_mensual = 1 + (pow((1 + (floatval($dtf_aplicado))), ($dias_vigencia / 365)) - 1);
+                    $acumulado = $interes_mensual * $acumulado;
+                }
+
+                if ($fecha < $ley_2006_2) {
+                    $interes_final = round($deuda_capital * floatval($acumulado), 2) - $deuda_capital;
+                    $interes = round($interes_final + ($interes_final * 0.0139972),2);
+                } else {
+                    $interes = round($deuda_capital * floatval($acumulado), 2) - $deuda_capital;
+                }
             }
-            $interes_final = round($deuda_capital * floatval($acumulado), 2) - $deuda_capital;
         }
-        
+
         $borrar_detalle = $this->borrarDTF_temp($parametros);
 
-        return $interes_final;
+        return $interes;
     }
 
     function cambiafecha_format($fecha) {
@@ -2513,8 +2548,12 @@ class funciones_liquidador extends funcionGeneral {
                 $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
 
                 //$INTERESES = 0;
+                $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
+
+
                 $INTERES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
-                $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota);
+                $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota, $f_actual);
+                $INTERESES = $valor_cuota + $INTERESES;
                 //Valor Total Mes liquidado
                 $TOTAL = $MESADAADICIONAL + $INCREMENTOSALUD + $CUOTAPARTE + $INTERES_A2006 + $INTERESES_D2006;
                 $TOTAL = round($TOTAL, 0);

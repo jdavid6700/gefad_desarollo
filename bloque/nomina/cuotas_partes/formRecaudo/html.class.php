@@ -582,8 +582,8 @@ class html_formRecaudo {
                         ?>
                 </table >
             </center>
-               <br><br><br>
-             <div>
+            <br><br><br>
+            <div>
                 <div class="null"></div>
                 <input id="generarBoton" type="submit" class="navbtn" value="Generar PDF">
                 <input type='hidden' name='no_pagina' value="formularioRecaudo">
@@ -694,7 +694,7 @@ class html_formRecaudo {
                         if (is_array($cobros)) {
 
                             foreach ($cobros as $key => $value) {
-                               
+
                                 echo "<tr id='yesOptions'>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_fgenerado'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $cobros[$key]['cob_nitprev'] . "</td>";
@@ -715,9 +715,9 @@ class html_formRecaudo {
                                   <input type='hidden' name='fechai_pago[" . $key . "]' value='" . $cobros[$key]['cob_finicial'] . "'>
                                   <input type='hidden' name='fechaf_pago[" . $key . "]' value='" . $cobros[$key]['cob_ffinal'] . "'>
                                   <input type='hidden' name='valor_pago[" . $key . "]' value='" . $cobros[$key]['cob_tc_interes'] . "'>
-                                  <input type='hidden' name='saldo[" . $key . "]' value='" . $cobros[$key]['recta_saldototal']. "'>
-                                  <input type='hidden' name='saldo_interes[" . $key . "]' value='" . $cobros[$key]['recta_saldointeres']. "'>
-                                  <input type='hidden' name='saldo_capital[" . $key . "]' value='" . $cobros[$key]['recta_saldocapital']. "'>
+                                  <input type='hidden' name='saldo[" . $key . "]' value='" . $cobros[$key]['recta_saldototal'] . "'>
+                                  <input type='hidden' name='saldo_interes[" . $key . "]' value='" . $cobros[$key]['recta_saldointeres'] . "'>
+                                  <input type='hidden' name='saldo_capital[" . $key . "]' value='" . $cobros[$key]['recta_saldocapital'] . "'>
                                               
                                   <input type='hidden' name='identificacion[" . $key . "]' value='" . $cobros[$key]['cob_cedula'] . "'>
                                   
@@ -858,15 +858,15 @@ class html_formRecaudo {
                 $("#fecha_resolucion").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             });
 
-          /// $(document).ready(function() {
-             ///   $("#fecha_acto_adm").datepicker({
-             ///       changeMonth: true,
-             ///       changeYear: true,
-             ///       yearRange: '1980:c',
-             ///       maxDate: "+2M",
-             ///       dateFormat: 'dd/mm/yy'
-             ///   });
-             ///   $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
+            /// $(document).ready(function() {
+            ///   $("#fecha_acto_adm").datepicker({
+            ///       changeMonth: true,
+            ///       changeYear: true,
+            ///       yearRange: '1980:c',
+            ///       maxDate: "+2M",
+            ///       dateFormat: 'dd/mm/yy'
+            ///   });
+            ///   $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
             ///});
 
         <? foreach ($fecha_cobro as $key => $values) { ?>
@@ -1173,11 +1173,42 @@ class html_formRecaudo {
 
                 document.getElementById('total_recaudo').value = total_capint;
             }
-            
+
             //onSubmit="return minDate();"
         </script>
-        
-        
+
+        <script  type="text/javascript">
+            function cambio() {
+        <? foreach ($cuentas_pago as $key => $value) { ?>
+                    var capital_<? echo$key ?> = document.getElementById('valor_pagado_capital<? echo$key ?>').value;
+                    var cobro_<? echo$key ?> =<? echo $cuentas_pago[$key]['saldo_capital']; ?>
+
+                    if (capital_<? echo$key ?> > cobro_<? echo$key ?>) {
+                        alert("No puede pagar más capital del que debe asociado a una cuenta de cobro")
+                        document.getElementById('valor_pagado_capital<? echo$key ?>').value = <? echo $cuentas_pago[$key]['saldo_capital']; ?>
+                    }
+        <? } ?>
+
+                return false
+            }
+        </script>
+
+        <script  type="text/javascript">
+            function cambio2() {
+        <? foreach ($cuentas_pago as $key => $value) { ?>
+                    var interes_<? echo$key ?> = document.getElementById('valor_pagado_interes<? echo$key ?>').value;
+                    var cobro_<? echo$key ?> =<? echo $cuentas_pago[$key]['saldo_interes']; ?>
+
+                    if (interes_<? echo$key ?> > cobro_<? echo$key ?>) {
+                        alert("No puede pagar más interes del que debe asociado a una cuenta de cobro")
+                        document.getElementById('valor_pagado_interes<? echo$key ?>').value = <? echo $cuentas_pago[$key]['saldo_interes']; ?>
+                    }
+        <? } ?>
+
+                return false
+            }
+        </script>
+
 
         <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' autocomplete='off'  >
             <h1>Registro Recaudos Pensionado CP</h1>
@@ -1312,7 +1343,7 @@ class html_formRecaudo {
                             foreach ($cuentas_pago as $key => $value) {
                                 $valor = $key;
                                 $cobro = $cuentas_pago[$key]['valor_pago'];
-                                echo "<input type='text' onpaste='return false' pattern='\d{4,8}\.?\d{0,2}' name='valor_cobro_" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $cobro . "'> <br>";
+                                echo "<input type='text' onpaste='return false' pattern='\d{4,12}\.?\d{0,2}' name='valor_cobro_" . $valor . "' class='fieldcontent' required='required'  readonly value='" . $cobro . "'> <br>";
                             }
                             ?>
                         </div> 
@@ -1348,7 +1379,7 @@ class html_formRecaudo {
                                 foreach ($cuentas_pago as $key => $value) {
                                     $valor = $key;
                                     $cobro = $cuentas_pago[$key]['saldo_capital'];
-                                    echo "<input type='text'  id='valor_pagado_capital" . $valor . "' onpaste='return false' value='" . $cobro . "'title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{4,8}\.?\d{0,2}' name='valor_pagado_capital" . $valor . "' class='fieldcontent' maxlength='11' required='required' onKeyPress='return acceptNum2(event)' ><br>";
+                                    echo "<input type='text'  id='valor_pagado_capital" . $valor . "' onpaste='return false' value='" . $cobro . "'title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{4,13}\.?\d{0,2}' name='valor_pagado_capital" . $valor . "' class='fieldcontent' maxlength='15' required='required' onKeyPress='return acceptNum2(event)' onChange='return cambio()'><br>";
                                 }
                                 ?>
 
@@ -1365,10 +1396,9 @@ class html_formRecaudo {
                                 foreach ($cuentas_pago as $key => $value) {
                                     $valor = $key;
                                     $cobro_interes = $cuentas_pago[$key]['saldo_interes'];
-                                    echo "<input type='text' id='valor_pagado_interes" . $valor . "' value='".$cobro_interes."' onpaste='return false' title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{0,8}\.?\d{0,2}' name='valor_pagado_interes" . $valor . "' class='fieldcontent' maxlength='11' required='required' onKeyPress='return acceptNum2(event)'><br>";
+                                    echo "<input type='text' id='valor_pagado_interes" . $valor . "' value='" . $cobro_interes . "' onpaste='return false' title='*Campo Obligatorio' placeholder='00000000.00' pattern='\d{0,13}\.?\d{0,2}' name='valor_pagado_interes" . $valor . "' class='fieldcontent' maxlength='15' required='required' onKeyPress='return acceptNum2(event)' onChange='return cambio2()'><br>";
                                 }
                                 ?>
-
                             </div>
                         </div>
                     </div>    
@@ -1381,8 +1411,8 @@ class html_formRecaudo {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="total_recaudo" readonly onpaste='return false' title="*Campo Obligatorio" pattern="\d{4,8}\.?\d{0,2}" placeholder="00000000.00" name="total_recaudo" class="fieldcontent" required='required' maxlength="11" onKeyPress='return acceptNum2(event)'>
-                                <input name="suma" type="button" class="navbtn2" value="Sumar" onClick="valor()" />
+                                <input type="text" id="total_recaudo" title="*Campo Obligatorio" pattern="\d{4,13}\.?\d{0,2}" placeholder="00000000.00" name="total_recaudo" class="fieldcontent" required='required' maxlength="15" onKeyPress='return acceptNum2(event)'>
+                                <input name="suma" type="button" required="required" class="navbtn2" value="Sumar" onClick="valor()" />
                             </div>                       
                         </div>      
                     </div>
@@ -1456,6 +1486,7 @@ class html_formRecaudo {
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Guardar" onClick='return confirmarEnvio();'></center>
                 <input type='hidden' name='opcion' value='guardarRecaudo'>
                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+                <input type='hidden' name='cuentas_pago' value='<?php echo serialize($cuentas_pago) ?>'>
                 <?
                 foreach ($fecha_cobro as $key => $values) {
                     echo "<input type='hidden' name='fecha_cinicio" . $key . "' value='" . $fecha_cobro[$key]['inicio'] . "'>";

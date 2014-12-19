@@ -803,11 +803,11 @@ class funciones_formRecaudo extends funcionGeneral {
         }
     }
 
-    function procesarFormulario($datos) {
+    function procesarFormulario($datos, $cuentas_pago) {
 
         foreach ($datos as $key => $value) {
 
-            if ($datos[$key] == "") {
+            if ($datos[$key]=="") {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
@@ -861,6 +861,55 @@ class funciones_formRecaudo extends funcionGeneral {
                 }
             }
         }
+
+        $validacion = array();
+        
+        foreach ($cuentas_pago as $key => $values) {
+            $validacion[$key]['saldo_capital'] = doubleval($cuentas_pago[$key]['saldo_capital']);
+            $validacion[$key]['saldo_interes'] = doubleval($cuentas_pago[$key]['saldo_interes']);
+        }
+
+        foreach ($datos as $key => $values) {
+            if (strstr($key, 'valor_pagado_capital')) {
+                $valor = substr($key, strlen('valor_pagado_capital'));
+                $validacion[$valor]['valor_pagado_capital'] = doubleval($datos['valor_pagado_capital' . $valor]);
+            }
+
+            if (strstr($key, 'valor_pagado_interes')) {
+                $valor = substr($key, strlen('valor_pagado_interes'));
+                $validacion[$valor]['valor_pagado_interes'] = doubleval($datos['valor_pagado_interes' . $valor]);
+            }
+        }
+
+
+        foreach ($validacion as $key => $values) {
+            if ($validacion[$key]['valor_pagado_capital'] > $validacion[$key]['saldo_capital']) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Valor Pagado NO Válido');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioRecaudo';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
+        foreach ($validacion as $key => $values) {
+            if ($validacion[$key]['valor_pagado_interes'] > $validacion[$key]['saldo_interes']) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Valor Pagado NO Válido');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioRecaudo';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
 
         $total_capital = 0;
         $total_interes = 0;

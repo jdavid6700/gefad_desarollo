@@ -1958,7 +1958,7 @@ class funciones_liquidador extends funcionGeneral {
                     $dias_vigencia = floor(abs(($fin - $inicio) / 86400));
                     $valor_dtf = ((1 + pow(floatval($historia_dtf[$cont]['dtf_indi_ce']), ($dias_vigencia / 365))) - 1);
                     $valor_acumulado = $valor_acumulado * $valor_dtf;
-                    echo $valor_interes = ($valor_cuota * $valor_acumulado);
+                    $valor_interes = ($valor_cuota * $valor_acumulado);
                 }
             }
 

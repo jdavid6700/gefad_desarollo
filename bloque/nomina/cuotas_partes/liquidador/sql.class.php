@@ -251,6 +251,12 @@ class sql_liquidador extends sql {
                 $cadena_sql = "DELETE  FROM cuotas_partes.cuotas_dtfperiodo_temp ";
                 break;
 
+            case "valor_dtf_entre_2006":
+                $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce, dtf_serial from cuotas_partes.cuotas_indc_dtf ";
+                $cadena_sql.= " where dtf_fe_desde between '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
+                $cadena_sql.= " order by dtf_fe_desde ASC ";
+                break;
+
             case "valor_dtf_entre":
                 $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce, dtf_serial from cuotas_partes.cuotas_indc_dtf ";
                 $cadena_sql.= " where dtf_fe_hasta between '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
