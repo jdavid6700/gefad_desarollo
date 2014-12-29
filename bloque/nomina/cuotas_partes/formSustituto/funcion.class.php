@@ -112,7 +112,7 @@ class funciones_formSustituto extends funcionGeneral {
     }
 
     function registrarSustituto($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarSustituto", $parametros);
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarSustituto", $parametros);
         $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
         return $datos_DescripcionCP;
     }
@@ -146,20 +146,6 @@ class funciones_formSustituto extends funcionGeneral {
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
 
-        foreach ($datos as $key => $value) {
-
-            if ($datos[$key] == "") {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Formulario NO diligenciado correctamente');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formularioSustituto';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            }
-        }
 
         if (!preg_match("/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/", $datos['fecha_nacsustituto'])) {
             echo "<script type=\"text/javascript\">" .
@@ -225,7 +211,6 @@ class funciones_formSustituto extends funcionGeneral {
             exit;
         }
 
-
         $parametros = array(
             'cedula_pen' => (isset($datos['cedula_pen']) ? $datos['cedula_pen'] : ''),
             'cedula_sustituto' => (isset($datos['cedula_sustituto']) ? $datos['cedula_sustituto'] : ''),
@@ -243,13 +228,12 @@ class funciones_formSustituto extends funcionGeneral {
             'cedula_tercero' => (isset($datos['cedula_tercero']) ? $datos['cedula_tercero'] : ''),
             'nombre_tercero' => (isset($datos['nombre_tercero']) ? $datos['nombre_tercero'] : ''),
             'tercero_sentencia' => (isset($datos['tercero_sentencia']) ? $datos['tercero_sentencia'] : ''),
-            'fecha_tersentencia' => (isset($datos['fecha_tersentencia']) ? $datos['fecha_tersentencia'] : ''),
+            'fecha_tersentencia' => (!empty($datos['fecha_tersentencia']) ? $datos['fecha_tersentencia'] : '0001-01-01'),
             'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
             'genero' => (isset($datos['genero']) ? $datos['genero'] : ''),
         );
 
         $registro_sustituto = $this->registrarSustituto($parametros);
-
 
         if ($registro_sustituto == true) {
             $registroD[0] = "GUARDAR";
@@ -324,18 +308,18 @@ class funciones_formSustituto extends funcionGeneral {
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_certificado_defuncion'] . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_fcertificado_defuncion'] . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_cedulasus'] . "</td>";
-                $contenido.= "<td  >" . wordwrap($datos_sustitutos[$key]['sus_nombresus'],15,"<br>") . "</td>";
+                $contenido.= "<td  >" . wordwrap($datos_sustitutos[$key]['sus_nombresus'], 15, "<br>") . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_fnac_sustituto'] . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_resol_sustitucion'] . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_fresol_sustitucion'] . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_parentezcosus'] . "</td>";
-               $contenido.= "<td  >" . $datos_sustitutos[$key]['sus_generosus'] . "</td>";
+                $contenido.= "<td  >" . $datos_sustitutos[$key]['sus_generosus'] . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_tutor'] . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_cedula_tercero'] . "</td>";
-                $contenido.= "<td  >" . wordwrap($datos_sustitutos[$key]['sus_nombre_tercero'],15,"<br>") . "</td>";
-                $contenido.= "<td>" . wordwrap($datos_sustitutos[$key]['sus_tercero_sentencia'],15,"<br>") . "</td>";
+                $contenido.= "<td  >" . wordwrap($datos_sustitutos[$key]['sus_nombre_tercero'], 15, "<br>") . "</td>";
+                $contenido.= "<td>" . wordwrap($datos_sustitutos[$key]['sus_tercero_sentencia'], 15, "<br>") . "</td>";
                 $contenido.= "<td>" . $datos_sustitutos[$key]['sus_fecha_tersentencia'] . "</td>";
-                $contenido.= "<td>" . wordwrap($datos_sustitutos[$key]['sus_observacion'],17,"<br>") . "</td>";
+                $contenido.= "<td>" . wordwrap($datos_sustitutos[$key]['sus_observacion'], 17, "<br>") . "</td>";
                 $contenido.= "</tr>";
             }
         } else {

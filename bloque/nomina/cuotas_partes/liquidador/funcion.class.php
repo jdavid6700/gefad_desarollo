@@ -76,22 +76,22 @@ class funciones_liquidador extends funcionGeneral {
         );
 
         $sustitutos = $this->consultarSustitutos($parametros);
+        $contenido1='';
 
         if (is_array($sustitutos)) {
-            foreach ($sustitutos as $key => $values) {
-                $contenido1 = "<td style=\"width:209px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+            foreach ($sustitutos as $key => $value) {
+                $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
             }
         } else {
-            $contenido1 = "<td style=\"width:209px;\" >&nbsp;&nbsp;</td> ";
+            $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;</td></tr>";
         }
 
-        if (is_array($sustitutos)) {
-            foreach ($sustitutos as $key => $values) {
-                $contenido2 = "<td style=\"width:150px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
-            }
-        } else {
-            $contenido2 = "<td style=\"width:150px;\" >&nbsp;&nbsp;</td> ";
-        }
 
         $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
         $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
@@ -128,7 +128,7 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
-<page backtop='60mm' backbottom='20mm' backleft='30mm' backright='3mm' pagegroup='new'>
+<page backtop='55mm' backbottom='20mm' backleft='30mm' backright='3mm' pagegroup='new'>
 <page_header>
     <table align='right'>
         <thead>
@@ -167,14 +167,7 @@ class funciones_liquidador extends funcionGeneral {
                         <td style=\"width:309px;\">" . '&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] . "</td>
                         <td>Documento Pensionado:</td>
                         <td style=\"width:150px;\">" . '&nbsp;&nbsp;' . $datos_basicos['cedula'] . "</td>
-                    </tr>
-                    <tr>
-                        <td>Nombre Sustituto:</td>
-                       " . $contenido1 . "
-                        <td>Documento Sustituto:</td>
-                       " . $contenido2 . "
-                    </tr>
-                </table>
+                    </tr></table>
 </page_header>
 
 <page_footer>
@@ -195,7 +188,16 @@ class funciones_liquidador extends funcionGeneral {
         <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
 </page_footer> 
 
-
+<table align='right'>  
+ <thead>
+        <tr>
+            <th colspan=\"8\" style=\"width:650px; font-size:12px;\">SUSTITUTOS REGISTRADOS</th>
+        </tr>
+           </thead>
+         <tbody>
+      " . $contenido1 . "
+                </tbody>    </table>
+                <br>
 <table align='right'>
                     <tr>
                         <th>Item</th>
@@ -322,6 +324,10 @@ class funciones_liquidador extends funcionGeneral {
             $total = $liquidacion_anual[$key]['total'] + $total;
         }
 
+        echo $total_entero=  round($total);
+        echo $exceso=$total_entero-$total;
+        
+        exit;
         $parametros = array(
             'cedula' => $datos_basicos['cedula']);
 
@@ -447,15 +453,15 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>
         <td colspan='3'>Fecha Inicio de Concurrencia:</td>
-        <td colspan='5'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']))) . "</td>
+        <td colspan='5'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension']))) . "</td>
     </tr>
     <tr>
-        <td colspan='1'>Días a Cargo:</td>
+        "./*<td colspan='1'>Días a Cargo:</td>
         <td colspan='2'>" . $dias_cargo . "</td>
         <td colspan='1'>Total Días</td>
-        <td colspan='2'>" . $total_dias . "</td>
-        <td colspan='1'>Porcentaje Ingresado:</td>
-        <td colspan='1'>" . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' . "</td>
+        <td colspan='2'>" . $total_dias . "</td>*/"
+        <td colspan='3'>Porcentaje Aceptado:</td>
+        <td colspan='5'>" . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' . "</td>
         " . /* <td colspan='1'>Porcentaje Calculado:</td>
                   <td colspan='1'>" . \round(((($dias_cargo / $total_dias)) * 100), 3) . '&nbsp;%' . "</td> */"
     </tr>
@@ -466,11 +472,7 @@ class funciones_liquidador extends funcionGeneral {
         <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota'], 2, ',', '.') . "</td>
         <td colspan='2'></td>
     </tr>
-    <tr>
-        <td colspan='2'>Resolución que modifica o reliquida:</td>
-        <td colspan='6'></td>
-    </tr>
-    
+        
     <tr>
          <th colspan='11'>DATOS PENSIONADO - SUSTITUTO</th>
          </tr>
@@ -553,21 +555,20 @@ class funciones_liquidador extends funcionGeneral {
         );
 
         $sustitutos = $this->consultarSustitutos($parametros);
+        $contenido1='';
 
         if (is_array($sustitutos)) {
-            foreach ($sustitutos as $key => $values) {
-                $contenido_1 = "<td style=\"width:223px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+            foreach ($sustitutos as $key => $value) {
+                $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
             }
         } else {
-            $contenido_1 = "<td style=\"width:223px;\" >&nbsp;&nbsp;</td> ";
-        }
-
-        if (is_array($sustitutos)) {
-            foreach ($sustitutos as $key => $values) {
-                $contenido_2 = "<td style=\"width:225px;\" >&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
-            }
-        } else {
-            $contenido_2 = "<td style=\"width:225px;\" >&nbsp;&nbsp;</td> ";
+            $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;</td></tr>";
         }
 
 
@@ -615,7 +616,7 @@ class funciones_liquidador extends funcionGeneral {
                 $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes_d2006'], 2, ',', '.') . "</td>";
                 $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_total'], 2, ',', '.') . "</td>";
                 $contenido2.="</tr>";
-                $total2[$key] = $totales_liquidacion[$key][12];
+                $total2 = $totales_liquidacion[$key][12];
             }
         } else {
             $contenido2.="<tr>";
@@ -669,7 +670,7 @@ class funciones_liquidador extends funcionGeneral {
 { padding-left: 5mm; }
     </style>
 
-<page backtop='70mm' backbottom='23mm' backleft='30mm' backright='3mm' pagegroup='new'>
+<page backtop='65mm' backbottom='23mm' backleft='30mm' backright='3mm' pagegroup='new'>
 <page_header>
     <table align='right'>
         <thead>
@@ -712,14 +713,7 @@ class funciones_liquidador extends funcionGeneral {
             <td>Documento Pensionado:</td>
             <td style=\"width:225px;\" colspan='1'>" . $datos_basicos['cedula'] . "</td>
         </tr>
-        <tr>
-            <td>Nombre Sustituto:</td>
-            " . $contenido_1 . "
-            <td>Documento Sustituto:</td>
-            " . $contenido_2 . "
-        </tr>
-    </table>
-<br>
+                 </table>
 </page_header>
 
 <page_footer>
@@ -741,6 +735,17 @@ class funciones_liquidador extends funcionGeneral {
         </page_footer>
 
   <table align='right'>
+  
+ <thead>
+        <tr>
+            <th colspan=\"8\" style=\"width:650px; font-size:12px;\">SUSTITUTOS REGISTRADOS</th>
+        </tr>
+           </thead>
+         <tbody>
+      " . $contenido1 . "
+                </tbody> </table>
+                <BR>
+                  <table align='right'>  
    <thead>
         <tr>
             <th colspan=\"8\" style=\"width:650px; font-size:12px;\">DETALLE DE LA LIQUIDACIÓN</th>
@@ -1313,7 +1318,6 @@ class funciones_liquidador extends funcionGeneral {
         $a = array();
         $jefe_recursos = $this->consultarJefeRecursos($a);
 
-
         $this->html_liquidador->reporteDetalle($datos_basicos, $liquidacion, $total_liquidacion, $conse_cc, $detalle_indice, $fecha_cobro, $jefe_recursos, $datos_sustitutos);
     }
 
@@ -1624,7 +1628,7 @@ class funciones_liquidador extends funcionGeneral {
 
         ///Aplicando Ley 4, que dice que la primera vez de liquidación, se debe cunplir que la persona cumplió un año de pensionado para poder aplicarle el ajuste.
         //$fecha_pension2 = date('Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
-        $fecha_pension2 = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+        $fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
 
 
         list ($FECHAS) = $fechas = $this->GenerarFechas($f_desde, $f_actual);
@@ -1660,7 +1664,7 @@ class funciones_liquidador extends funcionGeneral {
 //Valor Ajustes Adicionales
             $AJUSTEPENSIONAL = $this->AjustePensional(($FECHAS[$key]), $sumafija[0][0]);
             $MESADAADICIONAL = $this->MesadaAdicional(($FECHAS[$key]), $CUOTAPARTE);
-            $INCREMENTOSALUD = $this->IncrementoSalud(($FECHAS[$key]), $CUOTAPARTE);
+            $INCREMENTOSALUD = $this->IncrementoSalud(($FECHAS[$key]), $CUOTAPARTE, $fecha_pension);
 
             $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
 
@@ -1958,12 +1962,20 @@ class funciones_liquidador extends funcionGeneral {
         return($Cuotaparte2);
     }
 
-    function IncrementoSalud($fecha, $cuota_calculada) {
+    function IncrementoSalud($fecha, $cuota_calculada, $fecha_pension) {
+
+        $fecha_pension1 = strtotime(str_replace('/', '-', $fecha_pension));
+        $fecha_aplicacion = strtotime(str_replace('/', '-', '01/01/1994'));
 
         $Anio = substr(date("Y", strtotime(str_replace('/', '-', $fecha))), 0, 4);
 
-        if ($Anio >= '1994') {
-            $Incr_Salud = $cuota_calculada * 0.07;
+        if ($fecha_pension1 < $fecha_aplicacion) {
+
+            if ($Anio >= '1994') {
+                $Incr_Salud = $cuota_calculada * 0.07;
+            } else {
+                $Incr_Salud = 0;
+            }
         } else {
             $Incr_Salud = 0;
         }
@@ -2138,6 +2150,7 @@ class funciones_liquidador extends funcionGeneral {
         $ley_2006 = strtotime(str_replace('/', '-', '2006-07-29'));
         $ley_2006_2 = strtotime(str_replace('/', '-', '2007-06-01'));
         $interes_final = 0;
+        $interes = 0;
 
 
         if ($fecha < $ley_2006) {
@@ -2243,7 +2256,7 @@ class funciones_liquidador extends funcionGeneral {
 
                 if ($fecha < $ley_2006_2) {
                     $interes_final = round($deuda_capital * floatval($acumulado), 2) - $deuda_capital;
-                    $interes = round($interes_final + ($interes_final * 0.0139972),2);
+                    $interes = round($interes_final + ($interes_final * 0.0139972), 2);
                 } else {
                     $interes = round($deuda_capital * floatval($acumulado), 2) - $deuda_capital;
                 }
