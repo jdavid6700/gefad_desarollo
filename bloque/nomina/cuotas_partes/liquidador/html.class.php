@@ -392,7 +392,6 @@ class html_liquidador {
 
     function liquidador($liquidacion, $datos_basicos, $totales_liquidacion) {
 
-
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -436,7 +435,7 @@ class html_liquidador {
                                 <?
                                 $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
                                 $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-                                echo "Bogotá D.C, " . $fecha_cc = $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
+                                echo "Bogotá D.C, " . $fecha_cc = $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " de " . date('Y');
                                 ?>
 
                             </th>
@@ -642,7 +641,7 @@ class html_liquidador {
                                 <?
                                 $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
                                 $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-                                echo "Bogotá D.C, " . $fecha_cc = $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
+                                echo "Bogotá D.C, " . $fecha_cc = $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " de " . date('Y');
                                 ?>
 
                             </th>
@@ -866,7 +865,7 @@ class html_liquidador {
                                 <?
                                 $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
                                 $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-                                echo "Bogotá D.C, " . $fecha_cc = $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
+                                echo "Bogotá D.C, " . $fecha_cc = $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " de " . date('Y');
                                 ?>
 
                             </th>
@@ -1054,7 +1053,7 @@ class html_liquidador {
                         </td>
                     </tr>
                 </table>
-                <p style="font-size:9px">Diseño forma: JUAN D. CALDERON MARTIN.
+                <p style="font-size:9px">Diseño forma: J.D.C.M.
                     <br><br><br><br><br>
                 <p>______________________________________________________________________________
                 <p style="font-size:12px">UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
@@ -1166,7 +1165,7 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' >Documento Pensionado:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr><?
-                 if (is_array($sustitutos)) {
+                    if (is_array($sustitutos)) {
                         foreach ($sustitutos as $key => $value) {
                             echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
                             echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
@@ -1178,7 +1177,8 @@ class html_liquidador {
                         echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
                         echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
                         echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;<  /td>";
-                    }?>
+                    }
+                    ?>
                 </table>
             </center>
             <br>
@@ -1265,7 +1265,7 @@ class html_liquidador {
                         </td>
                     </tr>
                 </table>
-                <p style="font-size:9px">Diseño forma: JUAN D. CALDERON MARTIN.
+                <p style="font-size:9px">Diseño forma: J.D.C.M.
                     <br><br><br><br><br>
                 <p>______________________________________________________________________________
                 <p style="font-size:12px">UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
@@ -1460,28 +1460,31 @@ class html_liquidador {
                         echo " <tr> ";
                         echo " <td class = 'texto_elegante estilo_td' colspan='2'>" . $liquidacion_anual[$key]['vigencia'] . "</td> ";
                         //echo " <td class = 'texto_elegante estilo_td'>MM/MM</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['cuota_parte']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada_adc']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['incremento']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_a2006']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_d2006']) . "</td> ";
-                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['total']) . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada'], 2, ',', '.') . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['cuota_parte'], 2, ',', '.') . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['mesada_adc'], 2, ',', '.') . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['incremento'], 2, ',', '.') . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_a2006'], 2, ',', '.') . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_d2006'], 2, ',', '.') . "</td> ";
+                        echo " <td class = 'texto_elegante estilo_td'>&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['total'], 2, ',', '.') . "</td> ";
                         echo " </tr> ";
                         $total = $liquidacion_anual[$key]['total'] + $total;
+
+                        $total_entero = round($total);
+                        $exceso = $total_entero - $total;
                     }
                     ?>
                     <tr>
                         <th class='subtitulo_th2' colspan="6">Valor liquidado a la fecha de corte&nbsp;&nbsp;</th>
-                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total) ?></td>
+                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total, 2, ',', '.') ?></td>
                     </tr>
                     <tr>
                         <th class='subtitulo_th2' colspan="6">Ajuste al peso&nbsp;&nbsp;</th>
-                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total) ?></td>
+                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($exceso, 2, ',', '.') ?></td>
                     </tr>
                     <tr>
                         <th class='subtitulo_th2' colspan="6">VALOR A COBRAR&nbsp;&nbsp;</th>
-                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total) ?></td>
+                        <td class='texto_elegante estilo_td3' colspan="3">&nbsp;$&nbsp;<? echo number_format($total_entero, 2, ',', '.') ?></td>
                     </tr>
                     </tr>
 
@@ -1504,7 +1507,7 @@ class html_liquidador {
                         </td>
                     </tr>
                 </table>
-                <p style="font-size:9px">Diseño forma: JUAN D. CALDERON MARTIN.
+                <p style="font-size:9px">Diseño forma: J.D.C.M.
                     <br><br><br><br><br>
                 <p>______________________________________________________________________________
                 <p style="font-size:12px">UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS

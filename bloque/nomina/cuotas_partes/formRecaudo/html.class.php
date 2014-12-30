@@ -335,7 +335,7 @@ class html_formRecaudo {
     }
 
     function estadoCuenta($datos_basicos, $datos_recaudos, $cobros, $datos_concurrencia, $datos_saldo) {
-
+ 
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -556,10 +556,13 @@ class html_formRecaudo {
                         <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>&nbsp;CONSECUTIVO RECAUDO&nbsp;</td>
                         <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>VALOR TOTAL COBRO</td>
                         <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>VALOR TOTAL RECAUDO</td>
-                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>SALDO</td>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>SALDO INTERES</td>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>SALDO CAPITAL</td>
+                        <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>SALDO TOTAL</td>
                     </tr>
                     <tr>
                         <?
+                        
                         if (is_array($datos_saldo)) {
                             foreach ($datos_saldo as $key => $value) {
                                 echo "<tr>";
@@ -567,11 +570,15 @@ class html_formRecaudo {
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>" . $datos_saldo[$key]['recta_consecu_rec'] . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_valor_cobro']) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_valor_recaudo']) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_saldocapital']) . "</td>";
+                                echo "<td class='texto_elegante estilo_td' style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_saldointeres']) . "</td>";
                                 echo "<td class='texto_elegante estilo_td' style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_saldototal']) . "</td>";
                                 echo "</tr>";
                             }
                         } else {
                             echo "<tr>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                            echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
                             echo "<td class='texto_elegante estilo_td' >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";

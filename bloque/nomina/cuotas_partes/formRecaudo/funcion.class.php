@@ -273,6 +273,8 @@ class funciones_formRecaudo extends funcionGeneral {
             $contenido_saldo.= "<td  style='text-align:center;'>" . $datos_saldo[$key]['recta_consecu_rec'] . "</td>";
             $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_valor_cobro']) . "</td>";
             $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_valor_recaudo']) . "</td>";
+            $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_saldocapital']) . "</td>";
+            $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_saldointeres']) . "</td>";
             $contenido_saldo.= "<td  style='text-align:center;'>&nbsp;$&nbsp;&nbsp;" . number_format($datos_saldo[$key]['recta_saldototal']) . "</td>";
             $contenido_saldo.= "</tr>";
         }
@@ -307,14 +309,15 @@ class funciones_formRecaudo extends funcionGeneral {
         font-size:10px
     }
 </style>
+<page backtop='30mm' backbottom='20mm' backleft='30mm' backright='3mm' pagegroup='new'>
 <page_header>
-    <table align='center'>
+    <table align='right'>
         <thead>
             <tr>
                 <th style=\"width:60px;\" colspan=\"1\">
                     <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
                 </th>
-                <th style=\"width:490px;font-size:13px;\" colspan=\"1\">
+                <th style=\"width:410px;font-size:13px;\" colspan=\"1\">
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
@@ -331,12 +334,9 @@ class funciones_formRecaudo extends funcionGeneral {
     </table>  
 </page_header>
 
-<br><br><br><br><br><br><br><br>
-
-<table align='center'>
-
+    <table align='right'>
     <tr>
-        <th colspan=\"4\" style=\"font-size:12px;width:735px;\" >
+        <th colspan=\"4\" style=\"font-size:12px;width:620px;\" >
             DATOS BÁSICOS
         </th>
     </tr>
@@ -353,7 +353,7 @@ class funciones_formRecaudo extends funcionGeneral {
         <td  colspan='1'>" . $datos_basicos['entidad'] . "</td>
     </tr>
     <tr>
-        <th colspan=\"4\" style=\"font-size:12px;width:735px;\">
+        <th colspan=\"4\" style=\"font-size:12px;width:620px;\">
             DATOS DE LA CONCURRENCIA
         </th>
     </tr>
@@ -388,16 +388,16 @@ class funciones_formRecaudo extends funcionGeneral {
 </table>
 <br>
 
-<table align=\"center\">
+    <table align='right'>
     <tr>
-        <th colspan=\"8\"  style=\"font-size:12px;width:735px;\" >CUENTAS COBRO REGISTRADAS</th>
+        <th colspan=\"8\"  style=\"font-size:12px;width:650px;\" >CUENTAS COBRO REGISTRADAS</th>
     </tr>
     <tr>
-        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>CONSECUTIVO CUENTA COBRO</td>
-        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>IE_CORRESPONDENCIA</td>
-        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>FECHA GENERACIÓN</td>
-        <td colspan=\"2\"  style=\"font-size:10px;\" align=center>PERIODO DE COBRO</td>
-        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR SIN INTERÉS</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>CONSECUTIVO<br>CUENTA COBRO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>IE_CORRESPON.</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>FECHA<br>GENERACIÓN</td>
+        <td colspan=\"2\"  style=\"font-size:10px;\" align=center>PERIODO<br>COBRO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR<br>SIN INTERÉS</td>
         <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>INTERÉS</td>
         <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>TOTAL</td>
     </tr>
@@ -408,18 +408,18 @@ class funciones_formRecaudo extends funcionGeneral {
           " . $contenido_cobros . "
 </table >
 <br>
-<table  align=\"center\">
+    <table align='right'>
     <tr>
-        <th colspan=\"10\" style=\"font-size:12px;width:735px;\">RECAUDOS REGISTRADOS</th>
+        <th colspan=\"10\" style=\"font-size:12px;width:650px;\">RECAUDOS REGISTRADOS</th>
     </tr>
     <tr>
-        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>CONSECUTIVO RECAUDO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>CONSECUTIVO<br>RECAUDO</td>
         <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>RES. OP</td>
         <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>FECHA RES. OP</td>
         <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>FECHA PAGO</td>
-        <td colspan=\"2\"  style=\"font-size:10px;\" align=center>PERIODO PAGO</td>
-        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR A CAPITAL</td>
-        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR A INTERESES</td>
+        <td colspan=\"2\"  style=\"font-size:10px;\" align=center>PERIODO<br>PAGO</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR<br>CAPITAL</td>
+        <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>VALOR<br>INTERESES</td>
         <td rowspan=\"2\"  style=\"font-size:10px;\" align=center>TOTAL</td>
     </tr>
     <tr>
@@ -431,27 +431,29 @@ class funciones_formRecaudo extends funcionGeneral {
 
 <br>
 
-<table align=\"center\">
+    <table align='right'>
     <tr>
-        <th colspan=\"11\" style=\"font-size:12px;width:735px;\">RELACIÓN DE SALDOS</th>
+        <th colspan=\"11\" style=\"font-size:12px;width:650px;\">RELACIÓN DE SALDOS</th>
     </tr>
     <tr>
-        <td   style=\"font-size:10px;\" align=center>CONSECUTIVO CUENTA COBRO</td>
-        <td   style=\"font-size:10px;\" align=center>&nbsp;CONSECUTIVO RECAUDO&nbsp;</td>
-        <td   style=\"font-size:10px;\" align=center>VALOR TOTAL COBRO</td>
-        <td   style=\"font-size:10px;\" align=center>VALOR TOTAL RECAUDO</td>
-        <td   style=\"font-size:10px;\" align=center>SALDO</td>
+        <td   style=\"font-size:10px;\" align=center>CONSECUTIVO<br>CUENTA COBRO</td>
+        <td   style=\"font-size:10px;\" align=center>&nbsp;CONSECUTIVO<br>RECAUDO&nbsp;</td>
+        <td   style=\"font-size:10px;\" align=center>VALOR<br>TOTAL COBRO</td>
+        <td   style=\"font-size:10px;\" align=center>VALOR<br>TOTAL RECAUDO</td>
+        <td   style=\"font-size:10px;\" align=center>SALDO<br>CAPITAL</td>
+        <td   style=\"font-size:10px;\" align=center>SALDO<br>INTERES</td>
+        <td   style=\"font-size:10px;\" align=center>SALDO<br>TOTAL</td>
     </tr>
         " . $contenido_saldo . "
 </table >
 <br>
-<table align='center'>
+    <table align='right'>
     <tr>
-        <td style=\"text-align:center; width: 733px;\"><br><br><br><br>
+        <td style=\"text-align:center; width: 650px;\"><br><br><br><br>
         </td>
     </tr>
     <tr>  
-        <td align='center' style=\"text-align:center; width: 733px;\" >
+        <td align='center' style=\"text-align:center; width: 650px;\" >
             " . $jefeRecursos[0][0] . "
             <br>
             Jefe(a) División de Recursos Humanos
@@ -461,9 +463,9 @@ class funciones_formRecaudo extends funcionGeneral {
     </tr>
 </table>
 <page_footer>
-    <table align=\"center\">
+    <table align='center' width='100%'>
         <tr>
-            <td align=\"center\" style = \"width: 750px;\">
+            <td align='center' style=\"width: 750px;\">
                 Universidad Distrital Francisco José de Caldas
                 <br>
                 Todos los derechos reservados.
@@ -474,14 +476,16 @@ class funciones_formRecaudo extends funcionGeneral {
             </td>
         </tr>
     </table>
-    <p style=\"font-size:8px\">Diseño forma: JUAN D. CALDERON MARTIN</p>
+     <p style=\"font-size:7px\">Diseño forma: J. D. C. M.</p>
+        <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
 </page_footer> 
+</page>
 
 
 ";
         $PDF = new HTML2PDF('P', 'LETTER', 'es');
         $PDF->writeHTML($ContenidoPdf);
-        $PDF->Output("EstadoCuenta.pdf", "D");
+        $PDF->Output("EstadoCuenta_".  $datos_basicos['cedula'] ."_".  $datos_basicos['entidad_nombre'] .".pdf", "D");
     }
 
 //Movimiento a Formularios

@@ -117,7 +117,7 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" AND rec_identificacion=recta_cedula ";
                 $cadena_sql.=" AND recta_consecu_rec=rec_consecu_rec ";
                 $cadena_sql.=" AND rec_nitprev=recta_nitprev ";
-                $cadena_sql.=" AND recta_estado='ACTIVO' ";
+                //$cadena_sql.=" AND recta_estado='ACTIVO' ";
                 $cadena_sql.=" AND rec_estado='ACTIVO' ";
                 break;
 
@@ -208,7 +208,7 @@ class sql_formRecaudo extends sql {
             case "datos_saldosHistoria":
                 $cadena_sql = " SELECT recta_consecu_cta, recta_consecu_rec, ";
                 $cadena_sql.=" recta_valor_cobro, recta_valor_recaudo,  ";
-                $cadena_sql.=" recta_saldototal ";
+                $cadena_sql.=" recta_saldototal, recta_saldointeres, recta_saldocapital ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_recaudo_cuenta  ";
                 $cadena_sql.=" WHERE recta_cedula='" . $variable['cedula'] . "'  ";
                 $cadena_sql.=" AND recta_nitprev='" . $variable['entidad'] . "'  ";
