@@ -268,12 +268,12 @@ class funciones_liquidador extends funcionGeneral {
                     </tr>
                     <tr>
                         <td   align=center style=\"width:332px;text-align:center;\">
-        " . $jefeTesoreria . "
+        JACQUELINE ORTIZ ARENAS
                             <br>Tesorero(a)
                         </td>
                         <td   align=center style=\"width:332px;text-align:center;\">
-        " . $jefeRecursos . "
-                            <br>Jefe(a) División de Recursos Humanos
+       WILLIAM CARDENAS OVALLE
+                            <br>Vicerrector Administrativo y Financiero
                         </td>
                     </tr>
                 </table>
@@ -319,13 +319,13 @@ class funciones_liquidador extends funcionGeneral {
             $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['interes_d2006'], 2, ',', '.') . "</td> ";
             $contenido.= "<td  >&nbsp;$&nbsp;" . number_format($liquidacion_anual[$key]['total'], 2, ',', '.') . "</td> ";
             $contenido.= "</tr> ";
+
             $total = $liquidacion_anual[$key]['total'] + $total;
+
+            $total_entero = round($total);
+            $exceso = $total_entero - $total;
         }
 
-        echo $total_entero = round($total);
-        echo $exceso = $total_entero - $total;
-
-        exit;
         $parametros = array(
             'cedula' => $datos_basicos['cedula']);
 
@@ -346,6 +346,8 @@ class funciones_liquidador extends funcionGeneral {
             $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_resol_sustitucion'] . "</td> ";
             $contenido2.=" </tr>";
         }
+
+
 
         $ContenidoPdf = "
             <style type = \"text/css\">
@@ -464,11 +466,12 @@ class funciones_liquidador extends funcionGeneral {
                   <td colspan='1'>" . \round(((($dias_cargo / $total_dias)) * 100), 3) . '&nbsp;%' . "</td> */"
     </tr>
     <tr>
-        <td colspan='2'>Mesada Inicial:</td>
-        <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada'], 2, ',', '.') . "</td>
-        <td colspan='2'>Cuota Parte:</td>
-        <td colspan='1'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota'], 2, ',', '.') . "</td>
-        <td colspan='2'></td>
+        <td colspan='3'>Mesada Inicial:</td>
+        <td colspan='5'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada'], 2, ',', '.') . "</td>
+            </tr>
+    <tr>
+        <td colspan='3'>Cuota Parte:</td>
+        <td colspan='5'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota'], 2, ',', '.') . "</td>
     </tr>
         
     <tr>
@@ -482,17 +485,17 @@ class funciones_liquidador extends funcionGeneral {
 
 </table>
 <br>
-<table align='center' >
+<table align='center' style=\"width: 650px;\">
 <thead>
     <tr>
         <th colspan=\"1\" width=\"5%\">PERIODO</th>
-        <th rowspan=\"2\" width=\"14.5%\">MONTO<br>MESADA</th>
-        <th rowspan='2' width=\"14.5%\">CUOTA<br>MENSUAL</th>
-        <th rowspan='2' width=\"14.5%\">MESADA<br>ADICIONAL</th>
-        <th rowspan='2' width=\"14.5%\">INCREMENTO<br>SALUD (7%)</th>
-        <th rowspan='2' width=\"14.5%\">INTERÉS<br>LEY 68/1923</th>
-        <th rowspan='2' width=\"14.5%\">INTERÉS<br>LEY 1066/2006</th>
-        <th rowspan='2' width=\"14.5%\">TOTAL<br>AÑO</th>
+        <th rowspan=\"2\" width=\"24.5%\">MONTO<br>MESADA</th>
+        <th rowspan='2' width=\"24.5%\">CUOTA<br>MENSUAL</th>
+        <th rowspan='2' width=\"24.5%\">MESADA<br>ADICIONAL</th>
+        <th rowspan='2' width=\"24.5%\">INCREMENTO<br>SALUD (7%)</th>
+        <th rowspan='2' width=\"24.5%\">INTERÉS<br>LEY 68/1923</th>
+        <th rowspan='2' width=\"24.5%\">INTERÉS<br>LEY 1066/2006</th>
+        <th rowspan='2' width=\"24.5%\">TOTAL<br>AÑO</th>
     </tr>
     <tr>
         <th colspan=\"1\">AÑO</th>
@@ -505,11 +508,11 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>
         <th  style=\"text-align:right;\" colspan=\"6\">Ajuste al peso&nbsp;&nbsp;</th>
-        <td colspan=\"3\">&nbsp;$&nbsp;" . number_format($total, 2, ',', '.') . "</td>
+        <td colspan=\"3\">&nbsp;$&nbsp;" . number_format($exceso, 2, ',', '.') . "</td>
     </tr>
     <tr>
         <th  style=\"text-align:right;\" colspan=\"6\">VALOR A COBRAR&nbsp;&nbsp;</th>
-        <td colspan=\"3\">&nbsp;$&nbsp;" . number_format($total, 2, ',', '.') . "</td>
+        <td colspan=\"3\">&nbsp;$&nbsp;" . number_format($total_entero, 2, ',', '.') . "</td>
     </tr>
 </table>
 <br>
@@ -520,15 +523,11 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>  
         <td align='center' style=\"text-align:center; width: 650px;\" >
-            " . $jefeRecursos . "
-            <br>
-            Jefe(a) División de Recursos Humanos
-            <br>
-
+                WILLIAM CARDENAS OVALLE
+                            <br>Vicerrector Administrativo y Financiero
         </td>
     </tr>
 </table>
-<br><br>
 </page>
  ";
 
@@ -813,9 +812,8 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>  
         <td align='center' style=\"text-align:center; width: 650px;\" >
-            " . $jefeRecursos . "
-            <br>
-            Jefe(a) División de Recursos Humanos
+                   WILLIAM CARDENAS OVALLE
+                            <br>Vicerrector Administrativo y Financiero
             <br>
 
         </td>
@@ -939,7 +937,7 @@ class funciones_liquidador extends funcionGeneral {
               } else {
               $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
               } */
-            $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_pension'])));
+            $fecha_inicial = date('d/m/Y', strtotime(str_replace('/', '-', $consultar_pension[0]['dcp_fecha_concurrencia'])));
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existe detalle de la Concurrencia Aceptada para la entidad.');" .
@@ -1643,7 +1641,7 @@ class funciones_liquidador extends funcionGeneral {
 
         $liquidacion_cp = array();
         //$mesada = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
-        $mesada = $mesada_descripcion;
+        $mesada_inicial = $mesada_descripcion;
 
 
         //PARA EL CRUCE DE LOS PAGOS :S
@@ -1674,7 +1672,6 @@ class funciones_liquidador extends funcionGeneral {
 
         //OJO
         foreach ($FECHAS as $key => $value) {
-
             //Cadena del periodo liquidar
             $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
             $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
@@ -1683,12 +1680,27 @@ class funciones_liquidador extends funcionGeneral {
 
 //Valor Indices Básicos
             $fecha_liq = strtotime(str_replace('/', '-', $FECHAS[$key]));
-            $fecha_pension2 = strtotime(str_replace('/', '-', $datos_concurrencia[0][7] . "+ 1 year"));
+            $fecha_pension2 = strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'] . "+ 1 year"));
+
 
             if ($fecha_liq < $fecha_pension2) {
                 $MESADA = $mesada_descripcion;
             } else {
-                $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
+                if ($key == 12) {
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion, $sumafija[0][0]);
+                }else{
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial, $sumafija[0][0]);
+                }
+            }
+
+            if ($key == 0) {
+                //$FECHAS[$key] = $datos_concurrencia[0]['dcp_fecha_p'];
+                $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])))+1;
+                $dias_pension = date('d', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+
+                $datediff = ($dias_calculo - $dias_pension);
+
+                $MESADA = $datediff * ($mesada_inicial / ($dias_calculo-1));
             }
 
             //Determinar Cuota Parte
@@ -1716,67 +1728,70 @@ class funciones_liquidador extends funcionGeneral {
 
             $prueba = 0;
 
-            foreach ($periodos_recaudo as $prueba => $values) {
+            if (!empty($periodos_recaudo)) {
+                foreach ($periodos_recaudo as $prueba => $values) {
 
-                $anio_per = $periodos_recaudo[$prueba]['periodo_anio'];
-                $mes_per = $periodos_recaudo[$prueba]['periodo_mes'];
+                    $anio_per = $periodos_recaudo[$prueba]['periodo_anio'];
+                    $mes_per = $periodos_recaudo[$prueba]['periodo_mes'];
 
-                if ($annio_rec == $anio_per && $mes_rec == $mes_per) {
-                    $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
-                    $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
-                    $liquidacion_cp[$key]['mesada'] = $MESADA;
-                    $liquidacion_cp[$key]['ajuste_pension'] = 0;
-                    $liquidacion_cp[$key]['mesada_adc'] = 0;
-                    $liquidacion_cp[$key]['incremento'] = 0;
-                    $liquidacion_cp[$key]['cuota_parte'] = 0;
-                    $liquidacion_cp[$key]['interes_a2006'] = 0;
-                    $liquidacion_cp[$key]['interes_d2006'] = 0;
-                    $liquidacion_cp[$key]['interes'] = 0;
-                    $liquidacion_cp[$key]['total'] = $liquidacion_cp[$key]['interes_a2006'] + $liquidacion_cp[$key]['interes_d2006'];
+                    if ($annio_rec == $anio_per && $mes_rec == $mes_per) {
+                        /* echo $annio_rec . "=" . $anio_per . "___" . $mes_rec . "=" . $mes_per;
+                          echo "<br>"; */
+                        $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
+                        $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
+                        $liquidacion_cp[$key]['mesada'] = $MESADA;
+                        $liquidacion_cp[$key]['ajuste_pension'] = 0;
+                        $liquidacion_cp[$key]['mesada_adc'] = 0;
+                        $liquidacion_cp[$key]['incremento'] = 0;
+                        $liquidacion_cp[$key]['cuota_parte'] = 0;
+                        $liquidacion_cp[$key]['interes_a2006'] = 0;
+                        $liquidacion_cp[$key]['interes_d2006'] = 0;
+                        $liquidacion_cp[$key]['interes'] = 0;
+                        $liquidacion_cp[$key]['total'] = $liquidacion_cp[$key]['interes_a2006'] + $liquidacion_cp[$key]['interes_d2006'];
 
-                    if ($mes == 12) {
-                        $mesada = $MESADA;
-                    }
+                        if ($mes == 12) {
+                            $mesada_inicial = $MESADA;
+                        }
 
-                    break;
-                } else {
-                    $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
-                    $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
-                    $liquidacion_cp[$key]['mesada'] = $MESADA;
-                    $liquidacion_cp[$key]['ajuste_pension'] = 0;
-                    $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
-                    $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
-                    $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
-                    $liquidacion_cp[$key]['interes_a2006'] = $INTERES_A2006;
-                    $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
-                    $liquidacion_cp[$key]['interes'] = 0;
-                    $liquidacion_cp[$key]['total'] = $TOTAL;
+                        break;
+                    } else {
+                        $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
+                        $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
+                        $liquidacion_cp[$key]['mesada'] = $MESADA;
+                        $liquidacion_cp[$key]['ajuste_pension'] = 0;
+                        $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
+                        $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
+                        $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
+                        $liquidacion_cp[$key]['interes_a2006'] = $INTERES_A2006;
+                        $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
+                        $liquidacion_cp[$key]['interes'] = 0;
+                        $liquidacion_cp[$key]['total'] = $TOTAL;
 
-                    if ($mes == 12) {
-                        $mesada = $MESADA;
+                        if ($mes == 12) {
+                            $mesada_inicial = $MESADA;
+                        }
                     }
                 }
+            } else {
+
+                //**************SALIDA FINAL*************** *//*
+
+                $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
+                $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
+                $liquidacion_cp[$key]['mesada'] = $MESADA;
+                $liquidacion_cp[$key]['ajuste_pension'] = 0;
+                $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
+                $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
+                $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
+                $liquidacion_cp[$key]['interes_a2006'] = $INTERES_A2006;
+                $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
+                $liquidacion_cp[$key]['interes'] = 0;
+                $liquidacion_cp[$key]['total'] = $TOTAL;
+
+                if ($mes == 12) {
+                    $mesada_inicial = $MESADA;
+                }
             }
-            /* } else {
-
-              //**************SALIDA FINAL*************** *//*
-
-              $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
-              $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
-              $liquidacion_cp[$key]['mesada'] = $MESADA;
-              $liquidacion_cp[$key]['ajuste_pension'] = 0;
-              $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
-              $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
-              $liquidacion_cp[$key]['cuota_parte'] = $CUOTAPARTE;
-              $liquidacion_cp[$key]['interes_a2006'] = $INTERES_A2006;
-              $liquidacion_cp[$key]['interes_d2006'] = $INTERESES_D2006;
-              $liquidacion_cp[$key]['interes'] = 0;
-              $liquidacion_cp[$key]['total'] = $TOTAL;
-
-              if ($mes == 12) {
-              $mesada = $MESADA;
-              }
-              } */
 
             //CALCULANDO LOS INTERESES DE OTRA FORMA JUNIO 2014
             // $liquidacion_cp[0]['interes_a2006'] = $this->Intereses_a2006($liquidacion_cp, $f_pension, $f_actual);

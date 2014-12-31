@@ -164,6 +164,7 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" rec_consecu_rec=recta_consecu_rec AND ";
                 $cadena_sql.=" prev_nit=recta_nitprev ";
                 $cadena_sql.=" ORDER BY recta_fechapago ASC ";
+                break;
 
             case "recaudos_simple":
                 $cadena_sql = " SELECT ";
@@ -171,7 +172,7 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" recta_fechadesde, ";
                 $cadena_sql.=" recta_fechahasta, ";
                 $cadena_sql.=" rec_pago_capital, ";
-                $cadena_sql.=" rec_pago_interes, ";
+                $cadena_sql.=" rec_pago_interes ";
                 $cadena_sql.=" FROM  ";
                 $cadena_sql.=" cuotas_partes.cuotas_recaudo_cuenta, cuotas_partes.cuotas_cobros, cuotas_partes.cuotas_recaudos, cuotas_partes.cuotas_previsora ";
                 $cadena_sql.=" WHERE ";
@@ -180,7 +181,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" cob_consecu_cta=recta_consecu_cta AND ";
                 $cadena_sql.=" rec_consecu_rec=recta_consecu_rec AND ";
                 $cadena_sql.=" prev_nit=recta_nitprev ";
-                $cadena_sql.=" ORDER BY recta_fechapago ASC ";
+                $cadena_sql.=" ORDER BY recta_fechadesde ASC ";
+                break;
 
 
             case "recaudos_fechaliq":
