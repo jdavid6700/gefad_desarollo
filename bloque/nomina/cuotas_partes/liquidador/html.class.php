@@ -666,28 +666,21 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' >Documento Pensionado:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
-                    <tr>
-                        <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
-                        <?
-                        if (is_array($sustitutos)) {
-                            foreach ($sustitutos as $key => $value) {
-                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
-                            }
-                        } else {
-                            echo "<td class='texto_elegante estilo_td' style='text-align:center;'></td>";
+                    <?
+                    if (is_array($sustitutos)) {
+                        foreach ($sustitutos as $key => $value) {
+                            echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
                         }
-                        ?>
-                        <td class='texto_elegante estilo_td' >Documento Sustituto:</td>
-                        <?
-                        if (is_array($sustitutos)) {
-                            foreach ($sustitutos as $key => $value) {
-                                echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td>";
-                            }
-                        } else {
-                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'></td>";
-                        }
-                        ?>
-                    </tr>
+                    } else {
+                        echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+                        echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;</td></tr>";
+                    }
+                    ?>
                 </table>
             </center>
             <br>

@@ -268,12 +268,12 @@ class funciones_liquidador extends funcionGeneral {
                     </tr>
                     <tr>
                         <td   align=center style=\"width:332px;text-align:center;\">
-        JACQUELINE ORTIZ ARENAS
+        ".$jefeTesoreria."
                             <br>Tesorero(a)
                         </td>
                         <td   align=center style=\"width:332px;text-align:center;\">
-       WILLIAM CARDENAS OVALLE
-                            <br>Vicerrector Administrativo y Financiero
+       ".$jefeRecursos."
+                            <br>Jefe División Recursos Humanos
                         </td>
                     </tr>
                 </table>
@@ -523,8 +523,8 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>  
         <td align='center' style=\"text-align:center; width: 650px;\" >
-                WILLIAM CARDENAS OVALLE
-                            <br>Vicerrector Administrativo y Financiero
+                ".$jefeRecursos."
+                            <br>Jefe División de Recursos Humanos
         </td>
     </tr>
 </table>
@@ -812,8 +812,8 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>  
         <td align='center' style=\"text-align:center; width: 650px;\" >
-                   WILLIAM CARDENAS OVALLE
-                            <br>Vicerrector Administrativo y Financiero
+                   ".$jefeRecursos."
+                            <br>Jefe División de Recursos Humanos
             <br>
 
         </td>
