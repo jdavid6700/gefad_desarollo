@@ -12,7 +12,7 @@
   ----------------------------------------------------------------------------------------
   | 00/03/2014 | Violeta Sosa            | 0.0.0.2     |                                 |
   ----------------------------------------------------------------------------------------
-  | 01/12/2014 | Violeta Sosa            | 0.0.0.4  |                                 |
+  | 01/12/2014 | Violeta Sosa            | 0.0.0.4     |                                 |
   ----------------------------------------------------------------------------------------
  */
 
@@ -268,11 +268,11 @@ class funciones_liquidador extends funcionGeneral {
                     </tr>
                     <tr>
                         <td   align=center style=\"width:332px;text-align:center;\">
-        ".$jefeTesoreria."
+        " . $jefeTesoreria . "
                             <br>Tesorero(a)
                         </td>
                         <td   align=center style=\"width:332px;text-align:center;\">
-       ".$jefeRecursos."
+       " . $jefeRecursos . "
                             <br>Jefe División Recursos Humanos
                         </td>
                     </tr>
@@ -332,22 +332,38 @@ class funciones_liquidador extends funcionGeneral {
         $sustitutos = $this->consultarSustitutos($parametros);
 
         $contenido2 = '';
-        foreach ($sustitutos as $key => $values) {
-            $contenido2.=" <tr> ";
-            $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
-            $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
-            $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
-            $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
-            $contenido2.=" </tr> ";
-            $contenido2.=" <tr> ";
-            $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
-            $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_fnac_sustituto'] . "</td> ";
-            $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
-            $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_resol_sustitucion'] . "</td> ";
-            $contenido2.=" </tr>";
+        if (is_array($sustitutos)) {
+            foreach ($sustitutos as $key => $values) {
+                $contenido2.=" <tr> ";
+                $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
+                $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+                $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
+                $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
+                $contenido2.=" </tr> ";
+                $contenido2.=" <tr> ";
+                $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
+                $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_fnac_sustituto'] . "</td> ";
+                $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
+                $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_resol_sustitucion'] . "</td> ";
+                $contenido2.=" </tr>";
+            }
+        } else {
+            foreach ($sustitutos as $key => $values) {
+                $contenido2.=" <tr> ";
+                $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
+                $contenido2.="      <td colspan='5'></td> ";
+                $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
+                $contenido2.="      <td colspan='1'></td> ";
+                $contenido2.=" </tr> ";
+                $contenido2.=" <tr> ";
+                $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
+                $contenido2.="      <td colspan='5'></td> ";
+                $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
+                $contenido2.="      <td colspan='1'></td> ";
+                $contenido2.=" </tr>";
+            }
+            
         }
-
-
 
         $ContenidoPdf = "
             <style type = \"text/css\">
@@ -475,11 +491,11 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
         
     <tr>
-         <th colspan='11'>DATOS PENSIONADO - SUSTITUTO</th>
+         <th colspan='8'>DATOS PENSIONADO - SUSTITUTO</th>
          </tr>
     <tr>
          <td colspan = '2'>Fecha Defunción Titular:</td >
-         <td colspan='9'>" . $sustitutos[0]['sus_fdefuncion'] . "</td>
+         <td colspan='6'>" . $sustitutos[0]['sus_fdefuncion'] . "</td>
     </tr>
     " . $contenido2 . "
 
@@ -523,7 +539,7 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>  
         <td align='center' style=\"text-align:center; width: 650px;\" >
-                ".$jefeRecursos."
+                " . $jefeRecursos . "
                             <br>Jefe División de Recursos Humanos
         </td>
     </tr>
@@ -812,7 +828,7 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
     <tr>  
         <td align='center' style=\"text-align:center; width: 650px;\" >
-                   ".$jefeRecursos."
+                   " . $jefeRecursos . "
                             <br>Jefe División de Recursos Humanos
             <br>
 
@@ -1688,19 +1704,19 @@ class funciones_liquidador extends funcionGeneral {
             } else {
                 if ($key == 12) {
                     $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion, $sumafija[0][0]);
-                }else{
+                } else {
                     $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial, $sumafija[0][0]);
                 }
             }
 
             if ($key == 0) {
                 //$FECHAS[$key] = $datos_concurrencia[0]['dcp_fecha_p'];
-                $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])))+1;
+                $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
                 $dias_pension = date('d', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
 
                 $datediff = ($dias_calculo - $dias_pension);
 
-                $MESADA = $datediff * ($mesada_inicial / ($dias_calculo-1));
+                $MESADA = $datediff * ($mesada_inicial / ($dias_calculo - 1));
             }
 
             //Determinar Cuota Parte
@@ -2481,7 +2497,7 @@ class funciones_liquidador extends funcionGeneral {
             }
         }
         $ent = '     ' . $ent;
-        if ($dec and $fra and !$zeros) {
+        if ($dec and $fra and ! $zeros) {
             $fin = ' coma';
             for ($n = 0; $n < strlen($fra); $n++) {
                 if (($s = $fra[$n]) == '0') {
