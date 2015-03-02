@@ -1035,7 +1035,7 @@ class html_formRecaudo {
             function acceptNum2(e) {
                 key = e.keyCode || e.which;
                 tecla = String.fromCharCode(key).toLowerCase();
-                letras = "01234567890";
+                letras = "01234567890.";
                 especiales = [8, 39];
                 tecla_especial = false
                 for (var i in especiales) {
@@ -1095,7 +1095,7 @@ class html_formRecaudo {
                 var total = 0;
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
-                    var total = parseInt(num<?php echo $key ?>) + total;
+                    var total = parseFloat(num<?php echo $key ?>) + total;
         <? } ?>
 
                 //VALOR COBRADO
@@ -1107,14 +1107,14 @@ class html_formRecaudo {
                 var total_cobro = 0;
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
-                    var total_cobro = parseInt(numc_<?php echo $key ?>) + total_cobro;
+                    var total_cobro = parseFloat(numc_<?php echo $key ?>) + total_cobro;
         <? } ?>
                 // COMPARACIÓN VALORES COBRADOS
 
                 var capital = document.getElementById('valor_pagado_capital').value;
                 var interes = document.getElementById('valor_pagado_interes').value;
 
-                var total_cuenta = parseInt(capital) + parseInt(interes);
+                var total_cuenta = parseFloat(capital) + parseFloat(interes);
 
                 if (total_cuenta > 0) {
                     document.getElementById('total_recaudo').value = total_cuenta;
@@ -1143,7 +1143,7 @@ class html_formRecaudo {
 
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
-                    var total_capital = parseInt(num<?php echo $key ?>) + total_capital;
+                    var total_capital = parseFloat(num<?php echo $key ?>) + total_capital;
         <? } ?>
                 //VALOR PAGADO INTERES
         <? foreach ($cuentas_pago as $key => $values) { ?>
@@ -1152,7 +1152,7 @@ class html_formRecaudo {
 
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
-                    var total_interes = parseInt(num<?php echo $key ?>) + total_interes;
+                    var total_interes = parseFloat(num<?php echo $key ?>) + total_interes;
         <? } ?>
 
                 total_capint = total_interes + total_capital;
@@ -1163,18 +1163,18 @@ class html_formRecaudo {
         <? } ?>
 
         <? foreach ($cuentas_pago as $key => $values) { ?>
-                    var total_cobro = parseInt(numc_<?php echo $key ?>) + total_cobro;
+                    var total_cobro = parseFloat(numc_<?php echo $key ?>) + total_cobro;
         <? } ?>
                 // COMPARACIÓN VALORES COBRADOS
                 if (total_cobro < total_capint) {
                     alert("¡Cuidado! Suma de Valor Pago es MAYOR a la Suma de Valor Cobrado")
-                    document.getElementById('total_recaudo').value = total_capint;
+                    document.getElementById('total_recaudo').value = parseFloat(total_capint).toFixed(2);
                     return false
                 }
 
                 if (total_cobro > total_capint) {
                     alert("¡Cuidado! Suma de Valor Pago es MENOR a la Suma de Valor Cobrado")
-                    document.getElementById('total_recaudo').value = total_capint;
+                    document.getElementById('total_recaudo').value = parseFloat(total_capint).toFixed(2);
                     return false
                 }
 

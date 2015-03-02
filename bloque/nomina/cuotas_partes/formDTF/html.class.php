@@ -560,7 +560,7 @@ class html_formDTF {
                 <?
             }
 
-            function formularioDTF_Modificar($rango, $datos_dtf) {
+    function formularioDTF_Modificar($rango, $datos_dtf) {
 
                 $fecha_max = date('d/m/Y', (strtotime("" . str_replace('/', '-', $rango[0]['fin']) . "+1 day")));
                 $fecha_min = date('d/m/Y', strtotime(str_replace('/', '-', $rango[0]['inicio'])));

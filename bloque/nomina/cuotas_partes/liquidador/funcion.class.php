@@ -107,7 +107,7 @@ class funciones_liquidador extends funcionGeneral {
         border-collapse:collapse; border-spacing: 3px; 
     }
 
-    table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm }
+    table.page_header {width: 100%; border: none; background-color: #DDDDFF; border-bottom: solid 1mm #AAAADD; padding: 2mm; margin-top: 1cm; }
     table.page_footer {width: 100%; border: none; background-color: #DDDDFF; border-top: solid 1mm #AAAADD; padding: 2mm}
 
     td, th { 
@@ -136,13 +136,13 @@ class funciones_liquidador extends funcionGeneral {
                 <th style=\"width:10px;\" colspan=\"1\">
                     <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
                 </th>
-                <th style=\"width:420px;font-size:13px;\" colspan=\"1\">
+                <th style=\"width:380px;font-size:13px;\" colspan=\"1\">
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
                 </th>
-                <th style=\"width:130px;font-size:10px;\" colspan=\"1\">
-                    <br>CUENTA DE COBRO No." . $consecutivo . " " . $fecha_cc . "<br><br>
+                <th style=\"width:170px;font-size:10px;\" colspan=\"1\">
+                    <br>CUENTA DE COBRO<br><br>No." . $consecutivo . "<br><br>" . $fecha_cc . "<br><br>
                 </th>
             </tr>
         </thead>               <tr>
@@ -162,9 +162,9 @@ class funciones_liquidador extends funcionGeneral {
      <table align='right'>
                     <tr>
                         <td>Nombre Pensionado:</td>
-                        <td style=\"width:309px;\">" . '&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] . "</td>
+                        <td style=\"width:320px;\">" . '&nbsp;&nbsp;' . $datos_basicos['nombre_emp'] . "</td>
                         <td>Documento Pensionado:</td>
-                        <td style=\"width:150px;\">" . '&nbsp;&nbsp;' . $datos_basicos['cedula'] . "</td>
+                        <td style=\"width:140px;\">" . '&nbsp;&nbsp;' . $datos_basicos['cedula'] . "</td>
                     </tr></table>
 </page_header>
 
@@ -238,7 +238,7 @@ class funciones_liquidador extends funcionGeneral {
                         <td style=\"text-align:right;\">" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_total']) . "</td>
             </tr>
             <tr>
-            <td style=\"width:675px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
+            <td style=\"width:648px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
             </tr>
             </table><br>             
             <table align='right'>
@@ -336,13 +336,13 @@ class funciones_liquidador extends funcionGeneral {
             foreach ($sustitutos as $key => $values) {
                 $contenido2.=" <tr> ";
                 $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
-                $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
+                $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_nombresus'] . "</td> ";
                 $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
                 $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_cedulasus'] . "</td> ";
                 $contenido2.=" </tr> ";
                 $contenido2.=" <tr> ";
                 $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
-                $contenido2.="      <td colspan='5'>" . $sustitutos[$key]['sus_fnac_sustituto'] . "</td> ";
+                $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_fnac_sustituto'] . "</td> ";
                 $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
                 $contenido2.="      <td colspan='1'>" . $sustitutos[$key]['sus_resol_sustitucion'] . "</td> ";
                 $contenido2.=" </tr>";
@@ -351,13 +351,13 @@ class funciones_liquidador extends funcionGeneral {
             foreach ($sustitutos as $key => $values) {
                 $contenido2.=" <tr> ";
                 $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
-                $contenido2.="      <td colspan='5'></td> ";
+                $contenido2.="      <td colspan='1'></td> ";
                 $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
                 $contenido2.="      <td colspan='1'></td> ";
                 $contenido2.=" </tr> ";
                 $contenido2.=" <tr> ";
                 $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
-                $contenido2.="      <td colspan='5'></td> ";
+                $contenido2.="      <td colspan='1'></td> ";
                 $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
                 $contenido2.="      <td colspan='1'></td> ";
                 $contenido2.=" </tr>";
@@ -395,7 +395,7 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
-<page backtop='40mm' backbottom='20mm' backleft='30mm' backright='5mm' pagegroup='new'>
+<page backtop='40mm' backbottom='20mm' backleft='30mm' backright='15mm' pagegroup='new'>
 <page_header>
     <table align='right'>
         <thead>
@@ -403,13 +403,13 @@ class funciones_liquidador extends funcionGeneral {
                 <th style=\"width:60px;\" colspan=\"1\">
                     <img alt=\"Imagen\" src=" . $direccion . "/nomina/cuotas_partes/Images/escudo1.png\" />
                 </th>
-                <th style=\"width:450px;font-size:13px;\" colspan=\"1\">
+                <th style=\"width:400px;font-size:13px;\" colspan=\"1\">
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br><br>
                 </th>
-                <th style=\"width:140px;font-size:10px;\" colspan=\"1\">
-                    <br>RESUMEN CUENTA DE COBRO
+                <th style=\"width:150px;font-size:10px;\" colspan=\"1\">
+                    <br>RESUMEN CUENTA DE COBRO<br><br>
                     <br>No." . $consecutivo . "<br>
                     <br>" . $fecha_cc . "<br><br>
                 </th>
@@ -445,57 +445,57 @@ class funciones_liquidador extends funcionGeneral {
 </page_footer>
 <table align='right' style=\"width: 650px;\">
     <tr>
-        <th colspan=\"8\" style=\"width: 650px;\">DATOS PENSIONADO - PENSIÓN</th>
+        <th colspan=\"4\" style=\"width: 650px;\">DATOS PENSIONADO - PENSIÓN</th>
     </tr>
     <tr>
-        <td colspan='3'>Nombres y Apellidos del Titular:</td>
-        <td colspan='5'>" . $datos_basicos['nombre_emp'] . "</td>
+        <td colspan='2'>Nombres y Apellidos del Titular:</td>
+        <td colspan='2'>" . $datos_basicos['nombre_emp'] . "</td>
     </tr>
     <tr>
-        <td colspan='3'>Documento:</td>
-        <td colspan='5'>" . $datos_basicos['cedula'] . "</td>
+        <td colspan='2'>Documento:</td>
+        <td colspan='2'>" . $datos_basicos['cedula'] . "</td>
     </tr>
     <tr>
-        <td colspan='3'>Fecha de Nacimiento:</td>
-        <td colspan='5'>" . $datos_pensionado[0]['FECHA_NAC'] . "</td>
+        <td colspan='2'>Fecha de Nacimiento:</td>
+        <td colspan='2'>" . $datos_pensionado[0]['FECHA_NAC'] . "</td>
     </tr>
     <tr>
-        <td colspan='3'>Resolución Reconocimiento Concurrencia:</td>
-        <td colspan='5'>" . $datos_concurrencia[0]['dcp_actoadmin'] . "</td>
+        <td colspan='2'>Resolución Reconocimiento Concurrencia:</td>
+        <td colspan='2'>" . $datos_concurrencia[0]['dcp_actoadmin'] . "</td>
     </tr>
     <tr>
-        <td colspan='3'>Fecha de Efectividad:</td>
-        <td colspan='5'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))) . "</td>
+        <td colspan='2'>Fecha de Efectividad:</td>
+        <td colspan='2'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))) . "</td>
     </tr>
     <tr>
-        <td colspan='3'>Fecha Inicio de Concurrencia:</td>
-        <td colspan='5'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension']))) . "</td>
+        <td colspan='2'>Fecha Inicio de Concurrencia:</td>
+        <td colspan='2'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension']))) . "</td>
     </tr>
     <tr>
         " . /* <td colspan='1'>Días a Cargo:</td>
                   <td colspan='2'>" . $dias_cargo . "</td>
                   <td colspan='1'>Total Días</td>
                   <td colspan='2'>" . $total_dias . "</td> */"
-        <td colspan='3'>Porcentaje Aceptado:</td>
-        <td colspan='5'>" . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' . "</td>
+        <td colspan='2'>Porcentaje Aceptado:</td>
+        <td colspan='2'>" . (($datos_concurrencia[0]['dcp_porcen_cuota']) * 100) . '&nbsp;%' . "</td>
         " . /* <td colspan='1'>Porcentaje Calculado:</td>
                   <td colspan='1'>" . \round(((($dias_cargo / $total_dias)) * 100), 3) . '&nbsp;%' . "</td> */"
     </tr>
     <tr>
-        <td colspan='3'>Mesada Inicial:</td>
-        <td colspan='5'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada'], 2, ',', '.') . "</td>
+        <td colspan='2'>Mesada Inicial:</td>
+        <td colspan='2'>" . number_format($datos_concurrencia[0]['dcp_valor_mesada'], 2, ',', '.') . "</td>
             </tr>
     <tr>
-        <td colspan='3'>Cuota Parte:</td>
-        <td colspan='5'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota'], 2, ',', '.') . "</td>
+        <td colspan='2'>Cuota Parte:</td>
+        <td colspan='2'>" . number_format($datos_concurrencia[0]['dcp_valor_cuota'], 2, ',', '.') . "</td>
     </tr>
         
     <tr>
-         <th colspan='8'>DATOS PENSIONADO - SUSTITUTO</th>
+         <th colspan='4'>DATOS PENSIONADO - SUSTITUTO</th>
          </tr>
     <tr>
-         <td colspan = '2'>Fecha Defunción Titular:</td >
-         <td colspan='6'>" . $sustitutos[0]['sus_fdefuncion'] . "</td>
+         <td colspan='2'>Fecha Defunción Titular:</td >
+         <td colspan='2'>" . $sustitutos[0]['sus_fdefuncion'] . "</td>
     </tr>
     " . $contenido2 . "
 
@@ -683,7 +683,7 @@ class funciones_liquidador extends funcionGeneral {
 { padding-left: 5mm; }
     </style>
 
-<page backtop='65mm' backbottom='23mm' backleft='30mm' backright='3mm' pagegroup='new'>
+<page backtop='67mm' backbottom='23mm' backleft='30mm' backright='3mm' pagegroup='new'>
 <page_header>
     <table align='right'>
         <thead>
@@ -695,7 +695,8 @@ class funciones_liquidador extends funcionGeneral {
                     <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                     <br> NIT 899999230-7<br>
                     <br> DIVISIÓN DE RECURSOS HUMANOS<br>
-                    <br> Detalle Cuenta de Cobro 
+                    <br> Detalle Cuenta de Cobro<br>
+                    
                 <br>" . $consecu_cc . "<br><br>
             </th>
         </tr>

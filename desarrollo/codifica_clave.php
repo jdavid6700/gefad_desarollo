@@ -25,7 +25,7 @@ $crypto=new encriptar();
 $semilla="";
 
 echo "<br>CODIFICACION DE CLAVE<BR> ";
-$usuario='WCUOTASPARTES';
+$usuario='sabish123';
 $pwd='wcuotaspartes_tst@2013';		
                 
 echo "<br>usuario: ".$usuario." => ".$crypto->codificar_variable($usuario,  $semilla);
@@ -49,8 +49,8 @@ echo "<br>clave: ".$pwd." => ".$crypto->codificar_variable($pwd,  $semilla);
 
 
 echo "<br><br>DECODIFICACION DE CLAVE<BR> ";
-$usuario2='4QON2E68eVHH9mzaiqVBMg';
-$pwd2='4gNQjk68eVErQchONtU';		
+$usuario2='DwI0j3yWFlJK-_z6Q1wbz_MwrQ';
+$pwd2='FQK1hXyWFlKRETNe_vNrZKTXFB22QpQ';		
 
 echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
 echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);	

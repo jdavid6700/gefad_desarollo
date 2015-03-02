@@ -464,12 +464,12 @@ class html_liquidador {
                         <td class='texto_elegante estilo_td' >Documento Pensionado:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' . $datos_basicos['cedula'] ?></td>
                     </tr>
-                    <tr>
+                    <!--tr>
                         <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
                         <td class='texto_elegante estilo_td' >Documento Sustituto:</td>
                         <td class='texto_elegante estilo_td ' colspan='1'><? echo'&nbsp;&nbsp;' ?></td>
-                    </tr>
+                    </tr-->
                 </table>
             </center>
             <br>

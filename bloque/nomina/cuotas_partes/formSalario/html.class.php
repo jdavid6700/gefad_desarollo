@@ -70,7 +70,7 @@ class html_formSalario {
                 <tr>
                     <th class='encabezado_registro' style="text-align:center">NORMA</th>
                     <th class='encabezado_registro' style="text-align:center">NUMERO</th>
-                    <th class='encabezado_registro' style="text-align:center">AÑO</th>
+                    <th class='encabezado_registro' style="text-align:center">AÑO NORMA</th>
                     <th class='encabezado_registro' style="text-align:center">DESDE</th>
                     <th class='encabezado_registro' style="text-align:center">HASTA</th>
                     <th class='encabezado_registro' style="text-align:center">MONTO MENSUAL</th>
@@ -409,7 +409,7 @@ class html_formSalario {
                 <div class="formrow f1 ">
                     <div id="p1f10" class="field n1">
                         <div class="caption capleft alignleft">
-                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Año a Registrar</span></span></span></label>
+                            <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Año Norma</span></span></span></label>
                             <div class="null"></div>
                         </div>
                         <div class="control capleft">
@@ -777,7 +777,7 @@ class html_formSalario {
                         <div class="formrow f1 ">
                             <div id="p1f10" class="field n1">
                                 <div class="caption capleft alignleft">
-                                    <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Año a Registrar</span></span></span></label>
+                                    <label class="fieldlabel" for="año_registrar"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF"><a STYLE="color: red" >* </a>Año Norma</span></span></span></label>
                                     <div class="null"></div>
                                 </div>
                                 <div class="control capleft">

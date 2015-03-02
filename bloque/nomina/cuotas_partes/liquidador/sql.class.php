@@ -471,14 +471,14 @@ class sql_liquidador extends sql {
                 break;
 
             case "jefeRecursosH":
-                $cadena_sql = " SELECT emp_nombre ";
+                $cadena_sql = " SELECT emp_nombre1||' '||emp_nombre2||' '||emp_apellido1||' '||emp_apellido2 as emp_nombre ";
                 $cadena_sql.= " FROM gedep, peemp ";
                 $cadena_sql.= " WHERE emp_cod = dep_emp_cod ";
                 $cadena_sql.= " AND dep_nombre = 'DIVISION DE RECURSOS HUMANOS' ";
                 break;
 
             case "jefeTesoreria":
-                $cadena_sql = " SELECT emp_nombre ";
+                $cadena_sql = " SELECT emp_nombre1||' '||emp_nombre2||' '||emp_apellido1||' '||emp_apellido2 as emp_nombre ";
                 $cadena_sql.= " FROM gedep, peemp ";
                 $cadena_sql.= " WHERE emp_cod = dep_emp_cod ";
                 $cadena_sql.= " AND dep_nombre = 'TESORERIA' ";

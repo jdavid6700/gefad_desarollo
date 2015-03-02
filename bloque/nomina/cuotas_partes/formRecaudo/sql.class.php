@@ -78,7 +78,9 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" AND cob_nitprev=recta_nitprev ";
                 $cadena_sql.=" AND recta_cedula=cob_cedula ";
                 $cadena_sql.=" AND recta_estado='ACTIVO' ";
+                $cadena_sql.=" AND recta_saldototal!=0 ";
                 $cadena_sql.=" ORDER by cob_fgenerado ASC ";
+                
                 break;
 
             case "consultarCobrosEstado":

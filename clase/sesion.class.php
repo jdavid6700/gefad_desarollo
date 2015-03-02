@@ -306,10 +306,6 @@ class sesiones
 
 	} //Fin del mètodo especificar_empresa
 
-
-
-
-
 	/**
 	 *@METHOD crear_sesion
 	 *
@@ -324,8 +320,6 @@ class sesiones
 
 	function crear_sesion($configuracion,$usuario_aplicativo,$nivel_acceso)
     	{
-
-
 		if($usuario_aplicativo!=""){
 			$this->usuario=$usuario_aplicativo;
 		}
@@ -368,7 +362,7 @@ class sesiones
 
 
                         //Insertar id_usuario
-			$this->resultado=$this->guardar_valor_sesion($configuracion,'id_usuario',$this->id_usuario,$this->sesion_id);
+			//$this->resultado=$this->guardar_valor_sesion($configuracion,'id_usuario',$this->id_usuario,$this->sesion_id);
 			//Insertar usuario
 			$this->resultado=$this->guardar_valor_sesion($configuracion,'usuario',$this->usuario,$this->sesion_id);
 			//Insertar expiracion

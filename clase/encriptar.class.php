@@ -51,6 +51,13 @@ class encriptar{
 		return $cadena;
 
 	}
+        
+        function codificar_md5($cadena,$configuracion='')
+	{       /*reemplaza valores + / */
+		$cadena=  md5($cadena);
+		return $cadena;
+
+	}
 
 
 	function decodificar($cadena)

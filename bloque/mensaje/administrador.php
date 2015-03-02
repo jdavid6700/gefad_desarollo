@@ -1,4 +1,4 @@
-<table class="tablaMenu">
+<table class="tablaMenu" align="center">
 	<tbody>
 		<tr>
 			<td>

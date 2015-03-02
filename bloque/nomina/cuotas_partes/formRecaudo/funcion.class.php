@@ -723,7 +723,7 @@ class funciones_formRecaudo extends funcionGeneral {
                     "</script> ";
                     $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                     $variable = 'pagina=formularioRecaudo';
-                    $variable.='&opcion=consulta_cp';
+                    $variable.='&opcion=';
                     $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                     echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                     exit;
@@ -777,7 +777,7 @@ class funciones_formRecaudo extends funcionGeneral {
                     "</script> ";
                     $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
                     $variable = 'pagina=formularioRecaudo';
-                    $variable.='&opcion=consulta_cp';
+                    $variable.='&opcion=';
                     $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                     echo "<script>location.replace('" . $pagina . $variable . "')</script>";
                     exit;
@@ -800,7 +800,7 @@ class funciones_formRecaudo extends funcionGeneral {
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=formularioRecaudo';
-            $variable.='&opcion=consulta_cp';
+            $variable.='&opcion=';
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
             exit;
@@ -852,7 +852,7 @@ class funciones_formRecaudo extends funcionGeneral {
             if (strstr($key, 'valor_pagado_capital')) {
                 $valor = substr($key, strlen('valor_pagado_capital'));
 
-                if ($datos['valor_pagado_capital' . $valor] == 0) {
+                if ($datos['valor_pagado_capital' . $valor] < 0) {
                     echo "<script type=\"text/javascript\">" .
                     "alert('Valor Pagado NO Válido');" .
                     "</script> ";

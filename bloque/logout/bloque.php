@@ -28,6 +28,9 @@ include_once($configuracion["raiz_documento"].$configuracion["clases"]."/dbms.cl
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/sesion.class.php");
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
 
+
+date_default_timezone_set('America/Bogota');
+
 $acceso_db=new dbms($configuracion);
 $enlace=$acceso_db->conectar_db();
 if($enlace)
