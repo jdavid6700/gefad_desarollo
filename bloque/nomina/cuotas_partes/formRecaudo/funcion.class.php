@@ -913,7 +913,20 @@ class funciones_formRecaudo extends funcionGeneral {
                 exit;
             }
         }
-
+        
+        $observacion=  strlen($datos['medio_pago']);
+      
+        if($observacion>150){
+             echo "<script type=\"text/javascript\">" .
+                "alert('Campo no diligenciado correctamente');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioRecaudo';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+        }
 
         $total_capital = 0;
         $total_interes = 0;

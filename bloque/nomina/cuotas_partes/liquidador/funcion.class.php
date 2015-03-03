@@ -128,7 +128,7 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
-<page backtop='55mm' backbottom='20mm' backleft='30mm' backright='3mm' pagegroup='new'>
+<page backtop='55mm' backbottom='20mm' backleft='10mm' backright='20mm' pagegroup='new'>
 <page_header>
     <table align='right'>
         <thead>
@@ -171,7 +171,7 @@ class funciones_liquidador extends funcionGeneral {
 <page_footer>
     <table align='center' width='100%'>
         <tr>
-            <td align='center' style=\"width: 750px;\">
+            <td align='center' style=\"width: 650px;\">
                 Universidad Distrital Francisco José de Caldas
                 <br>
                 Todos los derechos reservados.
@@ -189,7 +189,7 @@ class funciones_liquidador extends funcionGeneral {
 <table align='right'>  
  <thead>
         <tr>
-            <th colspan=\"8\" style=\"width:650px; font-size:12px;\">SUSTITUTOS REGISTRADOS</th>
+            <th colspan=\"8\" style=\"width:612px; font-size:12px;\">SUSTITUTOS REGISTRADOS</th>
         </tr>
            </thead>
          <tbody>
@@ -238,7 +238,7 @@ class funciones_liquidador extends funcionGeneral {
                         <td style=\"text-align:right;\">" . '&nbsp;$&nbsp;' . number_format($totales_liquidacion[0]['liq_total']) . "</td>
             </tr>
             <tr>
-            <td style=\"width:648px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
+            <td style=\"width:608px;text-align:center;\" colspan=\"45\">SON&nbsp;" . $enletras . "</td>
             </tr>
             </table><br>             
             <table align='right'>
@@ -267,11 +267,11 @@ class funciones_liquidador extends funcionGeneral {
                         </td>
                     </tr>
                     <tr>
-                        <td   align=center style=\"width:332px;text-align:center;\">
+                        <td   align=center style=\"width:300px;text-align:center;\">
         " . $jefeTesoreria . "
                             <br>Tesorero(a)
                         </td>
-                        <td   align=center style=\"width:332px;text-align:center;\">
+                        <td   align=center style=\"width:300px;text-align:center;\">
        " . $jefeRecursos . "
                             <br>Jefe División Recursos Humanos
                         </td>
@@ -285,7 +285,7 @@ class funciones_liquidador extends funcionGeneral {
 
 
 
-        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', 3);
+        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', array(30,20,15,2));
         $PDF->pdf->SetDisplayMode('fullpage');
         $PDF->writeHTML($ContenidoPdf);
         clearstatcache();
