@@ -348,7 +348,6 @@ class funciones_liquidador extends funcionGeneral {
                 $contenido2.=" </tr>";
             }
         } else {
-            foreach ($sustitutos as $key => $values) {
                 $contenido2.=" <tr> ";
                 $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
                 $contenido2.="      <td colspan='1'></td> ";
@@ -360,9 +359,7 @@ class funciones_liquidador extends funcionGeneral {
                 $contenido2.="      <td colspan='1'></td> ";
                 $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
                 $contenido2.="      <td colspan='1'></td> ";
-                $contenido2.=" </tr>";
-            }
-            
+                $contenido2.=" </tr>";            
         }
 
         $ContenidoPdf = "
@@ -395,7 +392,7 @@ class funciones_liquidador extends funcionGeneral {
         font-size:10px
     }
 </style>
-<page backtop='40mm' backbottom='20mm' backleft='30mm' backright='15mm' pagegroup='new'>
+<page backtop='40mm' backbottom='20mm' backleft='30mm' backright='10mm' pagegroup='new'>
 <page_header>
     <table align='right'>
         <thead>
@@ -443,9 +440,9 @@ class funciones_liquidador extends funcionGeneral {
      <p style=\"font-size:7px\">Diseño forma: J. D. C. M.</p>
         <p style='text-align: right; font-size:10px;'>[[page_cu]]/[[page_nb]]</p>
 </page_footer>
-<table align='right' style=\"width: 650px;\">
+<table align='right'>
     <tr>
-        <th colspan=\"4\" style=\"width: 650px;\">DATOS PENSIONADO - PENSIÓN</th>
+        <th colspan='4' style=\"width: 600px;\">DATOS PENSIONADO - PENSIÓN</th>
     </tr>
     <tr>
         <td colspan='2'>Nombres y Apellidos del Titular:</td>
@@ -491,8 +488,8 @@ class funciones_liquidador extends funcionGeneral {
     </tr>
         
     <tr>
-         <th colspan='4'>DATOS PENSIONADO - SUSTITUTO</th>
-         </tr>
+         <th colspan='4' >DATOS PENSIONADO - SUSTITUTO</th>
+    </tr>
     <tr>
          <td colspan='2'>Fecha Defunción Titular:</td >
          <td colspan='2'>" . $sustitutos[0]['sus_fdefuncion'] . "</td>
@@ -501,7 +498,7 @@ class funciones_liquidador extends funcionGeneral {
 
 </table>
 <br>
-<table align='center' style=\"width: 650px;\">
+<table align='center'>
 <thead>
     <tr>
         <th colspan=\"1\" width=\"5%\">PERIODO</th>
@@ -538,7 +535,7 @@ class funciones_liquidador extends funcionGeneral {
         </td>
     </tr>
     <tr>  
-        <td align='center' style=\"text-align:center; width: 650px;\" >
+        <td align='center' style=\"text-align:center; width: 550px;\" >
                 " . $jefeRecursos . "
                             <br>Jefe División de Recursos Humanos
         </td>
@@ -547,7 +544,7 @@ class funciones_liquidador extends funcionGeneral {
 </page>
  ";
 
-        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', 3);
+        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8');
         $PDF->pdf->SetDisplayMode('fullpage');
         $PDF->writeHTML($ContenidoPdf);
         clearstatcache();
