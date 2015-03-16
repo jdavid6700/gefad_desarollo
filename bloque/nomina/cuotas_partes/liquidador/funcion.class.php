@@ -285,7 +285,7 @@ class funciones_liquidador extends funcionGeneral {
 
 
 
-        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', array(30,20,15,2));
+        $PDF = new HTML2PDF('P', 'Letter', 'es', true, 'UTF-8', array(30, 20, 15, 2));
         $PDF->pdf->SetDisplayMode('fullpage');
         $PDF->writeHTML($ContenidoPdf);
         clearstatcache();
@@ -348,18 +348,18 @@ class funciones_liquidador extends funcionGeneral {
                 $contenido2.=" </tr>";
             }
         } else {
-                $contenido2.=" <tr> ";
-                $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
-                $contenido2.="      <td colspan='1'></td> ";
-                $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
-                $contenido2.="      <td colspan='1'></td> ";
-                $contenido2.=" </tr> ";
-                $contenido2.=" <tr> ";
-                $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
-                $contenido2.="      <td colspan='1'></td> ";
-                $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
-                $contenido2.="      <td colspan='1'></td> ";
-                $contenido2.=" </tr>";            
+            $contenido2.=" <tr> ";
+            $contenido2.="      <td colspan='1'>Nombre Sustituto:</td> ";
+            $contenido2.="      <td colspan='1'></td> ";
+            $contenido2.="      <td colspan='1'>Documento Sustituto:</td> ";
+            $contenido2.="      <td colspan='1'></td> ";
+            $contenido2.=" </tr> ";
+            $contenido2.=" <tr> ";
+            $contenido2.="      <td colspan='1'>Fecha Nacimiento Sustituto:</td> ";
+            $contenido2.="      <td colspan='1'></td> ";
+            $contenido2.="      <td colspan='1'>Resolución de Sustitución:</td> ";
+            $contenido2.="      <td colspan='1'></td> ";
+            $contenido2.=" </tr>";
         }
 
         $ContenidoPdf = "
