@@ -86,7 +86,8 @@ class sql_liquidador extends sql {
                 $cadena_sql.=" to_char(EMP_FECHA_NAC,'DD/MM/YYYY') as FECHA_NAC, ";
                 $cadena_sql.=" EMP_FALLECIDO as fallecido ";
                 $cadena_sql.=" from peemp ";
-                $cadena_sql.=" where emp_nro_iden='" . $variable['cedula'] . "' and emp_estado='A' ";
+                $cadena_sql.=" where emp_nro_iden='" . $variable['cedula'] . "' ";
+                //$cadena_sql.=" and emp_estado='A' ";
                 break;
 
             case "datos_concurrencia":

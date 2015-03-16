@@ -156,9 +156,10 @@ class funciones_reporteFinanciero extends funcionGeneral {
             //Reemplaza las variables en la consulta sql
             //var_dump($_REQUEST);
             foreach ($_REQUEST as $key => $value) {
-                if (isset($_REQUEST[strtolower($key)]) && is_numeric($_REQUEST[strtolower($key)]) && $_REQUEST[strtolower($key)] > 0 && $_REQUEST[strtolower($key)] != '') {
+                
+                if (isset($_REQUEST[strtolower($key)]) && (is_numeric($_REQUEST[strtolower($key)]) && $_REQUEST[strtolower($key)] > 0) && $_REQUEST[strtolower($key)] != '') {
                     $reemplazo = " LIKE '%" . $_REQUEST[strtolower($key)] . "%'";
-                } elseif (isset($_REQUEST[strtolower($key)]) && $_REQUEST[strtolower($key)] != '') {
+                } elseif (isset($_REQUEST[strtolower($key)]) && $_REQUEST[strtolower($key)] != '' && !is_numeric($_REQUEST[strtolower($key)])) {
                     $reemplazo = " LIKE '%" . $_REQUEST[strtolower($key)] . "%'";
                 }
                 /* {$reemplazo=" = ".$_REQUEST[strtolower($key)];} */ 
@@ -167,7 +168,7 @@ class funciones_reporteFinanciero extends funcionGeneral {
                 }
                 $reporteSQL[0]['rep_sql'] = str_replace('$P{\'' . strtolower($key) . '\'}', $reemplazo, $reporteSQL[0]['rep_sql']);
             }
-            // echo $reporteSQL[0]['rep_sql'];     
+             //echo $reporteSQL[0]['rep_sql'];     
             //busca y ejecuta los datos para generar el reporte
             $accesoReporte = $this->conectarDB($this->configuracion, $reporteSQL[0]['rep_conect']);
             $datosReporte = $this->ejecutarSQL($this->configuracion, $accesoReporte, $reporteSQL[0]['rep_sql'], "busqueda");

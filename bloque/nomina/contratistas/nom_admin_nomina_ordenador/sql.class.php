@@ -535,6 +535,7 @@ class sql_adminNominaOrdenador extends sql
                                 $cadena_sql.=" WHERE";
                                 $cadena_sql.=" dtn_id ='".$variable."'";
                                 break;
+
 			default:
 				$cadena_sql="";
 				break;
@@ -545,3 +546,4 @@ class sql_adminNominaOrdenador extends sql
 	
 }//fin clase sql_adminNominaOrdenador
 ?>
+

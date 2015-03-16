@@ -74,7 +74,7 @@ class html_adminCuentaCobro {
 
             <br>
         </form>
-        <?
+<?php        
     }
 
     function previsoraManual($cedula, $datos_en) {
@@ -152,7 +152,7 @@ class html_adminCuentaCobro {
             <div class="control capleft">
                 <div class="dropdown">
 
-                    <?
+                    <?php
                     unset($combo);
                     //prepara los datos como se deben mostrar en el combo
                     $combo[0][0] = '0';
@@ -179,7 +179,7 @@ class html_adminCuentaCobro {
             </div>
         </form>
 
-        <?
+        <?php
     }
 
     function formRegistroManual($datos_previsora, $basicos, $rango, $r_cuenta) {
@@ -965,7 +965,7 @@ class html_adminCuentaCobro {
 
             <br>
         </form>
-        <?
+        <?php
     }
 
     function form_generar_cuenta($datos_en, $datos_em) {

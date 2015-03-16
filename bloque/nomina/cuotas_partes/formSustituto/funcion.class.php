@@ -211,6 +211,35 @@ class funciones_formSustituto extends funcionGeneral {
             exit;
         }
 
+        $defuncion = strtotime(str_replace('/', '-', $datos['fecha_muerte']));
+        $defuncion_c = strtotime(str_replace('/', '-', $datos['fecha_certificadod']));
+        $defuncion_sus = strtotime(str_replace('/', '-', $datos['fecha_res_sustitucion']));
+
+        if ($defuncion_c < $defuncion) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha de certificado defunción no válida.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSustituto';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+        if ($defuncion_sus < $defuncion || $defuncion_sus < $defuncion_c) {
+            echo "<script type=\"text/javascript\">" .
+            "alert('Fecha de certificado de sustitución no válida');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formularioSustituto';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace(' " . $pagina . $variable . "')</script>";
+            exit;
+        }
+
+
         $parametros = array(
             'cedula_pen' => (isset($datos['cedula_pen']) ? $datos['cedula_pen'] : ''),
             'cedula_sustituto' => (isset($datos['cedula_sustituto']) ? $datos['cedula_sustituto'] : ''),
@@ -234,6 +263,7 @@ class funciones_formSustituto extends funcionGeneral {
         );
 
         $registro_sustituto = $this->registrarSustituto($parametros);
+
 
         if ($registro_sustituto == true) {
             $registroD[0] = "GUARDAR";

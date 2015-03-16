@@ -33,8 +33,8 @@ echo "<br>clave: ".$pwd." => ".$crypto->codificar_variable($pwd,  $semilla);
 
 
 echo "<br>CODIFICACION DE CLAVE<BR> ";
-$usuario='root';
-$pwd='sistemasoas';		
+$usuario='admin';
+$pwd='79188139';		
 
 /*
 WQI55POzSFHRzd2bVg   --- motor

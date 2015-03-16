@@ -9,6 +9,10 @@
 if (!isset($GLOBALS["autorizado"])) {
     include("../index.php");
     exit;
+
+    include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/dbms.class.php");
+    include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/sesion.class.php");
+    include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
 }
 
 class html_infoTributario {
@@ -52,6 +56,18 @@ class html_infoTributario {
         $id = $_REQUEST['identificacion'];
         $id_tipo = $_REQUEST['id_tipo'];
 
+
+        //echo '-'.$vigencia; echo '<br>';
+        //echo '-'.$vinculacion = $_REQUEST['vinculacion'];echo '<br>';
+        //echo '-'.$estado = $_REQUEST['estado'];echo '<br>';
+        //echo '-'.$contrato = $_REQUEST['contrato'];echo '<br>';
+        //echo '-'.$nombre = $_REQUEST['nombre'];echo '<br>';
+        //echo '-'.$apellido = $_REQUEST['apellido'];echo '<br>';
+        //echo '-'.$ap2 = $_REQUEST['ap2'];echo '<br>';
+        //echo '-'.$id = $_REQUEST['identificacion'];echo '<br>';
+        //echo '-'.$id_tipo = $_REQUEST['id_tipo'];echo '<br>';
+        //echo "aqui estoy";
+        //exit;
         //Datos traidos desde postgres
         ?>
 
@@ -67,23 +83,19 @@ class html_infoTributario {
                             <br>NIT 899999230-7 <br><br>
                         </th>
                     </tr>
-
                     <tr>
                         <td colspan='4' class='estilo_td2 texto_elegante2' align=center >
-
-                            <br>FORMATO PERSONAS NATURALES 
-                            <br>CERTIFICACIÓN DECRETO 1070 DE 2013 PARA PERSONAS NATURALES 
-                            <br>VINCULADAS CONTRACTUALMENTE CON LA UNIVERSIDAD DISTRITAL
-
+                            <br>FORMATO PERSONAS NATURALES<br>
+                            <? echo $datos_pre[0]['enc_nombre']?>
                         </td>
                     </tr>
                     <tr>
                         <td colspan='4' class='estilo_td2 texto_elegante2'  >
                             <br><br>
                             <?
-                            $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
+                            $dias = array("Domingo ", "Lunes ", "Martes ", "Miercoles ", "Jueves ", "Viernes ", "Sábado ");
                             $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-                            echo 'Bogotá D.C. ' . $dias[date('w')] . " " . date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
+                            echo 'Bogotá D.C. ' . $dias[date('w')] . ", " . date('d') . " de " . $meses[date('n') - 1] . " del " . date('Y');
 
                             echo '<br>';
                             ?>
@@ -92,9 +104,7 @@ class html_infoTributario {
                             <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                             <br>Ciudad
                             <br><br><br>
-
-                            Yo <? echo $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2 ?>, por medio de la presente y para dar cumplimiento al artículo 1° 
-                            del decreto 1070 de 2013, me permito informar bajo la gravedad de juramento lo siguiente:
+                            Yo <? echo $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2.' '.$datos_pre[0]['enc_descripcion']; ?>
                             <br><br>
                         </td>
                     </tr>
@@ -114,14 +124,20 @@ class html_infoTributario {
                     </tr>
 
                     <?
+                    //var_dump($datos_pre);
+                    //exit;
+                    $soporte='';
                     foreach ($datos_pre as $key => $dato) {
+                         
+                        $cont_ini = ($key==0)? $dato['preg_id'] :$cont_ini;
                         $id_pregunta = (isset($dato['preg_id']) ? $dato['preg_id'] : '');
                         $pregunta = (isset($dato['preg_nombre']) ? $dato['preg_nombre'] : '');
                         $id_encuesta = (isset($dato['form_enc_id']) ? $dato['form_enc_id'] : '');
-
+                        $posicion = (isset($dato['form_posicion']) ? $dato['form_posicion'] : '');
+                        $soporte = ($dato['form_soportar']=='S') ? $soporte.$dato['form_posicion']."," : $soporte;
 
                         echo "<tr>";
-                        echo "<td class='texto_elegante2 estilo_td' align=center width=30 >" . $id_pregunta . "</td>";
+                        echo "<td class='texto_elegante2 estilo_td' align=center width=30 >" . $posicion . "</td>";
                         echo "<td class='texto_elegante estilo_td' width=500>" . $pregunta . "</td>";
                         echo "
                         <td class='texto_elegante estilo_td' width=50 style='text-align: center; vertical-align: middle;'>
@@ -139,17 +155,20 @@ class html_infoTributario {
                         echo "</tr>";
                     }
                     ?>
-
-                    <tr>
+                    <tr><td class='estilo_td2 texto_elegante2 ' colspan='4'>
+                            <? echo '<br>Nota: Los soportes de los numerales '.$soporte.' del presente certificado deberán presentarse a más tardar el día '.$dias[date('w', strtotime($datos_pre[0]['enc_fec_soportes']))].' '.date('d', strtotime($datos_pre[0]['enc_fec_soportes']))." de ". $meses[(date('m', strtotime($datos_pre[0]['enc_fec_soportes']))) - 1]." del " . date('Y', strtotime($datos_pre[0]['enc_fec_soportes'])).', junto con el cumplido correspondiente.<br>';?>
+                        </td>
+                    </tr>    
+                    <tr>    
                         <td class='estilo_td2 texto_elegante2' colspan='4'>
-        <?
-        echo '<br>';
-        echo 'Nombre: ' . $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2;
-        echo '<br>';
-        echo 'Identificación: ' . $id;
-        if ($tipo_id = 1)
-            echo ' CC';
-        ?>
+                            <? 
+                            echo '<br><br>';
+                            echo 'Nombre: ' . $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2;
+                            echo '<br>';
+                            echo 'Identificación: ' . $id;
+                            if ($tipo_id = 1)
+                                echo ' CC';
+                            ?>
 
                         </td>
                     </tr>
@@ -171,7 +190,7 @@ class html_infoTributario {
                     <input type='hidden' name='contrato' value='<? echo $contrato ?>'>
                     <input type='hidden' name='fecha_registro' value='<? echo date('d/m/Y') ?>'>
                     <input type='hidden' name='id_encuesta' value='<? echo $id_encuesta ?>'>
-
+                    <input type='hidden' name='cont_ini' value='<? echo $cont_ini ?>'>
                     <br>
                     </td>
                     </tr>
@@ -225,31 +244,26 @@ class html_infoTributario {
 
                     <tr>
                         <td colspan='4' class='estilo_td2 texto_elegante2' align=center >
-
-                            <br>FORMATO PERSONAS NATURALES 
-                            <br>CERTIFICACIÓN DECRETO 1070 DE 2013 PARA PERSONAS NATURALES 
-                            <br>VINCULADAS CONTRACTUALMENTE CON LA UNIVERSIDAD DISTRITAL
-
+                            <br>FORMATO PERSONAS NATURALES<br>
+                            <? echo $datos_pre[0]['enc_nombre']?>
                         </td>
                     </tr>
                     <tr>
                         <td colspan='4' class='estilo_td2 texto_elegante2'  >
                             <br><br>
-        <?
-        $dias = array("Domingo, ", "Lunes, ", "Martes, ", "Miercoles, ", "Jueves, ", "Viernes, ", "Sábado, ");
-        $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-        echo 'Bogotá D.C. ' . $dias[date('w', $fecha_registro)] . " " . date('d', $fecha_registro) . " de " . $meses[date('n', $fecha_registro) - 1] . " del " . date('Y', $fecha_registro);
+                            <?
+                            $dias = array("Domingo ", "Lunes ", "Martes ", "Miercoles ", "Jueves ", "Viernes ", "Sábado ");
+                            $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+                            echo 'Bogotá D.C. ' . $dias[date('w', $fecha_registro)] . ", " . date('d', $fecha_registro) . " de " . $meses[date('n', $fecha_registro) - 1] . " del " . date('Y', $fecha_registro);
 
-        echo '<br>';
-        ?>
+                            echo '<br>';
+                            ?>
                             <br>
                             <br>Señores
                             <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
                             <br>Ciudad
                             <br><br><br>
-
-                            Yo <? echo $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2 ?>, por medio de la presente y para dar cumplimiento al artículo 1° 
-                            del decreto 1070 de 2013, me permito informar bajo la gravedad de juramento lo siguiente:
+                            Yo <? echo $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2.' '.$datos_pre[0]['enc_descripcion']; ?>
                             <br><br>
                         </td>
                     </tr>
@@ -268,54 +282,60 @@ class html_infoTributario {
 
                     </tr>
 
-        <?
-        foreach ($datos_pre as $key => $dato) {
-            $id_pregunta = (isset($dato['preg_id']) ? $dato['preg_id'] : '');
-            $pregunta = (isset($dato['preg_nombre']) ? $dato['preg_nombre'] : '');
-            $id_encuesta = (isset($dato['form_enc_id']) ? $dato['form_enc_id'] : '');
-
-            echo "<tr>";
-            echo "<td class='texto_elegante2 estilo_td' align=center width=30 >" . $id_pregunta . "</td>";
-            echo "<td class='texto_elegante estilo_td' width=500>" . $pregunta . "</td>";
-            echo "
+                    <?
+                    $soporte='';
+                    foreach ($datos_pre as $key => $dato) {
+                        $id_pregunta = (isset($dato['preg_id']) ? $dato['preg_id'] : '');
+                        $pregunta = (isset($dato['preg_nombre']) ? $dato['preg_nombre'] : '');
+                        $id_encuesta = (isset($dato['form_enc_id']) ? $dato['form_enc_id'] : '');
+                        $posicion = (isset($dato['form_posicion']) ? $dato['form_posicion'] : '');
+                        $soporte = ($dato['form_soportar']=='S') ? $soporte.$dato['form_posicion']."," : $soporte;                        
+                        $cont_ini = ($key==0)? $dato['preg_id'] :$cont_ini;
+                        echo "<tr>";
+                        echo "<td class='texto_elegante2 estilo_td' align=center width=30 >" . $posicion . "</td>";
+                        echo "<td class='texto_elegante estilo_td' width=500>" . $pregunta . "</td>";
+                        echo "
                         <td class='texto_elegante estilo_td' width=50 style='text-align: center; vertical-align: middle;'>
                         <input type='hidden' name='id_pregunta" . $id_pregunta . "' value='$id_pregunta'>
                         <input type='radio' name='respuesta_" . $id_pregunta . "' value='SI'";
 
-            if ($datos_respu[$key]['resp_respuesta'] == 'SI') {
-                echo "checked>";
-            }
+                        if ($datos_respu[$key]['resp_respuesta'] == 'SI') {
+                            echo "checked>";
+                        }
 
 
-            echo "            </td>";
+                        echo "            </td>";
 
 
-            echo "
+                        echo "
                         <td class='texto_elegante estilo_td' width=50 style='text-align: center; vertical-align: middle;'>
                         <input type='hidden' name='id_pregunta" . $id_pregunta . "' value='$id_pregunta'>
                         <input type='radio' name='respuesta_" . $id_pregunta . "' value='NO'";
 
-            if ($datos_respu[$key]['resp_respuesta'] == 'NO') {
-                echo "checked>";
-            }
+                        if ($datos_respu[$key]['resp_respuesta'] == 'NO') {
+                            echo "checked>";
+                        }
 
 
-            echo "            </td>";
+                        echo "            </td>";
 
-            echo "</tr>";
-        }
-        ?>
-
+                        echo "</tr>";
+                    }
+                    ?>
+                     <tr><td class='estilo_td2 texto_elegante2 ' colspan='4'>
+                            <? echo '<br>Nota: Los soportes de los numerales '.$soporte.' del presente certificado deberán presentarse a más tardar el día '.$dias[date('w', strtotime($datos_pre[0]['enc_fec_soportes']))].' '.date('d', strtotime($datos_pre[0]['enc_fec_soportes']))." de ". $meses[(date('m', strtotime($datos_pre[0]['enc_fec_soportes']))) - 1]." del " . date('Y', strtotime($datos_pre[0]['enc_fec_soportes'])).', junto con el cumplido correspondiente.<br>';?>
+                        </td>
+                    </tr>  
                     <tr>
                         <td class='estilo_td2 texto_elegante2' colspan='4'>
-        <?
-        echo '<br>';
-        echo 'Nombre: ' . $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2;
-        echo '<br>';
-        echo 'Identificación: ' . $id;
-        if ($tipo_id = 1)
-            echo ' CC';
-        ?>
+                            <?
+                            echo '<br>';
+                            echo 'Nombre: ' . $nombre . ' ' . $nombre2 . ' ' . $apellido . ' ' . $ap2;
+                            echo '<br>';
+                            echo 'Identificación: ' . $id;
+                            if ($tipo_id = 1)
+                                echo ' CC';
+                            ?>
 
                         </td>
                     </tr>
@@ -339,33 +359,33 @@ class html_infoTributario {
                     <input type='hidden' name='contrato' value='<? echo $contrato ?>'>
                     <input type='hidden' name='fecha_registro' value='<? echo date('d/m/Y') ?>'>
                     <input type='hidden' name='id_encuesta' value='<? echo $id_encuesta ?>'>
-
+                    <input type='hidden' name='cont_ini' value='<? echo $cont_ini ?>'>
                     <br>
 
                     <br>
 
 
 
-        <? /* Para deshabilitar cambiar las respuestas, añadir disable a radio buttons
-         * comentariar mètodos de envio de datos y descomentariar envio de formulario
+                    <? /* Para deshabilitar cambiar las respuestas, añadir disable a radio buttons
+                     * comentariar mètodos de envio de datos y descomentariar envio de formulario
 
 
-          <center>
+                      <center>
 
 
-          <a href="<?
-          $variable = 'pagina=asistenteTributario';
-          $variable.='&opcion=';
-          $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-          echo $this->indice . $variable;
-          ?>" >
-          <img alt="Ir a Formulario" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/tributario/IconSummary-blue.jpg" /></a>
-          </center>
+                      <a href="<?
+                      $variable = 'pagina=asistenteTributario';
+                      $variable.='&opcion=';
+                      $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                      echo $this->indice . $variable;
+                      ?>" >
+                      <img alt="Ir a Formulario" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/tributario/IconSummary-blue.jpg" /></a>
+                      </center>
 
-          <br>
+                      <br>
 
 
-         */ ?>
+                     */ ?>
 
 
                     </td>
@@ -374,7 +394,7 @@ class html_infoTributario {
 
                 </table>
             </form>       </center><?
-        }
-
     }
+
+}
 ?>

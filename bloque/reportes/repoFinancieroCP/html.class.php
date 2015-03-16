@@ -45,6 +45,7 @@ class html_reporteFinanciero {
   <link href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"]; ?>/reportes/repoFinanciero/estilo_repoFinanciero.css"
             rel="stylesheet" type="text/css" />
 
+
         <table width="100%" align="center" border="0" cellpadding="10" cellspacing="0">
             <tr class="texto_subtitulo">
                 <td><? echo $parametrosHtml[0]['titulo']; ?><br>
@@ -54,6 +55,8 @@ class html_reporteFinanciero {
             <tbody> 
                 <tr>
                     <td>
+
+
                         <form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario; ?>'>
                             <table align="center"  border="0" width="98%" >
 

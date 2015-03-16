@@ -78,7 +78,7 @@ class combos_reporteFinanciero extends funcionGeneral
                $accesoParametro = $this->conectarDB($this->configuracion,$parametrosSQL[0]['conexion_par']);
                $parametroDatos = $this->ejecutarSQL($this->configuracion, $accesoParametro, $parametrosSQL[0]['sql_par'], "busqueda");
 
-               $options='<option value="0" >Todos </option>';        
+               $options='<option value="0" selected >Todos </option>';        
                 
                 if($parametroDatos)
                     { foreach($parametroDatos as $dato=>$value )

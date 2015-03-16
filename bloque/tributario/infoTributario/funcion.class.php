@@ -91,7 +91,7 @@ class funciones_infoTributario extends funcionGeneral {
                 'identificacion' => (isset($_REQUEST['identificacion']) ? $_REQUEST['identificacion'] : ''),
                 'vinculacion' => (isset($_REQUEST['vinculacion']) ? $_REQUEST['vinculacion'] : ''));
             $datos_pregunta = $this->consultarPreguntas($parametros);
-       
+            //var_dump($datos_pregunta);
             $this->html_infoTributario->encuesta_info_tributario($datos_pregunta);
         } else {
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
@@ -109,7 +109,6 @@ class funciones_infoTributario extends funcionGeneral {
     }
 
     function consultarRespuestas($parametros) {
-
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "invocar_respuestas", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
@@ -119,8 +118,8 @@ class funciones_infoTributario extends funcionGeneral {
 
 
         if (isset($_REQUEST['identificacion']) && $_REQUEST['identificacion'] == $this->identificacion) {
-
-            $parametros = array(
+             $parametros = array(
+                'vigencia' => (isset($_REQUEST['vigencia']) ? $_REQUEST['vigencia'] : ''),
                 'identificacion' => (isset($_REQUEST['identificacion']) ? $_REQUEST['identificacion'] : ''),
                 'vinculacion' => (isset($_REQUEST['vinculacion']) ? $_REQUEST['vinculacion'] : ''));
             

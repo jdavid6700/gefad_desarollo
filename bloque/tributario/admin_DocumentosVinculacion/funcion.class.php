@@ -76,7 +76,7 @@ class funciones_adminVinculacion extends funcionGeneral {
             $contrato = $resp_encuesta['contrato'];
             $fec_registro = $resp_encuesta['fecha_registro'];
             $id_enc = $resp_encuesta['id_encuesta'];
-
+            $cont_ini = $resp_encuesta['cont_ini'];    
 
             $parametros = array(
                 'id_enc' => $id_enc,
@@ -86,7 +86,7 @@ class funciones_adminVinculacion extends funcionGeneral {
                 'contrato' => $contrato,
                 'fecha_reg' => $fec_registro);
 
-            $cont = 1;
+            $cont = $cont_ini;
 
             foreach ($resp_encuesta as $key => $values) {
                 if ($key == 'id_pregunta' . $cont && ($resp_encuesta['respuesta_' . $cont] != 'SI' && $resp_encuesta['respuesta_' . $cont] != 'NO')) {
@@ -104,10 +104,9 @@ class funciones_adminVinculacion extends funcionGeneral {
                     $cont++;
                 }
             }
-
-            $cont = 1;
+            $cont = $cont_ini;
             foreach ($resp_encuesta as $key => $values) {
-
+                
                 if ($key == 'id_pregunta' . $cont) {
 
                     $parametros['id_preg'] = $resp_encuesta['id_pregunta' . $cont];
@@ -229,7 +228,7 @@ class funciones_adminVinculacion extends funcionGeneral {
 
                 if ($e_datosTEL == "") {
                     $cadena_sql_3 = $this->sql->cadena_sql("insertaDatosTEL", $parametros2);
-                    $inserta_tel = $this->ejecutarSQL($this->configuracion, $this->accesoSICAPITAL, $cadena_sql_3, "busqueda");
+                    $inserta_dir = $this->ejecutarSQL($this->configuracion, $this->accesoSICAPITAL, $cadena_sql_3, "busqueda");
 
                     $registro[0] = "REGISTRAR DATOS BASICOS";
                     $registro[1] = $datos_actualizar['id_usuario'];
@@ -343,7 +342,7 @@ class funciones_adminVinculacion extends funcionGeneral {
             $contrato = $respuestas_actualizar['contrato'];
             $fec_registro = $respuestas_actualizar['fecha_registro'];
             $id_enc = $respuestas_actualizar['id_encuesta'];
-
+            $cont_ini = $respuestas_actualizar['cont_ini'];
 
             $parametros = array(
                 'id_enc' => $id_enc,
@@ -353,7 +352,7 @@ class funciones_adminVinculacion extends funcionGeneral {
                 'contrato' => $contrato,
                 'fecha_reg' => $fec_registro);
 
-            $cont = 1;
+            $cont = $cont_ini;
 
             foreach ($respuestas_actualizar as $key => $values) {
                 if ($key == 'id_pregunta' . $cont && ($respuestas_actualizar['respuesta_' . $cont] != 'SI' && $respuestas_actualizar['respuesta_' . $cont] != 'NO')) {
@@ -372,7 +371,7 @@ class funciones_adminVinculacion extends funcionGeneral {
                 }
             }
 
-            $cont = 1;
+            $cont = $cont_ini;
             foreach ($respuestas_actualizar as $key => $values) {
 
                 if ($key == 'id_pregunta' . $cont) {
@@ -598,7 +597,8 @@ class funciones_adminVinculacion extends funcionGeneral {
 
     function historialVinculacion() {
 
-        $funcionario = array('identificacion' => $this->identificacion);
+        $funcionario = array('identificacion' => $this->identificacion,
+                              'anio'=>date('Y') );
 
         $cadena_sql = $this->sql->cadena_sql("datosUsuarioSDH", $funcionario);
         $cadena_sql2 = $this->sql->cadena_sql("datosUsuario", $funcionario);

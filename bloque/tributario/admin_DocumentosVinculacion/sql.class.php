@@ -34,7 +34,7 @@ class sql_adminVinculacion extends sql {
                 $cadena_sql.="emp_desde PLA_FECHA_IN, ";
                 $cadena_sql.="decode(CAR_TC_COD,'DP','DOCENTE PLANTA','DC','DOCENTE PLANTA','DH','DOCENTE PLANTA','FUNCIONARIO PLANTA') VINCULACION ";
                 $cadena_sql.="FROM ";
-                $cadena_sql.="mntpe.peemp, mntpe.pecargo ";
+                $cadena_sql.="peemp, pecargo ";
                 $cadena_sql.="WHERE ";
                 $cadena_sql.="CAR_TC_COD not in ('PA','PD') ";
                 $cadena_sql.="and CAR_COD = EMP_CAR_COD ";
@@ -60,7 +60,7 @@ class sql_adminVinculacion extends sql {
                 $cadena_sql.="FROM ";
                 $cadena_sql.="SHD_INFORMACION_BASICA ";
                 $cadena_sql.="WHERE ";
-                $cadena_sql.="ib_codigo_identificacion=" . $variable['identificacion'] . " ";
+                $cadena_sql.="ib_codigo_identificacion='".$variable['identificacion']."' ";
                 break;
 
             case "vinculaciones":
@@ -160,15 +160,17 @@ class sql_adminVinculacion extends sql {
                 $cadena_sql.=" FROM ";
                 $cadena_sql.=" tributario.tributario_respuestas_enc ";
                 $cadena_sql.=" WHERE resp_funcionario_documento=" . $variable['identificacion'] . " ";
+                $cadena_sql.=" AND resp_annio=" . $variable['anio'] . " ";
                 $cadena_sql.=" ORDER BY resp_preg_id";
                 break;
 
             case "actualizar_respuestas":
-                $cadena_sql = " update tributario.tributario_respuestas_enc SET ";
+                $cadena_sql = " UPDATE tributario.tributario_respuestas_enc SET ";
                 $cadena_sql.=" resp_fec_registro = '" . $variable['fecha_reg'] . "', ";
                 $cadena_sql.=" resp_respuesta = '" . $variable['resp'] . "' ";
-                $cadena_sql.=" where resp_funcionario_documento = '" . $variable['id_num'] . "' ";
-                $cadena_sql.=" and resp_preg_id = '" . $variable['id_preg'] . "' ";
+                $cadena_sql.=" WHERE resp_funcionario_documento = '" . $variable['id_num'] . "' ";
+                $cadena_sql.=" AND resp_preg_id = '" . $variable['id_preg'] . "' ";
+                $cadena_sql.=" AND resp_annio=" . $variable['vigencia'] . " ";
                 break;
 
             case "consultar_direccion_SHD":

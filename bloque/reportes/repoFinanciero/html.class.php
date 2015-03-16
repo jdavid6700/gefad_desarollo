@@ -119,7 +119,7 @@ class html_reporteFinanciero {
                                                    if (isset($_REQUEST[$parametrosHtml[$key]['nombre']]))    
                                                        { $lista_combo = $this->html->cuadro_lista($combo,$parametrosHtml[$key]['nombre'],$this->configuracion,$_REQUEST[$parametrosHtml[$key]['nombre']],0,FALSE,$tab++,$parametrosHtml[$key]['nombre']);
                                                        }
-                                                   else{ $lista_combo = $this->html->cuadro_lista($combo,$parametrosHtml[$key]['nombre'],$this->configuracion,0,0,FALSE,$tab++,$parametrosHtml[$key]['nombre']);
+                                                   else{ $lista_combo = $this->html->cuadro_lista($combo,$parametrosHtml[$key]['nombre'],$this->configuracion,-1,0,FALSE,$tab++,$parametrosHtml[$key]['nombre']);
                                                        }    
                                                    echo $lista_combo;
 
