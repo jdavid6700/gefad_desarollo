@@ -1637,13 +1637,10 @@ class funciones_liquidador extends funcionGeneral {
 
         $porcentaje_cuota = $datos_concurrencia[0]['dcp_porcen_cuota'];
 
-        //$fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
-        //$fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
         $mesada_descripcion = doubleval($datos_concurrencia[0]['dcp_valor_mesada']);
 
 
         ///Aplicando Ley 4, que dice que la primera vez de liquidación, se debe cunplir que la persona cumplió un año de pensionado para poder aplicarle el ajuste.
-        //$fecha_pension2 = date('Y', strtotime(str_replace('/', '-', $datos_concurrencia[0][7])));
         $fecha_pension = date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
 
         //para esas mensualidades, el valor será 0
@@ -1655,8 +1652,17 @@ class funciones_liquidador extends funcionGeneral {
 
         $liquidacion_cp = array();
         // La siguiente funcion es para calcular 
-        $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
-        //$mesada_inicial = $mesada_descripcion;
+
+
+
+        $f_liquidar = strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde']));
+        $f_pensionar = strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']));
+
+        if ($f_liquidar > $f_pensionar) {
+            $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
+        } else {
+            $mesada_inicial = $mesada_descripcion;
+        }
         //PARA EL CRUCE DE LOS PAGOS :S
         //traer los pagos
 
@@ -1715,6 +1721,7 @@ class funciones_liquidador extends funcionGeneral {
 
                     $datediff = ($dias_calculo - $dias_pension);
 
+                    $mesada_inicial = $mesada_descripcion;
                     $MESADA = $datediff * ($mesada_inicial / ($dias_calculo - 1));
                 }
             }
@@ -2025,27 +2032,28 @@ class funciones_liquidador extends funcionGeneral {
     function mesadaPeriodo($mesada_inicio, $f_pension, $f_desde) {
 
         //Actualizar la mesada a la fecha solicitada
-        echo $mesada_inicio;
-        echo "<br>";
-        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_desde);
+        $f_desde2 = date('d/m/Y', strtotime(str_replace('/', '-', $f_desde . "- 1 year")));
+        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_desde2);
 
         foreach ($FECHAS as $key => $value) {
 
+            $fecha_liq = strtotime(str_replace('/', '-', $FECHAS[$key]));
+            $fecha_pension2 = strtotime(str_replace('/', '-', $f_pension . "+ 1 year"));
+
+            $fecha = $FECHAS[$key];
             $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key])));
             $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
 
-            $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicio);
+            if ($fecha_liq < $fecha_pension2) {
+                $MESADA = $mesada_inicio;
+            } else {
+                $MESADA = $this->MesadaFecha(($fecha), $mesada_inicio);
 
-            
-
-            echo $annio . "/" . $mes . "->";
-            echo $MESADA;
-            echo "<br>";
-         
+                if ($mes == 12) {
+                    $mesada_inicio = $MESADA;
+                }
+            }
         }
-
-
-
 
         return $MESADA;
     }
