@@ -1929,7 +1929,8 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function guardarLiquidacion($datos_basicos, $totales_liquidacion) {
-//Generar consecutivo liquidación
+
+        //Generar consecutivo liquidación
         $parametro = array();
         $consecutivo = $this->consecutivo($parametro);
 
@@ -1982,6 +1983,17 @@ class funciones_liquidador extends funcionGeneral {
             echo "<script type=\"text/javascript\">" .
             "alert('Gestor de Reportes');" .
             "</script> ";
+        } else {
+            echo "<script type=\"text/javascript\">" .
+            "alert('No fue posible registrar la liquidación');" .
+            "</script> ";
+            error_log('\n');
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=liquidadorCP';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
         }
     }
 

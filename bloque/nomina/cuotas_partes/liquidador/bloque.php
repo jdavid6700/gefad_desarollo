@@ -1,4 +1,4 @@
-<?
+<?php
 
 /* --------------------------------------------------------------------------------------------------------------------------
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
@@ -85,8 +85,8 @@ class bloqueLiquidador extends bloque {
                 break;
 
             case "formatos":
-                $datos_basicos = unserialize($_REQUEST['datos_basicos']);
-                $liquidacion = unserialize($_REQUEST['liquidacion']);
+                  
+                $datos_basicos = unserialize(trim($_REQUEST['datos_basicos']));
                 $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
 
                 $this->funcion->guardarLiquidacion($datos_basicos, $totales_liquidacion);
@@ -152,7 +152,7 @@ class bloqueLiquidador extends bloque {
 
             case "activarCobro":
 
-                 $opcion_pago='voluntario';
+                $opcion_pago = 'voluntario';
 
                 $datos_basicos = unserialize($_REQUEST['datos_basicos']);
                 $consecutivo = $_REQUEST['consecutivo'];
@@ -161,13 +161,13 @@ class bloqueLiquidador extends bloque {
                 $jefeRecursos = $_REQUEST['jRecursos'];
                 $jefeTesoreria = $_REQUEST['jTesoreria'];
 
-                $this->funcion->activarCobro($datos_basicos,$consecutivo,  $totales_liquidacion, $opcion_pago);
+                $this->funcion->activarCobro($datos_basicos, $consecutivo, $totales_liquidacion, $opcion_pago);
                 break;
-            
+
             case "masiva":
                 $this->funcion->liquidacion_masiva();
                 break;
-            
+
             default:
                 $this->funcion->datosIniciales();
                 break;
