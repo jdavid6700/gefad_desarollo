@@ -1654,10 +1654,9 @@ class funciones_liquidador extends funcionGeneral {
         $INTERESES = 0;
 
         $liquidacion_cp = array();
-        //$mesada = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
-        $mesada_inicial = $mesada_descripcion;
-
-
+        // La siguiente funcion es para calcular 
+        $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
+        //$mesada_inicial = $mesada_descripcion;
         //PARA EL CRUCE DE LOS PAGOS :S
         //traer los pagos
 
@@ -1695,26 +1694,29 @@ class funciones_liquidador extends funcionGeneral {
 //Valor Indices Básicos
             $fecha_liq = strtotime(str_replace('/', '-', $FECHAS[$key]));
             $fecha_pension2 = strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'] . "+ 1 year"));
-
+            $anio_pension = date('Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'] . "+ 1 year")));
+            $mes_pension = date('m', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
 
             if ($fecha_liq < $fecha_pension2) {
                 $MESADA = $mesada_descripcion;
             } else {
                 if ($key == 12) {
-                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion, $sumafija[0][0]);
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
                 } else {
-                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial, $sumafija[0][0]);
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
                 }
             }
 
-            if ($key == 0) {
-                //$FECHAS[$key] = $datos_concurrencia[0]['dcp_fecha_p'];
-                $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
-                $dias_pension = date('d', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
+            if ($anio_pension == $annio && $mes == $mes_pension) {
+                if ($key == 0) {
+                    //$FECHAS[$key] = $datos_concurrencia[0]['dcp_fecha_p'];
+                    $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
+                    $dias_pension = date('d', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
 
-                $datediff = ($dias_calculo - $dias_pension);
+                    $datediff = ($dias_calculo - $dias_pension);
 
-                $MESADA = $datediff * ($mesada_inicial / ($dias_calculo - 1));
+                    $MESADA = $datediff * ($mesada_inicial / ($dias_calculo - 1));
+                }
             }
 
             //Determinar Cuota Parte
@@ -2020,21 +2022,30 @@ class funciones_liquidador extends funcionGeneral {
         return array($fecha);
     }
 
-    function mesadaPeriodo($mesada, $f_pension, $f_hasta) {
+    function mesadaPeriodo($mesada_inicio, $f_pension, $f_desde) {
 
-        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_hasta);
+        //Actualizar la mesada a la fecha solicitada
+        echo $mesada_inicio;
+        echo "<br>";
+        list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_desde);
 
         foreach ($FECHAS as $key => $value) {
+
             $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key])));
             $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
 
-            $sumafija = $this->obtenerSumafija($annio);
-            $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
+            $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicio);
 
-            if ($mes == 12) {
-                $mesada = $MESADA;
-            }
+            
+
+            echo $annio . "/" . $mes . "->";
+            echo $MESADA;
+            echo "<br>";
+         
         }
+
+
+
 
         return $MESADA;
     }
@@ -2095,11 +2106,11 @@ class funciones_liquidador extends funcionGeneral {
         return ($Incr_S);
     }
 
-    function MesadaFecha($FECHA, $Mesada, $sumafija) {
+    function MesadaFecha($FECHA, $Mesada_in) {
         $Anio = substr(date("Y", strtotime(str_replace('/', '-', $FECHA))), 0, 4);
         $Mes = substr(date("m", strtotime(str_replace('/', '-', $FECHA))), 0, 2);
 
-        $Mesada = round($Mesada);
+        $Mesada = round($Mesada_in);
 
         $INDICE = $this->obtenerIPC($Anio);
         $sumafija = $this->obtenerSumafija($Anio);
@@ -2648,7 +2659,7 @@ class funciones_liquidador extends funcionGeneral {
 //Cadena del periodo liquidar
                 $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
                 $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
-                $sumafija = $this->obtenerSumafija($annio);
+                //$sumafija = $this->obtenerSumafija($annio);
                 $INDICE = $this->obtenerIPC($annio);
 
 //Valor Indices Básicos
@@ -2658,7 +2669,7 @@ class funciones_liquidador extends funcionGeneral {
                 if ($fecha_liq < $fecha_pension2) {
                     $MESADA = $mesada_descripcion;
                 } else {
-                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada, $sumafija[0][0]);
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada);
                 }
 
 //Determinar Cuota Parte
