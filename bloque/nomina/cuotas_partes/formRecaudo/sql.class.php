@@ -214,6 +214,7 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" FROM cuotas_partes.cuotas_recaudo_cuenta  ";
                 $cadena_sql.=" WHERE recta_cedula='" . $variable['cedula'] . "'  ";
                 $cadena_sql.=" AND recta_nitprev='" . $variable['entidad'] . "'  ";
+                $cadena_sql.=" ORDER BY recta_consecu_cta  ";
                 break;
 
             case "jefeRecursosH":

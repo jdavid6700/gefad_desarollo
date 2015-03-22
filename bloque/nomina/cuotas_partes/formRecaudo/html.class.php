@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   ############################################################################
   #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
@@ -331,7 +331,7 @@ class html_formRecaudo {
                 <input type='hidden' name='opcion' value='consultar_cp'>
             </div>
         </form>
-        <?
+        <?php
     }
 
     function estadoCuenta($datos_basicos, $datos_recaudos, $cobros, $datos_concurrencia, $datos_saldo) {
@@ -367,7 +367,7 @@ class html_formRecaudo {
                     <thead>
                         <tr>
                             <th  class='encabezado_registro' width="15%" colspan="1" rowspan="2">
-                                <img alt="Imagen" width="40%" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/Images/escudo1.png" />
+                                <img alt="Imagen" width="40%" src="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/Images/escudo1.png" />
                             </th>
                             <th  colspan="3" style="font-size:14px;" class='subtitulo_th centrar'>
                                 <br>UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS
@@ -464,7 +464,7 @@ class html_formRecaudo {
                         <td class='texto_elegante2 estilo_td4' style="text-align:center;font-size:10px;">FIN</td>
                     </tr>
                     <tr>
-                        <?
+                        <?php
                         if (is_array($cobros)) {
 
                             foreach ($cobros as $key => $value) {
@@ -514,7 +514,7 @@ class html_formRecaudo {
                         <td class='texto_elegante2 estilo_td4' style="text-align:center;font-size:10px;">FIN</td>
                     </tr>
                     <tr>
-                        <?
+                        <?php
                         if (is_array($datos_recaudos)) {
                             foreach ($datos_recaudos as $key => $value) {
                                 echo "<tr>";
@@ -561,7 +561,7 @@ class html_formRecaudo {
                         <td  class='texto_elegante2 estilo_td4' style="font-size:10px;"align=center>SALDO TOTAL</td>
                     </tr>
                     <tr>
-                        <?
+                        <?php
                         
                         if (is_array($datos_saldo)) {
                             foreach ($datos_saldo as $key => $value) {
