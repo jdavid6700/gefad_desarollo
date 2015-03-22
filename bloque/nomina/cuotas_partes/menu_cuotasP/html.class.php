@@ -43,7 +43,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
             <meta charset="utf-8" />
             <!-- add styles -->
-            <link href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/reportes/menu_reportesFin/estilo_repFin.css"	rel="stylesheet" type="text/css" />
+            <link href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/reportes/menu_reportesFin/estilo_repFin.css"	rel="stylesheet" type="text/css" />
         <body>
             <div class="container">
                 <ul id="nav">
@@ -53,20 +53,20 @@
                         <ul class="subs">
                             <li><a href="#">Módulo de Consulta </a>
                                 <ul>
-                                    <li><a href='<? echo $this->indice . $repCPPensionados; ?>'>Información Básica Pensionados</a></li>
-                                    <li><a href='<?
+                                    <li><a href='<?php echo $this->indice . $repCPPensionados; ?>'>Información Básica Pensionados</a></li>
+                                    <li><a href='<?php
                                            $variable = 'pagina=formHistoria';
                                            $variable.='&opcion=dbasicoHistoria';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>'>Consultar Consolidado Información Pensionado CP</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioRecaudo';
                                            $variable.='&opcion=consulta_cp';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Consultar Estado de Cuenta</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioSustituto';
                                            $variable.='&opcion=reporte';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -77,19 +77,19 @@
                             <li><a href="#">Gestión Datos Pensionado</a>
                                 <ul>
                                     <li><a href=
-                                           "<?
+                                           "<?php
                                            $variable = "pagina=formHistoria";
                                            $variable.="&opcion=";
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Registrar Historia Laboral</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioConcurrencia';
                                            $variable.='&opcion=';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Registrar Concurrencia Aceptada</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioRecaudo';
                                            $variable.='&opcion=';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -101,7 +101,7 @@
                                     $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                     echo $this->indice . $variable;
                                     ?>">Registrar Recaudos Manual</a></li-->
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioSustituto';
                                            $variable.='&opcion=';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -111,25 +111,25 @@
                             </li>
                             <li><a href="#">Gestión Información del Sistema</a>
                                 <ul>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioPrevisora';
                                            $variable.='&opcion=';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Registrar y Consultar Entidades Previsoras y Empleadoras</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioIPC';
                                            $variable.='&opcion=';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Registrar y Consultar Índice Precios Consumidor (IPC)</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioDTF';
                                            $variable.='&opcion=';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Registrar y Consultar Índice Tasa de Interés</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioSalario';
                                            $variable.='&opcion=';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -140,20 +140,20 @@
                             <li><a href="#">Gestión Liquidación</a>
                                 <ul>
                                     <li><a href=
-                                           "<?
+                                           "<?php
                                            $variable = "pagina=liquidadorCP";
                                            $variable.="&opcion=";
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Liquidación para Cuota Parte</a></li>
                                     <li><a href=
-                                           "<?
+                                           "<?php
                                            $variable = "pagina=liquidadorCP";
                                            $variable.="&opcion=reporte_inicio";
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Formatos de Cuenta de Cobro</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioCManual';
                                            $variable.='&opcion=manual';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -164,13 +164,13 @@
                             <li><a href="#">Gestión Procedimientos Masivos</a>
                                 <ul>
                                     <li><a href=
-                                           "<?
+                                           "<?php
                                            $variable = "pagina=liquidadorCP";
                                            $variable.="&opcion=masiva";
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Generar Liquidación Masiva para Cuota Parte</a></li>
-                                    <li><a href="<?
+                                    <li><a href="<?php
                                            $variable = 'pagina=formularioRecaudo';
                                            $variable.='&opcion=masivo';
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -183,7 +183,7 @@
                 </ul>
             </div>
         </body>
-        <?
+        <?php
     }
 
 }
