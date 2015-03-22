@@ -799,7 +799,7 @@ class funciones_liquidador extends funcionGeneral {
             </tbody>
             
 <tr>
-        <th colspan = \"1\">TOTAL&nbsp;&nbsp;</th>
+        <th colspan = \"1\">TOTAL<br>LIQUIDADO</th>
             <td  colspan=\"8\" style='text-align:center'>$" . number_format($total2) . "</td>
         </tr>
         </table>
