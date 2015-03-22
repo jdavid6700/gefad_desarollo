@@ -81,15 +81,15 @@ class funciones_liquidador extends funcionGeneral {
         if (is_array($sustitutos)) {
             foreach ($sustitutos as $key => $value) {
                 $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
                 $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
             }
         } else {
             $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp; </td>";
             $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;</td></tr>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;</td></tr>";
         }
 
 
@@ -457,14 +457,18 @@ class funciones_liquidador extends funcionGeneral {
         <td colspan='2'>" . $datos_pensionado[0]['FECHA_NAC'] . "</td>
     </tr>
     <tr>
-        <td colspan='2'>Resolución Reconocimiento Concurrencia:</td>
-        <td colspan='2'>" . $datos_concurrencia[0]['dcp_actoadmin'] . "</td>
+        <td colspan='1'>Resolución Reconocimiento Concurrencia:</td>
+        <td colspan='1'>" . $datos_concurrencia[0]['dcp_actoadmin'] . "</td>
+        <td colspan='1'>Fecha Resolución Reconocimiento:</td>
+        <td colspan='1'>" . $datos_concurrencia[0]['dcp_factoadmin'] . "</td>
     </tr>
-    <tr>
-        <td colspan='2'>Fecha de Efectividad:</td>
-        <td colspan='2'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))) . "</td>
+     <tr>
+        <td colspan='1'>Fecha Resolución Pensión:</td>
+        <td colspan='1'>" . $datos_concurrencia[0]['dcp_resol_pension_fecha'] . "</td>
+        <td colspan='1'>Fecha Pensión:</td>
+        <td colspan='1'>" . $datos_concurrencia[0]['dcp_fecha_pension'] . "</td>
     </tr>
-    <tr>
+        <tr>
         <td colspan='2'>Fecha Inicio de Concurrencia:</td>
         <td colspan='2'>" . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension']))) . "</td>
     </tr>
@@ -570,15 +574,15 @@ class funciones_liquidador extends funcionGeneral {
         if (is_array($sustitutos)) {
             foreach ($sustitutos as $key => $value) {
                 $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
                 $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
+                $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
             }
         } else {
             $contenido1.= "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp; </td>";
             $contenido1.= "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;</td></tr>";
+            $contenido1.= "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;</td></tr>";
         }
 
 

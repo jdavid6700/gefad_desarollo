@@ -141,7 +141,7 @@ class html_liquidador {
             <div class="formrow f1">
                 <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
                     </div>
                     <div class="control capleft">
                         <div>
@@ -152,7 +152,7 @@ class html_liquidador {
             </div>
             <div id="p1f103" class="field n1">
                 <div class="caption capleft alignleft">
-                    <label class="fieldlabel" for="entidades"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Entidad a cobrar:</span></span></span></label>
+                    <label class="fieldlabel" for="entidades"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" >Entidad a cobrar:</span></span></span></label>
                     <div class="null"></div>
                 </div>
             </div>
@@ -207,7 +207,7 @@ class html_liquidador {
             <div class="formrow f1">
                 <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
                     </div>
                     <div class="control capleft">
                         <div>
@@ -218,7 +218,7 @@ class html_liquidador {
             </div>
             <div id="p1f103" class="field n1">
                 <div class="caption capleft alignleft">
-                    <label class="fieldlabel" for="entidades"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" >Entidad a cobrar:</span></span></span></label>
+                    <label class="fieldlabel" for="entidades"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" >Entidad a cobrar:</span></span></span></label>
                     <div class="null"></div>
                 </div>
             </div>
@@ -296,9 +296,18 @@ class html_liquidador {
                 var d2 = hasta.substring(0, 2);
                 var cadena1 = new Date(y1, m1, d1);
                 var cadena2 = new Date(y2, m2, d2);
+                var cadena3 = new Date();
 
                 if (cadena1.getTime() > cadena2.getTime()) {
                     document.getElementById("liquidar_desde").focus();
+                    document.getElementById("liquidar_hasta").focus();
+                    alert("Fecha Final no válida");
+                    return false
+                }
+
+                if (cadena2.getTime() > cadena3.getTime()) {
+                    document.getElementById("liquidar_desde").focus();
+                    document.getElementById("liquidar_hasta").value = "";
                     document.getElementById("liquidar_hasta").focus();
                     alert("Fecha Final no válida");
                     return false
@@ -330,7 +339,7 @@ class html_liquidador {
             <div class="formrow f1">
                 <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Cédula Empleado</span></span></span></label>
                     </div>
                     <div class="control capleft">
                         <div>
@@ -343,7 +352,7 @@ class html_liquidador {
             <div class="formrow f1">
                 <div id="p1f7" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Entidad a Cobrar</span></span></span></label>
+                        <label class="fieldlabel" for="p1f7c"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve">Entidad a Cobrar</span></span></span></label>
                     </div>
                     <div class="control capleft">
                         <div>
@@ -356,7 +365,7 @@ class html_liquidador {
             <div class="formrow f1 f2">
                 <div id="p1f12" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="liquidar_desde"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Liquidar desde</span></span></span></label>
+                        <label class="fieldlabel" for="liquidar_desde"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Liquidar desde</span></span></span></label>
                     </div>
                     <div class="control capleft">
                         <div>
@@ -367,7 +376,7 @@ class html_liquidador {
 
                 <div id="p1f12" class="field n1">
                     <div class="caption capleft alignleft">
-                        <label class="fieldlabel" for="liquidar_hasta"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Liquidar hasta</span></span></span></label>
+                        <label class="fieldlabel" for="liquidar_hasta"><span><span class="pspan arial" style="text-align:right;font-size:14px;"><span class="ispan" style="color:#9393FF" ><a STYLE="color: red" >* </a>Liquidar hasta</span></span></span></label>
                     </div>
                     <div class="control capleft">
                         <div>
@@ -666,15 +675,15 @@ class html_liquidador {
                     if (is_array($sustitutos)) {
                         foreach ($sustitutos as $key => $value) {
                             echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
                         }
                     } else {
                         echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp; </td>";
                         echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;</td></tr>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;</td></tr>";
                     }
                     ?>
                 </table>
@@ -888,15 +897,15 @@ class html_liquidador {
                     if (is_array($sustitutos)) {
                         foreach ($sustitutos as $key => $value) {
                             echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td></tr>";
                         }
                     } else {
                         echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp; </td>";
                         echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;</td></tr>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;</td></tr>";
                     }
                     ?>
 
@@ -1157,15 +1166,15 @@ class html_liquidador {
                     if (is_array($sustitutos)) {
                         foreach ($sustitutos as $key => $value) {
                             echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_nombresus'] . "</td>";
                             echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                            echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td>";
+                            echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;" . $sustitutos[$key]['sus_cedulasus'] . "</td>";
                         }
                     } else {
                         echo "<tr> <td class='texto_elegante estilo_td' >Nombre Sustituto:</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp; </td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp; </td>";
                         echo "<td class='texto_elegante estilo_td' >Documento Sustituto:</td>";
-                        echo "<td class='texto_elegante estilo_td' style='text-align:left;'>&nbsp;&nbsp;<  /td>";
+                        echo "<td class='texto_elegante estilo_td' style='text-align:right'>&nbsp;&nbsp;</td>";
                     }
                     ?>
                 </table>
@@ -1289,6 +1298,7 @@ class html_liquidador {
     }
 
     function reporteResumen($datos_basicos, $consecu_cc, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos, $sustitutos) {
+
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -1367,11 +1377,15 @@ class html_liquidador {
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Resolución Reconocimiento Concurrencia:</td>
-                        <td class='texto_elegante estilo_td' colspan='8'><?php echo'&nbsp;&nbsp;' . $datos_concurrencia[0]['dcp_actoadmin'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'><?php echo'&nbsp;&nbsp;' . $datos_concurrencia[0]['dcp_actoadmin'] ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Fecha Resolución Reconocimiento:</td>
+                        <td class='texto_elegante estilo_td' colspan='2'><?php echo'&nbsp;&nbsp;' . $datos_concurrencia[0]['dcp_factoadmin'] ?></td>
                     </tr>
                     <tr>
-                        <td class='texto_elegante estilo_td' colspan='3'>Fecha de Efectividad:</td>
-                        <td class='texto_elegante estilo_td' colspan='8'><?php echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_factoadmin']))); ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Fecha Resolución Pensión:</td>
+                        <td class='texto_elegante estilo_td' colspan='3'><?php echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_resol_pension_fecha']))); ?></td>
+                        <td class='texto_elegante estilo_td' colspan='3'>Fecha Pensión:</td>
+                        <td class='texto_elegante estilo_td' colspan='2'><?php echo'&nbsp;&nbsp;' . date('d/m/Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_pension']))); ?></td>
                     </tr>
                     <tr>
                         <td class='texto_elegante estilo_td' colspan='3'>Fecha Inicio de Concurrencia:</td>
