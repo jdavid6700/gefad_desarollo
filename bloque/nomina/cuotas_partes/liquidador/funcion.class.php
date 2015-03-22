@@ -626,7 +626,7 @@ class funciones_liquidador extends funcionGeneral {
                 $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_interes_d2006'], 2, ',', '.') . "</td>";
                 $contenido2.="<td style='text-align:center;'>$ " . number_format($totales_liquidacion[$key]['liq_total'], 2, ',', '.') . "</td>";
                 $contenido2.="</tr>";
-                $total2 = $totales_liquidacion[$key][12];
+                $total2 = $totales_liquidacion[$key]['liq_total'];
             }
         } else {
             $contenido2.="<tr>";
@@ -791,7 +791,7 @@ class funciones_liquidador extends funcionGeneral {
             <th>INCREMENTO SALUD</th>
             <th>INTERES LEY 68/1923</th>
             <th>INTERES LEY 1066/2006</th>
-            <th>ACUMULADO</th>
+            <th>ACUMULADO INTERES</th>
         </tr>
         </thead>
         <tbody>
@@ -1652,8 +1652,6 @@ class funciones_liquidador extends funcionGeneral {
 
         $liquidacion_cp = array();
         // La siguiente funcion es para calcular 
-
-
 
         $f_liquidar = strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde']));
         $f_pensionar = strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia']));
