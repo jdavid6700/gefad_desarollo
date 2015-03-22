@@ -395,8 +395,8 @@ class html_liquidador {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
 
         $this->formulario = "liquidador";
-        
-        $datos_basicos['nombre_emp']=  str_replace("'", "", $datos_basicos['nombre_emp']);
+
+        $datos_basicos['nombre_emp'] = str_replace("'", "", $datos_basicos['nombre_emp']);
         ?>
         <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/liquidador/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
@@ -579,7 +579,7 @@ class html_liquidador {
                 <input type='hidden' name='opcion' value='formatos'>
                 <input type="hidden" name='datos_basicos' value='<?php echo serialize($datos_basicos) ?>'>
                 <input type="hidden" name='totales_liquidacion' value='<?php echo serialize($totales_liquidacion) ?>'>
-  
+
                 <input id="generarBoton" type="submit" class="navbtn" name="reportes_formato" value="Cancelar">
                 <input type='hidden' name='pagina' value='liquidadorCP'>
                 <input type='hidden' name='opcion' value='formatos'>

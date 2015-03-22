@@ -85,7 +85,7 @@ class bloqueLiquidador extends bloque {
                 break;
 
             case "formatos":
-                  
+
                 $datos_basicos = unserialize(trim($_REQUEST['datos_basicos']));
                 $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
 
@@ -140,7 +140,6 @@ class bloqueLiquidador extends bloque {
             case "pdf_detalle":
                 $datos_basicos = unserialize($_REQUEST['datos_basicos']);
                 $detalle_indice = unserialize($_REQUEST['detalle_indice']);
-                $datos_concurrencia = unserialize($_REQUEST['datos_concurrencia']);
                 $liquidacion = unserialize($_REQUEST['liquidacion']);
                 $totales_liquidacion = unserialize($_REQUEST['totales_liquidacion']);
                 $consecu_cc = $_REQUEST['consecutivo'];
