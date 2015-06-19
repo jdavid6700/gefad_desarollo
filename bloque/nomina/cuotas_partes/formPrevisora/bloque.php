@@ -1,4 +1,4 @@
-<?
+<?php
 
 /* --------------------------------------------------------------------------------------------------------------------------
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
@@ -6,7 +6,7 @@
 /* --------------------------------------------------------------------------------------------------------------------------
  * @name          bloque.php 
  * @author        Violeta Sosa
- * @revision      Última revisión 02 de agosto de 2013
+ * @revision      Última revisión 18 de junio de 2015
   /*--------------------------------------------------------------------------------------------------------------------------
  * @subpackage		bloqueAdminVinculacion
  * @package		bloques

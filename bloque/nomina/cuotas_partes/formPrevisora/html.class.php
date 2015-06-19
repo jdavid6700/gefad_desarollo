@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   ############################################################################
   #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
@@ -44,23 +44,63 @@ class html_formPrevisora {
 
     function mostrarRegistros($registros) {
         ?>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
-        <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
+        <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
+        <script src="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
         <!-- permite la paginacion-->  
 
         <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script-->
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jFilter/multifilter.js"></script>
 
         <script>
-
             $(document).ready(function() {
                 $('.filter').multifilter()
             })</script>
+        
+        
+        <script>
+            function acceptNum(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "01234567890-";
+                especiales = [8, 39, 9];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
+        
+            <script>
+            function acceptLetter(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+                especiales = [8, 9, 32];
+                tecla_especial = false
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    return false;
+                }
+            }
+        </script>
         <h1>Entidades Previsoras y Empleadoras</h1>
 
         <a href="
-        <?
+        <?php
         $variable = 'pagina=formularioPrevisora';
         $variable.='&opcion=formularioPrevisora';
         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -77,7 +117,7 @@ class html_formPrevisora {
                     <div class="null"></div>
                 </div>
                 <div>
-                    <input type="text" id="p1f2c" class="fieldcontent filter" autocomplete='off' name='NIT' placeholder='NIT' data-col='NIT'>
+                    <input type="text" id="p1f2c" class="fieldcontent filter" autocomplete='off' name='NIT' placeholder='NIT' data-col='NIT' onKeyPress='return acceptNum(event)'>
                 </div>
             </div>
         </div>
@@ -90,7 +130,7 @@ class html_formPrevisora {
                     <div class="null"></div>
                 </div>
                 <div>
-                    <input type="text" id="p1f2c" class="fieldcontent filter" autocomplete='off' name='NOMBRE' placeholder='NOMBRE' data-col='NOMBRE'>
+                    <input type="text" id="p1f2c" class="fieldcontent filter" autocomplete='off' name='NOMBRE' placeholder='NOMBRE' data-col='NOMBRE' onKeyPress='return acceptLetter(event)'>
                 </div>
             </div>
         </div>
@@ -117,7 +157,7 @@ class html_formPrevisora {
         </thead>
         <tbody id="itemContainer">
             <tr>
-                <?
+                <?php
                 if (is_array($registros)) {
                     foreach ($registros as $key => $value) {
                         echo "<tr>";
@@ -161,7 +201,7 @@ class html_formPrevisora {
                 ?>
         </table >     
         <center><div class="holder" style="-moz-user-select: none;"></div></center>
-        <?
+        <?php
     }
 
     function formularioPrevisora($depto, $mun) {
@@ -173,8 +213,8 @@ class html_formPrevisora {
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
         ?>
         <!referencias a estilos y plugins>
-        <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
+        <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -376,7 +416,7 @@ class html_formPrevisora {
 
 
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
             <h1>Entidades Previsoras y Empleadoras</h1>
 
             <div class="formrow f1">
@@ -640,7 +680,7 @@ class html_formPrevisora {
             <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
 
         </form>
-        <?
+        <?php
     }
 
     function modificarPrevisora($depto, $mun, $datos_entidad) {
@@ -1123,7 +1163,7 @@ class html_formPrevisora {
 
 
         </form>
-        <?
+        <?php
     }
 
 }
