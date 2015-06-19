@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   ############################################################################
   #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
@@ -16,6 +16,8 @@
   | 11/06/2013 | Violet Sosa             | 0.0.0.1     |                                 |
   ----------------------------------------------------------------------------------------
   | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
+  ----------------------------------------------------------------------------------------
+  | 02/05/2015 | Violet Sosa             | 0.0.0.3     |                                 |
   ----------------------------------------------------------------------------------------
  */
 
@@ -756,7 +758,7 @@ class html_formConcurrencia {
                                     <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
 
                                     </form>
-                                    <?
+                                    <?php
                                 }
 
                                 function formularioConcurrenciaModificar($datos_historia, $datos_empleador, $datos_previsora, $datos_concurrencia) {
@@ -1139,7 +1141,7 @@ class html_formConcurrencia {
                                                 </div>
                                                 <div class="control capleft">
                                                     <div>
-                                                        <input type="text" id="fecha_pension" title="*Campo Obligatorio"  name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<? echo $fecha_pension ?>">
+                                                        <input type="text" id="fecha_pension" title="*Campo Obligatorio"  name="fecha_pension"  maxlenght="10" placeholder="dd/mm/aaaa" required='required' pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<?php echo $fecha_pension ?>">
                                                     </div>
                                                     <div class="null"></div>
                                                 </div>
@@ -1156,7 +1158,7 @@ class html_formConcurrencia {
                                                 </div>
                                                 <div class="control capleft">
                                                     <div>
-                                                        <input type="text" id="res_pensión" title="*Campo Obligatorio" value="<? echo $resol_pension ?>"   name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false" value="<? echo $resol_pension ?>">
+                                                        <input type="text" id="res_pensión" title="*Campo Obligatorio" value="<?php echo $resol_pension ?>"   name="resolucion_pension" required='required' onKeyPress='return acceptNumLetter(event)' maxlength="12" pattern=".{1,12}." onpaste="return false" value="<? echo $resol_pension ?>">
                                                     </div>
                                                     <div class="null"></div>
                                                 </div>
@@ -1190,7 +1192,7 @@ class html_formConcurrencia {
                                                 </div>
                                                 <div class="control capleft">
                                                     <div>
-                                                        <input type="text" id="p1f12c" name="mesada" value="<? echo $valor_mesada ?>"   title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" placeholder="00000000.00" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" value="<? echo $valor_mesada ?>">Mínimo 4 caracteres
+                                                        <input type="text" id="p1f12c" name="mesada" value="<?php echo $valor_mesada ?>"   title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="11" placeholder="00000000.00" pattern="^[0-9]\d{4,9}(\.\d{1,2})?%?$" onpaste="return false" ">Mínimo 4 caracteres
                                                     </div>
                                                     <div class="null"></div>
                                                 </div>
@@ -1207,7 +1209,7 @@ class html_formConcurrencia {
                                                 </div>
                                                 <div class="control capleft">
                                                     <div>
-                                                        <input type="text" id="p1f6c" name="cp_aceptada" value="<? echo $valor_cuota ?>" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" pattern="^[0-9]\d{3,9}(\.\d{1,8})?%?$" maxlength="11"  onpaste="return false">Mínimo 4 caracteres
+                                                        <input type="text" id="p1f6c" name="cp_aceptada" value="<?php echo $valor_cuota ?>" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" pattern="^[0-9]\d{3,9}(\.\d{1,8})?%?$" maxlength="11"  onpaste="return false">Mínimo 4 caracteres
                                                     </div>
                                                     <div class="null"></div>
                                                 </div>
@@ -1224,7 +1226,7 @@ class html_formConcurrencia {
                                                 </div>
                                                 <div class="control capleft">
                                                     <div>
-                                                        <input type="text" id="p1f6c" name="porc_aceptado" value="<? echo $porcentaje ?>" title="*Campo Obligatorio" placeholder="0.0000" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="^[0]{1}(\.[0-9]{2,4})?$" step="0.00" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
+                                                        <input type="text" id="p1f6c" name="porc_aceptado" value="<?php echo $porcentaje ?>" title="*Campo Obligatorio" placeholder="0.0000" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' maxlength="6" pattern="^[0]{1}(\.[0-9]{2,4})?$" step="0.00" onpaste="return false">Decimal en formato: 0.9999, mín. dos decimales
                                                     </div>
                                                     <div class="null"></div>
                                                 </div>
@@ -1313,7 +1315,7 @@ class html_formConcurrencia {
                                                                 <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
 
                                                                 </form>
-                                                                <?
+                                                                <?php
                                                             }
 
                                                         }
