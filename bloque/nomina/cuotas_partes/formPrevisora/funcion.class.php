@@ -76,6 +76,13 @@ class funciones_formPrevisora extends funcionGeneral {
         $datos_geo = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
         return $datos_geo;
     }
+    
+     function consultarPrevisoras() {
+        $parametros = array();
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
+        $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos_previsora;
+    }
 
     function consultarDepartamento($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_oracle, "consultarGeografiaDEP", $parametro);
@@ -134,6 +141,8 @@ class funciones_formPrevisora extends funcionGeneral {
         $deptoC = $this->consultarDepartamento($parametros);
         $munC = $this->consultarMunicipio($parametros);
 
+        $datos_previsora = $this->consultarPrevisoras($parametros);
+
         if ($deptoC == true) {
             foreach ($deptoC as $key => $value) {
                 $depto[$key] = array('departamento' => $value['DEP_NOMBRE']);
@@ -147,7 +156,7 @@ class funciones_formPrevisora extends funcionGeneral {
                     'municipio' => $value['MUN_NOMBRE']);
             }
         }
-        $this->html_formPrevisora->formularioPrevisora($depto, $mun);
+        $this->html_formPrevisora->formularioPrevisora($depto, $mun, $datos_previsora);
     }
 
     function procesarFormulario($datos) {

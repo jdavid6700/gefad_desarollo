@@ -11,15 +11,15 @@
  * @subpackage		bloqueAdminVinculacion
  * @package		bloques
  * @copyright    	Universidad Distrital Francisco Jose de Caldas
- * @version      	0.0.0.1 - Julio 30 de 2013
+ * @version      	0.0.0.4- Junio 20 de 2015
  * @author	
  * @author		Oficina Asesora de Sistemas
  * @link		N/D
  * @description  	Bloque para gestionar formularios de cuotas partes.
  *                      Implementa:
 
-  Despliegue formulario cuotas partes registro historia laboral
- *                      Registro información de formularios
+  Despliegue formulario cuotas partes registro de previsoras
+ *                      Registro información de formularios, modificación y consulta de información
  */
 /* -------------------------------------------------------------------------------------------------------------------------- */
 
