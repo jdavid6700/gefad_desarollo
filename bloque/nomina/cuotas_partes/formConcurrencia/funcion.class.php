@@ -153,8 +153,23 @@ class funciones_formConcurrencia extends funcionGeneral {
         $datos_laboral = $this->consultarHistoria($parametros);
         $datos_entidad = $this->consultarEmpleador($parametros);
         $datos_previsora = $this->consultarPrevForm($parametros);
+        
+        var_dump($datos_previsora);
+        exit;
 
-        $this->html_formConcurrencia->formularioConcurrenciaModificar($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
+        if ($datos_laboral == null || $datos_entidad == null || $datos_previsora == null) {
+              echo "<script type=\"text/javascript\">" .
+                "alert('Error en la recuperación de datos. Por favor revise la pertinencia de los datos.');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+        } else {
+            $this->html_formConcurrencia->formularioConcurrenciaModificar($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
+        }
     }
 
     function registrarDescripcionCP($parametros) {
@@ -194,7 +209,7 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function consultarPrevForm($parametro) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevFormulario", $parametro);
+        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevFormulario", $parametro);
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_previsora;
     }
@@ -449,7 +464,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             'tipo_actoadmin' => (isset($datos['tipo_acto']) ? $datos['tipo_acto'] : ''),
             'actoadmin' => (isset($datos['acto_adm']) ? $datos['acto_adm'] : ''),
             'factoadmin' => (isset($datos['fecha_acto_adm']) ? $datos['fecha_acto_adm'] : ''),
-             'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
+            'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
             'estado' => $estado_registro,
             'registro' => $fecha_registro);
 
