@@ -76,8 +76,8 @@ class funciones_formPrevisora extends funcionGeneral {
         $datos_geo = $this->ejecutarSQL($this->configuracion, $this->acceso_oracle, $cadena_sql, "busqueda");
         return $datos_geo;
     }
-    
-     function consultarPrevisoras() {
+
+    function consultarPrevisoras() {
         $parametros = array();
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevisora", $parametros);
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -118,8 +118,8 @@ class funciones_formPrevisora extends funcionGeneral {
         $deptoC = $this->consultarDepartamento($parametros);
         $munC = $this->consultarMunicipio($parametros);
 
-         $datos_previsora = $this->consultarPrevisoras($parametros);
-         
+        $datos_previsora = $this->consultarPrevisoras($parametros);
+
         if ($deptoC == true) {
             foreach ($deptoC as $key => $value) {
                 $depto[$key] = array('departamento' => $value['DEP_NOMBRE']);
@@ -133,7 +133,7 @@ class funciones_formPrevisora extends funcionGeneral {
                     'municipio' => $value['MUN_NOMBRE']);
             }
         }
-        $this->html_formPrevisora->modificarPrevisora($depto, $mun, $datos_entidad,$datos_previsora);
+        $this->html_formPrevisora->modificarPrevisora($depto, $mun, $datos_entidad, $datos_previsora);
     }
 
     function mostrarFormulario() {
@@ -188,9 +188,14 @@ class funciones_formPrevisora extends funcionGeneral {
             }
         }
 
+        if ($datos['estado'] == 'ACTIVA') {
+            $datos['sucesora'] = '0';
+        }
+
         $parametros = array(
             'nit_previsora' => (isset($datos['nit_previsora']) ? $datos['nit_previsora'] : ''),
             'nombre_previsora' => (isset($datos['nombre_previsora']) ? $datos['nombre_previsora'] : ''),
+            'sucesora' => (isset($datos['sucesora']) ? $datos['sucesora'] : ''),
             'estado' => (isset($datos['estado']) ? $datos['estado'] : ''),
             'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
             'direccion' => (isset($datos['direccion']) ? $datos['direccion'] : ''),
@@ -205,6 +210,7 @@ class funciones_formPrevisora extends funcionGeneral {
             'correo2' => (isset($datos['txtEmail2']) ? $datos['txtEmail2'] : ''),
             'estado_registro' => ($estado_registro),
             'fecha_registro' => $fecha_registro,);
+
 
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "insertarPrevisora", $parametros);
         $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "registrar");
@@ -246,10 +252,16 @@ class funciones_formPrevisora extends funcionGeneral {
         $fecha_registro = date('d/m/Y');
         $estado_registro = 1;
 
+        if ($datos['estado'] == 'ACTIVA') {
+            $datos['sucesora'] = '0';
+        }
+
+
         $parametros = array(
             'serial' => (isset($datos['serial']) ? $datos['serial'] : ''),
             'nit_previsora' => (isset($datos['nit_previsora']) ? $datos['nit_previsora'] : ''),
             'nombre_previsora' => (isset($datos['nombre_previsora']) ? $datos['nombre_previsora'] : ''),
+            'sucesora' => (isset($datos['sucesora']) ? $datos['sucesora'] : ''),
             'estado' => (isset($datos['estado']) ? $datos['estado'] : ''),
             'observacion' => (isset($datos['observacion']) ? $datos['observacion'] : ''),
             'direccion' => (isset($datos['direccion']) ? $datos['direccion'] : ''),

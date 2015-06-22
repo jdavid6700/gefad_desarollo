@@ -35,16 +35,18 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" prev_correo1='" . $variable['correo1'] . "',  ";
                 $cadena_sql.=" prev_correo2='" . $variable['correo2'] . "', ";
                 $cadena_sql.=" prev_estado_registro='" . $variable['estado_registro'] . "', ";
+                $cadena_sql.=" prev_sucesora='" . $variable['sucesora'] . "', ";
                 $cadena_sql.=" prev_fecha_registro='" . $variable['fecha_registro'] . "'  ";
                 $cadena_sql.=" WHERE prev_serial='" . $variable['serial'] . "'";
                 break;
 
             case "insertarPrevisora":
-                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_previsora  (prev_nit,   prev_nombre,   prev_habilitado_pago,   ";
+                $cadena_sql = " INSERT INTO cuotas_partes.cuotas_previsora  (prev_nit,   prev_nombre, prev_sucesora,  prev_habilitado_pago,   ";
                 $cadena_sql.=" prev_observacion,   prev_direccion,   prev_departamento,   prev_ciudad, prev_telefono,   prev_responsable, ";
-                $cadena_sql.="prev_cargo,   prev_otroc,   prev_cargooc,   prev_correo1,   prev_correo2,prev_estado_registro, prev_fecha_registro)  VALUES (";
+                $cadena_sql.=" prev_cargo,   prev_otroc,   prev_cargooc,   prev_correo1,   prev_correo2,prev_estado_registro, prev_fecha_registro)  VALUES (";
                 $cadena_sql.=" '" . $variable['nit_previsora'] . "' ,";
                 $cadena_sql.=" '" . $variable['nombre_previsora'] . "' ,";
+                $cadena_sql.=" '" . $variable['sucesora'] . "' ,";
                 $cadena_sql.=" '" . $variable['estado'] . "' ,";
                 $cadena_sql.=" '" . $variable['observacion'] . "' ,";
                 $cadena_sql.=" '" . $variable['direccion'] . "' ,";
@@ -78,7 +80,8 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" prev_correo1, ";
                 $cadena_sql.=" prev_correo2, ";
                 $cadena_sql.=" prev_fecha_registro, ";
-                $cadena_sql.=" prev_serial ";
+                $cadena_sql.=" prev_serial, ";
+                $cadena_sql.=" prev_sucesora ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
                 $cadena_sql.=" ORDER BY prev_nombre ASC ";
                 break;

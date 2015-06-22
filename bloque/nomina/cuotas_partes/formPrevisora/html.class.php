@@ -366,6 +366,7 @@ class html_formPrevisora {
                     document.getElementById('oculto').style.display = "block";
                 }
                 if (elem.value == 'ACTIVA') {
+                    $('#sucesora').val(0);
                     document.getElementById('oculto').style.display = "none";
                     $('#sucesora').removeAttr('required');
                 }
@@ -505,7 +506,7 @@ class html_formPrevisora {
                                 unset($combo);
                                 //prepara los datos como se deben mostrar en el combo
                                 $combo[0][0] = '0';
-                                $combo[0][1] = 'sucesora';
+                                $combo[0][1] = 'Seleccione Entidad';
                                 foreach ($datos_previsora as $cmb => $values) {
                                     $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
                                     $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
@@ -733,18 +734,39 @@ class html_formPrevisora {
 
         $this->formulario = "formPrevisora";
 
+        if ($datos_entidad['prev_habilitado_pago'] == 'ACTIVO') {
+            $activo = 'selected';
+            $inactivo = '';
+        } else {
+            $activo = '';
+            $inactivo = 'selected';
+        }
+
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
         ?>
         <!referencias a estilos y plugins>
-        <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
+        <script type="text/javascript" src="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
         <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
               <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <script>
+
+                $(document).ready(function () {
+
+                    if (<?php echo "'".$datos_entidad['prev_habilitado_pago']."'" ?> == 'INACTIVA') {
+                        $('#sucesora').attr('required');
+                        document.getElementById('oculto').style.display = "block";
+                    }
+                    if (<?php echo "'".$datos_entidad['prev_habilitado_pago']."'" ?> == 'ACTIVA') {
+                        document.getElementById('oculto').style.display = "none";
+                        $('#sucesora').removeAttr('required');
+                    }
+                });
+
                 function acceptNum(e) {
                     key = e.keyCode || e.which;
                     tecla = String.fromCharCode(key).toLowerCase();
@@ -946,6 +968,8 @@ class html_formPrevisora {
 
                 document.formPrevisora.municipios.disabled = false;
             }
+
+
         </script>
 
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
@@ -1002,7 +1026,7 @@ class html_formPrevisora {
                     <div class="control capleft">
                         <div>
                             <div class="dropdown">
-                                <select id="p1f13c" name="estado" required='required'  onchange="showDiv(this)"  class="fieldcontent" value="<?php echo $datos_entidad["prev_habilitado_pago"] ?>"><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
+                                <select id="p1f13c" name="estado" required='required'  onchange="showDiv(this)"  class="fieldcontent" ><option <?php echo $activo; ?> value="ACTIVA">ACTIVA</option><option <?php echo $inactivo; ?>  value="INACTIVA">INACTIVA</option></select>
                                 <div class="fielderror"></div>
                             </div>
                         </div>
@@ -1033,7 +1057,7 @@ class html_formPrevisora {
                                     $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                 }
 
-                                $lista_combo = $this->html->cuadro_lista($combo, 'sucesora', $this->configuracion, 0, 0, FALSE, 0, 'sucesora');
+                                $lista_combo = $this->html->cuadro_lista($combo, 'sucesora', $this->configuracion, $datos_entidad['prev_sucesora'], 0, FALSE, 0, 'sucesora');
 
                                 echo $lista_combo;
                                 ?> 
