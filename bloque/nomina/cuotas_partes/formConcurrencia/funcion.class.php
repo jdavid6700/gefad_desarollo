@@ -133,7 +133,19 @@ class funciones_formConcurrencia extends funcionGeneral {
             $datos_entidad = $this->consultarEmpleador($parametros);
             $datos_previsora = $this->consultarPrevForm($parametros);
 
-            $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
+            if ($datos_laboral == null || $datos_entidad == null || $datos_previsora == null) {
+                echo "<script type=\"text/javascript\">" .
+                "alert('Error en la recuperación de datos. Por favor revise la pertinencia de los datos.');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formHistoria';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            } else {
+                $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
+            }
         } else {
             $datos_vacio = 0;
             $datos_laboral = $this->consultarHistoria($parametros);
@@ -153,20 +165,17 @@ class funciones_formConcurrencia extends funcionGeneral {
         $datos_laboral = $this->consultarHistoria($parametros);
         $datos_entidad = $this->consultarEmpleador($parametros);
         $datos_previsora = $this->consultarPrevForm($parametros);
-        
-        var_dump($datos_previsora);
-        exit;
 
         if ($datos_laboral == null || $datos_entidad == null || $datos_previsora == null) {
-              echo "<script type=\"text/javascript\">" .
-                "alert('Error en la recuperación de datos. Por favor revise la pertinencia de los datos.');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formHistoria';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
+            echo "<script type=\"text/javascript\">" .
+            "alert('Error en la recuperación de datos. Por favor revise la pertinencia de los datos.');" .
+            "</script> ";
+            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+            $variable = 'pagina=formHistoria';
+            $variable.='&opcion=';
+            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+            exit;
         } else {
             $this->html_formConcurrencia->formularioConcurrenciaModificar($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
         }

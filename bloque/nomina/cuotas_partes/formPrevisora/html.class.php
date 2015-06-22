@@ -362,10 +362,12 @@ class html_formPrevisora {
 
             function showDiv(elem) {
                 if (elem.value == 'INACTIVA') {
+                    $('#sucesora').attr('required');
                     document.getElementById('oculto').style.display = "block";
                 }
                 if (elem.value == 'ACTIVA') {
                     document.getElementById('oculto').style.display = "none";
+                    $('#sucesora').removeAttr('required');
                 }
             }
         </script>
@@ -503,13 +505,13 @@ class html_formPrevisora {
                                 unset($combo);
                                 //prepara los datos como se deben mostrar en el combo
                                 $combo[0][0] = '0';
-                                $combo[0][1] = 'Sucesora';
+                                $combo[0][1] = 'sucesora';
                                 foreach ($datos_previsora as $cmb => $values) {
                                     $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
                                     $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                 }
 
-                                $lista_combo = $this->html->cuadro_lista($combo, 'prev_nit', $this->configuracion, 0, 0, FALSE, 0, 'prev_nit');
+                                $lista_combo = $this->html->cuadro_lista($combo, 'sucesora', $this->configuracion, 0, 0, FALSE, 0, 'sucesora');
 
                                 echo $lista_combo;
                                 ?> 
@@ -727,7 +729,7 @@ class html_formPrevisora {
         <?php
     }
 
-    function modificarPrevisora($depto, $mun, $datos_entidad) {
+    function modificarPrevisora($depto, $mun, $datos_entidad, $datos_previsora) {
 
         $this->formulario = "formPrevisora";
 
@@ -758,6 +760,17 @@ class html_formPrevisora {
 
                     if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                         return false;
+                    }
+                }
+
+                function showDiv(elem) {
+                    if (elem.value == 'INACTIVA') {
+                        $('#sucesora').attr('required');
+                        document.getElementById('oculto').style.display = "block";
+                    }
+                    if (elem.value == 'ACTIVA') {
+                        document.getElementById('oculto').style.display = "none";
+                        $('#sucesora').removeAttr('required');
                     }
                 }
         </script>
@@ -935,7 +948,7 @@ class html_formPrevisora {
             }
         </script>
 
-        <form id="form" method="post" action="index.php" name='<? echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
+        <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
             <h1>Entidades Previsoras y Empleadoras</h1>
 
             <div class="formrow f1">
@@ -989,10 +1002,45 @@ class html_formPrevisora {
                     <div class="control capleft">
                         <div>
                             <div class="dropdown">
-                                <select id="p1f13c" name="estado" required='required' class="fieldcontent" value="<?php echo $datos_entidad["prev_nit"] ?>"><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
+                                <select id="p1f13c" name="estado" required='required'  onchange="showDiv(this)"  class="fieldcontent" value="<?php echo $datos_entidad["prev_habilitado_pago"] ?>"><option value="ACTIVA">ACTIVA</option><option value="INACTIVA">INACTIVA</option></select>
                                 <div class="fielderror"></div>
                             </div>
                         </div>
+                        <div class="null"></div>
+                    </div>
+                    <div class="null"></div>
+                </div>
+                <div class="null"></div>
+            </div>
+
+            <div class="formrow f1" id="oculto" style='display:none;'>
+                <div id="p1f6" class="field n1">
+                    <div class="caption capleft alignleft">
+                        <label class="fieldlabel" for="p1f6c"><span><span class="pspan arial" style="text-align:left;font-size:14px;"><span class="ispan" style="color:#9393FF" xml:space="preserve"><a STYLE="color: red" >* </a>Entidad Sucesora</span></span></span></label>
+                        <div class="null"></div>
+                    </div>
+                    <div class="control capleft">
+                        <div class="control capleft">
+                            <div class="dropdown"  title="*Campo Obligatorio">
+
+                                <?php
+                                unset($combo);
+                                //prepara los datos como se deben mostrar en el combo
+                                $combo[0][0] = '0';
+                                $combo[0][1] = 'Sucesora';
+                                foreach ($datos_previsora as $cmb => $values) {
+                                    $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
+                                    $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
+                                }
+
+                                $lista_combo = $this->html->cuadro_lista($combo, 'sucesora', $this->configuracion, 0, 0, FALSE, 0, 'sucesora');
+
+                                echo $lista_combo;
+                                ?> 
+
+                            </div>
+                        </div>
+
                         <div class="null"></div>
                     </div>
                     <div class="null"></div>

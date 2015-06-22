@@ -118,6 +118,8 @@ class funciones_formPrevisora extends funcionGeneral {
         $deptoC = $this->consultarDepartamento($parametros);
         $munC = $this->consultarMunicipio($parametros);
 
+         $datos_previsora = $this->consultarPrevisoras($parametros);
+         
         if ($deptoC == true) {
             foreach ($deptoC as $key => $value) {
                 $depto[$key] = array('departamento' => $value['DEP_NOMBRE']);
@@ -131,7 +133,7 @@ class funciones_formPrevisora extends funcionGeneral {
                     'municipio' => $value['MUN_NOMBRE']);
             }
         }
-        $this->html_formPrevisora->modificarPrevisora($depto, $mun, $datos_entidad);
+        $this->html_formPrevisora->modificarPrevisora($depto, $mun, $datos_entidad,$datos_previsora);
     }
 
     function mostrarFormulario() {

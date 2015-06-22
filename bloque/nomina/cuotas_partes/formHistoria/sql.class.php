@@ -76,6 +76,16 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" WHERE sus_cedulapen = '" . $variable . "' ";
                 break;
 
+            case "consultarPrevisora":
+                $cadena_sql = " SELECT ";
+                $cadena_sql.=" prev_nit,";
+                $cadena_sql.=" prev_nombre, ";
+                $cadena_sql.=" prev_habilitado_pago, ";
+                $cadena_sql.=" prev_serial ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
+                $cadena_sql.=" ORDER BY prev_nombre ASC ";
+                break;
+
             case "insertarHistoria":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_hlaboral ( ";
                 $cadena_sql.=" hlab_nro_ingreso, ";
