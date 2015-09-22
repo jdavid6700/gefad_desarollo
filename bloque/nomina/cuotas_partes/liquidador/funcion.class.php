@@ -855,6 +855,35 @@ class funciones_liquidador extends funcionGeneral {
         $cedula = $_REQUEST['cedula'];
         $datos_entidad = $this->consultarEntidades($parametros);
 
+
+        $datos_inactivas = $this->consultarInactivas($parametros);
+
+        $a = 0;
+
+        if (is_array($datos_inactivas)) {
+
+            foreach ($datos_inactivas as $key => $values) {
+                $a = $a + $datos_inactivas[$key]['valor'];
+            }
+
+            if ($a > 0) {
+                echo "<script type = \"text/javascript\">" .
+                "alert('Existen entidades previsoras INACTIVAS para la cedula " . $cedula . ". Actualice los datos para continuar.\\n\\n";
+                foreach ($datos_inactivas as $key => $values) {
+                    echo $datos_inactivas[$key]["prev_nit"] . " - " . $datos_inactivas[$key]["prev_nombre"] . "\\n";
+                }
+
+                echo " ');</script> ";
+                error_log('\n');
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioPrevisora';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
+            }
+        }
+
         if (!is_array($datos_entidad)) {
             echo "<script type = \"text/javascript\">" .
             "alert('No existe detalle de la Concurrencia Aceptada para la cedula " . $cedula . ".');" .
@@ -993,6 +1022,12 @@ class funciones_liquidador extends funcionGeneral {
 
     function consultarEntidades($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
+        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        return $datos;
+    }
+
+    function consultarInactivas($parametros) {
+       $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarInactivas", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
@@ -1739,8 +1774,10 @@ class funciones_liquidador extends funcionGeneral {
             $valor_cuota = $CUOTAPARTE + $MESADAADICIONAL + $INCREMENTOSALUD + $AJUSTEPENSIONAL;
 
 
-            $INTERES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
-            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota, $f_actual);
+//            $INTERES_A2006 = $this->Intereses_a2006($FECHAS[$key], $valor_cuota);
+//            $INTERESES_D2006 = $this->Intereses_d2006($FECHAS[$key], $valor_cuota, $f_actual);
+            $INTERES_A2006 = 0;
+            $INTERESES_D2006 = 0;
             $INTERESES = $valor_cuota + $INTERESES;
 
 

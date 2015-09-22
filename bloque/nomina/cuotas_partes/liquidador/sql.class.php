@@ -38,10 +38,30 @@ class sql_liquidador extends sql {
 
 //Reestructuración
             case "consultarEntidades":
-                $cadena_sql = " SELECT prev_nombre, hlab_nro_ingreso, hlab_nitprev, prev_nit ";
+                $cadena_sql = " SELECT COALESCE(previsora.prev_sucesora, previsora.prev_nit) prev_nit, ";
+                $cadena_sql.=" COALESCE(sus.prev_nombre, previsora.prev_nombre) prev_nombre, ";
+                $cadena_sql.=" previsora.prev_sucesora, previsora.prev_nit as prev_inicial, ";
+                $cadena_sql.=" hlab_nro_ingreso, hlab_nitprev,  previsora.prev_sucesora ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral  ";
+                $cadena_sql.=" JOIN cuotas_partes.cuotas_previsora previsora ON prev_nit=hlab_nitprev ";
+                $cadena_sql.=" LEFT JOIN cuotas_partes.cuotas_previsora sus ON previsora.prev_sucesora=sus.prev_nit ";
+                $cadena_sql.=" where hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" and previsora.prev_habilitado_pago = 'ACTIVA' ";
+                break;
+
+            case "consultarSucesoras":
+                $cadena_sql = " SELECT prev_nombre, hlab_nro_ingreso, hlab_nitprev, prev_nit, prev_sucesora ";
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
+                break;
+
+            case "consultarInactivas":
+                $cadena_sql = " SELECT DISTINCT prev_nombre, hlab_nitprev, prev_nit,prev_sucesora, ";
+                $cadena_sql.=" CASE WHEN prev_sucesora!='' THEN 0 ELSE 1 END as valor  ";
+                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
+                $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
+                $cadena_sql.=" AND prev_habilitado_pago <> 'ACTIVA' ";
                 break;
 
             case "nombreEntidad":
