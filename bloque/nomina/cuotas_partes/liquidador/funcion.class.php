@@ -1740,13 +1740,16 @@ class funciones_liquidador extends funcionGeneral {
             $anio_pension = date('Y', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'] . "+ 1 year")));
             $mes_pension = date('m', strtotime(str_replace('/', '-', $datos_concurrencia[0]['dcp_fecha_concurrencia'])));
 
-            if ($fecha_liq < $fecha_pension2) {
+            if ($fecha_liq <= $fecha_pension2) {
                 $MESADA = $mesada_descripcion;
             } else {
                 if ($key == 12) {
-                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
+                    echo "12>>".$MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+                    echo "<br>";echo "<br>";
+                    exit;
                 } else {
-                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+                    echo $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+                    echo "<br>";
                 }
             }
 
