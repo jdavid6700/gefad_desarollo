@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  ############################################################################
 #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
