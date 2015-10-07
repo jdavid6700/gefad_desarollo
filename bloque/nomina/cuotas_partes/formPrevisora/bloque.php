@@ -1,4 +1,4 @@
-<?php
+<?
 
 /* --------------------------------------------------------------------------------------------------------------------------
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
@@ -6,20 +6,20 @@
 /* --------------------------------------------------------------------------------------------------------------------------
  * @name          bloque.php 
  * @author        Violeta Sosa
- * @revision      Última revisión 18 de junio de 2015
+ * @revision      Última revisión 02 de agosto de 2013
   /*--------------------------------------------------------------------------------------------------------------------------
  * @subpackage		bloqueAdminVinculacion
  * @package		bloques
  * @copyright    	Universidad Distrital Francisco Jose de Caldas
- * @version      	0.0.0.4- Junio 20 de 2015
+ * @version      	0.0.0.1 - Julio 30 de 2013
  * @author	
  * @author		Oficina Asesora de Sistemas
  * @link		N/D
  * @description  	Bloque para gestionar formularios de cuotas partes.
  *                      Implementa:
 
-  Despliegue formulario cuotas partes registro de previsoras
- *                      Registro información de formularios, modificación y consulta de información
+  Despliegue formulario cuotas partes registro historia laboral
+ *                      Registro información de formularios
  */
 /* -------------------------------------------------------------------------------------------------------------------------- */
 

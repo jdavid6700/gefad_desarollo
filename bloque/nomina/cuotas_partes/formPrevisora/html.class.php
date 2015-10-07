@@ -20,20 +20,15 @@
   | 19/06/2015 | Violeta Sosa             | 0.0.0.4     | implementar asignación nueva entidad si inactiva                                |
   ----------------------------------------------------------------------------------------
  */
-
 if (!isset($GLOBALS["autorizado"])) {
 //include("../index.php");
     exit;
 }
-
 class html_formPrevisora {
-
     public $configuracion;
     public $cripto;
     public $indice;
-
     function __construct($configuracion) {
-
         $this->configuracion = $configuracion;
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/html.class.php");
@@ -43,7 +38,6 @@ class html_formPrevisora {
         $this->html = new html();
         $this->formulario = "formPrevisora";
     }
-
     function mostrarRegistros($registros) {
         ?>
         <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css" rel="stylesheet" type="text/css" />
@@ -73,7 +67,6 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
@@ -93,7 +86,6 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
@@ -184,7 +176,6 @@ class html_formPrevisora {
                         $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                         echo " " . $this->indice . $variable . "'>
                             <img alt='Imagen' width='20px' src='" . $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] . "/nomina/cuotas_partes/liquidador/icons/cuentacobro.png'/></td>";
-
                         // echo "<td class='texto_elegante estilo_td' >" . $registros[$key][13] . "</td>";
                         echo "</tr>";
                     }
@@ -205,11 +196,8 @@ class html_formPrevisora {
         <center><div class="holder" style="-moz-user-select: none;"></div></center>
         <?php
     }
-
     function formularioPrevisora($depto, $mun, $datos_previsora) {
-
         $this->formulario = "formPrevisora";
-
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -234,7 +222,6 @@ class html_formPrevisora {
                                     break;
                                 }
                             }
-
                             if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                                 return false;
                             }
@@ -242,9 +229,7 @@ class html_formPrevisora {
         </script>
 
         <script language = "Javascript">
-
             function echeck(str) {
-
                 var at = "@"
                 var dot = "."
                 var lat = str.indexOf(at)
@@ -254,59 +239,46 @@ class html_formPrevisora {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(at) == -1 || str.indexOf(at) == 0 || str.indexOf(at) == lstr) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(dot) == -1 || str.indexOf(dot) == 0 || str.indexOf(dot) == lstr) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(at, (lat + 1)) != -1) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.substring(lat - 1, lat) == dot || str.substring(lat + 1, lat + 2) == dot) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(dot, (lat + 2)) == -1) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(" ") != -1) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 return true
             }
-
             function ValidateForm() {
-
                 var emailID = document.formPrevisora.txtEmail
-
                 if ((emailID.value == null) || (emailID.value == "")) {
                     alert("Ingrese un correo electrónico!")
                     emailID.focus()
                     return false
                 }
-
                 if (echeck(emailID.value) == false) {
                     emailID.value = ""
                     emailID.focus()
                     return false
                 }
-
                 return true
             }
-
         </script>
 
         <script>
@@ -334,7 +306,6 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
@@ -354,12 +325,10 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
             }
-
             function showDiv(elem) {
                 if (elem.value == 'INACTIVA') {
                     $('#sucesora').attr('required');
@@ -386,7 +355,6 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
@@ -400,11 +368,9 @@ class html_formPrevisora {
                 SeleccionarEmpleados(depto);
                 document.formPrevisora.departamentos.disabled = false;
             }
-
             function SeleccionarEmpleados(depto) {
                 var o;
                 document.formPrevisora.municipios.disabled = true;
-
         <?php
         foreach ($mun as $key => $value) {
             ?>
@@ -414,7 +380,6 @@ class html_formPrevisora {
                         o.value = "<?php echo $mun[$key]['municipio'] ?>";
                         document.formPrevisora.municipios.options.add(o);
                     }
-
         <?php } ?>
                 if (depto === "") {
                     o = document.createElement("OPTION");
@@ -422,7 +387,6 @@ class html_formPrevisora {
                     o.value = "0";
                     document.formPrevisora.municipios.options.add(o);
                 }
-
                 document.formPrevisora.municipios.disabled = false;
             }
         </script>
@@ -511,9 +475,7 @@ class html_formPrevisora {
                                     $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
                                     $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                 }
-
                                 $lista_combo = $this->html->cuadro_lista($combo, 'sucesora', $this->configuracion, 0, 0, FALSE, 0, 'sucesora');
-
                                 echo $lista_combo;
                                 ?> 
 
@@ -729,11 +691,8 @@ class html_formPrevisora {
         </form>
         <?php
     }
-
     function modificarPrevisora($depto, $mun, $datos_entidad, $datos_previsora) {
-
         $this->formulario = "formPrevisora";
-
         if ($datos_entidad['prev_habilitado_pago'] == 'ACTIVO') {
             $activo = 'selected';
             $inactivo = '';
@@ -741,7 +700,6 @@ class html_formPrevisora {
             $activo = '';
             $inactivo = 'selected';
         }
-
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/dbms.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/sesion.class.php");
         include_once($this->configuracion["raiz_documento"] . $this->configuracion["clases"] . "/encriptar.class.php");
@@ -754,9 +712,7 @@ class html_formPrevisora {
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
         <script>
-
                 $(document).ready(function () {
-
                     if (<?php echo "'".$datos_entidad['prev_habilitado_pago']."'" ?> == 'INACTIVA') {
                         $('#sucesora').attr('required');
                         document.getElementById('oculto').style.display = "block";
@@ -766,7 +722,6 @@ class html_formPrevisora {
                         $('#sucesora').removeAttr('required');
                     }
                 });
-
                 function acceptNum(e) {
                     key = e.keyCode || e.which;
                     tecla = String.fromCharCode(key).toLowerCase();
@@ -779,12 +734,10 @@ class html_formPrevisora {
                             break;
                         }
                     }
-
                     if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                         return false;
                     }
                 }
-
                 function showDiv(elem) {
                     if (elem.value == 'INACTIVA') {
                         $('#sucesora').attr('required');
@@ -798,9 +751,7 @@ class html_formPrevisora {
         </script>
 
         <script language = "Javascript">
-
             function echeck(str) {
-
                 var at = "@"
                 var dot = "."
                 var lat = str.indexOf(at)
@@ -810,58 +761,45 @@ class html_formPrevisora {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(at) == -1 || str.indexOf(at) == 0 || str.indexOf(at) == lstr) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(dot) == -1 || str.indexOf(dot) == 0 || str.indexOf(dot) == lstr) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(at, (lat + 1)) != -1) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.substring(lat - 1, lat) == dot || str.substring(lat + 1, lat + 2) == dot) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(dot, (lat + 2)) == -1) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 if (str.indexOf(" ") != -1) {
                     alert("Verifique su e-mail")
                     return false
                 }
-
                 return true
             }
-
             function ValidateForm() {
-
                 var emailID = document.formPrevisora.txtEmail
-
                 if ((emailID.value == null) || (emailID.value == "")) {
                     alert("Ingrese un correo electrónico!")
                     emailID.focus()
                     return false
                 }
-
                 if (echeck(emailID.value) == false) {
                     emailID.focus()
                     return false
                 }
-
                 return true
             }
-
         </script>
 
         <script>
@@ -889,7 +827,6 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
@@ -909,7 +846,6 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
@@ -929,7 +865,6 @@ class html_formPrevisora {
                         break;
                     }
                 }
-
                 if (letras.indexOf(tecla) == -1 && !tecla_especial) {
                     return false;
                 }
@@ -943,11 +878,9 @@ class html_formPrevisora {
                 SeleccionarEmpleados(depto);
                 document.formPrevisora.departamentos.disabled = false;
             }
-
             function SeleccionarEmpleados(depto) {
                 var o;
                 document.formPrevisora.municipios.disabled = true;
-
         <?php
         foreach ($mun as $key => $value) {
             ?>
@@ -957,7 +890,6 @@ class html_formPrevisora {
                         o.value = "<?php echo $mun[$key]['municipio'] ?>";
                         document.formPrevisora.municipios.options.add(o);
                     }
-
         <?php } ?>
                 if (depto === "") {
                     o = document.createElement("OPTION");
@@ -965,11 +897,8 @@ class html_formPrevisora {
                     o.value = "0";
                     document.formPrevisora.municipios.options.add(o);
                 }
-
                 document.formPrevisora.municipios.disabled = false;
             }
-
-
         </script>
 
         <form id="form" method="post" action="index.php" name='<?php echo $this->formulario; ?>' onSubmit="return  ValidateForm();" autocomplete='Off'>
@@ -1056,9 +985,7 @@ class html_formPrevisora {
                                     $combo[$cmb][0] = isset($datos_previsora[$cmb]['prev_nit']) ? $datos_previsora[$cmb]['prev_nit'] : 0;
                                     $combo[$cmb][1] = isset($datos_previsora[$cmb]['prev_nombre']) ? $datos_previsora[$cmb]['prev_nombre'] : '';
                                 }
-
                                 $lista_combo = $this->html->cuadro_lista($combo, 'sucesora', $this->configuracion, $datos_entidad['prev_sucesora'], 0, FALSE, 0, 'sucesora');
-
                                 echo $lista_combo;
                                 ?> 
 
@@ -1281,5 +1208,4 @@ class html_formPrevisora {
         </form>
         <?php
     }
-
 }
