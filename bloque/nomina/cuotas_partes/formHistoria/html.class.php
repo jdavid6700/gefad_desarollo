@@ -1549,7 +1549,7 @@ class html_formHistoria {
                             <div class="control capleft">
                                 <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
-                                    <?
+                                    <?php
                                     unset($combo);
                                     //prepara los datos como se deben mostrar en el combo
                                     $combo[0][0] = '1';
