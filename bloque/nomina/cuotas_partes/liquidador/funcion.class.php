@@ -1592,9 +1592,11 @@ class funciones_liquidador extends funcionGeneral {
                 $MESADA = $mesada_descripcion;
             } else {
                 if ($key == 12) {
-                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
-                } else {
                     $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+                } else {
+                    //$MESADA = $this->MesadaFecha(($FECHAS[$key]), $MESADA);
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+                    
                 }
             }
             
