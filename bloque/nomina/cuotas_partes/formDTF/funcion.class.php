@@ -1,5 +1,4 @@
-
-<?
+<?php
 
 /*
   ############################################################################
@@ -11,16 +10,18 @@
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
   --------------------------------------------------------------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------------------------
-  |				Control Versiones				    	|
-  ----------------------------------------------------------------------------------------
-  | fecha      |        Autor            | version     |              Detalle            |
-  ----------------------------------------------------------------------------------------
-  | 18/05/2013 | Violet Sosa             | 0.0.0.1     |                                 |
-  ----------------------------------------------------------------------------------------
-  | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                 |
-  ----------------------------------------------------------------------------------------
-  | 11/10/2013 | Violet Sosa             | 0.0.0.3     |                                 |
-  ----------------------------------------------------------------------------------------
+  |				Control Versiones				    	      |
+  --------------------------------------------------------------------------------------------
+  | fecha      |        Autor            | version     |              Detalle                 |
+  --------------------------------------------------------------------------------------------
+  | 18/05/2013 | Violet Sosa             | 0.0.0.1     |                                      |
+  --------------------------------------------------------------------------------------------
+  | 02/08/2013 | Violet Sosa             | 0.0.0.2     |                                      |
+  --------------------------------------------------------------------------------------------
+  | 11/10/2013 | Violet Sosa             | 0.0.0.3     |                                      |
+  --------------------------------------------------------------------------------------------
+  | 12/11/2015 | Violet Sosa             | 0.0.0.4     | Nueva recolección de datos semanales |
+  --------------------------------------------------------------------------------------------
  */
 
 /* --------------------------------------------------------------------------------------------------------------------------
@@ -85,8 +86,8 @@ class funciones_formDTF extends funcionGeneral {
 
         $this->html_formDTF->formularioDTF($rango);
     }
-    
-     function modificarDTF($modificar_dtf) {
+
+    function modificarDTF($modificar_dtf) {
         $parametros = "";
         $indices = $this->ConsultarIndice($parametros);
 
@@ -104,7 +105,7 @@ class funciones_formDTF extends funcionGeneral {
         }
 
 
-        $this->html_formDTF->formularioDTF_Modificar($rango,$modificar_dtf);
+        $this->html_formDTF->formularioDTF_Modificar($rango, $modificar_dtf);
     }
 
     function mostrarIndice() {
@@ -220,6 +221,9 @@ class funciones_formDTF extends funcionGeneral {
             exit;
         }
         /* verificar si es menor a 2006 para asignar 0.12 OJO con el segundo semestre */
+        $datediff = $despues - $antes;
+        $vigencia = floor($datediff / (60 * 60 * 24));
+
 
         if ($anio_fin < 2006) {
 
@@ -228,7 +232,6 @@ class funciones_formDTF extends funcionGeneral {
             $fecha_inicio = '01-01-' . $anio_inicio;
             $fecha_final = '01-12-' . $anio_fin;
 
-            $parametros = "";
             $parametros = array(
                 'Anio_registrado' => $anio_fin,
                 'Norma' => (isset($datos['norma']) ? $datos['norma'] : ''),
@@ -237,6 +240,7 @@ class funciones_formDTF extends funcionGeneral {
                 'Fecha_vigencia_inicio' => $fecha_inicio,
                 'Fecha_vigencia_final' => $fecha_final,
                 'Interes_DTF' => (isset($datos['indice_dtf']) ? $datos['indice_dtf'] : ''),
+                'vigencia' => $vigencia,
                 'estado_registro' => $estado,
                 'fecha_registro' => $fecha_registro);
 
@@ -286,6 +290,7 @@ class funciones_formDTF extends funcionGeneral {
                 'Fecha_resolucion' => (isset($datos['fec_reso']) ? $datos['fec_reso'] : ''),
                 'Fecha_vigencia_inicio' => (isset($datos['fecvig_desde']) ? $datos['fecvig_desde'] : ''),
                 'Fecha_vigencia_final' => (isset($datos['fecvig_hasta']) ? $datos['fecvig_hasta'] : ''),
+                'vigencia' => $vigencia,
                 'Interes_DTF' => (isset($datos['indice_dtf']) ? $datos['indice_dtf'] : ''),
                 'estado_registro' => $estado,
                 'fecha_registro' => $fecha_registro);
@@ -326,8 +331,7 @@ class funciones_formDTF extends funcionGeneral {
             }
         }
     }
-    
-    
+
     function procesarFormulario_Modificar($datos) {
 
         $estado = 1;
@@ -496,7 +500,7 @@ class funciones_formDTF extends funcionGeneral {
                 'Fecha_vigencia_final' => (isset($datos['fecvig_hasta']) ? $datos['fecvig_hasta'] : ''),
                 'Interes_DTF' => (isset($datos['indice_dtf']) ? $datos['indice_dtf'] : ''),
                 'estado_registro' => $estado,
-                'serial' => (isset($datos['serial']) ? $datos['serial'] : ''),                
+                'serial' => (isset($datos['serial']) ? $datos['serial'] : ''),
                 'fecha_registro' => $fecha_registro);
 
             $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "actualizarDTF", $parametros);
@@ -535,6 +539,5 @@ class funciones_formDTF extends funcionGeneral {
             }
         }
     }
-
 
 }

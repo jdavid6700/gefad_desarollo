@@ -1,4 +1,3 @@
-
 <?php
 
 /*
@@ -133,19 +132,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             $datos_entidad = $this->consultarEmpleador($parametros);
             $datos_previsora = $this->consultarPrevForm($parametros);
 
-            if ($datos_laboral == null || $datos_entidad == null || $datos_previsora == null) {
-                echo "<script type=\"text/javascript\">" .
-                "alert('Error en la recuperación de datos. Por favor revise la pertinencia de los datos.');" .
-                "</script> ";
-                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-                $variable = 'pagina=formHistoria';
-                $variable.='&opcion=';
-                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-                exit;
-            } else {
-                $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
-            }
+            $this->html_formConcurrencia->formularioConcurrencia($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
         } else {
             $datos_vacio = 0;
             $datos_laboral = $this->consultarHistoria($parametros);
@@ -166,19 +153,7 @@ class funciones_formConcurrencia extends funcionGeneral {
         $datos_entidad = $this->consultarEmpleador($parametros);
         $datos_previsora = $this->consultarPrevForm($parametros);
 
-        if ($datos_laboral == null || $datos_entidad == null || $datos_previsora == null) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Error en la recuperación de datos. Por favor revise la pertinencia de los datos.');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formHistoria';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        } else {
-            $this->html_formConcurrencia->formularioConcurrenciaModificar($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
-        }
+        $this->html_formConcurrencia->formularioConcurrenciaModificar($datos_laboral, $datos_entidad, $datos_previsora, $datos_concurrencia);
     }
 
     function registrarDescripcionCP($parametros) {
@@ -190,6 +165,7 @@ class funciones_formConcurrencia extends funcionGeneral {
     function actualizarDescripcionCP($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "actualizarDescripcionCP", $parametros);
         $datos_DescripcionCP = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "insertar");
+
         return $datos_DescripcionCP;
     }
 
@@ -218,7 +194,7 @@ class funciones_formConcurrencia extends funcionGeneral {
     }
 
     function consultarPrevForm($parametro) {
-        echo $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevFormulario", $parametro);
+        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarPrevFormulario", $parametro);
         $datos_previsora = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos_previsora;
     }
@@ -479,7 +455,9 @@ class funciones_formConcurrencia extends funcionGeneral {
 
         $registro_descripcion_cp = $this->actualizarDescripcionCP($parametros_descripcion_cp);
 
-        if ($registro_descripcion_cp == true) {
+
+        if ($registro_descripcion_cp == 1) {
+
             $registroD[0] = "GUARDAR";
             $registroD[1] = $parametros_descripcion_cp['cedula'] . '|' . $parametros_descripcion_cp['nit_entidad'] . '|' . $parametros_descripcion_cp['nit_previsora']; //
             $registroD[2] = "CUOTAS_PARTES";
@@ -499,6 +477,7 @@ class funciones_formConcurrencia extends funcionGeneral {
             $variable = $this->cripto->codificar_url($variable, $this->configuracion);
             echo "<script>location.replace('" . $pagina . $variable . "')</script>";
         } else {
+
             echo "<script type=\"text/javascript\">" .
             "alert('Datos de Concurrencia No Actualizados Correctamente. ');" .
             "</script> ";

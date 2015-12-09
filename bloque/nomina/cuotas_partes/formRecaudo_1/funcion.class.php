@@ -170,12 +170,6 @@ class funciones_formRecaudo extends funcionGeneral {
         return $datos;
     }
 
-    function consultaGeneral($parametros) {
-        $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteGeneral", $parametros);
-        $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
-        return $datos;
-    }
-
     function datosConcurrencia($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "datos_concurrencia", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -491,7 +485,7 @@ class funciones_formRecaudo extends funcionGeneral {
 ";
         $PDF = new HTML2PDF('P', 'LETTER', 'es');
         $PDF->writeHTML($ContenidoPdf);
-        $PDF->Output("EstadoCuenta_" . $datos_basicos['cedula'] . "_" . $datos_basicos['entidad_nombre'] . ".pdf", "D");
+        $PDF->Output("EstadoCuenta_".  $datos_basicos['cedula'] ."_".  $datos_basicos['entidad_nombre'] .".pdf", "D");
     }
 
 //Movimiento a Formularios
@@ -614,46 +608,6 @@ class funciones_formRecaudo extends funcionGeneral {
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No existen Cuentas de Cobro registradas con cédula " . $parametros['cedula'] . " para la Entidad " . $parametros['entidad'] . ". Por lo tanto, no hay pagos a registrar.');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=reportesCuotas';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
-    }
-
-    function historiaGeneral() {
-
-        $parametros = array();
-        $consultaGeneral = $this->consultaGeneral($parametros);
-
-        if (is_array($consultaGeneral)) {
-            $this->html_formRecaudo->consultaGeneral($consultaGeneral);
-        } else {
-            echo "<script type=\"text/javascript\">" .
-            "alert('No ha sido posible recuperar el reporte.');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=reportesCuotas';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
-    }
-
-    function todosPensionados() {
-
-        $parametros = array();
-        $consultaPensionados = $this->consultaPensionados($parametros);
-
-        if (is_array($consultaPensionados)) {
-            $this->html_formRecaudo->consultaGeneral($consultaPensionados);
-        } else {
-            echo "<script type=\"text/javascript\">" .
-            "alert('No ha sido posible recuperar el reporte.');" .
             "</script> ";
             $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
             $variable = 'pagina=reportesCuotas';
@@ -857,7 +811,7 @@ class funciones_formRecaudo extends funcionGeneral {
 
         foreach ($datos as $key => $value) {
 
-            if ($datos[$key] == "") {
+            if ($datos[$key]=="") {
                 echo "<script type=\"text/javascript\">" .
                 "alert('Formulario NO diligenciado correctamente');" .
                 "</script> ";
@@ -913,7 +867,7 @@ class funciones_formRecaudo extends funcionGeneral {
         }
 
         $validacion = array();
-
+        
         foreach ($cuentas_pago as $key => $values) {
             $validacion[$key]['saldo_capital'] = doubleval($cuentas_pago[$key]['saldo_capital']);
             $validacion[$key]['saldo_interes'] = doubleval($cuentas_pago[$key]['saldo_interes']);
@@ -959,19 +913,19 @@ class funciones_formRecaudo extends funcionGeneral {
                 exit;
             }
         }
-
-        $observacion = strlen($datos['medio_pago']);
-
-        if ($observacion > 150) {
-            echo "<script type=\"text/javascript\">" .
-            "alert('Campo no diligenciado correctamente');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=formularioRecaudo';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
+        
+        $observacion=  strlen($datos['medio_pago']);
+      
+        if($observacion>150){
+             echo "<script type=\"text/javascript\">" .
+                "alert('Campo no diligenciado correctamente');" .
+                "</script> ";
+                $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
+                $variable = 'pagina=formularioRecaudo';
+                $variable.='&opcion=';
+                $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                echo "<script>location.replace('" . $pagina . $variable . "')</script>";
+                exit;
         }
 
         $total_capital = 0;

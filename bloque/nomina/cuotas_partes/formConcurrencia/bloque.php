@@ -1,4 +1,4 @@
-<?php
+<?
 
 /* --------------------------------------------------------------------------------------------------------------------------
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion

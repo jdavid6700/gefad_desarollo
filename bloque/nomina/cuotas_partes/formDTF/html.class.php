@@ -1,4 +1,4 @@
-<?
+<?php
 /*
   ############################################################################
   #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
@@ -44,9 +44,9 @@ class html_formDTF {
     function tablaDTF($datos) {
         ?>
 
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
-        <script src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
+        <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formPrevisora/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/css/jPages.css">
+        <script src="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/jPages-master/js/jPages.js"></script>
         <!-- permite la paginacion-->        
 
         <script>
@@ -143,8 +143,8 @@ class html_formDTF {
         <style>                    h3{text-align: left}                </style>
 
         <!referencias a estilos y plugins>
-        <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
-        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formSustituto/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
+        <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formSustituto/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -334,8 +334,8 @@ class html_formDTF {
 
             function echeck(str) {
 
-                var min = new Date('<? echo $fecha_anio ?>,<? echo $fecha_mes ?>,<? echo $fecha_dia ?>');
-                        var fecha = '<? echo $fecha_max ?>'
+                var min = new Date('<?php echo $fecha_anio ?>,<?php echo $fecha_mes ?>,<?php echo $fecha_dia ?>');
+                        var fecha = '<?php echo $fecha_max ?>'
 
                         if (str < fecha || str > fecha) {
                             alert('Fecha vigencia desde, mínimo es ' + fecha)
@@ -447,7 +447,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <select id="p1f13c" name="norma" class="fieldcontent" title="*Campo Obligatorio"><option value="Ley">Ley</option><option value="Resolucion" selected="selected">Resolución</option></select>
+                                <select id="p1f13c" name="norma" class="fieldcontent" title="*Campo Obligatorio"><option value="Banco de la República">Banco de la República</option><option value="Ley">Ley</option><option value="Resolucion" selected="selected">Resolución</option></select>
                             </div>
                             <div class="null"></div>
                         </div>
@@ -499,7 +499,7 @@ class html_formDTF {
                         </div>
                         <div class="control capleft">
                             <div>
-                                <input type="text" id="fecvig_desde" name="fecvig_desde" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<? echo $fecha_max ?>">
+                                <input type="text" id="fecvig_desde" name="fecvig_desde" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<?php echo $fecha_max ?>">
                             </div>
                             <div class="null"></div>
                         </div>
@@ -552,12 +552,12 @@ class html_formDTF {
                 <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Registrar"  onClick='return confirmarEnvio();'></center>
 
                 <input type='hidden' name='opcion' value='insertarDTF'>
-                <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+                <input type='hidden' name='action' value='<?php echo $this->formulario; ?>'>
 
                 </form>
 
 
-                <?
+                <?php
             }
 
     function formularioDTF_Modificar($rango, $datos_dtf) {
@@ -583,8 +583,8 @@ class html_formDTF {
                 <style>                    h3{text-align: left}                </style>
 
                 <!referencias a estilos y plugins>
-                <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
-                <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formDTF/form_estilo.css"	rel="stylesheet" type="text/css" />
+                <script type="text/javascript" src="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
+                <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formDTF/form_estilo.css"	rel="stylesheet" type="text/css" />
                 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
                 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
                 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -736,7 +736,7 @@ class html_formDTF {
                     //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
                     function trascheck(str) {
 
-        <?
+        <?php
         foreach ($rango as $key => $values) {
             /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
               echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; 
@@ -881,7 +881,7 @@ class html_formDTF {
                                 </div>
                                 <div class="control capleft">
                                     <div>
-                                        <select id="p1f13c" name="norma" class="fieldcontent" title="*Campo Obligatorio"><option value="Ley">Ley</option><option value="Resolucion" selected="selected">Resolución</option></select>
+                                        <select id="p1f13c" name="norma" class="fieldcontent" title="*Campo Obligatorio"><option value="Banco de la República">Banco de la República</option><option value="Ley">Ley</option><option value="Resolucion" selected="selected">Resolución</option></select>
                                     </div>
                                     <div class="null"></div>
                                 </div>
@@ -898,7 +898,7 @@ class html_formDTF {
                                 </div>
                                 <div class="control capleft">
                                     <div>
-                                        <input type="text" id="n_resolucion" name="n_resolucion" title="*Campo Obligatorio" placeholder="0000" class="fieldcontent" value='<? echo $datos_dtf['dtf_n_reso'] ?>' required='required'  maxLength="7" pattern=".{2,7}"  autocomplete="off" onKeyPress='return acceptNum2(event)' onpaste="return false">
+                                        <input type="text" id="n_resolucion" name="n_resolucion" title="*Campo Obligatorio" placeholder="0000" class="fieldcontent" value='<?php echo $datos_dtf['dtf_n_reso'] ?>' required='required'  maxLength="7" pattern=".{2,7}"  autocomplete="off" onKeyPress='return acceptNum2(event)' onpaste="return false">
                                     </div>
                                     <div class="null"></div>
                                 </div>
@@ -933,7 +933,7 @@ class html_formDTF {
                                 </div>
                                 <div class="control capleft">
                                     <div>
-                                        <input type="text" id="fecvig_desde" name="fecvig_desde" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<? echo $fecha_max ?>">
+                                        <input type="text" id="fecvig_desde" name="fecvig_desde" title="*Campo Obligatorio" placeholder="dd/mm/aaaa" required='required'  maxLength="10"  pattern="(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d" onpaste="return false" value="<?php echo $fecha_max ?>">
                                     </div>
                                     <div class="null"></div>
                                 </div>
@@ -969,7 +969,7 @@ class html_formDTF {
                                 </div>
                                 <div class="control capleft">
                                     <div>
-                                        <input type="text" id="indice_dtf" value='<? echo $datos_dtf['dtf_indi_ce'] ?>' name="indice_dtf" title="*Campo Obligatorio" placeholder="0.0000"  maxlength="10" pattern="[0]+([\.|,][0-9]+[0-9])?" onpaste="return false" step="0.0000" title="*Campo obligatorio. Ingrese indice en numeros decimales" class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
+                                        <input type="text" id="indice_dtf" value='<?php echo $datos_dtf['dtf_indi_ce'] ?>' name="indice_dtf" title="*Campo Obligatorio" placeholder="0.0000"  maxlength="10" pattern="[0]+([\.|,][0-9]+[0-9])?" onpaste="return false" step="0.0000" title="*Campo obligatorio. Ingrese indice en numeros decimales" class="fieldcontent"  required='required'  onKeyPress='return acceptNum(event)' >&nbsp;*Ingrese formato decimal. Ejemplo: 0.25  
 
                                     </div>
 
@@ -986,14 +986,14 @@ class html_formDTF {
                         <center> <input id="registrarBoton" type="submit" class="navbtn"  value="Actualizar Registro"  onClick='return confirmarEnvio();'></center>
 
                         <input type='hidden' name='opcion' value='actualizarDTF'>
-                        <input type='hidden' name='serial' value='<? echo $datos_dtf['dtf_serial'] ?>'>
-                        <input type='hidden' name='action' value='<? echo $this->formulario; ?>'>
+                        <input type='hidden' name='serial' value='<?php echo $datos_dtf['dtf_serial'] ?>'>
+                        <input type='hidden' name='action' value='<?php echo $this->formulario; ?>'>
 
                         </form>
 
 
-                        <?
+                        <?php
                     }
 
                 }
-                
+               

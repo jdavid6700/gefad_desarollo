@@ -66,6 +66,12 @@
                                            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
                                            echo $this->indice . $variable;
                                            ?>">Consultar Estado de Cuenta</a></li>
+                                      <li><a href="<?php
+                                           $variable = 'pagina=formularioRecaudo';
+                                           $variable.='&opcion=consultaGeneral';
+                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                           echo $this->indice . $variable;
+                                           ?>">Consultar Estado Global Cuotas Partes</a></li>
                                     <li><a href="<?php
                                            $variable = 'pagina=formularioSustituto';
                                            $variable.='&opcion=reporte';

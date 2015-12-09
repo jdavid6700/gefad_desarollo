@@ -80,7 +80,7 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" AND recta_estado='ACTIVO' ";
                 $cadena_sql.=" AND recta_saldototal!=0 ";
                 $cadena_sql.=" ORDER by cob_fgenerado ASC ";
-
+                
                 break;
 
             case "consultarCobrosEstado":
@@ -334,38 +334,7 @@ class sql_formRecaudo extends sql {
                 $cadena_sql.=" FROM cuotas_partes.cuotas_pagomasivo ";
                 $cadena_sql.=" WHERE cuotas_pagomasivo.estado='1' ";
                 break;
-
-
-            case "reporteGeneral":
-                $cadena_sql = " SELECT cob_cedula,num_empleadores, num_previsores,concurrencias_aceptadas, cobros_generados, coalesce(recaudos_registrados,0) recaudos_registrados  ";
-                $cadena_sql.=" FROM (SELECT cob_cedula, count(cob_nitprev) cobros_generados ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_cobros ";
-                $cadena_sql.=" WHERE cob_fecha_registro>'2014-12-31' ";
-                $cadena_sql.=" GROUP BY cob_cedula ";
-                $cadena_sql.=" ORDER BY cob_cedula ASC) as cobros ";
-                $cadena_sql.=" LEFT JOIN  ";
-                $cadena_sql.=" (SELECT rec_identificacion,count (rec_nitprev) recaudos_registrados ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_recaudos ";
-                $cadena_sql.=" GROUP BY rec_identificacion ";
-                $cadena_sql.=" ORDER BY rec_identificacion) as recaudos ON rec_identificacion=cob_cedula ";
-                $cadena_sql.=" JOIN  ";
-                $cadena_sql.=" (SELECT dcp_nro_identificacion, count(dcp_nitprev) as concurrencias_aceptadas ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_descripcion_cuotaparte ";
-                $cadena_sql.=" GROUP BY dcp_nro_identificacion ORDER BY dcp_nro_identificacion) as concurrencias ON cob_cedula=dcp_nro_identificacion ";
-                $cadena_sql.=" JOIN  ";
-                $cadena_sql.=" ( ";
-                $cadena_sql.=" SELECT hlab_nro_identificacion, count(hlab_nitprev) num_previsores FROM ( ";
-                $cadena_sql.=" SELECT DISTINCT hlab_nro_identificacion, hlab_nitprev ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" ORDER BY hlab_nro_identificacion ASC) as hlab ";
-                $cadena_sql.=" GROUP BY hlab_nro_identificacion) as historias_previsores ON cob_cedula=historias_previsores.hlab_nro_identificacion ";
-                $cadena_sql.=" JOIN ( ";
-                $cadena_sql.=" SELECT hlab_nro_identificacion, count(hlab_nitenti) num_empleadores FROM ( ";
-                $cadena_sql.=" SELECT DISTINCT hlab_nro_identificacion, hlab_nitenti ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" ORDER BY hlab_nro_identificacion ASC) as hlab ";
-                $cadena_sql.=" GROUP BY hlab_nro_identificacion)  as historias_entidades ON cob_cedula=historias_entidades.hlab_nro_identificacion ";
-                break;
+            
             default:
                 $cadena_sql = "";
                 break;

@@ -38,31 +38,10 @@ class sql_liquidador extends sql {
 
 //Reestructuración
             case "consultarEntidades":
-                $cadena_sql = " SELECT COALESCE(previsora.prev_sucesora, previsora.prev_nit) prev_nit, ";
-                $cadena_sql.=" COALESCE(sus.prev_nombre, previsora.prev_nombre) prev_nombre, ";
-                $cadena_sql.=" previsora.prev_sucesora, previsora.prev_nit as prev_inicial, ";
-                $cadena_sql.=" hlab_nro_ingreso, hlab_nitprev,  previsora.prev_sucesora ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_hlaboral  ";
-                $cadena_sql.=" JOIN cuotas_partes.cuotas_previsora previsora ON prev_nit=hlab_nitprev ";
-                $cadena_sql.=" LEFT JOIN cuotas_partes.cuotas_previsora sus ON previsora.prev_sucesora=sus.prev_nit ";
-                $cadena_sql.=" where hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
-                //$cadena_sql.=" and previsora.prev_habilitado_pago = 'ACTIVA' ";
-                $cadena_sql.=" ORDER BY prev_nombre ASC ";
-                break;
-
-            case "consultarSucesoras":
-                $cadena_sql = " SELECT prev_nombre, hlab_nro_ingreso, hlab_nitprev, prev_nit, prev_sucesora ";
+                $cadena_sql = " SELECT prev_nombre, hlab_nro_ingreso, hlab_nitprev, prev_nit ";
                 $cadena_sql.=" from cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
                 $cadena_sql.=" where prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
                 $cadena_sql.=" and prev_habilitado_pago = 'ACTIVA' ";
-                break;
-
-            case "consultarInactivas":
-                $cadena_sql = " SELECT DISTINCT prev_nombre, hlab_nitprev, prev_nit,prev_sucesora, ";
-                $cadena_sql.=" CASE WHEN prev_sucesora!='' THEN 0 ELSE 1 END as valor  ";
-                $cadena_sql.=" FROM cuotas_partes.cuotas_previsora, cuotas_partes.cuotas_hlaboral ";
-                $cadena_sql.=" WHERE prev_nit= hlab_nitprev and hlab_nro_identificacion = '" . $variable['cedula'] . "' ";
-                $cadena_sql.=" AND prev_habilitado_pago <> 'ACTIVA' ";
                 break;
 
             case "nombreEntidad":
@@ -112,15 +91,18 @@ class sql_liquidador extends sql {
                 break;
 
             case "datos_concurrencia":
-                $cadena_sql = " SELECT dcp_nro_identificacion, dcp_nitent, dcp_nitprev_inicial, dcp_nitprev, ";
-                $cadena_sql.=" dcp_fecha_concurrencia,dcp_resol_pension_fecha, dcp_actoadmin, dcp_factoadmin, dcp_fecha_pension, dcp_valor_mesada, dcp_valor_cuota, dcp_porcen_cuota ";
-                $cadena_sql.=" FROM (SELECT dcp_nro_identificacion, dcp_nitent, dcp_nitprev as dcp_nitprev_inicial,  ";
-                $cadena_sql.=" coalesce(prev_sucesora,dcp_nitprev) as dcp_nitprev, ";
+                $cadena_sql = " SELECT dcp_nro_identificacion, ";
+                $cadena_sql.=" dcp_nitent, ";
+                $cadena_sql.=" dcp_nitprev, ";
                 $cadena_sql.=" dcp_fecha_concurrencia, ";
-                $cadena_sql.=" dcp_resol_pension_fecha, dcp_actoadmin, dcp_factoadmin, dcp_fecha_pension, dcp_valor_mesada, dcp_valor_cuota, dcp_porcen_cuota ";
+                $cadena_sql.=" dcp_resol_pension_fecha, ";
+                $cadena_sql.=" dcp_actoadmin, ";
+                $cadena_sql.=" dcp_factoadmin, ";
+                $cadena_sql.=" dcp_fecha_pension, ";
+                $cadena_sql.=" dcp_valor_mesada, ";
+                $cadena_sql.=" dcp_valor_cuota, ";
+                $cadena_sql.=" dcp_porcen_cuota ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_descripcion_cuotaparte ";
-                $cadena_sql.=" JOIN cuotas_partes.cuotas_previsora ON dcp_nitprev=prev_nit ";
-                $cadena_sql.=" ) as prev_2 ";
                 $cadena_sql.=" WHERE dcp_nro_identificacion='" . $variable['cedula'] . "' ";
                 $cadena_sql.=" AND dcp_nitprev='" . $variable['entidad'] . "' ";
                 break;
@@ -291,16 +273,14 @@ class sql_liquidador extends sql {
                 break;
 
             case "valor_dtf_entre_2006":
-                $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce, dtf_serial, dtf_vigencia from cuotas_partes.cuotas_indc_dtf ";
+                $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce, dtf_serial from cuotas_partes.cuotas_indc_dtf ";
                 $cadena_sql.= " where dtf_fe_desde between '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
-                $cadena_sql.=" AND dtf_estado='1' ";
                 $cadena_sql.= " order by dtf_fe_desde ASC ";
                 break;
 
             case "valor_dtf_entre":
-                $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce, dtf_serial, dtf_vigencia from cuotas_partes.cuotas_indc_dtf ";
+                $cadena_sql = " select dtf_fe_desde, dtf_fe_hasta, dtf_indi_ce, dtf_serial from cuotas_partes.cuotas_indc_dtf ";
                 $cadena_sql.= " where dtf_fe_hasta between '" . $variable['desde'] . "' and '" . $variable['hasta'] . "' ";
-                $cadena_sql.=" AND dtf_estado='1' ";
                 $cadena_sql.= " order by dtf_fe_desde ASC ";
                 break;
 

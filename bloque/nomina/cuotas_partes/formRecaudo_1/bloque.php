@@ -87,15 +87,6 @@ class bloque_formRecaudo extends bloque {
                     $this->funcion->historiaRecaudos_cp($consultar_recaudos);
                     break;
 
-                case "consultaGeneral":
-                    $this->funcion->historiaGeneral();
-                    break;
-
-                case "consultaTodos":
-                    $this->funcion->todosPensionados();
-                    break;
-
-
                 case "registro_pago":
                     $cuentas_pago = array();
                     $cont = 0;
@@ -148,19 +139,19 @@ class bloque_formRecaudo extends bloque {
 
         switch ($_REQUEST['opcion']) {
 
-
+            
             case"guardarRecaudo":
-
+          
                 $parametros_recaudo = array();
-
+       
                 foreach ($_REQUEST as $key => $value) {
                     if ($key != 'action' && $key != 'opcion') {
                         $parametros_recaudo[$key] = $_REQUEST[$key];
                     }
                 }
-
-                $cuentas_pago = unserialize($_REQUEST['cuentas_pago']);
-
+                
+                $cuentas_pago=  unserialize($_REQUEST['cuentas_pago']);
+     
                 $this->funcion->procesarFormulario($parametros_recaudo, $cuentas_pago);
                 break;
 

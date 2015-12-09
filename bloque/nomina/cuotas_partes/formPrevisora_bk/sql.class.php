@@ -3,16 +3,20 @@
 /* --------------------------------------------------------------------------------------------------------------------------
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
   --------------------------------------------------------------------------------------------------------------------------- */
+
 if (!isset($GLOBALS["autorizado"])) {
     include("../index.php");
     exit;
 }
+
 include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/sql.class.php");
 
 class sql_formPrevisora extends sql {
 
     function cadena_sql($configuracion, $conexion, $opcion, $variable) {
+
         switch ($opcion) {
+
             case "actualizarPrevisora":
                 $cadena_sql = " UPDATE cuotas_partes.cuotas_previsora ";
                 $cadena_sql.=" SET ";
@@ -35,6 +39,7 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" prev_fecha_registro='" . $variable['fecha_registro'] . "'  ";
                 $cadena_sql.=" WHERE prev_serial='" . $variable['serial'] . "'";
                 break;
+
             case "insertarPrevisora":
                 $cadena_sql = " INSERT INTO cuotas_partes.cuotas_previsora  (prev_nit,   prev_nombre, prev_sucesora,  prev_habilitado_pago,   ";
                 $cadena_sql.=" prev_observacion,   prev_direccion,   prev_departamento,   prev_ciudad, prev_telefono,   prev_responsable, ";
@@ -57,7 +62,7 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" '" . $variable['estado_registro'] . "' ,";
                 $cadena_sql.=" '" . $variable['fecha_registro'] . "' )";
                 break;
-            
+
             case "consultarPrevisora":
                 $cadena_sql = " SELECT ";
                 $cadena_sql.=" prev_nit,";
@@ -78,30 +83,34 @@ class sql_formPrevisora extends sql {
                 $cadena_sql.=" prev_serial, ";
                 $cadena_sql.=" prev_sucesora ";
                 $cadena_sql.=" FROM cuotas_partes.cuotas_previsora ";
-                $cadena_sql.=" ORDER BY prev_nombre ASC;";
+                $cadena_sql.=" ORDER BY prev_nombre ASC ";
                 break;
-            
+
             case "consultarGeografia":
                 $cadena_sql = " SELECT dep_nombre, mun_nombre ";
                 $cadena_sql.=" FROM MNTGE.gemunicipio, MNTGE.gedepartamento ";
                 $cadena_sql.=" WHERE mun_dep_cod = dep_cod";
                 $cadena_sql.=" ORDER BY mun_nombre";
                 break;
+
             case "consultarGeografiaDEP":
                 $cadena_sql = "SELECT dep_nombre";
                 $cadena_sql.=" FROM MNTGE.gedepartamento ";
                 $cadena_sql.=" ORDER BY dep_nombre";
                 break;
+
             case "consultarGeografiaMUN":
                 $cadena_sql = " SELECT dep_nombre, mun_nombre ";
                 $cadena_sql.=" FROM MNTGE.gemunicipio, MNTGE.gedepartamento ";
                 $cadena_sql.=" WHERE mun_dep_cod = dep_cod";
                 $cadena_sql.=" ORDER BY mun_nombre";
                 break;
+
             default:
                 $cadena_sql = "";
                 break;
         }//fin switch
+
         return $cadena_sql;
     }
 

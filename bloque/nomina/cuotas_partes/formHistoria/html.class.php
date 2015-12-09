@@ -1,4 +1,4 @@
-<?php
+<?
 /*
   ############################################################################
   #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
@@ -67,7 +67,7 @@ class html_formHistoria {
 
         <!referencias a estilos y plugins>
         <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
-        <link	href="<?php echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formHistoria/form_estilo.css"	rel="stylesheet" type="text/css" />
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formHistoria/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -192,7 +192,7 @@ class html_formHistoria {
 
                             function echeck2(str) {
 
-        <?php
+        <?
         foreach ($datos_regint as $key => $values) {
             /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
               echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
@@ -411,7 +411,7 @@ class html_formHistoria {
                 <table width="100%" class='bordered' >
                     <tr>
                         <th colspan="4" class='encabezado_registro'>PERIODO A REGISTRAR</th>
-                        <td class='texto_elegante <?php echo '' ?> estilo_td' ></td>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                     </tr>
                     <tr>
                         <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
@@ -450,7 +450,7 @@ class html_formHistoria {
                 <table width="100%" class='bordered' >
                     <tr>
                         <th colspan="5" class='encabezado_registro'>INTERRUPCIONES PREVIAMENTE REGISTRADAS</th>
-                        <td class='texto_elegante<?php echo '' ?> estilo_td' ></td>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                     </tr>
                     <tr>
                         <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
@@ -487,7 +487,7 @@ class html_formHistoria {
             </center>
 
             <br><br>
-            <?php /*<a STYLE="color: red" >* Tenga en cuenta que una vez registrada la historia laboral en el sistema, no puede modificar los periodos de interrupción</a> */?>
+            <a STYLE="color: red" >* Tenga en cuenta que una vez registrada la historia laboral en el sistema, no puede modificar los periodos de interrupción</a>
             <br><br>
 
             <h2><br>Formulario Registro de Interrupción<br><br></h2>
@@ -644,7 +644,7 @@ class html_formHistoria {
                 <center> 
                     <input name='registro' id="registrarBoton" type="submit" class="navbtn"  value="Guardar Interrupción" onClick='return confirmarEnvio();'>
                     <a href=
-                       '<?php
+                       '<?
                        $variable = 'pagina=formHistoria';
                        $variable.='&opcion=';
                        $variable = $this->cripto->codificar_url($variable, $this->configuracion);
@@ -669,7 +669,7 @@ class html_formHistoria {
             </div>
 
         </form>
-        <?php
+        <?
     }
 
     function formularioInterrupcion_Modificar($datos_prev, $datos_interrupcion, $datos_historia, $datos_regint, $datos_int_historia) {
@@ -1053,7 +1053,7 @@ class html_formHistoria {
                 <table width="100%" class='bordered' >
                     <tr>
                         <th colspan="4" class='encabezado_registro'>PERIODO LABORAL CONTENIDO</th>
-                        <td class='texto_elegante<?php echo '' ?> estilo_td' ></td>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                     </tr>
                     <tr>
                         <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
@@ -1092,7 +1092,7 @@ class html_formHistoria {
                 <table width="100%" class='bordered' >
                     <tr>
                         <th colspan="5" class='encabezado_registro'>INTERRUPCIONES PREVIAMENTE REGISTRADAS</th>
-                        <td class='texto_elegante<?php echo '' ?> estilo_td' ></td>
+                        <td class='texto_elegante<? echo '' ?> estilo_td' ></td>
                     </tr>
                     <tr>
                         <th class='encabezado_registro' style="text-align:center">Nit Empleador</th>
@@ -1302,7 +1302,7 @@ class html_formHistoria {
             </div>
 
         </form>
-        <?php
+        <?
     }
 
     function modificarHistoria($datos_previsora, $historia_laboral, $rango) {
@@ -1549,7 +1549,7 @@ class html_formHistoria {
                             <div class="control capleft">
                                 <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
-                                    <?php
+                                    <?
                                     unset($combo);
                                     //prepara los datos como se deben mostrar en el combo
                                     $combo[0][0] = '1';
@@ -1782,7 +1782,7 @@ class html_formHistoria {
             </div>
 
         </form>
-        <?php
+        <?
     }
 
     function formularioHistoria($datos_previsora, $datos_historia, $cedula, $rango) {
@@ -1876,7 +1876,7 @@ class html_formHistoria {
             //Éste script valida si las fechas ingresadas en el formulario estan entre otras historias laborales
             function echeck(str) {
 
-        <?php
+        <?
         foreach ($rango as $key => $values) {
             /* echo "var min = new Date('" . $rango[$key]['inicio'] . "');\n";
               echo "var max = new Date('" . $rango[$key]['fin'] . "');    \n"; */
@@ -2024,7 +2024,7 @@ class html_formHistoria {
                             <div class="control capleft">
                                 <div class="dropdown" required='required' title="*Campo Obligatorio" required='required' >
 
-                                    <?php
+                                    <?
                                     unset($combo);
                                     //prepara los datos como se deben mostrar en el combo
                                     $combo[0][0] = '1';
@@ -2063,7 +2063,7 @@ class html_formHistoria {
                             <div class="control capleft">
                                 <div class="dropdown" required='required' title="*Campo Obligatorio" required='required'>
 
-                                    <?php
+                                    <?
                                     unset($combo);
                                     //prepara los datos como se deben mostrar en el combo
                                     $combo[0][0] = '0';
@@ -2256,7 +2256,7 @@ class html_formHistoria {
             </div>
 
         </form>
-        <?php
+        <?
     }
 
     function datoBasico() {
@@ -2301,7 +2301,7 @@ class html_formHistoria {
 
             <br>
         </form>
-        <?php
+        <?
     }
 
     function datoBasicoR() {
@@ -2345,7 +2345,7 @@ class html_formHistoria {
 
             <br>
         </form>
-        <?php
+        <?
     }
 
     function datosReporte($historia, $empleador, $interrupcion, $descripcion, $basico, $consulta_sustituto) {
@@ -2396,7 +2396,7 @@ class html_formHistoria {
                 </tr>
 
                 <tr>
-                    <?php
+                    <?
                     if (is_array($consulta_sustituto)) {
                         foreach ($consulta_sustituto as $key => $value) {
 
@@ -2431,7 +2431,7 @@ class html_formHistoria {
                 </tr>
 
                 <tr>
-                    <?php
+                    <?
                     if (is_array($historia)) {
                         foreach ($historia as $key => $value) {
 
@@ -2478,7 +2478,7 @@ class html_formHistoria {
                 </tr>
 
                 <tr>
-                    <?php
+                    <?
                     if (is_array($historia)) {
                         foreach ($historia as $key => $value) {
 
@@ -2516,7 +2516,7 @@ class html_formHistoria {
                 </tr>
 
                 <tr>
-                    <?php
+                    <?
                     if (is_array($interrupcion)) {
                         foreach ($interrupcion as $key => $value) {
 
@@ -2562,7 +2562,7 @@ class html_formHistoria {
                 </tr>
 
                 <tr>
-                    <?php
+                    <?
                     if (is_array($historia)) {
                         //  foreach ($historia as $key => $value) {
                         echo "<tr>";
@@ -2596,7 +2596,7 @@ class html_formHistoria {
                 </tr>
 
                 <tr>
-                    <?php
+                    <?
                     if (is_array($descripcion)) {
                         foreach ($descripcion as $key => $value) {
 
@@ -2641,7 +2641,7 @@ class html_formHistoria {
         </form>
         <BR><BR><BR><BR>
 
-        <?php
+        <?
     }
 
 }

@@ -26,6 +26,7 @@ class sql_formDTF extends sql {
                     dtf_fe_hasta, 
                     dtf_indi_ce,
                     dtf_estado,
+                    dtf_vigencia,
                     dtf_fecha_registro) VALUES ( ";
                 $cadena_sql.=" '" . $variable['Norma'] . "' ,";
                 $cadena_sql.=" '" . $variable['Numero_resolucion'] . "',  ";
@@ -34,6 +35,7 @@ class sql_formDTF extends sql {
                 $cadena_sql.=" '" . $variable['Fecha_vigencia_final'] . "',  ";
                 $cadena_sql.=" " . $variable['Interes_DTF'] . ",";
                 $cadena_sql.=" '" . $variable['estado_registro'] . "', ";
+                $cadena_sql.=" '" . $variable['vigencia'] . "', ";
                 $cadena_sql.=" '" . $variable['fecha_registro'] . "');";
                 break;
 
@@ -46,6 +48,7 @@ class sql_formDTF extends sql {
                 $cadena_sql.=" dtf_fe_hasta='" . $variable['Fecha_vigencia_final'] . "', ";
                 $cadena_sql.=" dtf_indi_ce=" . $variable['Interes_DTF'] . ", ";
                 $cadena_sql.=" dtf_estado='" . $variable['estado_registro'] . "', ";
+                $cadena_sql.=" dtf_vigencia='" . $variable['vigencia'] . "', ";
                 $cadena_sql.=" dtf_fecha_registro='" . $variable['fecha_registro'] . "' ";
                 $cadena_sql.=" WHERE dtf_serial='" . $variable['serial'] . "' ";
                 break;

@@ -1,4 +1,4 @@
-<?php
+<?
 
 /* --------------------------------------------------------------------------------------------------------------------------
   @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
@@ -11,7 +11,7 @@
  * @subpackage		bloqueAdminVinculacion
  * @package		bloques
  * @copyright    	Universidad Distrital Francisco Jose de Caldas
- * @version      	0.0.0.4 - Junio 19 de 2015
+ * @version      	0.0.0.1 - Julio 30 de 2013
  * @author	
  * @author		Oficina Asesora de Sistemas
  * @link		N/D
