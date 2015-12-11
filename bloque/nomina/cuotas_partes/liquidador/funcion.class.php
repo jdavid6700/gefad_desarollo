@@ -923,8 +923,8 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function consultarEntidades($parametros) {
-     
-        
+
+
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "consultarEntidades", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
 
@@ -1514,12 +1514,6 @@ class funciones_liquidador extends funcionGeneral {
 
     function liquidacion($datos_liquidar) {
 
-
-        //Crear tabla temporal para guardar los datos
-//        $parametros = array();
-//        $tablaLiquidacion = $this->crearTabla();
-
-
         $parametros = array(
             'cedula' => (isset($datos_liquidar['cedula']) ? $datos_liquidar['cedula'] : ''),
             'entidad' => (isset($datos_liquidar['entidad']) ? $datos_liquidar['entidad'] : ''));
@@ -1592,15 +1586,13 @@ class funciones_liquidador extends funcionGeneral {
                 $MESADA = $mesada_descripcion;
             } else {
                 if ($key == 12) {
-                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
                 } else {
-                    //$MESADA = $this->MesadaFecha(($FECHAS[$key]), $MESADA);
                     $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
-                    
                 }
             }
-            
-            
+
+
             if ($anio_pension == $annio && $mes == $mes_pension) {
                 if ($key == 0) {
                     //$FECHAS[$key] = $datos_concurrencia[0]['dcp_fecha_p'];
@@ -1611,6 +1603,13 @@ class funciones_liquidador extends funcionGeneral {
                     $MESADA = $datediff * ($mesada_inicial / ($dias_calculo - 1));
                 }
             }
+            
+            
+            
+            
+            
+            
+            
             //Determinar Cuota Parte
             $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
 //Valor Ajustes Adicionales
@@ -1899,9 +1898,9 @@ class funciones_liquidador extends funcionGeneral {
                 $MESADA = $mesada_inicio;
             } else {
                 $MESADA = $this->MesadaFecha(($fecha), $mesada_inicio);
-               /* if ($mes == 12) {
-                    $mesada_inicio = $MESADA;
-                }*/
+                if ($mes == 12) {
+                  $mesada_inicio = $MESADA;
+                  } 
             }
         }
         return $MESADA;
