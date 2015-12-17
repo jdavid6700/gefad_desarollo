@@ -418,7 +418,7 @@ class html_liquidador {
                                         containerID: "itemContainer",
                                         previous: "←",
                                         next: "→",
-                                        perPage: 5,
+                                        perPage: 14,
                                         delay: 20
                                     });
                                 });
