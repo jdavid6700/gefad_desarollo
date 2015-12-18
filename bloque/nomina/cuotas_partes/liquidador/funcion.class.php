@@ -1574,7 +1574,7 @@ class funciones_liquidador extends funcionGeneral {
         foreach ($FECHAS as $key => $value) {
 //Cadena del periodo liquidar
             $annio = date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))) + 1;
-            $mes = date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
+            $mes = (int) date('m', strtotime(str_replace('/', '-', $FECHAS[$key])));
             $sumafija = $this->obtenerSumafija($annio);
             $INDICE = $this->obtenerIPC($annio);
 //Valor Indices Básicos
@@ -1586,55 +1586,50 @@ class funciones_liquidador extends funcionGeneral {
 //Ley 71/1988
             $ley88 = strtotime(str_replace('/', '-', '01-01-1989'));
             //Para después de la fecha de pension
+            if ($f_desde2 > $f_pensionar) {
+                if ($key == 1) {
 
-//            if ($f_desde2 > $f_pensionar) {
-//                if ($key == 12) {
-//                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
-//                } else {
-//                    $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
-//                }
-//            } else {
-//                //Desde la fecha de pensión
-//                if ($key < 12) {
-//                    if ($f_pensionar < $ley88) {
-//                        echo "true;";
-//                        $MESADA = $mesada_descripcion;
-//                    } else {
-//                        echo "entro false";
-//                        $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
-//                    }
-//                } else {
-//                    if ($fecha_liq <= $fecha_pension2) {
-//                        $mesada_inicial = $mesada_descripcion;
-//                    }
-//
-//                    if ($key == 12) {
-//                        $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
-//                    } else {
-//                        $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
-//                    }
-//                }
-//            }
+                    if ($mes == 1) {
+                        $f_desde3 = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'])));
+                    } else {
+                        $f_desde3 = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'] . " -1 year")));
+                    }
 
-            if ($anio_pension == $annio && $mes == $mes_pension) {
-                if ($key == 0) {
-                    $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])));
-                    $dias_pension = date('d', strtotime(str_replace('/', '-', $FECHAS[$key])));
-                    $datediff = ($dias_calculo - $dias_pension);
-                    $MESADA = $datediff * ($mesada_descripcion / $dias_calculo);
+                    $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde3);
                 }
-            } else {
-                if ($key == 0) {
-                    $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])));
-                    $dias_pension = date('d', strtotime(str_replace('/', '-', $FECHAS[$key])));
-                    $datediff = ($dias_calculo - $dias_pension);
 
-                    $MESADA = $datediff * ($mesada_inicial / $dias_calculo);
+                $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+            } else {
+                //Desde la fecha de pensión
+                if ($key < 12) {
+                    if ($f_pensionar < $ley88) {
+                        $MESADA = $mesada_descripcion;
+                    } else {
+                        $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
+                    }
                 } else {
-                    $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $FECHAS[$key]);
-                    $MESADA = $mesada_inicial;
+                    if ($fecha_liq <= $fecha_pension2) {
+                        $mesada_inicial = $mesada_descripcion;
+                    }
+
+                    if ($key == 12) {
+                        $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_descripcion);
+                    } else {
+                        $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
+                    }
                 }
             }
+
+            if ($key == 0) {
+                $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                $dias_pension = date('d', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                $datediff = ($dias_calculo - $dias_pension);
+                $MESADA = $datediff * ($MESADA / $dias_calculo);
+            }
+
+
+
+
 
 //Determinar Cuota Parte
             $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
