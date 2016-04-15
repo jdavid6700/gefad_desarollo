@@ -1,13 +1,12 @@
 <?php
 /*
 LgG7dPYN2VRXIaBIHA
-MAGOBPYN2VQd4u0ajuyWKDyd
+BQECz1RhEVeWwAfyoo4r75c
 MgHg6PYN2VRJD3nFodzE5JQjIA
 NAEoX_YN2VQf0HjS
 NgEIm_YN2VSeIa6MIW4nx-recQ
 OAFg0vYN2VQgQnU1-sAYHg
 */ 
-
 // Listado de posibles fuentes para la dirección IP, en orden de prioridad
         	$fuentes_ip = array(
             	"HTTP_X_FORWARDED_FOR",
@@ -18,7 +17,6 @@ OAFg0vYN2VQgQnU1-sAYHg
             	"HTTP_COMING_FROM",
             	"REMOTE_ADDR",
         	);
-
         	foreach ($fuentes_ip as $fuentes_ip) {
             		// Si la fuente existe captura la IP
             		if (isset($_SERVER[$fuentes_ip])) {
@@ -26,7 +24,6 @@ OAFg0vYN2VQgQnU1-sAYHg
             		    	break;
             		}
         	}
-
         	$proxy_ip = (isset($proxy_ip)) ? $proxy_ip : @getenv("REMOTE_ADDR");
         	// Regresa la IP
         

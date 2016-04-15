@@ -52,7 +52,7 @@ require_once("clase/config.class.php");
 
 $esta_configuracion=new config();
 $configuracion=$esta_configuracion->variable(); 
-
+var_dump($configuracion);
 if(!isset($configuracion["instalado"]))
 {
 	//echo "<script>location.replace('instalar/index.html')</script>";	
@@ -60,9 +60,13 @@ if(!isset($configuracion["instalado"]))
 	exit;
 }
 
+//pAGFfiy7SFE8jqhcYMbM247gnA
+//pgH-aiy7SFFDEhI-AlYmuwpC8VudPFI
 
 
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/pagina.class.php");	
 $la_pagina=new pagina($configuracion);
+
+
 
 ?>
