@@ -200,7 +200,7 @@ class pagina {
                 }
                 unset($this->registro);
                 unset($this->total);
-                //define los tamaños registrados para las paginas				
+                //define los tamaños registrados para las paginas
                 $this->tamanno = $configuracion["tamanno_gui"];
                 $this->Vtamanno = $configuracion["Vtamanno_gui"];
                 $this->VtamannoA = $configuracion["Vtamanno_A"];
