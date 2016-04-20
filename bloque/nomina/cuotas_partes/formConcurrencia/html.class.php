@@ -1,4 +1,4 @@
-<?php
+<?
 /*
   ############################################################################
   #    UNIVERSIDAD DISTRITAL Francisco Jose de Caldas                        #
@@ -87,7 +87,7 @@ class html_formConcurrencia {
             <h3><a STYLE="color: red" >* ¡Atención! La CONCURRENCIA registrada para una Entidad sólo puede ser diligenciada UNA VEZ</a></h3>
             <br>
         </form>
-        <?php
+        <?
     }
 
     function datosPrevisora($cedula, $datos_en) {
@@ -168,7 +168,7 @@ class html_formConcurrencia {
 
                     <select name='prev_nit' required>
 
-                        <?php
+                        <?
                         foreach ($datos_en as $key => $value) {
                             ?>
                             <option id='prev_nit' name='prev_nit' value ="<?php echo $datos_en[$key]['prev_nit']; ?>"><?php echo$datos_en[$key]['prev_nombre']; ?></option>
@@ -187,7 +187,7 @@ class html_formConcurrencia {
             </div>
         </form>
 
-        <?php
+        <?
     }
 
     function formularioConcurrencia($datos_historia, $datos_empleador, $datos_previsora, $datos_concurrencia) {

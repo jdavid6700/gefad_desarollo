@@ -169,7 +169,8 @@ class funciones_formRecaudo extends funcionGeneral {
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
         return $datos;
     }
-
+    
+    
     function consultaGeneral($parametros) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteGeneral", $parametros);
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
@@ -628,29 +629,9 @@ class funciones_formRecaudo extends funcionGeneral {
 
         $parametros = array();
         $consultaGeneral = $this->consultaGeneral($parametros);
-
+        
         if (is_array($consultaGeneral)) {
             $this->html_formRecaudo->consultaGeneral($consultaGeneral);
-        } else {
-            echo "<script type=\"text/javascript\">" .
-            "alert('No ha sido posible recuperar el reporte.');" .
-            "</script> ";
-            $pagina = $this->configuracion["host"] . $this->configuracion["site"] . "/index.php?";
-            $variable = 'pagina=reportesCuotas';
-            $variable.='&opcion=';
-            $variable = $this->cripto->codificar_url($variable, $this->configuracion);
-            echo "<script>location.replace('" . $pagina . $variable . "')</script>";
-            exit;
-        }
-    }
-
-    function todosPensionados() {
-
-        $parametros = array();
-        $consultaPensionados = $this->consultaPensionados($parametros);
-
-        if (is_array($consultaPensionados)) {
-            $this->html_formRecaudo->consultaGeneral($consultaPensionados);
         } else {
             echo "<script type=\"text/javascript\">" .
             "alert('No ha sido posible recuperar el reporte.');" .

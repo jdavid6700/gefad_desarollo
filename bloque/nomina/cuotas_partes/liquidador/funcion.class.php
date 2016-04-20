@@ -1569,7 +1569,7 @@ class funciones_liquidador extends funcionGeneral {
 //        }
 
 
-        $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde);
+        $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde,$f_actual);
 
         foreach ($FECHAS as $key => $value) {
 //Cadena del periodo liquidar
@@ -1595,7 +1595,7 @@ class funciones_liquidador extends funcionGeneral {
                         $f_desde3 = date('d/m/Y', strtotime(str_replace('/', '-', $datos_liquidar['liquidar_desde'] . " -1 year")));
                     }
 
-                    $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde3);
+                    $mesada_inicial = $this->mesadaPeriodo($mesada_descripcion, $fecha_pension, $f_desde3,$f_actual);
                 }
 
                 $MESADA = $this->MesadaFecha(($FECHAS[$key]), $mesada_inicial);
@@ -1620,16 +1620,6 @@ class funciones_liquidador extends funcionGeneral {
                 }
             }
 
-            if ($key == 0) {
-                $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])));
-                $dias_pension = date('d', strtotime(str_replace('/', '-', $FECHAS[$key])));
-                $datediff = ($dias_calculo - $dias_pension);
-                $MESADA = $datediff * ($MESADA / $dias_calculo);
-            }
-
-
-
-
 
 //Determinar Cuota Parte
             $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
@@ -1649,6 +1639,8 @@ class funciones_liquidador extends funcionGeneral {
             $annio_rec = intval(date('Y', strtotime(str_replace('/', '-', $FECHAS[$key]))));
             $mes_rec = intval(date('m', strtotime(str_replace('/', '-', $FECHAS[$key]))));
             $prueba = 0;
+
+
             if (!empty($periodos_recaudo)) {
                 foreach ($periodos_recaudo as $prueba => $values) {
                     $anio_per = $periodos_recaudo[$prueba]['periodo_anio'];
@@ -1658,7 +1650,16 @@ class funciones_liquidador extends funcionGeneral {
                           echo "<br>"; */
                         $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
                         $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
-                        $liquidacion_cp[$key]['mesada'] = $MESADA;
+
+                        if ($key == 0) {
+                            $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                            $dias_pension = date('d', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                            $datediff = ($dias_calculo - $dias_pension);
+                            $liquidacion_cp[$key]['mesada'] = $datediff * ($MESADA / $dias_calculo);
+                        } else {
+                            $liquidacion_cp[$key]['mesada'] = $MESADA;
+                        }
+
                         $liquidacion_cp[$key]['ajuste_pension'] = 0;
                         $liquidacion_cp[$key]['mesada_adc'] = 0;
                         $liquidacion_cp[$key]['incremento'] = 0;
@@ -1675,7 +1676,14 @@ class funciones_liquidador extends funcionGeneral {
                     } else {
                         $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
                         $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
-                        $liquidacion_cp[$key]['mesada'] = $MESADA;
+                        if ($key == 0) {
+                            $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                            $dias_pension = date('d', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                            $datediff = ($dias_calculo - $dias_pension);
+                            $liquidacion_cp[$key]['mesada'] = $datediff * ($MESADA / $dias_calculo);
+                        } else {
+                            $liquidacion_cp[$key]['mesada'] = $MESADA;
+                        }
                         $liquidacion_cp[$key]['ajuste_pension'] = 0;
                         $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
                         $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
@@ -1693,7 +1701,14 @@ class funciones_liquidador extends funcionGeneral {
 //**************SALIDA FINAL*************** *//*
                 $liquidacion_cp[$key]['fecha'] = $FECHAS[$key];
                 $liquidacion_cp[$key]['ipc'] = $INDICE[0][0];
-                $liquidacion_cp[$key]['mesada'] = $MESADA;
+                if ($key == 0) {
+                    $dias_calculo = date('t', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                    $dias_pension = date('d', strtotime(str_replace('/', '-', $FECHAS[$key])));
+                    $datediff = ($dias_calculo - $dias_pension);
+                    $liquidacion_cp[$key]['mesada'] = $datediff * ($MESADA / $dias_calculo);
+                } else {
+                    $liquidacion_cp[$key]['mesada'] = $MESADA;
+                }
                 $liquidacion_cp[$key]['ajuste_pension'] = 0;
                 $liquidacion_cp[$key]['mesada_adc'] = $MESADAADICIONAL;
                 $liquidacion_cp[$key]['incremento'] = $INCREMENTOSALUD;
@@ -1878,6 +1893,7 @@ class funciones_liquidador extends funcionGeneral {
         settype($Anio_a, "integer");
         settype($Mes_a, "integer");
         $Dia = $Dia_p;
+        $fecha = array();
         for ($Anio_p; $Anio_p <= $Anio_a; $Anio_p++) {
             for ($Mes_p; $Mes_p <= 12; $Mes_p++) {
 //$Mes_p;
@@ -1899,15 +1915,18 @@ class funciones_liquidador extends funcionGeneral {
             }
             $Mes_p = 1;
         }
+
         return array($fecha);
     }
 
-    function mesadaPeriodo($mesada_inicio, $f_pension, $f_desde) {
+    function mesadaPeriodo($mesada_inicio, $f_pension, $f_desde,$f_actual) {
 //Actualizar la mesada a la fecha solicitada
         $f_desde2 = date('d/m/Y', strtotime(str_replace('/', '-', $f_desde)));
-
+        $MESADA = 0;
+       
+        
         list ($FECHAS) = $fechas = $this->GenerarFechas($f_pension, $f_desde2);
-
+var_dump($FECHAS);
         foreach ($FECHAS as $key => $value) {
             $fecha_liq = strtotime(str_replace('/', '-', $FECHAS[$key]));
             $fecha_pension2 = strtotime(str_replace('/', '-', $f_pension . "+ 1 year"));
@@ -1924,6 +1943,8 @@ class funciones_liquidador extends funcionGeneral {
                 }
             }
         }
+
+      //  echo $MESADA . "<br>";
         return $MESADA;
     }
 

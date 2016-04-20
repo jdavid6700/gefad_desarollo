@@ -1606,6 +1606,10 @@ class funciones_liquidador extends funcionGeneral {
             
             
             
+            
+            
+            
+            
             //Determinar Cuota Parte
             $CUOTAPARTE = $this->CuotaParte($MESADA, $porcentaje_cuota);
 //Valor Ajustes Adicionales

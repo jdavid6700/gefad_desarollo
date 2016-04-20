@@ -91,11 +91,6 @@ class bloque_formRecaudo extends bloque {
                     $this->funcion->historiaGeneral();
                     break;
 
-                case "consultaTodos":
-                    $this->funcion->todosPensionados();
-                    break;
-
-
                 case "registro_pago":
                     $cuentas_pago = array();
                     $cont = 0;
