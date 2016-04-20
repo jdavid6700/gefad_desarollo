@@ -73,9 +73,6 @@ if($enlace)
 	menu_logout($el_usuario,$configuracion,$cripto,$usuario,$acceso_db,$acceso);
 }
 
-
-
-
 /*==================================================================
  *                     Funciones
 *===================================================================*/
@@ -148,11 +145,14 @@ function salir($configuracion, $cripto, $sesion, $usuario, $acceso_db)
 
 function rol($usuario,$configuracion,$acceso_db, $acceso, $cripto)
 {
+	
+	
 	$indice=$configuracion["host"].$configuracion["site"]."/index.php?";
 	//Buscar los roles
 	$cadena_sql=cadena_busqueda_logout($configuracion,"roles",$usuario);
 	//echo $cadena_sql;
 	$registro=acceso_db_logout($cadena_sql,$acceso_db,"busqueda");
+	
 	if(is_array($registro))
 	{
 		$total_registros=count($registro);
