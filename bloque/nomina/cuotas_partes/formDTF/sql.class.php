@@ -48,7 +48,11 @@ class sql_formDTF extends sql {
                 $cadena_sql.=" dtf_fe_hasta='" . $variable['Fecha_vigencia_final'] . "', ";
                 $cadena_sql.=" dtf_indi_ce=" . $variable['Interes_DTF'] . ", ";
                 $cadena_sql.=" dtf_estado='" . $variable['estado_registro'] . "', ";
-                $cadena_sql.=" dtf_vigencia='" . $variable['vigencia'] . "', ";
+                if(isset($variable['vigencia'])){
+                	$cadena_sql.=" dtf_vigencia=" . $variable['vigencia'] . ", ";
+                }else{
+                	$cadena_sql.=" dtf_vigencia=null, ";
+                }
                 $cadena_sql.=" dtf_fecha_registro='" . $variable['fecha_registro'] . "' ";
                 $cadena_sql.=" WHERE dtf_serial='" . $variable['serial'] . "' ";
                 break;
