@@ -1,0 +1,990 @@
+<?php
+/*--------------------------------------------------------------------------------------------------------------------------
+  @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
+---------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------
+ |				Control Versiones				    	|	
+ ----------------------------------------------------------------------------------------
+ | fecha      |        Autor            | version     |              Detalle            |
+ ----------------------------------------------------------------------------------------
+ | 14/08/2009 | Maritza Callejas C.  	| 0.0.0.1     |                                 |
+ ----------------------------------------------------------------------------------------
+*/
+
+
+if(!isset($GLOBALS["autorizado"]))
+{
+	include("../index.php");
+	exit;		
+}
+
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/funcionGeneral.class.php");
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/navegacion.class.php");
+
+class funciones_adminUsuario extends funcionGeneral
+{
+
+	function __construct($configuracion, $sql)
+	{
+		//[ TO DO ]En futuras implementaciones cada usuario debe tener un estilo		
+		//include ($configuracion["raiz_documento"].$configuracion["estilo"]."/".$this->estilo."/tema.php");
+		include ($configuracion["raiz_documento"].$configuracion["estilo"]."/basico/tema.php");
+		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
+		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/log.class.php");
+
+		$this->cripto = new encriptar();
+		$this->log_us = new log();
+		$this->tema = $tema;
+		$this->sql = $sql;
+		
+		//Conexion General
+		$this->acceso_db = $this->conectarDB($configuracion,"");
+		
+		//Datos de sesion
+		
+		$this->usuario = $this->rescatarValorSesion($configuracion, $this->acceso_db, "id_usuario");
+		$this->identificacion = $this->rescatarValorSesion($configuracion, $this->acceso_db, "identificacion");
+		
+	}
+	
+	
+	function nuevoRegistro($configuracion,$tema,$acceso_db)
+	{
+		$this->form_usuario($configuracion,$registro,$this->tema,"");
+		
+	}
+	
+   	function editarRegistro($configuracion,$tema,$id,$acceso_db,$formulario)
+   	{						
+		$this->cadena_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"usuario",$id);
+		$registro = $this->acceso_db->ejecutarAcceso($this->cadena_sql,"busqueda");
+		if ($_REQUEST['opcion'] == 'cambiar_clave')
+		{
+		$this->formContrasena($configuracion,$registro,$this->tema,'');
+		}
+		else
+		{
+		$this->form_usuario($configuracion,$registro,$this->tema,'');
+		}
+	}
+   	
+   	function corregirRegistro()
+    	{
+	}
+	
+	function listaRegistro($configuracion,$id_registro)
+	
+    	{	
+	}
+		
+
+	function mostrarRegistro($configuracion,$registro, $totalRegistros, $opcion, $variable)
+    	{	
+		switch($opcion)
+		{
+			case "multiplesUsuarios":
+				$this->multiplesUsuarios($configuracion,$registro, $totalRegistros, $variable);
+				break;
+		
+		}
+		
+	}
+	
+		
+/*__________________________________________________________________________________________________
+		
+						Metodos especificos 
+__________________________________________________________________________________________________*/
+
+
+	function form_usuario($configuracion,$registro,$tema,$estilo)
+	{
+		$indice=$configuracion["host"].$configuracion["site"]."/index.php?";
+
+		/*****************************************************************************************************/
+		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+		
+		$enlace = $this->acceso_db;
+		$id_usuario = $this->usuario;
+		$sql_rol_usuario = "	SELECT id_rol 
+					FROM ". $configuracion["prefijo"]."integrante_proyecto
+					WHERE id_usuario = ".$id_usuario;
+		$rol_usuario = $this->ejecutarSQL($configuracion, $this->acceso_db, $sql_rol_usuario, "busqueda");
+				
+		$html = new html();
+		$tab = 1;
+		$this->formulario = "admin_usuario";
+		$this->verificar .= "control_vacio(".$this->formulario.",'nombres')";
+		$this->verificar .= "&& control_vacio(".$this->formulario.",'apellidos')";
+		$this->verificar .= "&& control_vacio(".$this->formulario.",'telefono')";
+		$this->verificar .= "&& control_vacio(".$this->formulario.",'correo')";
+		$this->verificar .= "&& verificar_correo(".$this->formulario.",'correo')";
+		$this->verificar .= "&& control_vacio(".$this->formulario.",'celular')";
+
+		$this->verificar .= "&& control_vacio(".$this->formulario.",'fecha_ingreso')";
+		$this->verificar .= "&& fecha(".$this->formulario.",'fecha_ingreso','".date("d/m/Y",time())."')";
+		$this->verificar .= "&& seleccion_valida(".$this->formulario.",'rol')";
+		$this->verificar .= "&& control_vacio(".$this->formulario.",'nombre_usuario')";
+		$this->verificar .= "&& longitud_cadena(".$this->formulario.",'contrasena',6)";
+		$this->verificar .= "&& comparar_contenido(".$this->formulario.",'contrasena','reescribir_contrasena')";
+		?>
+		<script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/funciones.js" type="text/javascript" language="javascript"></script>
+		<script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/md5.js" type="text/javascript" language="javascript"></script>		
+
+		<form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario;?>'>
+		<hr>
+		
+		<table width='80%' height="45" valign="top" >		
+		<tr>
+			<td colspan="5"><font color="red" size="-2"  ><br>Todos los campos marcados con ( * ) son obligatorios. <br></font></td>
+		</tr>
+		</table>
+		
+		<table width='80%'  class='formulario'  align='center'>
+		<tr class='bloquecentralcuerpobeige'><td  colspan='3'><hr class='hr_subtitulo'/>
+			<? if(!$registro)		
+				echo "DATOS DEL USUARIO";
+			   else
+				echo "EDITAR USUARIO";
+
+			?>
+		<hr class='hr_subtitulo'/></td></tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Nombres del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Nombres:</span>
+			</td>
+			<td>
+				<input type='text' name='nombres' value='<? echo $registro[0][1] ?>' size='40' maxlength='255' tabindex='<? echo $tab++ ?>'  onKeyPress="return solo_texto_sin_esp(event)" >
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Apellidos del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Apellidos:</span>
+			</td>
+			<td>
+				<input type='text' name='apellidos' value='<? echo $registro[0][2] ?>' size='40' maxlength='255' tabindex='<? echo $tab++ ?>'  onKeyPress="return solo_texto_sin_esp(event)" >
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Número de identificación del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Identificación:</span>
+			</td>
+			<td>
+				<input type='text' name='identificacion' value='<? echo $registro[0][7] ?>' size='40' maxlength='15' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_numero_sin_slash(event)">
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Proyecto al que pertenece el usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Proyecto:</span>
+			</td>
+			<td>
+			<?
+				$busqueda = "SELECT  id_proyecto, nombre FROM ". $configuracion["prefijo"]."proyecto ORDER BY nombre";
+				$metodo = $this->ejecutarSQL($configuracion, $this->acceso_db, $busqueda, "busqueda");
+				$mod_cuadro = $html->cuadro_lista($metodo,'proyecto',$configuracion,-1,0,FALSE,$tab++,'proyecto');	
+				echo $mod_cuadro;
+			?>	
+				
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?	
+				$texto_ayuda = "<b>Fecha de ingreso al proyecto.</b><br> ";
+				$texto_ayuda .= "Fecha en formato: dd/mm/aaaa.<br>";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Fecha Ingreso:</span>
+			</td>
+			<td><script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"] ?>/funciones.js" type="text/javascript" language="javascript"></script>
+				<input type='text' name='fecha_ingreso' value='<? echo $registro[0][5] ?>' size='12' maxlength='25' tabindex='<? echo $tab++ ?> 'readonly="readonly">
+				
+				<a href="javascript:muestraCalendario('<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"] ?>','<? echo $this->formulario;?>','fecha_ingreso')">
+				<img border="0" src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["grafico"]."/cal.png"?>" width="24" height="24" alt="DD-MM-YYYY"></a>
+			</td>
+		</tr>	
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Teléfono del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Teléfono:</span>
+			</td>
+			<td>
+				<input type='text' name='telefono' value='<? echo $registro[0][4] ?>' size='40' maxlength='50' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_numero(event)">
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Nombre de la cuenta de correo electrónico del usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Correo electrónico:</span>
+			</td>
+			<td>
+				<input type='text' name='correo' value='<? echo $registro[0][3] ?>' size='40' maxlength='100' tabindex='<? echo $tab++ ?>' >
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Número de celular del usuario.</b><br> ";
+				?><span onmouseover="return escape('<? echo $texto_ayuda?>')">No. Celular:</span>
+			</td>
+			<td>
+				<input type='text' name='celular' value='<? echo $registro[0][6] ?>' size='40' maxlength='15' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_numero_sin_slash(event)" >
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Rol o perfil del usuario dentro del sistema.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Rol:</span>
+			</td>
+			<td>
+			<?	//Evaluamos el rol del usuario actual en el sistema, si es administrador general no tiene 
+				//restricciones en roles; si NO es administrador general, no puede crear usuarios con rol Administrador 
+				//general
+				if ($rol_usuario[0][0] == 1)
+				{
+					$busqueda = "SELECT id_rol, rol_nombre FROM ". $configuracion["prefijo"]."rol 
+							ORDER BY rol_nombre";
+				} 
+				else
+				{	
+					$busqueda = "SELECT id_rol, rol_nombre FROM ". $configuracion["prefijo"]."rol 
+							WHERE id_rol <> 1
+							ORDER BY rol_nombre";
+				}
+				$metodo = $this->ejecutarSQL($configuracion, $this->acceso_db, $busqueda, "busqueda");
+
+				$mod_cuadro = $html->cuadro_lista($metodo,'rol',$configuracion,1,0,FALSE,$tab++,'rol');
+				echo $mod_cuadro;
+			?>	
+				
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Nombre que se le asigna como usuario,</b><br> ";
+				$texto_ayuda .= "para que posteriormente pueda ingresar al sistema</br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Nombre de usuario:</span>
+			</td>
+			<td>
+				<input type='text' name='nombre_usuario' value='<? echo $registro[0][5] ?>' size='40' maxlength='50' tabindex='<? echo $tab++ ?>' onKeyPress="return solo_alfanumerico(event)" >
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda="<b>Contraseña para el nuevo usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Contraseña:</span>
+			</td>
+			<td>
+				<input type='password' name='contrasena' value='<? echo $registro[0][10] ?>' size='40' maxlength='50' tabindex='<? echo $tab++ ?>'   >
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Reescriba la contraseña.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Confirmar contraseña:</span>
+			</td>
+			<td>
+				<input type='password' name='reescribir_contrasena' value='<? echo $registro[0][11] ?>' size='40' maxlength='50' tabindex='<? echo $tab++ ?>'  >
+			</td>
+		</tr>		
+		</table>
+		<table align='center'>
+		  <tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='usuario' value='<? echo $_REQUEST["usuario"] ?>'>
+				<input type='hidden' name='action' value='admin_usuario'>
+	    			
+				<input type='hidden' name='opcion' value='nuevo'>
+				<input value="Guardar" name="aceptar" tabindex='<?= $tab++ ?>' type="button" onclick="if(<?= $this->verificar; ?>){<?echo $this->formulario?>.contrasena.value = hex_md5(<?echo $this->formulario?>.contrasena.value);<?echo $this->formulario?>.reescribir_contrasena.value = hex_md5(<?echo $this->formulario?>.reescribir_contrasena.value);document.forms['<? echo $this->formulario?>'].submit()}else{false}"
+>
+    			<input name='cancelar' value='Cancelar' type='submit' tabindex='<?= $tab++ ?>'>
+				<br>
+			</td>
+ 		  </tr> 
+		</table>
+
+		</form>		
+	<?php
+	} // fin function form_usuario
+
+	// funcion que guarda los datos del nuevo usuario
+
+	function guardarUsuario($configuracion){
+			  
+		//rescata los valores para ingresar los datos del usuario
+		//----------------------------------------------------
+		$nvo_usuario[0] = $_REQUEST['nombres'];
+		$nvo_usuario[1] = $_REQUEST['apellidos'];
+		$nvo_usuario[2] = $_REQUEST['identificacion'];
+		$nvo_usuario[3] = $_REQUEST['proyecto'];
+		$nvo_usuario[4] = $_REQUEST['fecha_ingreso'];
+		$nvo_usuario[5] = $_REQUEST['telefono'];
+		$nvo_usuario[6] = $_REQUEST['correo'];
+		$nvo_usuario[7] = $_REQUEST['celular'];
+		$nvo_usuario[8] = $_REQUEST['rol'];
+		$nvo_usuario[9] = $_REQUEST['nombre_usuario'];
+		$nvo_usuario[10] = $_REQUEST['contrasena'];
+
+
+		//evaluamos si el usuario existe
+		$existe_usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"busqueda_usuario_xnombre",$nvo_usuario[9]);
+		$rs_existe_usuario = $this->ejecutarSQL($configuracion, $this->acceso_db, $existe_usuario_sql,"busqueda");
+		
+		if(!$rs_existe_usuario){ 
+			//ejecuta el ingreso del usuario
+
+			$usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"inserta_usuario",$nvo_usuario);
+			@$usu = $this->ejecutarSQL($configuracion, $this->acceso_db, $usuario_sql,"");
+		
+			//consultamos el identificador del nuevo usuario			
+			$nvo_usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"busqueda_usuario_xnombre",$nvo_usuario[9]);
+			$rs_nvo_usuario = $this->ejecutarSQL($configuracion, $this->acceso_db, $nvo_usuario_sql,"busqueda");
+			$nvo_usuario[11] = $rs_nvo_usuario[0][0]; //asignamos al arreglo el id del nuevo usuario
+
+			//evaluamos el rol del usuario para asignar el numero de subsistema
+			if($nvo_usuario[8] == 1 )
+			{	
+				$nvo_usuario[12] = 1;	
+			}
+			if($nvo_usuario[8] == 3 or  $nvo_usuario[8] == 4)
+			{	
+				$nvo_usuario[12] = 3;	
+			}
+			if($nvo_usuario[8] == 2 or  $nvo_usuario[8] == 5 or  $nvo_usuario[8] == 6 or  $nvo_usuario[8] == 7 or  $nvo_usuario[8] == 8 or  $nvo_usuario[8] == 9)
+			{	
+				$nvo_usuario[12] = 2;	
+			}
+			$variable = "pagina=adminUsuario";
+			$variable .= "&opcion=consultar";
+			
+			if ($rs_nvo_usuario){
+				$integrante_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"inserta_integrante_proyecto",$nvo_usuario);
+				@$integrante = $this->ejecutarSQL($configuracion, $this->acceso_db, $integrante_sql,"");
+
+				$subsistema_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"inserta_registrado_subsistema",$nvo_usuario);
+				@$subsistema = $this->ejecutarSQL($configuracion, $this->acceso_db, $subsistema_sql,"");
+
+				//VARIABLES PARA EL LOG
+				$registro[0] = "CREAR";
+				$registro[1] = $nvo_usuario[11];
+				$registro[2] = "USUARIO";
+				$registro[3] = $nvo_usuario[9];
+				$registro[4] = time();
+				$registro[5] = "Registra usuario ". $nvo_usuario[9];
+				$registro[5] .= " al proyecto ". $nvo_usuario[3];
+				$registro[5] .= " con rol ". $nvo_usuario[8];
+				$this->log_us->log_usuario($registro,$configuracion);
+				echo "<script>alert('Usuario registrado con exito!')</script>";
+			}
+			else
+			{
+				echo "<script>alert('Imposible Crear Usuario')</script>";
+			}
+
+		}//fin if NO existencia de usuario	
+		else{
+			$variable = "pagina=adminUsuario";
+			$variable .= "&opcion=nuevo";
+			echo "<script>alert('YA EXISTE EL USUARIO')</script>";
+		}
+		$pagina = $configuracion["host"].$configuracion["site"]."/index.php?";
+		$variable = $this->cripto->codificar_url($variable,$configuracion);
+		echo "<script>location.replace('".$pagina.$variable."')</script>";
+
+	} // fin function guardarUsuario
+
+	function consultarUsuario($configuracion,$cod_usuario){
+
+		$this->formulario = "admin_usuario";
+		if($cod_usuario == ""){
+				
+			$id_usuario = $this->usuario;
+			$sql_rol_usuario = "	SELECT id_rol, id_proyecto 
+						FROM ". $configuracion["prefijo"]."integrante_proyecto
+						WHERE id_usuario = ".$id_usuario;
+			$rol_usuario = $this->ejecutarSQL($configuracion, $this->acceso_db, $sql_rol_usuario, "busqueda");
+				
+			if ($_REQUEST['clave']){
+				$busqueda[1] = $_REQUEST['criterio_busqueda'];//tipo de consulta
+				$busqueda[2] = $_REQUEST['clave'];//cadena a buscar
+				$cadena = "No Existen Usuarios para la consulta.";
+			}
+			else{
+				$cadena = "No Existen Usuarios Registrados.";
+			}	
+
+			//Rescatar Usuarios, todos si es administrador general ó los de un proyecto si es admin de proyecto
+			if ($rol_usuario[0][0] == 1){
+				$cadena_sql = $this->sql->cadena_sql($configuracion,$this->funcion->acceso_db,"usuarios_todos",$busqueda);
+			
+			}		
+			else{
+				$busqueda[0] = $rol_usuario[0][1];//codigo del proyecto
+				$cadena_sql = $this->sql->cadena_sql($configuracion,$this->funcion->acceso_db,"usuarios_proyecto",$busqueda);
+			}						
+
+			$registro_completo = $this->ejecutarSQL($configuracion, $this->acceso_db,$cadena_sql, "busqueda");
+
+			//Obtener el total de registros
+			$totalRegistros = $this->totalRegistros($configuracion, $this->acceso_db);
+
+			$this->cadena_hoja = $cadena_sql;
+
+			//Si no se viene de una hoja anterior
+		 	if(!isset($_REQUEST["hoja"]))
+			{
+				$_REQUEST["hoja"] = 1;
+			}
+		
+			$this->cadena_hoja .= " LIMIT ".(($_REQUEST["hoja"]-1) * $configuracion['registro']).",".$configuracion['registro'];		
+			$registro = $this->ejecutarSQL($configuracion, $this->acceso_db, $this->cadena_hoja, "busqueda");
+
+			if($totalRegistros)
+			{	
+				$hojas = ceil($totalRegistros / $configuracion['registro']);
+			}
+			else
+			{
+				$hojas = 1;
+			}
+			
+			if(is_array($registro))
+			{
+				//evaluamos si existe mas de un usuario
+				if($totalRegistros > 1)
+				{
+					$variable["pagina"] = "adminUsuario";
+					$variable["opcion"] = $_REQUEST["opcion"];
+					$variable["hoja"] = $_REQUEST["hoja"];
+					$menu = new navegacion();
+					if($hojas > 1)
+					{
+						$menu->menu_navegacion($configuracion,$_REQUEST["hoja"],$hojas,$variable);
+					}
+
+					$this->mostrarRegistro($configuracion,$registro, $configuracion['registro'], "multiplesUsuarios", "");
+					$menu->menu_navegacion($configuracion,$_REQUEST["hoja"],$hojas,$variable);
+				}
+				else
+				{
+					//Consultar un usuario especifico
+					$this->consultarUsuario($configuracion,$registro[0][0]);
+				}
+			}
+			else
+			{
+				include_once($configuracion["raiz_documento"].$configuracion["clases"]."/alerta.class.php");
+				
+				alerta::sin_registro($configuracion,$cadena);
+			}
+
+		}
+		else{
+			//busca si existen registro de datos de usuarios en la base de datos 
+			$cadena_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"usuario",$cod_usuario);
+			$datos_usuario = $this->ejecutarSQL($configuracion, $this->acceso_db, $cadena_sql, "busqueda");
+			
+			//busca el estado del usuario
+			$estado_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"busqueda_estado",$cod_usuario); 				$estado = $this->ejecutarSQL($configuracion, $this->acceso_db, $estado_sql, "busqueda");			
+
+			//busca los roles del usuario en la base de datos 
+			$roles_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"roles",$cod_usuario); 			
+			$registro_completo = $this->ejecutarSQL($configuracion, $this->acceso_db, $roles_sql, "busqueda");			
+
+			//Obtener el total de registros
+			$totalRegistros = $this->totalRegistros($configuracion, $this->acceso_db);
+
+			$this->cadena_hoja = $roles_sql;
+
+			//Si no se viene de una hoja anterior
+		 	if(!isset($_REQUEST["hoja"]))
+			{
+				$_REQUEST["hoja"] = 1;
+			}
+			$this->cadena_hoja .= " LIMIT ".(($_REQUEST["hoja"]-1) * $configuracion['registro']).",".$configuracion['registro'];		
+			$roles = $this->ejecutarSQL($configuracion, $this->acceso_db, $this->cadena_hoja, "busqueda");
+			
+			if($totalRegistros)
+			{	
+				$hojas = ceil($totalRegistros / $configuracion['registro']);
+			}
+			else
+			{
+				$hojas = 1;
+			}
+		
+			//Obtener el total de registros
+			$totalRoles = $this->totalRegistros($configuracion, $this->acceso_db);
+			?>			
+			<table width="90%" align="center" border="0" cellpadding="10" cellspacing="0" >
+			<tbody>
+								<tr>
+				<td>
+					<table width="100%" border="0" align="center" cellpadding="5 px" cellspacing="1px" >
+					  <tr class="texto_subtitulo">
+						<td>
+							Consulta de Usuario<br>
+								<hr class="hr_subtitulo">
+						</td>
+				 	  </tr>
+					  <tr>
+						<td>
+							<table class='contenidotabla'>
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Código:</td>
+									<td class='cuadro_plano '><? echo  $datos_usuario[0][0]?></td>
+								</tr>	
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Nombre(s):</td>
+									<td class='cuadro_plano '><? echo  $datos_usuario[0][1]?></td>
+								</tr>			
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Apellido(s):</td>
+									<td class='cuadro_plano '><? echo  $datos_usuario[0][2]?></td>
+								</tr>			
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Correo:</td>
+									<td class='cuadro_plano '><? echo  $datos_usuario[0][3]?></td>
+								</tr>			
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Teléfono:</td>
+									<td class='cuadro_plano '><? echo  $datos_usuario[0][4]?></td>
+								</tr>			
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Celular:</td>
+									<td class='cuadro_plano '><? echo  $datos_usuario[0][6]?></td>
+								</tr>			
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Identificación:</td>
+									<td class='cuadro_plano '><? echo  $datos_usuario[0][7]?></td>
+								</tr>			
+								<tr >
+									<td class='cuadro_plano centrar ancho10' >Estado:</td>
+									<td class='cuadro_plano '>
+									
+									<form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario;?>'>
+									<? 
+										//Mostramos el estado actual del usuario, y el botón con la 
+										//opcion de carbiar dicho estado.
+										$datos[0] = $cod_usuario;
+										if ($estado[0][0]==1){
+											echo "Activo";
+											$dato = 0;
+										}
+										else
+										{
+											echo "Inactivo";
+											$dato = 1;
+										}
+			
+
+									?>
+									<input type='hidden' name='usuario' value='<? echo $_REQUEST["usuario"] ?>'>
+									<input type='hidden' name='cod_usuario' value='<? echo $cod_usuario?>'>
+									<input type='hidden' name='dato' value='<? echo $dato?>'>
+									<input type='hidden' name='action' value='admin_usuario'>
+									<input type='hidden' name='opcion' value='cambiar_estado'>
+									&nbsp;&nbsp;
+									<input value="Cambiar estado" name="aceptar" tabindex='<?= $tab++ ?>' type="button" onclick="if(confirm('Señor usuario confirma que desea cambiar el estado del usuario?')){document.forms['<? echo $this->formulario?>'].submit()}">
+	 								<input name='cancelar' value='Cancelar' type='submit'>
+
+									</form>		
+
+									</td>
+								</tr>			
+
+							</table>
+						</td>
+					  </tr>
+					</table>
+				   </td>
+				</tr>
+				<tr>
+					<td>
+				<?
+				//Mostramos el menu de la paginación
+				if($totalRoles > 0){
+					$variable["pagina"] = "adminUsuario";
+					$variable["opcion"] = $_REQUEST["opcion"];
+					$variable["hoja"] = $_REQUEST["hoja"];
+					$variable["cod_usuario"] = $_REQUEST["cod_usuario"];
+					$menu = new navegacion();
+
+				?>
+					</td>
+				</tr>	
+				<tr>
+				    <td>
+					<table width="100%" border="0" align="center" cellpadding="5 px" cellspacing="1px" >
+					  <tr class="texto_subtitulo">
+						<td>
+							Rol(es) del Usuario<br>
+								<hr class="hr_subtitulo">
+						</td>
+				 	  </tr>
+					  <tr>
+						<td>
+							<table class='contenidotabla'>
+								<tr class='cuadro_color'>
+									<td class='cuadro_plano centrar ancho10' >No. Rol</td>
+									<td class='cuadro_plano centrar'>Nombre rol </td>
+									<td class='cuadro_plano centrar'>Proyecto </td>
+									<td class='cuadro_plano centrar'>Fecha Ingreso </td>
+								</tr>			
+
+							<?
+							for($contador = 0; $contador < $totalRoles; $contador++){
+								echo "<tr> 
+									 <td class='cuadro_plano centrar'>".$roles[$contador][1]."</td>
+									 <td class='cuadro_plano'>".$roles[$contador][5]."</td>
+									 <td class='cuadro_plano'>".$roles[$contador][4]."</td>
+									 <td class='cuadro_plano'>".$roles[$contador][2]."</td>
+								  </tr>";
+						
+							}
+							?>
+							</table>
+								</td>
+							</tr>
+					</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?
+							$menu->menu_navegacion($configuracion,$_REQUEST["hoja"],$hojas,$variable);
+			
+						?>
+					</td>
+				</tr>
+
+				<?
+				}//fin if roles >0
+				?>
+			</tbody>
+			</table>
+			<?				
+		}//fin else existe cod_usuario
+	}//fin funcion consultar usuarios
+
+	
+	// funcion que muestra los datos de varios usuarios
+
+	function multiplesUsuarios($configuracion,$registro, $total, $variable)
+	{
+		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/encriptar.class.php");
+		$indice = $configuracion["host"].$configuracion["site"]."/index.php?";
+		$cripto = new encriptar();
+		
+		?><table width="80%" align="center" border="0" cellpadding="10" cellspacing="0" >
+			<tbody>
+				<tr>
+					<td >
+						<table width="100%" border="0" align="center" cellpadding="5 px" cellspacing="1px" >
+							<tr class="texto_subtitulo">
+								<td>
+								Usuarios<br>
+								<hr class="hr_subtitulo">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<table class='contenidotabla'>
+										<tr class='cuadro_color'>
+											<td class='cuadro_plano centrar ancho10' >C&oacute;digo</td>
+											<td class='cuadro_plano centrar'>Usuario </td>
+										</tr><?
+								for($contador = 0; $contador < $total; $contador++)
+								{
+			
+									$parametroSolicitud[0] = $registro[$contador][0];
+			
+									//Con enlace a la busqueda
+									$parametro = "pagina=adminUsuario";
+									$parametro .= "&hoja=1";
+									$parametro .= "&opcion=consultar";
+									$parametro .= "&accion=consultar";
+									$parametro .= "&cod_usuario=".$registro[$contador][0];
+									$parametro = $cripto->codificar_url($parametro,$configuracion);
+									echo "	<tr> 
+										 	<td class='cuadro_plano centrar'>".$registro[$contador][0]."</td>
+											<td class='cuadro_plano'><a href='".$indice.$parametro."'>".$registro[$contador][1]."</a></td>
+										</tr>";
+		
+			
+								}//fin for 
+								?>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class='cuadro_plano cuadro_brown'>
+						<p class="textoNivel0">Por favor realice click sobre el nombre del usuario que desee consultar.</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<?
+	}//fin funcion multiples usuarios
+		
+
+	// funcion que edita los datos del usuario
+
+	function editarUsuario($configuracion){
+				  
+		//rescata los valores para editar los datos del usuario
+		//----------------------------------------------------
+		$datos_usuario[0] = $this->usuario;
+		$datos_usuario[1] = $_REQUEST['nombres'];
+		$datos_usuario[2] = $_REQUEST['apellidos'];
+		$datos_usuario[3] = $_REQUEST['identificacion'];
+		$datos_usuario[4] = $_REQUEST['telefono'];
+		$datos_usuario[5] = $_REQUEST['correo'];
+		$datos_usuario[6] = $_REQUEST['celular'];
+		
+		//ejecuta la modificacion del usuario
+			
+		$usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"editar_usuario",$datos_usuario);
+		@$usu = $this->ejecutarSQL($configuracion, $this->acceso_db, $usuario_sql,"");
+		$pagina = $configuracion["host"].$configuracion["site"]."/index.php?";
+		$variable = "pagina=adminUsuario";
+		$variable .= "&opcion=editar";
+		$variable = $this->cripto->codificar_url($variable,$configuracion);
+
+		//verificamos que se halla ejecutado la consulta con exito.		
+		if(@$usu)
+		{
+			//VARIABLES PARA EL LOG
+			$registro[0] = "EDITAR";
+			$registro[1] = $datos_usuario[0];
+			$registro[2] = "USUARIO";
+			$registro[3] = $datos_usuario[0];
+			$registro[4] = time();
+			$registro[5] = "Modifica datos de usuario ". $datos_usuario[0];
+			$registro[5] .= " - nombre =". $datos_usuario[1];
+			$registro[5] .= " - apellidos =". $datos_usuario[2];
+			$registro[5] .= " - identificación =". $datos_usuario[3];
+			$registro[5] .= " - telefono =". $datos_usuario[4];
+			$registro[5] .= " - correo =". $datos_usuario[5];
+			$registro[5] .= " - celular =". $datos_usuario[6];
+			$this->log_us->log_usuario($registro,$configuracion);
+
+			unset($_REQUEST['action']);		
+			
+			echo "<script>alert('Registro de Usuario modificado con exito!')</script>";
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+		
+		}
+		else
+		{
+			echo "<script>alert('Imposible Modificar Usuario')</script>";
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+			
+		}
+
+	} // fin funcion editarUsuario
+
+	function formContrasena($configuracion,$registro,$tema,$estilo)
+	{
+		$indice=$configuracion["host"].$configuracion["site"]."/index.php?";
+
+		/*****************************************************************************************************/
+		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+		
+		$enlace = $this->acceso_db;
+		$id_usuario = $this->usuario;
+		$html = new html();
+		$tab = 1;
+		$this->formulario = "admin_usuario";
+		$this->verificar .= "control_vacio(".$this->formulario.",'contrasena')";
+		$this->verificar .= " && longitud_cadena(".$this->formulario.",'contrasena',6)";
+		$this->verificar .= "&& control_vacio(".$this->formulario.",'reescribir_contrasena')";
+		$this->verificar .= "&& longitud_cadena(".$this->formulario.",'reescribir_contrasena',6)";
+		$this->verificar .= "&& comparar_contenido(".$this->formulario.",'contrasena','reescribir_contrasena')";
+		?>		
+		<script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/funciones.js" type="text/javascript" language="javascript"></script>
+		<script src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["javascript"]  ?>/md5.js" type="text/javascript" language="javascript"></script>		
+		<form enctype='multipart/form-data' method='POST' action='index.php' name='<? echo $this->formulario;?>'>
+		<hr>
+			<? 
+			//Mostramos los datos del usuario 
+			?>
+			<table width='80%'  class='formulario'  align='center'>
+			<tr class='bloquecentralcuerpobeige'><td  colspan='3'><hr class='hr_subtitulo'/>DATOS DE USUARIO
+			
+			<hr class='hr_subtitulo'/></td></tr>		
+			</table>
+			<table class='contenidotabla'>
+				<tr >
+					<td class='cuadro_plano centrar ancho10' >Código:</td>
+					<td class='cuadro_plano '><? echo  $registro[0][0]?></td>
+				</tr>	
+				<tr >
+					<td class='cuadro_plano centrar ancho10' >Nombre(s):</td>
+					<td class='cuadro_plano '><? echo  $registro[0][1]?></td>
+				</tr>			
+				<tr >
+					<td class='cuadro_plano centrar ancho10' >Apellido(s):</td>
+					<td class='cuadro_plano '><? echo  $registro[0][2]?></td>
+				</tr>			
+				<tr >
+					<td class='cuadro_plano centrar ancho10' >Correo</td>
+					<td class='cuadro_plano '><? echo  $registro[0][3]?></td>
+				</tr>			
+				<tr >
+					<td class='cuadro_plano centrar ancho10' >Teléfono</td>
+					<td class='cuadro_plano '><? echo  $registro[0][4]?></td>
+				</tr>			
+				<tr >
+					<td class='cuadro_plano centrar ancho10' >Celular</td>
+					<td class='cuadro_plano '><? echo  $registro[0][6]?></td>
+				</tr>			
+				<tr >
+					<td class='cuadro_plano centrar ancho10' >Identificación</td>
+					<td class='cuadro_plano '><? echo  $registro[0][7]?></td>
+				</tr>			
+			</table>
+	
+		<table width='80%'  class='formulario'  align='center'>
+		<tr class='bloquecentralcuerpobeige'><td  colspan='3'><hr class='hr_subtitulo'/>CAMBIO DE CONTRASEÑA
+			
+		<hr class='hr_subtitulo'/></td></tr>		
+			<tr>
+			<td width='30%'><?
+				$texto_ayuda="<b>Nueva contraseña para el usuario.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Nueva Contraseña:</span>
+			</td>
+			<td>
+				<input type='password' name='contrasena' size='40' maxlength='50' tabindex='<? echo $tab++ ?>'   >
+			</td>
+		</tr>		
+		<tr>
+			<td width='30%'><?
+				$texto_ayuda = "<b>Reescriba la nueva contraseña.</b><br> ";
+				?><font color="red" >*</font><span onmouseover="return escape('<? echo $texto_ayuda?>')">Confirmar contraseña:</span>
+			</td>
+			<td>
+				<input type='password' name='reescribir_contrasena' size='40' maxlength='50' tabindex='<? echo $tab++ ?>'  >
+			</td>
+		</tr>		
+		</table>
+		<table align='center'>
+		  <tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='usuario' value='<? echo $_REQUEST["usuario"] ?>'>
+				<input type='hidden' name='action' value='admin_usuario'>
+				<input type='hidden' name='opcion' value='cambiar_clave'>
+				<input value="Guardar" name="aceptar" tabindex='<?= $tab++ ?>' type="button" 	
+			onclick="if(<?= $this->verificar; ?>){<?echo $this->formulario?>.contrasena.value = hex_md5(<?echo $this->formulario?>.contrasena.value);<?echo $this->formulario?>.reescribir_contrasena.value = hex_md5(<?echo $this->formulario?>.reescribir_contrasena.value);document.forms['<? echo $this->formulario?>'].submit()}else{false}"
+>
+			
+    			<input name='cancelar' value='Cancelar' type='submit'>
+				<br>
+			</td>
+ 		  </tr> 
+		</table>
+
+		</form>		
+
+		<?
+	}//fin funcion formContrasena
+
+
+	// funcion que edita los datos del usuario
+
+	function editarContrasena($configuracion){
+				  
+		//rescata los valores para editar la contrasena
+		//----------------------------------------------------
+		$datos_usuario[0] = $this->usuario;
+		$datos_usuario[1] = $_REQUEST['contrasena'];
+		
+		//ejecuta la modificacion de la contraseña de usuario
+			
+		$usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"editar_contrasena",$datos_usuario);
+		//echo "<br>sql mod pw ".$usuario_sql;
+		@$usu = $this->ejecutarSQL($configuracion, $this->acceso_db, $usuario_sql,"");
+		$pagina = $configuracion["host"].$configuracion["site"]."/index.php?";
+		$variable = "pagina=adminUsuario";
+		$variable .= "&opcion=cambiar_clave";
+		$variable = $this->cripto->codificar_url($variable,$configuracion);
+
+		//verificamos que se halla ejecutado la consulta con exito.		
+		if(@$usu)
+		{
+			//VARIABLES PARA EL LOG
+			$registro[0] = "EDITAR";
+			$registro[1] = $nvo_usuario[0];
+			$registro[2] = "CONTRASEÑA USUARIO";
+			$registro[3] = $nvo_usuario[0];
+			$registro[4] = time();
+			$registro[5] = "Modifica la contraseña del usuario ". $nvo_usuario[0];
+			$this->log_us->log_usuario($registro,$configuracion);
+			unset($_REQUEST['action']);		
+			
+			echo "<script>alert('Contraseña de Usuario modificada con exito!')</script>";
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+		
+		}
+		else
+		{
+			echo "<script>alert('Imposible Modificar la contraseña')</script>";
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+			
+		}
+
+	} // fin funcion editarContraseña
+
+
+	function cambiarEstado($configuracion){
+				  
+		
+		//ejecuta la modificacion del estado del usuario
+		$datos_usuario[0] = $_REQUEST['cod_usuario'];		
+		$datos_usuario[1] = $_REQUEST['dato'];		
+		$usuario_sql = $this->sql->cadena_sql($configuracion,$this->acceso_db,"cambiar_estado",$datos_usuario);
+		@$usu = $this->ejecutarSQL($configuracion, $this->acceso_db, $usuario_sql,"");
+		$pagina = $configuracion["host"].$configuracion["site"]."/index.php?";
+		$variable = "pagina=adminUsuario";
+		$variable .= "&opcion=cambiar_estado";
+		$variable = $this->cripto->codificar_url($variable,$configuracion);
+
+		//verificamos que se halla ejecutado la consulta con exito.		
+		if(@$usu)
+		{
+			//VARIABLES PARA EL LOG
+			$registro[0] = "EDITAR";
+			$registro[1] = $datos_usuario[0];
+			$registro[2] = "USUARIO";
+			$registro[3] = $datos_usuario[0];
+			$registro[4] = time();
+			$registro[5] = "Modifica Estado del usuario ". $datos_usuario[0];
+			if ($datos_usuario[1] == 1)
+				$registro[5] .= " a ACTIVO";
+			else
+				$registro[5] .= " a INACTIVO ";
+
+			$this->log_us->log_usuario($registro,$configuracion);
+			unset($_REQUEST['action']);		
+			
+			echo "<script>alert('Estado de Usuario modificado con exito!')</script>";
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+		
+		}
+		else
+		{
+			echo "<script>alert('Imposible Modificar el estado')</script>";
+			echo "<script>location.replace('".$pagina.$variable."')</script>";   
+			
+		}
+
+	} // fin funcion cambiarEstado
+
+} // fin de la clase
+	
+
+?>
+

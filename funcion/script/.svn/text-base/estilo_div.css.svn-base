@@ -1,0 +1,13 @@
+<!--
+.CapLink{text-decoration:none;cursor:pointer;color:#0000FF;font-family:Tahoma;font-size:12px;}
+.CONDOR{color:#0038F2;font-family:Tahoma;font-size:12px;font-weight:bold;}
+div{
+	font-family: Tahoma;
+	font-size: 12px;
+	background-color: #E4E5DB;
+	border: 1px solid #7A8180;
+	padding: 2px;
+	height: auto;
+	width: 344px;
+}
+-->

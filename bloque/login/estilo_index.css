@@ -1,0 +1,84 @@
+/* 
+    Document   : estilo_index
+    Created on : 2/05/2013, 05:47:49 PM
+
+    Description:
+        Hoja de estilo creada para la interfaz openEVA v.1.0.0.1
+        Tonalidades azules, concepto minimalista.
+*/
+
+/*propiedades de fuente, color para el cuerpo en general */
+body{ text-align: center; font-family: Tahoma, Arial, Geneva, sans-serif; color:#797979;}
+
+#contenedor{ width: 995px; margin: 0 auto 0 auto; text-align: left;}
+
+/*encabezado */
+#encabezado_pagina{
+
+    background: url(../login/images_2/banner2.png) no-repeat; 
+    display: block;  
+    height: 286px;
+    overflow: hidden;
+    text-align: center;
+    text-indent: -9999%;
+    width: 995px;
+}
+
+/*contenido general*/
+
+#contenido{ width: 600px; float: left; height:100px}
+#contenido h2{ font-size: 15px; color: #464545; font-weight: lighter}
+#contenido p{font-size: 13px}
+
+
+/*menu de enlaces de la universidad*/
+#menu{ width: 275px; float: right; text-transform: uppercase;}
+div#menu ul li{border-left: 3px solid #002EB8; margin-top: 6px; padding: 3px 0 2px 4px; list-style:none; }
+#menu ul li a{ font-size: 12px; color: #6682D4; text-decoration: none;}
+#menu ul li a:hover{ color: #002EB8 }
+#menu ul{ margin:0; padding-left:80px; }
+#menu h3 {color:#002EB8; font-size: 15px; font-weight: normal; padding-left: 80px;}
+
+
+/*imagen sabio pensante */
+#sabio{
+    width: 150px;
+    height: 180px;
+    display: block;
+    margin: auto;
+    float: right;
+    background: url(../login/images_2/sabio.jpg) no-repeat; 
+}
+
+
+/*formulario de entrada al sistema*/
+#login { width: 300px; float: left}
+#login { font-size: 10px; color: #6682D4; text-decoration: none;}
+#login { margin:0; padding-left:80px; }
+
+#login input, textarea {   
+    padding: 5px;  
+    border: solid 1px #E5E5E5;  
+    outline: 0;  
+    font: normal 10px/100% Verdana, Tahoma, sans-serif;  
+    width: 150px;  
+    background: #FFFFFF;  }
+
+
+/*datos generales del desarrollador*/
+#pie  {text-align: center;font-size: 10px; clear: both; font-family: Tahoma, Arial, Geneva, sans-serif; color:#797979;}
+
+
+/*  institucionalidad */
+#escudo{
+    clear:both;
+    width: 50px;
+    height: 85px;
+    display: block;
+    margin: auto;
+    background: url(../login/images_2/escudo.jpg) no-repeat; 
+}  
+
+
+/*línea de codigo para llamada desde el html.php del bloque login*/
+/*background: url(<?php echo $configuracion["host"].$configuracion["site"].$configuracion["bloques"]?>/login/images_2/escudo.jpg) no-repeat; */

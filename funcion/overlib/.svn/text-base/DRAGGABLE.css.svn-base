@@ -1,0 +1,33 @@
+table.olcg {background-color:#AA00AA;}
+td.olcg {text-align:center;}
+
+.olcap {font-family:Verdana,Times New Roman;font-size:12px;font-weight:bold;color:#FFEEFF;}
+.semiclearcap {font-family:Arial;font-size:12px;font-weight:bold;line-height:14px;color:#FFFFFF;}
+.whitecap {font-family:Verdana;font-size:12px;font-weight:bold;color:#FFFFFF;}
+.oltxt {font-family:Verdana,Times New Roman;font-size:12px;color:#993366;}
+.olwhite {font-family:Verdana,Times New Roman;font-size:14px;color:#FFFFFF;}
+.semicleartxt {font-family:Arial;font-size:12px;color:#220022;}
+.olfoot {font-family:Verdana,Arial,Helvetica;font-size:12px;color:#000000;}
+.blacktxt {font-family:Verdana;font-size:12px;color:#000000;}
+.footer {font-family:Verdana,Arial,sans-serif;font-size:12px;line-height:16px;}
+.text12 {font-family:Verdana,Arial,sans-serif;font-size:12px;}
+.text14 {font-family:Verdana,Arial,sans-serif;font-size:14px;}
+.text18 {font-family:Verdana,Arial,sans-serif;font-size:18px;}
+.snip {font-family:Verdana,Arial,Helvetica;font-size:10px;}
+.purple14 {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:14px;color:purple;
+ font-weight:bold;}
+
+a {color:#338855;font-weight:bold;}
+a:hover {color:#FF00FF;}
+
+a.white {font-size:14px;color:#DDFFDD;font-weight:bold;}
+a.white:hover {color: #FFDDFF}
+
+.myHeader {font-family:Verdana,Arial,Helvetica,sans-serif;font-size: 22px;}
+.purpleh {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:22px;color:purple;
+ font-weight:bold;font-style:italic;}
+.mySubHead {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 18px;}
+.purple18 {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:18px;color:purple;
+ font-weight:bold;font-style:italic;}
+.mySpacer {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 4px;}
+.myText {font-family:Verdana,Arial,Helvetica,sans-serif;font-size:13px;color:#000000;}

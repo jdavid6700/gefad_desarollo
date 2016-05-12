@@ -1,0 +1,108 @@
+8
+
+dir
+296
+svn://10.20.0.15/usr/local/svn/SGA/academico/clase/xajax
+svn://10.20.0.15/usr/local/svn/SGA/academico
+
+
+
+2009-12-16T20:44:41.367436Z
+117
+edwin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+266e0c5c-b1d8-4270-a51a-1d91e7c3961d
+
+LICENSE.txt
+file
+
+
+
+
+2010-01-07T15:07:39.000000Z
+80d5280342ccaa1edf2a4b1c87a47d94
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+tests
+dir
+
+include
+dir
+
+lib
+dir
+
+xajax_js
+dir
+
+xajaxResponse.inc.php
+file
+
+
+
+
+2010-01-07T15:07:39.000000Z
+96ad4c7a217a99f1602722743dc19497
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+xajax.inc.php
+file
+
+
+
+
+2010-01-07T15:07:39.000000Z
+90b4a6c73e376d6fe2bfa5958827ae89
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+README.txt
+file
+
+
+
+
+2010-01-07T15:07:39.000000Z
+19314ac0bce2b194aaa9ca91f1ddca18
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+xajaxCompress.php
+file
+
+
+
+
+2010-01-07T15:07:39.000000Z
+9399c53e5b8f89d9bb4dec63135d5a74
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+
+examples
+dir
+

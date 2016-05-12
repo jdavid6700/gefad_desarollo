@@ -1,0 +1,11 @@
+.ItemStyle {
+	list-style-image: url(../img/classic2.gif);
+	font-family: "Arial";
+	font-size: 12px;
+}
+
+.PopItemStyle {
+	list-style-image: url(../img/classic1.gif);
+	font-family: "Arial";
+	font-size: 12px;
+}

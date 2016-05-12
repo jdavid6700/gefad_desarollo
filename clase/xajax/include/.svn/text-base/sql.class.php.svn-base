@@ -1,0 +1,83 @@
+<?php
+/*--------------------------------------------------------------------------------------------------------------------------
+  @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
+---------------------------------------------------------------------------------------------------------------------------*/
+
+if(!isset($GLOBALS["autorizado"]))
+{
+	include("../index.php");
+	exit;		
+}
+require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable();
+	 
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/sql.class.php");
+
+class sql_xajax extends sql
+{	//@ Método que crea las sentencias sql para el modulo admin_noticias
+	function cadena_sql($configuracion,$tipo,$variable)
+		{
+			switch($tipo)
+			{
+					
+			case "buscar_tipo":
+						$this->cadena_sql="SELECT ";
+						$this->cadena_sql.="`id_tipo`, ";
+						$this->cadena_sql.="`valor` ";
+						$this->cadena_sql.=" FROM ";
+						$this->cadena_sql.=$configuracion["prefijo"]."variable ";
+						$this->cadena_sql.=" WHERE "; 
+						$this->cadena_sql.="`id_tipo`= ";
+						$this->cadena_sql.=$variable; 
+					break;
+					
+			case "cont_nivel1":
+						$this->cadena_sql="SELECT ";
+						$this->cadena_sql.="COUNT(`id_propiedad`) ";
+						$this->cadena_sql.=" FROM ";
+						$this->cadena_sql.=$configuracion["prefijo"]."propiedad ";
+						$this->cadena_sql.=" WHERE "; 
+						$this->cadena_sql.="`motor`='general' ";
+					break;
+					
+			case "prop_nivel1":
+						$this->cadena_sql="SELECT ";
+						$this->cadena_sql.="`id_propiedad`, ";
+						$this->cadena_sql.="`nombre` ";
+						$this->cadena_sql.=" FROM ";
+						$this->cadena_sql.=$configuracion["prefijo"]."propiedad ";
+						$this->cadena_sql.=" WHERE "; 
+						$this->cadena_sql.="`motor`='general' ";
+					break;	
+			
+			case "buscar_dicc":
+						$this->cadena_sql="SELECT ";
+						$this->cadena_sql.="`id_diccionario`, ";
+						$this->cadena_sql.="`nombre` ";
+						$this->cadena_sql.=" FROM ";
+						$this->cadena_sql.=$configuracion["prefijo"]."diccionario ";
+						$this->cadena_sql.=" ORDER BY "; 
+						$this->cadena_sql.="`nombre` "; 
+					break;		
+					
+			case "select_us":
+					$this->cadena_sql="SELECT ";
+					$this->cadena_sql.="`nombre`, ";
+					$this->cadena_sql.="`apellido`, ";
+					$this->cadena_sql.="`correo`, ";
+					$this->cadena_sql.="`telefono` ";
+					$this->cadena_sql.="FROM ";
+					$this->cadena_sql.=$configuracion["prefijo"]."registrado ";
+					$this->cadena_sql.="WHERE ";
+					$this->cadena_sql.="`id_usuario`= ";
+					$this->cadena_sql.=$variable;
+					break;							
+					
+			}
+		return $this->cadena_sql;
+		
+		}
+}
+?>

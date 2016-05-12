@@ -1,0 +1,41 @@
+8
+
+dir
+296
+svn://10.20.0.15/usr/local/svn/SGA/academico/estilo/menu_condor
+svn://10.20.0.15/usr/local/svn/SGA/academico
+
+
+
+2009-11-24T19:53:52.811146Z
+1
+root
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+266e0c5c-b1d8-4270-a51a-1d91e7c3961d
+
+estilo_menu.css
+file
+
+
+
+
+2010-01-07T15:07:37.000000Z
+9199fe88b4c62059344754855636b5a4
+2009-11-24T19:53:52.811146Z
+1
+root
+has-props
+

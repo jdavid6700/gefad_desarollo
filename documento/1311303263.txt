@@ -1,0 +1,82 @@
+
+----------------------------------------------------------------
+Codigo para insertar nuevos registros
+----------------------------------------------------------------
+$cadena_sql="INSERT INTO sdaf_departamento "; 
+$cadena_sql.="( ";
+$cadena_sql.=") ";
+$cadena_sql.="VALUES ";
+$cadena_sql.="( ";
+$cadena_sql.=")";
+
+----------------------------------------------------------------
+Codigo para buscar registros
+----------------------------------------------------------------
+$cadena_sql="SELECT ";
+$cadena_sql.="FROM ";
+$cadena_sql.="sdaf_departamento "; 
+
+----------------------------------------------------------------
+Codigo para UPDATE 
+----------------------------------------------------------------
+$cadena_sql="UPDATE sdaf_departamento "; 
+$cadena_sql="SET ; 
+
+----------------------------------------------------------------
+Formulario para insertar nuevos registros
+----------------------------------------------------------------
+<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='GET,POST' action='pagina_que_procesa' name='nombreformulario'>
+<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+<tr>
+<td>
+<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+	<tr align='center'>
+		<td colspan='2' rowspan='1'>
+			<input type='hidden' name='action' value='pagina_action'>
+			<input name='aceptar' value='Aceptar' type='submit'><br>
+		</td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
+</form>
+
+----------------------------------------------------------------
+Formulario para editar registros
+----------------------------------------------------------------
+<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='GET,POST' action='pagina_que_procesa' name='nombreformulario'>
+<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+<tr>
+<td>
+<table align='center' width='100%' cellpadding='7' cellspacing='1'>	<tr align='center'>
+		<td colspan='2' rowspan='1' align='center'>
+			<table align='center' width='50%'>
+			<tr align='center'>
+			<td>
+				<input type='hidden' name='action' value='pagina_action'>
+				<input name='aceptar' value='Aceptar' type='submit'><br>
+			</td>
+			<td>
+				<input name='cancelar' value='Cancelar' type='submit'><br>
+			</td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</td>
+</tr>
+</table>
+</form>
+
+----------------------------------------------------------------
+Tabla para mostrar registros
+----------------------------------------------------------------
+<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+<tr>
+<td>
+<table align='center' width='100%' cellpadding='7' cellspacing='1'></table>
+</td>
+</tr>
+</table>

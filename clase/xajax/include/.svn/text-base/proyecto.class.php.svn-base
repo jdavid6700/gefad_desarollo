@@ -1,0 +1,213 @@
+<?
+function formInt()
+{	
+	
+	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable(); 
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	// crea objeto y se conecta a la base de datos
+	$acceso_db=new dbms($configuracion);
+	$enlace=$acceso_db->conectar_db();	
+
+//echo $busqueda;
+	
+		
+		//busca las  propiedades del objeto de nivel 1
+		
+
+		
+	$formulario="integrante_proyecto";
+	$verificar="control_vacio(".$formulario.",'nombre')";
+	$verificar.="&& control_vacio(".$formulario.",'apellido')";
+	$verificar.="&& control_vacio(".$formulario.",'cargo')";
+	$verificar.="&& control_vacio(".$formulario.",'correo')";
+	$verificar.="&& control_vacio(".$formulario.",'telefono')";
+	$verificar.="&& control_vacio(".$formulario.",'descripcion')";
+	
+	$correo="verificar_correo(".$formulario.",'correo')";
+	
+	
+	//se crea el formulario para enviarlo y mostrarlo por xajax
+	$cadena_html="
+	<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='POST' name='".$formulario."' id='".$formulario."'>
+	<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+	<tr>
+	<td>
+	<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Nombre </td>
+			<td>
+				<input type='text' name='nombre' id='nombre' size='40' maxlength='100'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* apellidos </td>
+			<td>
+				<input type='text' name='apellido' id='apellido' size='35' maxlength='100'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Correo </td>
+			<td>
+				<input type='text' name='correo' id='correo' size='35' maxlength='100'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Telefono </td>
+			<td>
+				<input type='text' name='telefono' id='telefono' size='35' maxlength='100'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Cargo </td>
+			<td>
+				<input type='text' name='cargo' id='cargo' size='35' maxlength='100'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >  Activar </td>
+			<td>
+				<input type='checkbox' name='estado' checked='true'>
+			</td>
+	
+		</tr>
+		<tr class='bloquecentralcuerpo' >
+			<td>* Descripci&oacute;n	</td>
+			<td>
+			    <textarea id='descripcion' name='descripcion' cols='45' rows='2' ></textarea>
+			</td>
+		</tr>	
+		<tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='id_proyecto' value='".$_REQUEST['id_proyecto']."'>
+				<input type='hidden' name='action' value='integrante_proyecto'>
+				<input type='hidden' name='opcion' value='nuevo'> 
+				<input value='Guardar' name='aceptar' type='button' onclick=\"if(".$verificar."){if(".$correo."){document.forms['".$formulario."'].submit()}else{false}}else{false}\">
+				<input name='cancelar' value='Cancelar' type='submit'>
+			</td>
+		</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</form>
+	";
+		    			
+
+	//se crea el objeto xajax para enviar la respuesta
+	$respuesta = new xajaxResponse();
+	//Se asignan los valores al objeto y se envia la respuesta	
+	$respuesta->addAssign("divUser","innerHTML",$cadena_html);
+	return $respuesta;	
+	
+}
+
+function formIntreg($id_user)
+{	
+	
+	//rescata el valor de la configuracion
+	require_once("clase/config.class.php");
+	setlocale(LC_MONETARY, 'en_US');
+	$esta_configuracion=new config();
+	$configuracion=$esta_configuracion->variable(); 
+	//Buscar un registro que coincida con el valor
+	include_once($configuracion["raiz_documento"].$configuracion["clases"]."/html.class.php");
+	// crea objeto y se conecta a la base de datos
+	$acceso_db=new dbms($configuracion);
+	$enlace=$acceso_db->conectar_db();	
+
+	//echo $busqueda;
+	include_once("sql.class.php");
+	$sql=new sql_xajax();
+	$user_sql=$sql->cadena_sql($configuracion,"select_us",$id_user);
+	//echo $user_sql;
+	$user=$acceso_db->ejecutarAcceso($user_sql,"busqueda");	
+ //echo $user[0][0];
+		
+	$formulario="integrante_proyecto";
+	$verificar="control_vacio(".$formulario.",'cargo')";
+	$verificar.="&& control_vacio(".$formulario.",'descripcion')";
+	
+	$correo="verificar_correo(".$formulario.",'correo')";
+	
+	
+	//se crea el formulario para enviarlo y mostrarlo por xajax
+	$cadena_html="
+	<form enctype='tipo:multipart/form-data,application/x-www-form-urlencoded,text/plain' method='POST' name='".$formulario."' id='".$formulario."'>
+	<table class='bloquelateral' align='center' width='100%' cellpadding='0' cellspacing='0'>
+	<tr>
+	<td>
+	<table align='center' width='100%' cellpadding='7' cellspacing='1'>
+		<tr class='bloquecentralcuerpo'>
+			<td > Nombre </td>
+			<td>
+				<input type='text' name='nombre' id='nombre' size='35' maxlength='100' disabled='yes'  value='".$user[0][0]."'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* apellidos </td>
+			<td>
+				<input type='text' name='apellido' id='apellido' size='35' maxlength='100' disabled='yes'  value='".$user[0][1]."'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Correo </td>
+			<td>
+				<input type='text' name='correo' id='correo' size='35' maxlength='100' disabled='yes'  value='".$user[0][2]."'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Telefono </td>
+			<td>
+				<input type='text' name='telefono' id='telefono' size='35' maxlength='100' disabled='yes'  value='".$user[0][3]."'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >* Cargo </td>
+			<td>
+				<input type='text' name='cargo' id='cargo' size='35' maxlength='100'>
+			</td>
+		</tr>
+		<tr class='bloquecentralcuerpo'>
+			<td >  Activar </td>
+			<td>
+				<input type='checkbox' name='estado' checked='true'>
+			</td>
+	
+		</tr>
+		<tr class='bloquecentralcuerpo' >
+			<td>* Descripci&oacute;n	</td>
+			<td>
+			    <textarea id='descripcion' name='descripcion' cols='45' rows='2' ></textarea>
+			</td>
+		</tr>	
+		<tr align='center'>
+			<td colspan='2' rowspan='1'>
+				<input type='hidden' name='id_proyecto' value='".$_REQUEST['id_proyecto']."'>
+				<input type='hidden' name='id_integrante' value='".$id_user."'>		
+				<input type='hidden' name='action' value='integrante_proyecto'>
+				<input type='hidden' name='opcion' value='nuevo'> 
+				<input value='Guardar' name='aceptar' type='button' onclick=\"if(".$verificar."){if(".$correo."){document.forms['".$formulario."'].submit()}else{false}}else{false}\">
+				<input name='cancelar' value='Cancelar' type='submit'>
+			</td>
+		</tr>
+	</table>
+	</td>
+	</tr>
+	</table>
+	</form>
+	";
+		    			
+
+	//se crea el objeto xajax para enviar la respuesta
+	$respuesta = new xajaxResponse();
+	//Se asignan los valores al objeto y se envia la respuesta	
+	$respuesta->addAssign("divUser","innerHTML",$cadena_html);
+	return $respuesta;	
+	
+}
+?>

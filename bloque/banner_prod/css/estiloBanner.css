@@ -1,0 +1,30 @@
+#contenedorb{ 
+    width: 95%;
+    height: 107px;
+    position: relative; 
+    margin: 0 auto;
+}
+
+#contenedor_A{
+    width: 700px;
+    height: 107px;
+    background: url(../images/banner_largo_A.png) no-repeat;
+    float: left;
+    display: block;
+    margin: 0 auto;
+
+ }
+
+
+#contenedor_B{
+    width: 400px;
+    height: 107px;
+    background: url(../images/banner_largo_B.png) no-repeat;
+    float:right;
+    display: block;
+}
+
+body{
+    font-family: Tahoma, Arial, Geneva, sans-serif; 
+    color:#797979;
+ }

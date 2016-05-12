@@ -1,0 +1,240 @@
+<?php
+/*--------------------------------------------------------------------------------------------------------------------------
+  @ Derechos de Autor: Vea el archivo LICENCIA.txt que viene con la distribucion
+---------------------------------------------------------------------------------------------------------------------------*/
+
+if(!isset($GLOBALS["autorizado"]))
+{
+	include("../index.php");
+	exit;		
+}
+
+include_once($configuracion["raiz_documento"].$configuracion["clases"]."/sql.class.php");
+
+class sql_adminUsuario extends sql
+{
+	function cadena_sql($configuracion,$conexion, $opcion,$variable="")
+	{
+	//	$variable=$conexion->verificar_variables($variable);		
+		
+		switch($opcion)
+		{	
+				
+			case "inserta_usuario":
+				$cadena_sql="INSERT INTO ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado ";
+				$cadena_sql.="(";
+				$cadena_sql.="nombre, ";
+				$cadena_sql.="apellido, ";
+				$cadena_sql.="correo, ";
+				$cadena_sql.="telefono, ";
+				$cadena_sql.="usuario, ";
+				$cadena_sql.="clave, ";
+				$cadena_sql.="celular, ";
+				$cadena_sql.="identificacion";
+				$cadena_sql.=") ";
+				$cadena_sql.="VALUES (";
+				$cadena_sql.="'".$variable[0]."', ";
+				$cadena_sql.="'".$variable[1]."', ";
+				$cadena_sql.="'".$variable[6]."', ";
+				$cadena_sql.="'".$variable[5]."', ";
+				$cadena_sql.="'".$variable[9]."', ";
+				$cadena_sql.="'".$variable[10]."', ";
+				$cadena_sql.="'".$variable[7]."', ";
+				$cadena_sql.="'".$variable[2]."'";
+				$cadena_sql.=")";
+				break;	
+
+			case "inserta_integrante_proyecto":
+								
+				$cadena_sql="INSERT INTO ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto ";
+				$cadena_sql.="(";
+				$cadena_sql.="id_proyecto, ";
+				$cadena_sql.="id_usuario, ";
+				$cadena_sql.="id_rol, ";
+				$cadena_sql.="fecha_ingreso, ";
+				$cadena_sql.="estado";
+				$cadena_sql.=") ";
+				$cadena_sql.="VALUES (";
+				$cadena_sql.="'".$variable[3]."', ";
+				$cadena_sql.="'".$variable[11]."', ";
+				$cadena_sql.="'".$variable[8]."', ";
+				$cadena_sql.="'".$variable[4]."', ";
+				$cadena_sql.="'1'";
+				$cadena_sql.=")";
+				break;	
+			
+			case "inserta_registrado_subsistema":
+								
+				$cadena_sql="INSERT INTO ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado_subsistema ";
+				$cadena_sql.="(";
+				$cadena_sql.="id_usuario, ";
+				$cadena_sql.="id_subsistema, ";
+				$cadena_sql.="estado";
+				$cadena_sql.=") ";
+				$cadena_sql.="VALUES (";
+				$cadena_sql.="'".$variable[11]."', ";
+				$cadena_sql.="'".$variable[12]."', ";
+				$cadena_sql.="'1'";
+				$cadena_sql.=")";
+				break;	
+
+			case "busqueda_usuario_xnombre":
+								
+				$cadena_sql= "SELECT ";
+				$cadena_sql.= "id_usuario, ";
+				$cadena_sql.= "nombre, ";
+				$cadena_sql.= "apellido, ";
+				$cadena_sql.= "correo, ";
+				$cadena_sql.= "telefono, ";
+				$cadena_sql.= "usuario, ";
+				$cadena_sql.= "celular, ";
+				$cadena_sql.= "identificacion ";
+				$cadena_sql.= "FROM ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado ";
+				$cadena_sql.= "WHERE usuario = '".$variable."'";
+			break;	
+	
+			case "usuario":
+				$cadena_sql= "SELECT ";
+				$cadena_sql.= "id_usuario, ";
+				$cadena_sql.= "nombre, ";
+				$cadena_sql.= "apellido, ";
+				$cadena_sql.= "correo, ";
+				$cadena_sql.= "telefono, ";
+				$cadena_sql.= "usuario, ";
+				$cadena_sql.= "celular, ";
+				$cadena_sql.= "identificacion, ";
+				$cadena_sql.= "clave ";
+				$cadena_sql.= "FROM ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado ";
+				$cadena_sql.= "WHERE ";
+				$cadena_sql.= "id_usuario = ";
+				$cadena_sql.= $variable;
+				break;		
+				
+			case "usuarios_todos":
+				$cadena_sql= "SELECT ";
+				$cadena_sql.= "id_usuario, ";
+				$cadena_sql.= "usuario ";
+				$cadena_sql.= "FROM ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado ";
+				if($variable[1])
+				{
+					$cadena_sql.="WHERE ";
+					if($variable[1]=='NOMBRE')
+					{
+						$cadena_sql.=" usuario LIKE '%".$variable[2]."%'";
+					}
+					if($variable[1]=='ID')
+					{
+						$cadena_sql.=" identificacion LIKE '%".$variable[2]."%'";
+					}
+				}
+				
+				break;		
+
+			case "usuarios_proyecto":
+				$cadena_sql= "SELECT ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado.id_usuario, ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado.usuario ";
+				$cadena_sql.= "FROM ";
+				$cadena_sql.= $configuracion["prefijo"]."registrado, ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto ";
+				$cadena_sql.= "WHERE ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto.id_proyecto = ";
+				$cadena_sql.= $variable[0];
+				$cadena_sql.= " AND ".$configuracion["prefijo"]."integrante_proyecto.id_usuario = ".$configuracion["prefijo"]."registrado.id_usuario ";
+				if($variable[1])
+				{
+					if($variable[1]=='NOMBRE')
+					{
+						$cadena_sql.=" AND usuario LIKE '%".$variable[2]."%'";
+					}
+					if($variable[1]=='ID')
+					{
+						$cadena_sql.=" AND identificacion LIKE '%".$variable[2]."%'";
+					}
+				}
+					
+				break;		
+
+			case "roles":
+				$cadena_sql= "SELECT ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto.id_proyecto, ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto.id_rol, ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto.fecha_ingreso, ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto.estado, ";
+				$cadena_sql.= $configuracion["prefijo"]."proyecto.nombre, ";
+				$cadena_sql.= $configuracion["prefijo"]."rol.rol_nombre ";
+				$cadena_sql.= "FROM ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto, ";
+				$cadena_sql.= $configuracion["prefijo"]."proyecto, ";
+				$cadena_sql.= $configuracion["prefijo"]."rol ";
+				$cadena_sql.= "WHERE ";
+				$cadena_sql.= $configuracion["prefijo"]."integrante_proyecto.id_usuario = ";
+				$cadena_sql.= $variable;
+				$cadena_sql.= " AND ".$configuracion["prefijo"]."integrante_proyecto.id_proyecto = ".$configuracion["prefijo"]."proyecto.id_proyecto ";
+				$cadena_sql.= " AND ".$configuracion["prefijo"]."integrante_proyecto.id_rol = ".$configuracion["prefijo"]."rol.id_rol ";
+				break;		
+
+			case "editar_usuario":
+				$cadena_sql  = "UPDATE "; 
+				$cadena_sql .= $configuracion["prefijo"]."registrado "; 
+				$cadena_sql .= "SET " ; 
+				$cadena_sql .= "`nombre`='".$variable[1]."', ";
+				$cadena_sql .= "`apellido`='".$variable[2]."', ";
+				$cadena_sql .= "`correo`='".$variable[5]."', ";
+				$cadena_sql .= "`telefono`='".$variable[4]."', ";
+				$cadena_sql .= "`celular`='".$variable[6]."', ";
+				$cadena_sql .= "`identificacion`='".$variable[3]."'";
+				$cadena_sql .= " WHERE ";
+				$cadena_sql .= "`id_usuario`= ";
+				$cadena_sql .= $variable[0];
+				break;
+
+			case "editar_contrasena":
+				$cadena_sql  = "UPDATE "; 
+				$cadena_sql .= $configuracion["prefijo"]."registrado "; 
+				$cadena_sql .= "SET " ; 
+				$cadena_sql .= "`clave`='".$variable[1]."' ";
+				$cadena_sql .= " WHERE ";
+				$cadena_sql .= "`id_usuario`= ";
+				$cadena_sql .= $variable[0];
+				break;
+
+			case "busqueda_estado":
+								
+				$cadena_sql  = "SELECT ";
+				$cadena_sql .= "estado ";
+				$cadena_sql .= "FROM ";
+				$cadena_sql .= $configuracion["prefijo"]."registrado_subsistema ";
+				$cadena_sql .= "WHERE ";
+				$cadena_sql .= "id_usuario = ".$variable;
+			break;	
+
+			case "cambiar_estado":
+				$cadena_sql  = "UPDATE "; 
+				$cadena_sql .= $configuracion["prefijo"]."registrado_subsistema "; 
+				$cadena_sql .= "SET " ; 
+				$cadena_sql .= "`estado`='".$variable[1]."' ";
+				$cadena_sql .= " WHERE ";
+				$cadena_sql .= "`id_usuario`= ";
+				$cadena_sql .= $variable[0];
+				break;
+
+					
+
+			default:
+				$cadena_sql="";
+				break;
+		}
+		//echo $cadena_sql."<br>";
+		return $cadena_sql;
+	}
+	
+	
+}
+?>

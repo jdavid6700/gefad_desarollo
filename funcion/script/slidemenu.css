@@ -1,0 +1,5 @@
+* {margin:0; padding:0}
+.sm {list-style:none; width:700px; height:200px; display:block; overflow:hidden border-collapse:collapse;}
+.sm li {float:left; display:inline; overflow:hidden border-collapse:collapse;}
+.sm li a{color:red}
+table{ border-collapse:collapse;}

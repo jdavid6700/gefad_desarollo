@@ -1,0 +1,67 @@
+.superior{
+/*background:url("../grafico/esquema/superior.png") no-repeat; */
+background-color:beige;
+margin-top:0; 
+margin-bottom:0; 
+margin-left:1; 
+margin-right:0;
+padding:0;
+font-family:sans-serif;
+font-size:11px;
+}
+
+.inferior{
+background:url("../grafico/esquema/inferior.png") no-repeat; 
+margin-top:0; 
+margin-bottom:0; 
+margin-left:1; 
+margin-right:0;
+padding:0;
+font-family:sans-serif;
+font-size:10px;
+}
+
+.izquierdo{
+/*background:url("../grafico/esquema/izquierda.png") no-repeat; */
+background-color:#D3D3D3;
+margin-top:0; 
+margin-bottom:0; 
+margin-left:1; 
+margin-right:0;
+padding:0;
+font-family:sans-serif;
+font-size:11px;
+}
+
+.principal{
+margin-top:0; 
+margin-bottom:0; 
+margin-left:1; 
+margin-right:0;
+padding:0;
+font-family:sans-serif;
+font-size:11px;
+height: 718px;
+}
+
+
+.derecho{
+/*background:url("../grafico/esquema/derecha.png") no-repeat;*/
+background-color:#D3D3D3;
+margin-top:0; 
+margin-bottom:0; 
+margin-left:1; 
+margin-right:0;
+padding:0;
+font-family:sans-serif;
+font-size:10px;
+}
+
+.menu{
+background: url("../grafico/esquema/menu.png") no-repeat;
+margin-top:0; 
+margin-bottom:0; 
+margin-left:1; 
+margin-right:0;
+padding:0;
+}

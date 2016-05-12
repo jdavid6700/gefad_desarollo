@@ -1,0 +1,36 @@
+<table class="tablaMenu">
+	<tbody>
+		<tr>
+			<td >
+				<table class="tablaMenu">
+					<tbody>
+						<tr align="center">
+							<td>
+							Modulo Administraci&oacute;n de Activos
+							</td>
+						</tr>
+						<tr class="bloquecentralcuerpo">
+							<td>
+								<table border="0" cellpadding="10" cellspacing="0" class="tablaMenu bloquelateral">
+									<tbody>
+										<tr class="bloquecentralcuerpo">
+											<td>
+											<b>DWare Universidad Distrital Francisco Jos&eacute; de Caldas</b><br>
+											<p>Modulo para Identificaci&oacute;n y valoraci&oacute;n de Activos del proyecto de bodega de datos.</p>
+											</td>
+										</tr>
+										<tr class='bloquecentralcuerpo'>
+											<td colspan="2" align="center">
+												<div id="map" style="width: 100%; height: 300px"></div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+			</table>
+		</td>
+		</tr>
+	</tbody>
+</table>

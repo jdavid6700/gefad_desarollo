@@ -1,0 +1,33 @@
+<?php
+// Directorio de conexión
+define("dir_conect", "../conexion/");
+
+// Directorio de imagenes
+define("dir_img", "../img/");
+
+// Directorio de PHP
+define("dir_coo", "../coordinador/");
+define("dir_dec", "../decano/");
+define("dir_doc", "../docentes/");
+define("dir_est", "../estudiantes/");
+define("dir_fun", "../funcionario/");
+define("dir_vic", "../vicerrector/");
+define("dir_ase", "../asesor/");
+
+
+// Directorio de scripts
+define("dir_script", "../script/");
+
+// Directorio del calendario
+define("dir_cal", "../calendario/");
+
+// Directorio de las fotos
+define("est_foto", "../est_fotos/");
+define("fun_foto", "../fun_fotos/");
+
+// Directorio de informes
+define("informes", "../informes/");
+
+// Directorio de admisiones
+define("admisiones", "../registro/");
+?>
