@@ -1,7 +1,0 @@
-<?php
-
-
-
-echo 'aqui estamos';
-
-?>
