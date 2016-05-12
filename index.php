@@ -59,6 +59,21 @@ if(!isset($configuracion["instalado"]))
 	exit;
 }
 
+
+echo decodificar("WQI55POzSFHRzd2bVg");
+echo "<br>";
+echo decodificar("WgJTnvOzSFGBum9pQyPCfxI");
+echo "<br>";
+echo decodificar("XAI9efOzSFF9WuGWB2Ba65EzkQ");
+echo "<br>";
+echo decodificar("XQKM1fOzSFHIe3ub8Mf-1Fse0w");
+echo "<br>";
+echo decodificar("XwLSGvOzSFFeqsQIVUE_zkZzXsYrFr4");
+echo "<br>";
+echo decodificar("YAJArPOzSFFrfEAfIS1EcQ");
+echo "<br>";
+echo "<br>";
+
 //Cambios dbms Last
 //pAGFfiy7SFE8jqhcYMbM247gnA
 //pgH-aiy7SFFDEhI-AlYmuwpC8VudPFI
@@ -68,5 +83,34 @@ if(!isset($configuracion["instalado"]))
 
 include_once($configuracion["raiz_documento"].$configuracion["clases"]."/pagina.class.php");	
 $la_pagina=new pagina($configuracion);
+
+function codificarConf($cadena)
+{
+	$cadena=base64_encode($cadena);
+	$cadena=strrev($cadena);
+	return $cadena;
+}
+
+function decodificarConf($cadena)
+{
+	$cadena=strrev($cadena);
+	$cadena=base64_decode($cadena);
+	return $cadena;
+}
+
+function decodificar($cadena)
+{       /*reemplaza valores + / */
+$cadena=AesCtr::decrypt(str_pad(strtr($cadena, '-_', '+/'), strlen($cadena) % 4, '=', STR_PAD_RIGHT),"",256);
+return $cadena;
+
+
+}
+
+function codificar($cadena,$configuracion='')
+{       /*reemplaza valores + / */
+$cadena=rtrim(strtr(AesCtr::encrypt($cadena,"", 256), '+/', '-_'), '=');
+return $cadena;
+
+}
 
 ?>
