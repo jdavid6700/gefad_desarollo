@@ -247,6 +247,12 @@ class pagina
 				$this->VtamannoE=$configuracion["Vtamanno_E"];
 				$this->HtamannoB=$configuracion["Htamanno_B"];
 				$this->HtamannoD=$configuracion["Htamanno_D"];
+				
+				if(isset($configuracion["pagina"])){
+					$this->html_pagina = $configuracion["pagina"];
+				}else{
+					$this->html_pagina = null;
+				}
                                 
                                 $GLOBALS["fila"]=0;
 				$GLOBALS["tab"]=1;
