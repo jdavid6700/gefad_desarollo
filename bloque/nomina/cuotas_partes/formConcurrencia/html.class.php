@@ -191,7 +191,7 @@ class html_formConcurrencia {
     }
 
     function formularioConcurrencia($datos_historia, $datos_empleador, $datos_previsora, $datos_concurrencia) {
-
+    
         $minDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fingreso'] . "+1 day"));
         $maxDate = date('d/m/Y', strtotime("" . $datos_historia[0]['hlab_fretiro'] . " + 1 day"));
 
@@ -205,7 +205,7 @@ class html_formConcurrencia {
             $resol_pension_fecha = date('d/m/Y', strtotime("" . $datos_concurrencia[0]['dcp_resol_pension_fecha']));
             $fecha_pension = $datos_concurrencia[0]['dcp_fecha_pension'];
             $fecha_concurrencia = $datos_concurrencia[0]['dcp_fecha_concurrencia'];
-            $lectura = "readonly";
+            $lectura = " ";
         } else {
             $valor_mesada = "";
             $resol_pension = "";
@@ -225,12 +225,17 @@ class html_formConcurrencia {
         <style>                    h3{text-align: left}                </style>
 
         <!referencias a estilos y plugins>
-        <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/datepicker/js/datepicker.js"></script>
+        
         <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["bloques"] ?>/nomina/cuotas_partes/formConcurrencia/form_estilo.css"	rel="stylesheet" type="text/css" />
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/timepicker/datepicker.css"	rel="stylesheet" type="text/css" />
+        <link	href="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/timepicker/timepicker.css"	rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-
+        <script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/timepicker/datepicker_es.js"></script>
+		<script type="text/javascript" src="<? echo $this->configuracion["host"] . $this->configuracion["site"] . $this->configuracion["plugins"]; ?>/timepicker/timepicker.js"></script>
+		
+		
         <script>
             function acceptNum(e) {
                 key = e.keyCode || e.which;
@@ -299,14 +304,11 @@ class html_formConcurrencia {
                     yearRange: '1940:c',
                     maxDate: "+2M",
                     dateFormat: 'dd/mm/yy',
-                    defaultDate: '20/12/2013'
+                    defaultDate: '20/12/1940'
                 });
-                $("#fecha_con").datepicker('setDate', '<? echo $fecha_concurrencia ?>');
+                $("#fecha_con").datepicker('setDate', '<?php echo $fecha_concurrencia ?>');
                 $("#fecha_con").datepicker('option', 'minDate', '<?php echo $fecha_pension ?>');
 
-            });
-
-            $(document).ready(function() {
                 $("#fecha_acto_adm").datepicker({
                     changeMonth: true,
                     changeYear: true,
@@ -315,9 +317,7 @@ class html_formConcurrencia {
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_acto_adm").datepicker('option', 'minDate', '<?php echo $maxDate ?>');
-            });
 
-            $(document).ready(function() {
                 $("#fecha_res_pension").datepicker({
                     changeMonth: true,
                     changeYear: true,
@@ -326,9 +326,7 @@ class html_formConcurrencia {
                     dateFormat: 'dd/mm/yy'
                 });
                 $("#fecha_res_pension").datepicker('setDate', '<? echo $resol_pension_fecha ?>');
-            });
 
-            $(document).ready(function() {
                 $("#fecha_pension").datepicker({
                     changeMonth: true,
                     changeYear: true,
@@ -337,6 +335,7 @@ class html_formConcurrencia {
                     dateFormat: 'dd/mm/yy',
                 });
                 $("#fecha_pension").datepicker('setDate', '<? echo $fecha_pension ?>');
+
             });
         </script>
 
