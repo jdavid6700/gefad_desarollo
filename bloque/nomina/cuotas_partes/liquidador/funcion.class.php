@@ -61,7 +61,7 @@ class funciones_liquidador extends funcionGeneral {
 
     function generarPDF_Cuenta($datos_basicos, $totales_liquidacion, $enletras, $consecutivo, $jefeRecursos, $jefeTesoreria) {
         ob_start();
-        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+        $direccion = $this->configuracion['raiz_documento'] . $this->configuracion['bloques'];
         $parametros = array(
             'cedula' => $datos_basicos['cedula']
         );
@@ -268,7 +268,7 @@ class funciones_liquidador extends funcionGeneral {
 
     function generarPDF_Resumen($datos_basicos, $consecutivo, $datos_concurrencia, $datos_pensionado, $liquidacion_anual, $dias_cargo, $jefeRecursos, $total_dias) {
         ob_start();
-        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+        $direccion = $this->configuracion['raiz_documento'] . $this->configuracion['bloques'];
         $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
         $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
         $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' de ' . date('Y');
@@ -510,7 +510,7 @@ class funciones_liquidador extends funcionGeneral {
 
     function generarPDF_Detalle($datos_basicos, $liquidacion, $totales_liquidacion, $consecu_cc, $detalle_indice, $fecha_cobro, $jefeRecursos) {
         ob_start();
-        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+        $direccion = $this->configuracion['raiz_documento'] . $this->configuracion['bloques'];
         $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
         $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
         $fecha_cc = $dias[date('w')] . ' ' . date('d') . ' de ' . $meses[date('n') - 1] . ' de ' . date('Y');
