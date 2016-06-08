@@ -320,7 +320,7 @@ class funciones_formSustituto extends funcionGeneral {
     function generarPDF_sustituto($datos_sustitutos) {
 
         ob_start();
-        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+        $direccion = $this->configuracion['raiz_documento'] . $this->configuracion['bloques'];
 
         // $parametros='';
         //$datos_sustitutos=  $this->reporteSustitutos($parametros);//
