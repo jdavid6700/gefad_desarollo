@@ -239,7 +239,7 @@ class funciones_formRecaudo extends funcionGeneral {
         $jefeRecursos = $this->consultarJefeRecursos($a);
 
         ob_start();
-        $direccion = $this->configuracion['host'] . $this->configuracion['site'] . $this->configuracion['bloques'];
+        $direccion = $this->configuracion['raiz_documento'] . $this->configuracion['bloques'];
 
         $dias = array('Domingo, ', 'Lunes, ', 'Martes, ', 'Miercoles, ', 'Jueves, ', 'Viernes, ', 'Sábado, ');
         $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
