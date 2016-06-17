@@ -649,7 +649,7 @@ class html_formConcurrencia {
                     </div>
                     <div class="control capleft">
                         <div>
-                            <input type="text" id="p1f6c" name="cp_aceptada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" pattern="^[0-9]\d{3,9}(\.\d{1,2})?%?$" maxlength="11"  onpaste="return false">Mínimo 4 caracteres
+                            <input type="text" id="p1f6c" name="cp_aceptada" title="*Campo Obligatorio" class="fieldcontent" required='required' onKeyPress='return acceptNum2(event)' placeholder="00000000.00" pattern="^[0-9]\d{2,9}(\.\d{1,2})?%?$" maxlength="11"  onpaste="return false">Mínimo 3 caracteres
                         </div>
                         <div class="null"></div>
                     </div>
