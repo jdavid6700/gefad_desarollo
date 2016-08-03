@@ -220,12 +220,16 @@ class oci8
 	{
 		putenv("NLS_LANG=AMERICAN_AMERICA.AL32UTF8");
 		//putenv("NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1");
-                //echo 'user='.$this->usuario.' pass='.$this->clave.' db='.$this->db;
-                //echo '   USUARIO '.$this->usuario.'<br>';
-                //echo '   CLAVE '.$this->clave.'<br>';
-                //echo '   DB '.$this->db.'<br>';
-
-		$this->enlace=oci_connect($this->usuario, $this->clave, $this->db);
+		//echo 'user='.$this->usuario.' pass='.$this->clave.' db='.$this->db;
+        //echo '   USUARIO '.$this->usuario.'<br>';
+        //echo '   CLAVE '.$this->clave.'<br>';
+        //echo '   SERVIDOR '.$this->servidor.'<br>';
+        //echo '   PUERTO '.$this->puerto.'<br>';
+        //echo '   DB '.$this->db.'<br>';
+                
+		
+		$this->enlace = oci_connect ( $this->usuario, $this->clave, $this->servidor . ':' . $this->puerto . '/' . $this->db );
+		//$this->enlace=oci_connect($this->usuario, $this->clave, $this->db);
 		
 		if($this->enlace)
 		{
@@ -444,7 +448,8 @@ class oci8
 			$this->db = $registro[0][4];
 			$this->usuario = $registro[0][5];		
 			$this->clave = $registro[0][6];
-			$this->dbsys = $registro[0][7];;
+			$this->dbsys = $registro[0][7];
+			$this->puerto = $registro[0][2];
 			//$this->enlace=$this->conectar_db();		
 	}//Fin del método db_admin
 	

@@ -64,10 +64,10 @@ class sql_formHistoria extends sql {
                 $cadena_sql.=" int_fhasta=" . (isset($variable['dias_nor_hasta']) ? "'" . $variable['dias_nor_hasta'] . "'" : 'NULL') . ", ";
                 $cadena_sql.=" int_estado='" . $variable['estado'] . "', ";
                 $cadena_sql.=" int_registro='" . $variable['registro'] . "' ";
-                $cadena_sql.=" WHERE int_nitent='" . $variable['nit_entidad'] . "' ";
-                $cadena_sql.=" AND int_nitprev='" . $variable['entidad_previsora'] . "' ";
-                $cadena_sql.=" AND int_nro_interrupcion='" . $variable['nro_interrupcion'] . "' ";
-                $cadena_sql.=" AND int_nro_ingreso='" . $variable['nro_ingreso'] . "' ";
+                $cadena_sql.=" WHERE int_nitent ='" . $variable['nit_entidad'] . "' ";
+                $cadena_sql.=" AND int_nitprev ='" . $variable['entidad_previsora'] . "' ";
+                $cadena_sql.=" AND int_nro_interrupcion ='" . $variable['nro_interrupcion'] . "' ";
+                $cadena_sql.=" AND int_nro_ingreso ='" . $variable['nro_ingreso'] . "' ";
                 break;
 
             case "consultarSustituto":

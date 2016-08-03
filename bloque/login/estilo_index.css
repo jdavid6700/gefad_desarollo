@@ -15,7 +15,7 @@ body{ text-align: center; font-family: Tahoma, Arial, Geneva, sans-serif; color:
 /*encabezado */
 #encabezado_pagina{
 
-    background: url(../login/images_2/banner2.png) no-repeat; 
+    background: url(../login/images_2/bannerDef.png) no-repeat; 
     display: block;  
     height: 286px;
     overflow: hidden;

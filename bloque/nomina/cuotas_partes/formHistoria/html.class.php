@@ -44,6 +44,7 @@ class html_formHistoria {
     }
 
     function formularioInterrupcion($datos_prev, $datos_interrupcion, $datos_historia, $datos_regint) {
+    	
 
         $fecha_min = date('d/m/Y', (strtotime("" . str_replace('/', '-', $datos_interrupcion['h_fecha_ingreso']))));
         $fecha_max = date('d/m/Y', strtotime(str_replace('/', '-', $datos_interrupcion['h_fecha_salida'])));
@@ -2432,6 +2433,11 @@ class html_formHistoria {
 
                 <tr>
                     <?
+                    /*var_dump($empleador);
+                    echo "null";
+                    var_dump($historia);*/
+                    
+                    
                     if (is_array($historia)) {
                         foreach ($historia as $key => $value) {
 

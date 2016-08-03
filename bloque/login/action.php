@@ -73,11 +73,9 @@ if ($acceso_db->probar_conexion()==TRUE)
 	$cadena_sql.=$configuracion["prefijo"]."registrado_subsistema.id_subsistema ASC";
 
 
-	//echo $cadena_sql; 
+	//echo $cadena_sql; exit;
 	$campos=$acceso_db->registro_db($cadena_sql,0);
 	$registro=$acceso_db->obtener_registro_db();
-	
-	//var_dump($campos);exit;
 
 	if($campos==0)
 	{

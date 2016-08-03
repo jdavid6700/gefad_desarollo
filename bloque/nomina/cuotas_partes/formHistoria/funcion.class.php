@@ -141,12 +141,14 @@ class funciones_formHistoria extends funcionGeneral {
     function reporteHistoria($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria", $parametro);
         $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        //echo $cadena_sql;
         return $datos_historia;
     }
 
     function reporteHistoriaEmpleador($parametro) {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_pg, "reporteHistoria2", $parametro);
         $datos_historia = $this->ejecutarSQL($this->configuracion, $this->acceso_pg, $cadena_sql, "busqueda");
+        //echo $cadena_sql;
         return $datos_historia;
     }
 
@@ -202,11 +204,12 @@ class funciones_formHistoria extends funcionGeneral {
         }
 
         //array_multisort($fin, SORT_DESC, $inicio, SORT_DESC, $datos_historia);
+        
 
         $this->html_formHistoria->formularioHistoria($datos_previsor, $datos_historia, $cedula, $rango);
     }
 
-    function mostrarHistoria($cedula) {
+    function mostrarHistoria($cedula) {//**************************************************************************************************************
 
         $parametro = $cedula;
         $consulta_sustituto = $this->consultarSustituto($parametro);
