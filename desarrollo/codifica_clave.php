@@ -82,7 +82,7 @@ echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
 
 echo "<br><br>DECODIFICACION DE CLAVE<BR> ";
 $usuario2='_wD6cgN5cVLX-GMR9ZE7vw';
-$pwd2='';
+$pwd2='bAKz0CkZ_FF7QW57tjbHXr_rKE21uMafJUlGOkGH';
 
 
 echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);

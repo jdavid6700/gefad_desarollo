@@ -500,6 +500,7 @@ class html_liquidador {
                     </tr>
                     <tbody id="itemContainer">
                         <?php
+                        
                         if (is_array($liquidacion)) {
                             foreach ($liquidacion as $key => $value) {
 
@@ -930,6 +931,8 @@ class html_liquidador {
                     </tr>
                     <tbody id="itemContainer">
                         <?php
+                        
+                        
                         if (is_array($liquidacion)) {
                             foreach ($liquidacion as $key => $value) {
 
