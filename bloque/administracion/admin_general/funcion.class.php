@@ -28,9 +28,11 @@ class funciones_adminGeneral extends funcionGeneral {
         include ($configuracion["raiz_documento"] . $configuracion["estilo"] . "/basico/tema.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/encriptar.class.php");
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/log.class.php");
-
+		
+        
+        
         $this->cripto = new encriptar();
-              $this->log_us = new log();
+        $this->log_us = new log();
         $this->tema = $tema;
         $this->sql = $sql;
 
@@ -265,7 +267,7 @@ class funciones_adminGeneral extends funcionGeneral {
 
         /*         * ************************************************************************************************** */
         include_once($configuracion["raiz_documento"] . $configuracion["clases"] . "/html.class.php");
-
+        
         $enlace = $this->acceso_db;
         $id_usuario = $this->usuario;
         $html = new html();
@@ -371,12 +373,15 @@ class funciones_adminGeneral extends funcionGeneral {
     }
 
     function editarContrasena($configuracion) {
-
+		
+    	
+    	
         //rescata los valores para editar la contrasena
         //----------------------------------------------------
         $datos_usuario[0] = $this->usuario;
-        $datos_usuario[1] = $this->cripto->codificar_md5($_REQUEST['contrasena']);
-
+        $datos_usuario[1] = md5($_REQUEST['contrasena']);
+		
+        
         //ejecuta la modificacion de la contraseña de usuario
 
         $usuario_sql = $this->sql->cadena_sql($configuracion, $this->acceso_db, "editar_contrasena", $datos_usuario);
