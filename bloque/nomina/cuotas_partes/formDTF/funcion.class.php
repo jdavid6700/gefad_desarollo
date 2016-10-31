@@ -121,11 +121,27 @@ class funciones_formDTF extends funcionGeneral {
         $datos = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "busqueda");
         return $datos;
     }
+    
+    function DMY_to_YMD( $fecha )//Formato de Fecha y Validación del Dato que se desea Registrar
+    {
+    	$aFecha = explode("/", $fecha);
+    	
+    	if (isset($aFecha[1]) && isset($aFecha[0]) && isset($aFecha[2])){
+    		
+	    	// Comprobar si la fecha es válida
+	    	if( checkdate($aFecha[1], $aFecha[0], $aFecha[2]) == false ){
+	    		$fecha = "";
+	    	}else{
+	    		$fecha = $aFecha[2]."-".$aFecha[1]."-".$aFecha[0];
+	    	}
+    	}
+    	return $fecha;
+    }
 
     function procesarFormulario($datos) {
 
         $estado = 1;
-        $fecha_registro = date('d-m-Y');
+        $fecha_registro = date('Y-m-d');
 
         $anio_inicio = date("Y", strtotime(str_replace('/', '-', $datos['fecvig_desde'])));
         $anio_fin = date("Y", strtotime(str_replace('/', '-', $datos['fecvig_hasta'])));
@@ -231,6 +247,13 @@ class funciones_formDTF extends funcionGeneral {
 
             $fecha_inicio = '01-01-' . $anio_inicio;
             $fecha_final = '01-12-' . $anio_fin;
+            
+            
+            //Solución ERROR Registro Postgres FORMATO FECHA
+            $datos['fec_reso'] = $this->DMY_to_YMD($datos['fec_reso']);
+            $datos['fecvig_desde'] = $this->DMY_to_YMD($datos['fecvig_desde']);
+            $datos['fecvig_hasta'] = $this->DMY_to_YMD($datos['fecvig_hasta']);
+            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
             $parametros = array(
                 'Anio_registrado' => $anio_fin,
@@ -281,6 +304,14 @@ class funciones_formDTF extends funcionGeneral {
                 exit;
             }
         } else {
+        	
+        	
+        	
+        	//Solución ERROR Registro Postgres FORMATO FECHA 
+        	$datos['fec_reso'] = $this->DMY_to_YMD($datos['fec_reso']);
+        	$datos['fecvig_desde'] = $this->DMY_to_YMD($datos['fecvig_desde']);
+        	$datos['fecvig_hasta'] = $this->DMY_to_YMD($datos['fecvig_hasta']);
+        	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
             $parametros = "";
             $parametros = array(
@@ -297,7 +328,12 @@ class funciones_formDTF extends funcionGeneral {
 
             $cadena_sql = $this->sql->cadena_sql($this->configuracion, $this->acceso_indice, "insertarDTF", $parametros);
             $datos_registrados = $this->ejecutarSQL($this->configuracion, $this->acceso_indice, $cadena_sql, "insertar");
-
+			
+            //echo  $cadena_sql;
+            //var_dump($datos_registrados);
+            
+            //exit();
+            
             if ($datos_registrados == true) {
                 $registro[0] = "GUARDAR";
                 $registro[1] = $parametros['Anio_registrado'] . '|' . $parametros['Interes_DTF']; //
@@ -335,7 +371,7 @@ class funciones_formDTF extends funcionGeneral {
     function procesarFormulario_Modificar($datos) {
 
         $estado = 1;
-        $fecha_registro = date('d-m-Y');
+        $fecha_registro = date('Y-m-d');
 
         $anio_inicio = date("Y", strtotime(str_replace('/', '-', $datos['fecvig_desde'])));
         $anio_fin = date("Y", strtotime(str_replace('/', '-', $datos['fecvig_hasta'])));
@@ -438,6 +474,12 @@ class funciones_formDTF extends funcionGeneral {
 
             $fecha_inicio = '01-01-' . $anio_inicio;
             $fecha_final = '01-12-' . $anio_fin;
+            
+            //Solución ERROR Registro Postgres FORMATO FECHA
+            $datos['fec_reso'] = $this->DMY_to_YMD($datos['fec_reso']);
+            $datos['fecvig_desde'] = $this->DMY_to_YMD($datos['fecvig_desde']);
+            $datos['fecvig_hasta'] = $this->DMY_to_YMD($datos['fecvig_hasta']);
+            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
             $parametros = "";
             $parametros = array(
@@ -489,6 +531,13 @@ class funciones_formDTF extends funcionGeneral {
                 exit;
             }
         } else {
+        	
+        	
+        	//Solución ERROR Registro Postgres FORMATO FECHA
+        	$datos['fec_reso'] = $this->DMY_to_YMD($datos['fec_reso']);
+        	$datos['fecvig_desde'] = $this->DMY_to_YMD($datos['fecvig_desde']);
+        	$datos['fecvig_hasta'] = $this->DMY_to_YMD($datos['fecvig_hasta']);
+        	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
             $parametros = "";
             $parametros = array(
