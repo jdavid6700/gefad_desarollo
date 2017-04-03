@@ -53,17 +53,41 @@ $pwd='foxoni4053pg';
 echo "<br>usuario: ".$usuario." => ".$crypto->codificar_variable($usuario,  $semilla);
 echo "<br>clave: ".$pwd." => ".$crypto->codificar_variable($pwd,  $semilla);
 
-echo "<br><br>DECODIFICACION DE CLAVE<BR> ";
-$usuario2='';
-$pwd2='OgC5s2tH3FF8GIMdZP-H3fx8J4KFa2Gk';	
+
+echo "<br><br>DECODIFICACION DE CLAVE CUOTAS_PARTES<BR> ";
+$usuario2='OAAQS2tH3FElkrKO4nG8yvexuZY';
+$pwd2='QwB0uy05mVc9ryGWyZlTjNeIgoCgpY7PrA';
+
+echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
+echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
+
+
+
+echo "<br><br>DECODIFICACION DE CLAVE PROD SIC<BR> ";
+$usuario2='FwO2VwLLSFFj3Ucw0EM';
+$pwd2='GQN1QwLLSFEzRg3wMZQ';	
+
 
 
 echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
 echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
 
 
+
+echo "<br><br>DECODIFICACION DE CLAVE FRAME<BR> ";
+$usuario2='pAGFfiy7SFE8jqhcYMbM247gnA';
+$pwd2='pgH-aiy7SFFDEhI-AlYmuwpC8VudPFI';
+
+
+
+echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
+echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
+
+
+
+
 echo "<br><br>DECODIFICACION DE CLAVE<BR> ";
-$usuario2='LgNNFz-mzVEjF9CQWCwS7A';
+$usuario2='lsYVOD4uhG-M2aKJleTG0M5-FryrgF9RImIjvC-R7dQ';
 $pwd2='';
 
 
@@ -80,13 +104,21 @@ echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  
 echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
 
 
-echo "<br><br>DECODIFICACION DE CLAVE<BR> ";
-$usuario2='_wD6cgN5cVLX-GMR9ZE7vw';
+echo "<br><br>DECODIFICACION DE CLAVE DB<BR> ";
+$usuario2='-QA99wMcnVd4PtUsf-1ZPiquyc0c-Zc6Q8n2QfGr3jZLpXYPzbOMGmE_FJ65v_aDXn-WL3qMuXatl3nwHRVIVPT8JAw';
 $pwd2='bAKz0CkZ_FF7QW57tjbHXr_rKE21uMafJUlGOkGH';
 
 
 echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
 echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
-          
+      
+
+echo "<br><br>DECODIFICACION DE CLAVE DB PRODUCCION<BR> ";
+$usuario2='YwClqhZZzlc34DaJwbwsF9r7ZmHYSwPkMLjSU5ulL74kHzHhw2_aWIlj2qBAK7yfaDC4l77EsVyyJlMgOK_ULB4kqw';
+$pwd2='bAKz0CkZ_FF7QW57tjbHXr_rKE21uMafJUlGOkGH';
+
+
+echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
+echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
 
 ?>

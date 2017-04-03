@@ -1870,6 +1870,23 @@ class funciones_liquidador extends funcionGeneral {
     }
 
     function guardarLiquidacion($datos_basicos, $totales_liquidacion) {
+
+
+
+        /******************* AJUSTE ERROR Guardar Liquidación Problema Fechas Postgres *********************************
+        ***************************************************************************************************************/    
+
+        if(isset($datos_basicos['liquidar_desde'])){
+            $datos_basicos['liquidar_desde'] = $this->cambiafecha_format($datos_basicos['liquidar_desde']);
+        }
+
+        if(isset($datos_basicos['liquidar_hasta'])){
+            $datos_basicos['liquidar_hasta'] = $this->cambiafecha_format($datos_basicos['liquidar_hasta']);
+        }
+
+        /******************* AJUSTE ERROR Guardar Liquidación Problema Fechas Postgres *********************************
+        ***************************************************************************************************************/  
+
 //Generar consecutivo liquidación
         $parametro = array();
         $consecutivo = $this->consecutivo($parametro);
@@ -1903,7 +1920,9 @@ class funciones_liquidador extends funcionGeneral {
             'liq_estado' => 'ACTIVO',
             'liq_fecha_registro' => date('Y-m-d')
         );
+
         $datos_registrados = $this->guardarLiqui($parametros);
+
         if ($datos_registrados == true) {
             $registro[0] = "GUARDAR";
             $registro[1] = $parametros['liq_cedula'] . '|' . $parametros['liq_nitprev']; //
