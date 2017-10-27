@@ -121,4 +121,13 @@ $pwd2='bAKz0CkZ_FF7QW57tjbHXr_rKE21uMafJUlGOkGH';
 echo "<br>usuario: ".$usuario2." => ".$crypto->decodificar_variable($usuario2,  $semilla);
 echo "<br>clave: ".$pwd2." => ".$crypto->decodificar_variable($pwd2,  $semilla);
 
+echo "<br>=============================================================================================<br>";
+
+echo "<br>TEXTS: ".$pwd2." => ".$crypto->decodificar_variable('LgG7dPYN2VRXIaBIHA',  $semilla);
+echo "<br>TEXTS: ".$pwd2." => ".$crypto->decodificar_variable('BQECz1RhEVeWwAfyoo4r75c',  $semilla);
+echo "<br>TEXTS: ".$pwd2." => ".$crypto->decodificar_variable('MgHg6PYN2VRJD3nFodzE5JQjIA',  $semilla);
+echo "<br>TEXTS: ".$pwd2." => ".$crypto->decodificar_variable('NAEoX_YN2VQf0HjS',  $semilla);
+echo "<br>TEXTS: ".$pwd2." => ".$crypto->decodificar_variable('NgEIm_YN2VSeIa6MIW4nx-recQ',  $semilla);
+echo "<br>TEXTS: ".$pwd2." => ".$crypto->decodificar_variable('OAFg0vYN2VQgQnU1-sAYHg',  $semilla);
+
 ?>

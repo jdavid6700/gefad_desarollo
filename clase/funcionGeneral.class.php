@@ -28,6 +28,7 @@ class funcionGeneral
 	 
 	public function ejecutarSQL($configuracion, $conexion, $cadena_sql, $tipo)
 	{
+			
 		$resultado= $conexion->ejecutarAcceso($cadena_sql,$tipo);
 		return $resultado;
 	}

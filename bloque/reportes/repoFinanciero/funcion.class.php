@@ -40,18 +40,6 @@ class funciones_reporteFinanciero extends funcionGeneral {
         $this->htmlReporte = new html_reporteFinanciero($configuracion);
         //Conexion General
         $this->acceso_db = $this->conectarDB($configuracion, "mysqlFrame");
-        
-        //Conexion SICAPITAL
-        $this->acceso_wcuotas = $this->conectarDB($configuracion,"cuotasP");
-        
-        
-        //TEST Conexiones
-        $this->acceso_sic = $this->conectarDB($configuracion,"oracleSIC");
-        $this->acceso_tributarioP = $this->conectarDB($configuracion,"tributario_planta");
-        $this->acceso_nomina = $this->conectarDB($configuracion,"nominapg");
-        $this->acceso_tributario = $this->conectarDB($configuracion,"tributario");
-        $this->acceso_cuotas_partes = $this->conectarDB($configuracion,"cuotas_partes");
-        
 
         //Conexion SICAPITAL
         //$this->acceso_sic = $this->conectarDB($configuracion,"oracleSIC");
@@ -90,48 +78,9 @@ class funciones_reporteFinanciero extends funcionGeneral {
      * @return type
      */
     function buscarParametros($reporte) {
-    	
         //consulta los datos del reporte    
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, '', 'buscarParametrosReporte', $reporte);
         $parametrosSQL = $this->ejecutarSQL($this->configuracion, $this->acceso_db, $cadena_sql, "busqueda");
-        
-        
-        
-        var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< FRAME");
-        echo "<br>";
-        var_dump($this->acceso_db);
-        echo "<br>";
-        var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< WCUOTASPARTES");
-        echo "<br>";
-        var_dump($this->acceso_wcuotas);
-        echo "<br>";
-        var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TRIBUTARIO PLANTA");
-        echo "<br>";
-        var_dump($this->acceso_tributarioP);
-        echo "<br>";
-        var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SICAPITAL");
-        echo "<br>";
-        var_dump($this->acceso_sic);
-        echo "<br>";
-        var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< NOMINA");
-        echo "<br>";
-        var_dump($this->acceso_nomina);
-        echo "<br>";
-        var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< TRIBUTARIO");
-        echo "<br>";
-        var_dump($this->acceso_tributario);
-        echo "<br>";
-        var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CUOTAS PARTES");
-        echo "<br>";
-        var_dump($this->acceso_cuotas_partes);
-        
-        
-        
-        //echo $cadena_sql;
-        //var_dump($reporte);
-        //var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-        //var_dump($this->acceso_db);
-        //exit();
 
         if (is_array($parametrosSQL)) {  //verifica si el reporte usa parametros si NO, ejecuta el reporte
             if ($parametrosSQL[0]['usa_par'] == 'N') {
@@ -203,18 +152,9 @@ class funciones_reporteFinanciero extends funcionGeneral {
         $cadena_sql = $this->sql->cadena_sql($this->configuracion, '', 'buscarReporte', $reporte);
         $reporteSQL = $this->ejecutarSQL($this->configuracion, $this->acceso_db, $cadena_sql, "busqueda");
 		
-        //var_dump($reporteSQL);
-        //var_dump($cadena_sql);
-        
-        
-        
         if (is_array($reporteSQL)) {
             //Reemplaza las variables en la consulta sql
             //var_dump($_REQUEST);
-            
-        	//var_dump($reporteSQL);
-        	//var_dump($datosReporte);
-        	
             foreach ($_REQUEST as $key => $value) {
                 
                 if (isset($_REQUEST[strtolower($key)]) && (is_numeric($_REQUEST[strtolower($key)]) && $_REQUEST[strtolower($key)] > 0) && $_REQUEST[strtolower($key)] != '') {
@@ -228,45 +168,21 @@ class funciones_reporteFinanciero extends funcionGeneral {
                 }
                 $reporteSQL[0]['rep_sql'] = str_replace('$P{\'' . strtolower($key) . '\'}', $reemplazo, $reporteSQL[0]['rep_sql']);
             }
-            //ECHO $reporteSQL[0]['rep_sql'] ;
-            //exit();
-            
-            
-             //echo $reporteSQL[0]['rep_sql'];     
+             
             //busca y ejecuta los datos para generar el reporte
             $accesoReporte = $this->conectarDB($this->configuracion, $reporteSQL[0]['rep_conect']);
             
+            //var_dump($accesoReporte);
             
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            echo "<br>";
-            var_dump($accesoReporte);
-            var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            var_dump($reporteSQL[0]['rep_conect']);
-            var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            var_dump($reporteSQL[0]['rep_titulo']);
-            var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            var_dump("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            echo $reporteSQL[0]['rep_sql'];
             
+            //$actu = $this->ejecutarSQL($this->configuracion, $accesoReporte, "UPDATE PEEMP SET EMP_DIRECCION = 'CALLE 123 B' WHERE EMP_COD = 5696", "update");
+            //var_dump($actu);
             
             //exit();
             
             $datosReporte = $this->ejecutarSQL($this->configuracion, $accesoReporte, $reporteSQL[0]['rep_sql'], "busqueda");
             
-            //var_dump($datosReporte);
-            //exit();
-            
-            
+            //var_dump($accesoReporte);
             //var_dump($datosReporte);
             //llama la funcion para mostrar el reporte
             if (is_array($datosReporte)) {

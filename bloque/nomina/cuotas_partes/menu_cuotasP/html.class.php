@@ -184,6 +184,19 @@
                                            ?>">Registrar Recaudos (Pagos) con Cuenta de Cobro Masivo</a></li>
                                 </ul>
                             </li>
+                            
+                            <li><a href="#">Reportes SPAGOBI</a>
+                                <ul>
+                                    <li><a href=
+                                           "<?php
+                                           $variable = "pagina=reporteSPAGOBI";
+                                           $variable.="&opcion=repoContraloria";
+                                           $variable = $this->cripto->codificar_url($variable, $this->configuracion);
+                                           echo $this->indice . $variable;
+                                           ?>">Generar Reporte Cuotas Partes por Cobrar</a></li>
+                                </ul>
+                            </li>
+                            
                         </ul>
                     </li>
                 </ul>

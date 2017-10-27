@@ -221,11 +221,13 @@ class oci8
 		putenv("NLS_LANG=AMERICAN_AMERICA.AL32UTF8");
 		//putenv("NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1");
 		//echo 'user='.$this->usuario.' pass='.$this->clave.' db='.$this->db;
-        //echo '   USUARIO '.$this->usuario.'<br>';
-        //echo '   CLAVE '.$this->clave.'<br>';
-        //echo '   SERVIDOR '.$this->servidor.'<br>';
-        //echo '   PUERTO '.$this->puerto.'<br>';
-        //echo '   DB '.$this->db.'<br>';
+//         echo '   USUARIO '.$this->usuario.'<br>';
+//         echo '   CLAVE '.$this->clave.'<br>';
+//         echo '   SERVIDOR '.$this->servidor.'<br>';
+//         echo '   PUERTO '.$this->puerto.'<br>';
+//         echo '   DB '.$this->db.'<br>';
+        
+//         echo "	 PARA >>>>> " . $this->servidor . ':' . $this->puerto . '/' . $this->db.'<br>';
                 
 		
 		$this->enlace = oci_connect ( $this->usuario, $this->clave, $this->servidor . ':' . $this->puerto . '/' . $this->db );
@@ -318,6 +320,10 @@ class oci8
 	 */
 	function registro_db($cadena_sql,$numero)
 	{
+		//exit();
+		//$resultado=$this->ejecutar_acceso_db("UPDATE PEEMP SET EMP_DIRECCION = 'CALLE 123 B' WHERE EMP_COD = 5696");
+		//var_dump($resultado);
+		//exit();
 		
 		unset($this->registro);	
 		if(!is_resource($this->enlace))
@@ -325,8 +331,21 @@ class oci8
 			return FALSE;
 		}
 		//echo $cadena_sql.'<br><br>';
-                $cadenaParser = OCIParse($this->enlace,$cadena_sql);
-                $busqueda=OCIExecute($cadenaParser);
+		//echo $this->enlace;
+		
+				//$conn = oci_connect($this->usuario, $this->clave, $this->db);
+				
+                $cadenaParser = oci_parse($this->enlace,$cadena_sql);
+				//$cadenaParser = oci_parse($conn,$cadena_sql);
+                $busqueda=oci_execute($cadenaParser);
+                
+                
+//                 echo "?????????????????????##<br>";
+//                 echo $cadenaParser;
+//                 var_dump($busqueda);
+//                 var_dump($conn);
+//                 echo "?????????????????????##<br>";
+                
                 if($busqueda!==TRUE)
                 {
                     $mensaje="ERROR EN LA CADENA ".$cadena_sql;
@@ -334,19 +353,21 @@ class oci8
                 }
 		if($busqueda)
 		{
-	
-
-                    //carga una a una las filas en $this->registro
-			while($row=oci_fetch_array($cadenaParser,OCI_BOTH))
-                          {
-                          $this->registro[]=$row;
-                          }
-                          if ($this->obtener_registro_db()!=0)
-                          {
-                        //cuenta el numero de registros del arreglo $this->registro
-                        $this->conteo=count($this->registro);
-                          }
-			//echo $this->conteo;
+			//var_dump(OCI_BOTH);	
+			
+			//echo "SAL " . oci_num_rows($cadenaParser);
+			
+				// carga una a una las filas en $this->registro
+			while ( $row = oci_fetch_array ( $cadenaParser, OCI_BOTH  + OCI_RETURN_NULLS ) ) {
+				//var_dump($row);
+				$this->registro [] = $row;
+			}
+			//var_dump($this->registro);
+			if ($this->obtener_registro_db () != 0) {
+				// cuenta el numero de registros del arreglo $this->registro
+				$this->conteo = count ( $this->registro );
+			}
+			echo $this->conteo;
 			@OCIFreeCursor($cadenaParser);
 			return $this->conteo;
 		}
@@ -479,6 +500,9 @@ class oci8
 
 		if($tipo=="busqueda")
 		{
+			
+			//echo "?????????????????????<br>";
+			
 			$this->registro_db($cadena_sql,0);
 			$esteRegistro=$this->obtener_registro_db();
 			return $esteRegistro;
